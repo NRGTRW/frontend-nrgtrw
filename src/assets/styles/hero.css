@@ -1,0 +1,20 @@
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('/path-to-hero-background.jpg') no-repeat center center/cover;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .explore-btn {
+    padding: 15px 30px;
+    margin-top: 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  

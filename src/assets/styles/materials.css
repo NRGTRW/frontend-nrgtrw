@@ -1,0 +1,27 @@
+.materials-section {
+    display: flex;
+    align-items: center;
+    padding: 50px;
+    background-color: #f4f4f4;
+  }
+  
+  .materials-content {
+    margin-left: 20px;
+  }
+  
+  .materials-content h2 {
+    font-size: 2em;
+  }
+  
+  .materials-content p {
+    font-size: 1.2em;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
