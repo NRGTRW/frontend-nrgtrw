@@ -1,23 +1,17 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import HeroSection from "./HeroSection";
-import MaterialsSection from "./MaterialsSection";
-import StylesSection from "./StylesSection";
-import InspirationSection from "./InspirationSection";
-import FAQSection from "./FAQSection";
-import Footer from "../components/Footer";
+import HeroSection from "../components/HeroSection";
+import MaterialsSection from "../components/MaterialsSection";
+import InspirationSection from "../components/InspirationSection";
+import StylesSection from "../components/StylesSection.jsx";
 
 const HomePage = () => {
   return (
-    <div>
-      <Navbar />
+    <>
       <HeroSection />
       <MaterialsSection />
-      <StylesSection />
       <InspirationSection />
-      <FAQSection />
-      <Footer />
-    </div>
+      <StylesSection />
+    </>
   );
 };
 

@@ -1,20 +1,30 @@
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: url('/path-to-hero-background.jpg') no-repeat center center/cover;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .explore-btn {
-    padding: 15px 30px;
-    margin-top: 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
+.hero {
+  height: 100vh;
+  background: url("/images/hero-background.jpg") no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.explore-btn {
+  background-color: black;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.explore-btn:hover {
+  background-color: gray;
+}
