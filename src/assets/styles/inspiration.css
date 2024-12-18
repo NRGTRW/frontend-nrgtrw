@@ -1,0 +1,29 @@
+.inspiration-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f5f5f5;
+  }
+  
+  .inspiration-section img {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+  
+  .inspiration-section h2 {
+    font-family: "Cinzel", serif;
+    font-size: 40px;
+    color: #000;
+  }
+  
+  .inspiration-section p {
+    font-size: 18px;
+    color: #000;
+  }
+  
+  .read-more {
+    font-size: 16px;
+    text-decoration: underline;
+    color: #000;
+  }
+  

@@ -1,63 +1,69 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "../assets/styles/navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
 
-  // Toggle Menu
-  const toggleMenu = (e) => {
-    e.stopPropagation(); // Prevent closeMenu logic when button is clicked
-    setMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  // Close menu on outside click
-  const handleClickOutside = (e) => {
-    if (menuRef.current && !menuRef.current.contains(e.target)) {
+  const closeMenuOnOutsideClick = (e) => {
+    if (!e.target.closest(".menu") && !e.target.closest(".menu-toggle")) {
       setMenuOpen(false);
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <header className="navbar">
-      <div className="navbar-top">
-        {/* Hamburger Menu */}
-        <div
-          className={`hamburger ${menuOpen ? "active" : ""}`}
+    <header onClick={closeMenuOnOutsideClick}>
+      {/* Top Bar */}
+      <div className="top-bar">
+        <div className="logo">NRG</div>
+        <div className="cart-icon">🛒</div>
+      
+
+      {/* Navbar */}
+      <nav className="navbar">
+        <button
+          className={`menu-toggle ${menuOpen ? "open" : ""}`}
           onClick={toggleMenu}
+          aria-label="Menu Toggle"
         >
           <span></span>
           <span></span>
           <span></span>
-        </div>
-
-        {/* Logo */}
-        <h1 className="navbar-logo">NRG</h1>
-
-        {/* Cart Icon */}
-        <div className="cart-icon">🛒</div>
+        </button>
+      </nav>
       </div>
 
-      {/* Side Menu */}
-      <nav
-        className={`side-menu ${menuOpen ? "open" : ""}`}
-        ref={menuRef}
-      >
-        <ul>
-          {["HOME", "ELEGANCE", "PUMP COVERS", "CONFIDENCE", "ABOUT US", "FAQS", "CONTACT US", "MY ORDER", "SOCIAL MEDIA"].map((item) => (
-            <li key={item}>
-              <a href={`#${item.toLowerCase().replace(" ", "-")}`}>
-                {item} <span className="arrow">&lt;</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {/* Sliding Menu */}
+      <ul className={`menu ${menuOpen ? "show" : ""}`}>
+        <li>
+          <a href="#home">HOME</a>
+        </li>
+        <li>
+          <a href="#elegance">ELEGANCE</a>
+        </li>
+        <li>
+          <a href="#pump-covers">PUMP COVERS</a>
+        </li>
+        <li>
+          <a href="#confidence">CONFIDENCE</a>
+        </li>
+        <li>
+          <a href="#about">ABOUT US</a>
+        </li>
+        <li>
+          <a href="#faqs">FAQs</a>
+        </li>
+        <li>
+          <a href="#contact">CONTACT US</a>
+        </li>
+        <li>
+          <a href="#order">MY ORDER</a>
+        </li>
+        <li>
+          <a href="#social">SOCIAL MEDIA</a>
+        </li>
+      </ul>
     </header>
   );
 };

@@ -35,11 +35,11 @@ const ScrollButton = () => {
           color: "#fff",
           border: "none",
           padding: "10px 15px",
-          borderRadius: "5px",
+          borderRadius: "50%",
           cursor: "pointer",
         }}
       >
-        ↑ Top
+        ↑ 
       </button>
     )
   );

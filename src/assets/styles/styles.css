@@ -1,28 +1,38 @@
 .styles-section {
-    padding: 50px;
-    text-align: center;
-  }
-  
-  .styles-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-  }
-  
-  .style-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-  }
-  
-  .style-card img {
-    max-width: 100%;
-    border-radius: 10px;
-  }
-  
-  .style-card h3 {
-    margin-top: 10px;
-    color: #000;
-  }
-  
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.styles-section h2 {
+  font-family: "Cinzel", serif;
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.styles-section p {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.styles-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.style-card {
+  text-align: center;
+}
+
+.style-card img {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.style-card h3 {
+  font-size: 20px;
+  margin-top: 10px;
+}

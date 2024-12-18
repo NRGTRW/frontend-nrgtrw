@@ -1,0 +1,28 @@
+.footer {
+    text-align: center;
+    background: #141313;
+    color: #fff;
+    padding: 50px 20px;
+    position: relative;
+  }
+  
+  .footer h2 {
+    font-family: "Roboto", sans-serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .footer-links a {
+    margin: 0 10px;
+    font-size: 18px;
+    color: #fff;
+    text-decoration: underline;
+  }
+  
+  .footer-logo {
+    font-family: "Cinzel", serif;
+    font-size: 96px;
+    margin-top: 20px;
+    letter-spacing: 0.1em;
+  }
+  

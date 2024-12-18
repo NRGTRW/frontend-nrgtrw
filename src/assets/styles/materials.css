@@ -1,27 +1,31 @@
 .materials-section {
-    display: flex;
-    align-items: center;
-    padding: 50px;
-    background-color: #f4f4f4;
-  }
-  
-  .materials-content {
-    margin-left: 20px;
-  }
-  
-  .materials-content h2 {
-    font-size: 2em;
-  }
-  
-  .materials-content p {
-    font-size: 1.2em;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.materials-section img {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.materials-section h2 {
+  font-family: "Cinzel", serif;
+  font-size: 40px;
+  letter-spacing: 0.1em;
+  color: #000;
+}
+
+.materials-section p {
+  font-size: 18px;
+  color: #000;
+  margin: 10px 0;
+}
+
+.read-more {
+  font-size: 16px;
+  text-decoration: underline;
+  color: #000;
+  display: inline-block;
+  margin-top: 10px;
+}
