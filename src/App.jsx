@@ -1,18 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./sections/HomePage";
-import CategoryPage from "./pages/CategoryPage";
-import ProductPage from "./pages/ProductPage";
+import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import "./assets/styles/navbar.css";
+import "./assets/styles/hero.css";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/shop/:slug" element={<CategoryPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-      </Routes>
-    </Router>
+    <div>
+      <Navbar />
+      <HeroSection />
+    </div>
   );
 };
 
