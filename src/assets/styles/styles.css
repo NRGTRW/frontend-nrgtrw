@@ -1,38 +1,92 @@
+/* Styles Section */
 .styles-section {
   text-align: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
+  background-color: #fafafa;
 }
 
 .styles-section h2 {
   font-family: "Cinzel", serif;
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-size: 42px;
+  color: #333;
+  margin-bottom: 40px;
 }
 
-.styles-section p {
-  font-size: 24px;
-  margin-bottom: 30px;
-}
-
+/* Grid Layout */
 .styles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+/* Style Card Container */
+.style-card {
+  text-decoration: none;
+  width: 100%;
+  max-width: 350px;
   display: flex;
   justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
 }
 
-.style-card {
-  text-align: center;
-}
-
-.style-card img {
-  width: 200px;
-  height: auto;
+/* Image Background */
+.style-image {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.7s ease, box-shadow 0.3s ease;
 }
 
-.style-card h3 {
-  font-size: 20px;
-  margin-top: 10px;
+.style-card:hover .style-image {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Overlay with Title */
+.style-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Dim background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px;
+}
+
+.style-card:hover .style-overlay {
+  opacity: 1;
+}
+
+.style-overlay h3 {
+  font-family: "Cinzel", serif;
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .styles-section h2 {
+    font-size: 32px;
+  }
+
+  .style-image {
+    height: 250px;
+  }
+
+  .style-overlay h3 {
+    font-size: 20px;
+  }
 }

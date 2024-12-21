@@ -1,28 +1,88 @@
+/* Footer Styling */
 .footer {
-    text-align: center;
-    background: #141313;
-    color: #fff;
-    padding: 50px 20px;
-    position: relative;
+  background-color: #141313;
+  color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Logo */
+.footer-logo h1 {
+  font-family: "Cinzel", serif;
+  font-size: 36px;
+  letter-spacing: 0.1em;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+/* Navigation Links */
+.footer-nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.footer-nav ul li a:hover {
+  color: #888888;
+}
+
+/* Social Media Links */
+.footer-social {
+  display: flex;
+  gap: 20px;
+}
+
+.social-link {
+  font-size: 20px;
+  color: #ffffff;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link:hover {
+  color: #888888;
+  transform: scale(1.1);
+}
+
+/* Copyright */
+.footer-copyright {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    gap: 20px;
   }
-  
-  .footer h2 {
-    font-family: "Roboto", sans-serif;
-    font-size: 32px;
-    margin-bottom: 20px;
+
+  .footer-logo h1 {
+    font-size: 28px;
   }
-  
-  .footer-links a {
-    margin: 0 10px;
+
+  .footer-nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-link {
     font-size: 18px;
-    color: #fff;
-    text-decoration: underline;
   }
-  
-  .footer-logo {
-    font-family: "Cinzel", serif;
-    font-size: 96px;
-    margin-top: 20px;
-    letter-spacing: 0.1em;
-  }
-  
+}

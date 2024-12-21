@@ -1,27 +1,46 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../assets/styles/styles.css";
-// import styleElegance from "../assets/images/style-elegance.png";
-// import styleCovers from "../assets/images/style-covers.png";
-// import styleConfidence from "../assets/images/style-confidence.png";
+import eleganceImage from "../assets/images/style-elegance.png";
+import coversImage from "../assets/images/style-covers.webp";
+// import confidenceImage from "../assets/images/style-confidence.png";
+import confidenceImage from "../assets/images/ShowOff.webp";
 
 const StylesSection = () => {
+  const stylesData = [
+    {
+      title: "ELEGANCE",
+      image: eleganceImage,
+      link: "/categories/elegance",
+    },
+    {
+      title: "PUMP COVERS",
+      image: coversImage,
+      link: "/categories/covers",
+    },
+    {
+      title: "CONFIDENCE",
+      image: confidenceImage,
+      link: "/categories/confidence",
+    },
+  ];
+
   return (
     <section className="styles-section">
-      <h2>STYLES</h2>
-      <p>CHOOSE YOUR OWN</p>
+      <h2>CHOOSE YOUR STYLE</h2>
       <div className="styles-grid">
-        <div className="style-card">
-          {/* <img src={styleElegance} alt="Elegance" /> */}
-          <h3>ELEGANCE</h3>
-        </div>
-        <div className="style-card">
-          {/* <img src={styleCovers} alt="Covers" /> */}
-          <h3>COVERS</h3>
-        </div>
-        <div className="style-card">
-          {/* <img src={styleConfidence} alt="Confidence" /> */}
-          <h3>CONFIDENCE</h3>
-        </div>
+        {stylesData.map((style, index) => (
+          <Link to={style.link} key={index} className="style-card">
+            <div
+              className="style-image"
+              style={{ backgroundImage: `url(${style.image})` }}
+            >
+              <div className="style-overlay">
+                <h3>{style.title}</h3>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   );

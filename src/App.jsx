@@ -14,8 +14,8 @@ const App = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <MaterialsSection />
         <InspirationSection />
+        <MaterialsSection />
         <StylesSection />
         <ScrollButton />
       </main>
