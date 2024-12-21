@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../assets/styles/navbar.css";
+import cartImage from "../assets/images/shopping-cart.png"; // Ensure this path is correct.
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,12 +17,6 @@ const Navbar = () => {
     <header onClick={closeMenuOnOutsideClick}>
       {/* Top Bar */}
       <div className="top-bar">
-        <div className="logo">NRG</div>
-        <div className="cart-icon">🛒</div>
-      
-
-      {/* Navbar */}
-      <nav className="navbar">
         <button
           className={`menu-toggle ${menuOpen ? "open" : ""}`}
           onClick={toggleMenu}
@@ -31,7 +26,13 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </button>
-      </nav>
+        <div className="logo">NRG</div>
+        <img
+          src={cartImage}
+          alt="Shopping Cart"
+          className="cart-icon"
+          onClick={() => alert("Redirecting to shopping cart!")}
+        />
       </div>
 
       {/* Sliding Menu */}
