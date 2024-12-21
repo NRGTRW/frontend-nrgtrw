@@ -12,8 +12,9 @@ const InspirationSection = () => {
         <div className="inspiration-text">
           <h2>OUR INSPIRATION</h2>
           <p>
-            At NRG, we draw inspiration from the elegance of nature and the strength of innovation. Each piece is
-            crafted to reflect balance and purpose.
+            At NRG, we draw inspiration from the elegance of nature and the
+            strength of innovation. Each piece is crafted to reflect balance
+            and purpose.
           </p>
           <button className="learn-more-button">LEARN MORE</button>
         </div>

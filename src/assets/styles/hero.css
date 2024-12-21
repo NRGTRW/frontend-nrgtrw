@@ -50,3 +50,31 @@
 .hero-button:hover {
   scale: 1.1;
 }
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Next Section */
+.next-section {
+  height: 100vh;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: #000;
+}
+
+.next-section h2 {
+  font-family: "Cinzel", serif;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.next-section p {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}

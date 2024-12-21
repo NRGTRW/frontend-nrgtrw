@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate(); // React Router navigation
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -27,6 +30,12 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
+  // Handle menu item click
+  const handleNavigation = (path) => {
+    setMenuOpen(false); // Close the menu after clicking
+    navigate(path);
+  };
+
   return (
     <header>
       {/* Top Bar */}
@@ -45,27 +54,23 @@ const Navbar = () => {
           src={cartImage}
           alt="Shopping Cart"
           className="cart-icon"
-          onClick={() => alert("Redirecting to shopping cart!")}
+          onClick={() => handleNavigation("/cart")}
         />
       </div>
 
       {/* Sliding Menu */}
       <ul className={`menu ${menuOpen ? "show" : ""}`}>
-        <li>
-          <a href="#home">HOME</a>
+        <li onClick={() => handleNavigation("/")}>HOME</li>
+        <li onClick={() => handleNavigation("/categories/elegance")}>
+          ELEGANCE
         </li>
-        <li>
-          <a href="#elegance">ELEGANCE</a>
+        <li onClick={() => handleNavigation("/categories/pump-covers")}>
+          PUMP COVERS
         </li>
-        <li>
-          <a href="#pump-covers">PUMP COVERS</a>
+        <li onClick={() => handleNavigation("/categories/confidence")}>
+          CONFIDENCE
         </li>
-        <li>
-          <a href="#confidence">CONFIDENCE</a>
-        </li>
-        <li>
-          <a href="#social">SOCIAL MEDIA</a>
-        </li>
+        <li onClick={() => handleNavigation("/social-media")}>SOCIAL MEDIA</li>
       </ul>
     </header>
   );

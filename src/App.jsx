@@ -1,23 +1,31 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import HeroSection from "./components/HeroSection";
-import MaterialsSection from "./components/MaterialsSection";
-import InspirationSection from "./components/InspirationSection";
-import StylesSection from "./components/StylesSection";
-import Footer from "./components/Footer";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import SalesPage from "./pages/SalesPage.jsx";
+// import CategoryPage from "./pages/CategoryPage";
+// import ProductPage from "./pages/ProductPage";
+// import ProfilePage from "./pages/ProfilePage";
+// import NotFound from "./pages/NotFound";
+import HomePage from "./pages/HomePage.jsx";
 import "./assets/styles/global.css";
-import ScrollButton from "./components/ScrollButton";
 
 const App = () => {
   return (
     <>
       <Navbar />
       <main>
-        <HeroSection />
-        <InspirationSection />
-        <MaterialsSection />
-        <StylesSection />
-        <ScrollButton />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/sales"
+            element={<SalesPage />}
+          />
+          {/* <Route path="/categories/:slug" element={<CategoryPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="*" element={<NotFound />} /> */}
+        </Routes>
       </main>
       <Footer />
     </>

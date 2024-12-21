@@ -31,7 +31,7 @@ const ScrollButton = () => {
           position: "fixed",
           bottom: "30px",
           right: "30px",
-          backgroundColor: "#222",
+          backgroundColor: "#333",
           color: "#fff",
           border: "none",
           padding: "10px 15px",
