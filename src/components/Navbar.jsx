@@ -1,20 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/navbar.css";
-import cartImage from "../assets/images/shopping-cart.png"; // Ensure this path is correct.
-
+import cartImage from "../assets/images/shopping-cart.png";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  const closeMenuOnOutsideClick = (e) => {
+  // Close the menu if clicked outside
+  const handleClickOutside = (e) => {
     if (!e.target.closest(".menu") && !e.target.closest(".menu-toggle")) {
       setMenuOpen(false);
     }
   };
 
+  useEffect(() => {
+    // Add event listener when the menu is open
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup event listener on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
+
   return (
-    <header onClick={closeMenuOnOutsideClick}>
+    <header>
       {/* Top Bar */}
       <div className="top-bar">
         <button

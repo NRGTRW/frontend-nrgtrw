@@ -65,12 +65,12 @@
   width: 30px;
   height: 4px;
   background-color: #000;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
   border-radius: 3px;
 }
 
 .menu-toggle.open span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(9px) rotate(45deg);
 }
 
 .menu-toggle.open span:nth-child(2) {
@@ -78,7 +78,7 @@
 }
 
 .menu-toggle.open span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Sliding Menu Styling */
@@ -95,7 +95,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 100px 30px;
-  transition: left 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+  transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
 .menu.show {
