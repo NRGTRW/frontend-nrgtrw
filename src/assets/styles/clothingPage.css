@@ -1,0 +1,161 @@
+/* General Styling */
+.clothing-page {
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  padding-top: 20px;
+}
+
+/* Section Headings */
+.section-title {
+  text-align: center;
+  font-family: "Cinzel", serif;
+  font-size: 36px;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 40px;
+}
+
+/* Product Card */
+.product-card {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Image Container */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.product-image,
+.hover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.hover-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.image-container:hover .hover-image {
+  opacity: 1;
+}
+
+.image-container:hover .product-image {
+  opacity: 0;
+}
+
+/* Product Info */
+.product-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.product-info h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #000;
+}
+
+.product-info p {
+  font-size: 16px;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Product Overlay (Pricing and Options) */
+.product-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.3s ease;
+}
+
+.image-container:hover .product-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Color Options */
+.color-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+  border-color: #333;
+}
+
+.color-circle.active {
+  border-color: #000;
+  transform: scale(1.2);
+}
+
+/* Center Headings Above Sections */
+.section-title {
+  margin: 20px 0;
+  text-align: center;
+  font-family: "Cinzel", serif;
+  font-size: 28px;
+  color: #444;
+}
+
+/* Add Space Below Top Bar */
+.clothing-page {
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  padding-top: 100px; /* Adjust this value if needed */
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  margin-top: 20px; 
+  

@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
+// import instagramIcon from "../assets/images/instagram-icon.png";
+// import tiktokIcon from "../assets/images/tiktok-icon.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate(); // React Router navigation
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  // Close the menu if clicked outside
   const handleClickOutside = (e) => {
     if (!e.target.closest(".menu") && !e.target.closest(".menu-toggle")) {
       setMenuOpen(false);
@@ -17,22 +18,19 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // Add event listener when the menu is open
     if (menuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup event listener on unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuOpen]);
 
-  // Handle menu item click
   const handleNavigation = (path) => {
-    setMenuOpen(false); // Close the menu after clicking
+    setMenuOpen(false);
     navigate(path);
   };
 
@@ -49,7 +47,9 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </button>
-        <div className="logo">NRG</div>
+        <li className="logo" onClick={() => handleNavigation("/")}>
+          NRG
+        </li>
         <img
           src={cartImage}
           alt="Shopping Cart"
@@ -61,16 +61,29 @@ const Navbar = () => {
       {/* Sliding Menu */}
       <ul className={`menu ${menuOpen ? "show" : ""}`}>
         <li onClick={() => handleNavigation("/")}>HOME</li>
-        <li onClick={() => handleNavigation("/categories/elegance")}>
-          ELEGANCE
-        </li>
-        <li onClick={() => handleNavigation("/categories/pump-covers")}>
-          PUMP COVERS
-        </li>
-        <li onClick={() => handleNavigation("/categories/confidence")}>
-          CONFIDENCE
-        </li>
-        <li onClick={() => handleNavigation("/social-media")}>SOCIAL MEDIA</li>
+        <li onClick={() => handleNavigation("/clothing")}>CLOTHING</li>
+        {/* <li className="social-media-icons">
+          <a
+            href="https://www.instagram.com/nrgoranov/reels/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-media-item instagram"
+          >
+            <img src={instagramIcon} alt="Instagram" />
+            <span>INSTAGRAM</span>
+            <img src={instagramIcon} alt="Instagram" />
+
+          </a>
+          <a
+            href="https://www.tiktok.com/@nrgoranov"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-media-item tiktok"
+          >
+            <img src={tiktokIcon} alt="TikTok" />
+            <span>TIKTOK</span>
+          </a>
+        </li> */}
       </ul>
     </header>
   );

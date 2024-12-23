@@ -1,5 +1,7 @@
 import React from "react";
 import "../assets/styles/footer.css";
+import instagramIcon from "../assets/images/instagram-icon.png";
+import tiktokIcon from "../assets/images/tiktok-icon.png";
 
 const Footer = () => {
   return (
@@ -13,23 +15,36 @@ const Footer = () => {
         {/* Navigation Links */}
         <div className="footer-nav">
           <ul>
-            <li><a href="/about-us">About Us</a></li>
-            <li><a href="/contact-us">Contact Us</a></li>
-            <li><a href="/faqs">FAQs</a></li>
-            <li><a href="/my-order">My Order</a></li>
+            <li>
+              <a href="/about-us">About Us</a>
+            </li>
+            <li>
+              <a href="/contact-us">Contact Us</a>
+            </li>
+            <li>
+              <a href="/faqs">FAQs</a>
+            </li>
+            <li>
+              <a href="/my-order">My Order</a>
+            </li>
           </ul>
         </div>
 
         {/* Social Media Links */}
         <div className="footer-social">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link">
-            <i className="fab fa-facebook-f"></i>
+          <a
+            href="https://www.instagram.com/nrgoranov/reels/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={instagramIcon} alt="Instagram" />
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-link">
-            <i className="fab fa-twitter"></i>
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
-            <i className="fab fa-instagram"></i>
+          <a
+            href="https://www.tiktok.com/@nrgoranov"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={tiktokIcon} alt="TikTok" />
           </a>
         </div>
       </div>

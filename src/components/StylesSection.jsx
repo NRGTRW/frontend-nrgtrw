@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "../assets/styles/styles.css";
 import eleganceImage from "../assets/images/style-elegance.png";
 import coversImage from "../assets/images/style-covers.webp";
-// import confidenceImage from "../assets/images/style-confidence.png";
 import confidenceImage from "../assets/images/ShowOff.webp";
 
 const StylesSection = () => {
@@ -11,17 +10,17 @@ const StylesSection = () => {
     {
       title: "ELEGANCE",
       image: eleganceImage,
-      link: "/categories/elegance",
+      link: "/clothing",
     },
     {
       title: "PUMP COVERS",
       image: coversImage,
-      link: "/categories/covers",
+      link: "/clothing",
     },
     {
       title: "CONFIDENCE",
       image: confidenceImage,
-      link: "/categories/confidence",
+      link: "/clothing",
     },
   ];
 

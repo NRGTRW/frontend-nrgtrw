@@ -29,6 +29,7 @@
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
   transition: transform 0.3s ease, color 0.3s ease; /* Smooth animations */
   cursor: pointer; 
+  list-style-type: none;
 }
 
 .logo:hover {

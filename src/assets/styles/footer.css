@@ -19,8 +19,16 @@
   font-family: "Cinzel", serif;
   font-size: 36px;
   letter-spacing: 0.1em;
-  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(45deg, #ffffff, #f5c518);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
   margin: 0;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo h1:hover {
+  transform: scale(1.1);
 }
 
 /* Navigation Links */
@@ -40,7 +48,7 @@
 }
 
 .footer-nav ul li a:hover {
-  color: #888888;
+  color: #f5c518;
 }
 
 /* Social Media Links */
@@ -56,7 +64,7 @@
 }
 
 .social-link:hover {
-  color: #888888;
+  color: #f5c518;
   transform: scale(1.1);
 }
 
@@ -86,3 +94,11 @@
     font-size: 18px;
   }
 }
+
+/* Social Media Icons */
+.footer-social a img {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+
