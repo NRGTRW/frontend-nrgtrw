@@ -77,12 +77,12 @@ export const eleganceProducts = [
           name: "Navy",
           image: "/src/assets/DifferentColors/NavyShirt.webp",
           hoverImage: "/src/assets/HoverImages/NavyShirtHover.jpg",
-        },
-        {
-          name: "Premium",
-          image: "/src/assets/images/PremiumWhiteShirt.webp",
-          hoverImage: "/src/assets/HoverImages/PremiumWhiteShirtHover.jpg",
         }
+        // {
+        //   name: "Premium",
+        //   image: "/src/assets/images/PremiumWhiteShirt.webp",
+        //   hoverImage: "/src/assets/HoverImages/PremiumWhiteShirtHover.jpg",
+        // }
       ],
     },
     
