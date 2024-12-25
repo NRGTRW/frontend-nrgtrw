@@ -310,7 +310,7 @@
 //       },  ];
 export const eleganceProducts = [
   {
-    id: 5,
+    id: 1,
     name: "Modern Turtleneck",
     price: "$199",
     description: "A chic, cropped turtleneck made with sustainable materials. Perfect for elegant evenings or casual outings.",
@@ -426,7 +426,7 @@ export const eleganceProducts = [
 
 export const pumpCoversProducts = [
   {
-    id: 1,
+    id: 5,
     name: "Samurai Pants",
     price: "$199",
     description: "Sleek Samurai-inspired pants designed for movement and style.",
@@ -452,7 +452,7 @@ export const pumpCoversProducts = [
     ],
   },
   {
-    id: 2,
+    id: 6,
     name: "Hoodie",
     price: "$79",
     description: "Warm, oversized hoodie ideal for cozy days or workouts.",
@@ -478,7 +478,7 @@ export const pumpCoversProducts = [
     ],
   },
   {
-    id: 3,
+    id: 7,
     name: "Shorts",
     price: "$99",
     description: "Comfortable shorts with a premium design, perfect for sports or leisure.",
@@ -504,7 +504,7 @@ export const pumpCoversProducts = [
     ],
   },
   {
-    id: 4,
+    id: 8,
     name: "T-Shirt",
     price: "$49",
     description: "Casual and versatile T-shirt for everyday wear, available in a variety of colors.",

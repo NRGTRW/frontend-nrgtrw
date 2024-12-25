@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import "../assets/styles/productPage.css";
 
 import {
@@ -17,9 +18,11 @@ const allProducts = [
 const ProductPage = () => {
   const { productId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0); // Manage selected color
-  const [isHoverImage, setIsHoverImage] = useState(false); // Toggle between primary and hover images
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const [isHoverImage, setIsHoverImage] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -30,7 +33,6 @@ const ProductPage = () => {
     if (fetchedProduct) {
       setProduct(fetchedProduct);
 
-      // Use activeColorIndex from state or default to the first color
       const activeColorIndex = location.state?.activeColorIndex || 0;
       setSelectedColorIndex(activeColorIndex);
 
@@ -39,13 +41,12 @@ const ProductPage = () => {
   }, [productId, location.state]);
 
   const handleImageToggle = () => {
-    // Toggle between the primary image and the hover image
     setIsHoverImage(!isHoverImage);
   };
 
   const handleColorSelection = (index) => {
     setSelectedColorIndex(index);
-    setIsHoverImage(false); // Reset to primary image when switching colors
+    setIsHoverImage(false);
   };
 
   const handleSizeSelection = (size) => {
@@ -58,6 +59,67 @@ const ProductPage = () => {
     );
   };
 
+  const handleGoBack = () => {
+    navigate("/clothing");
+  };
+
+  const QuantitySelector = ({ min = 1, max = 99, initialQuantity = 1 }) => {
+    const [inputValue, setInputValue] = useState(initialQuantity.toString());
+    const [typingTimeout, setTypingTimeout] = useState(null);
+
+    const increment = () => {
+      const newQuantity = Math.min(max, quantity + 1);
+      setQuantity(newQuantity);
+      setInputValue(newQuantity.toString());
+      clearTimeout(typingTimeout);
+    };
+
+    const decrement = () => {
+      const newQuantity = Math.max(min, quantity - 1);
+      setQuantity(newQuantity);
+      setInputValue(newQuantity.toString());
+      clearTimeout(typingTimeout);
+    };
+
+    const handleInputChange = (e) => {
+      const value = e.target.value.replace(/\D/g, ""); // Allow only digits
+      setInputValue(value);
+
+      clearTimeout(typingTimeout);
+      const timeout = setTimeout(() => {
+        const parsedValue = Math.max(min, Math.min(max, parseInt(value) || min));
+        setQuantity(parsedValue);
+        setInputValue(parsedValue.toString());
+      }, 5000); // 5-second delay
+      setTypingTimeout(timeout);
+    };
+
+    return (
+      <div className="quantity-selector">
+        <button
+          className={`quantity-button minus ${quantity === min ? "disabled" : ""}`}
+          onClick={decrement}
+          disabled={quantity === min}
+        >
+          &#8722;
+        </button>
+        <input
+          type="text"
+          className="quantity-input"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <button
+          className={`quantity-button plus ${quantity === max ? "disabled" : ""}`}
+          onClick={increment}
+          disabled={quantity === max}
+        >
+          &#43;
+        </button>
+      </div>
+    );
+  };
+
   if (!product) {
     return <p>Loading...</p>;
   }
@@ -65,18 +127,21 @@ const ProductPage = () => {
   const currentColor = product.colors[selectedColorIndex];
   const imageToShow = isHoverImage
     ? currentColor.hoverImage
-    : currentColor.image; // Decide whether to show hover or primary image
+    : currentColor.image;
 
   return (
     <div className="product-page">
+      <button className="go-back-button" onClick={handleGoBack}>
+        Back
+      </button>
+
       <div className="spacer-bar2"></div>
       <div className="product-container">
-        {/* Product Images */}
         <div className="product-images">
           <div className="image-carousel">
             <button
               className="carousel-arrow left-arrow"
-              onClick={handleImageToggle} // Toggle between primary and hover image
+              onClick={handleImageToggle}
             >
               &#8249;
             </button>
@@ -87,7 +152,7 @@ const ProductPage = () => {
             />
             <button
               className="carousel-arrow right-arrow"
-              onClick={handleImageToggle} // Toggle between primary and hover image
+              onClick={handleImageToggle}
             >
               &#8250;
             </button>
@@ -101,22 +166,20 @@ const ProductPage = () => {
                 className={`thumbnail ${
                   selectedColorIndex === index ? "active" : ""
                 }`}
-                onClick={() => handleColorSelection(index)} // Change color on click
+                onClick={() => handleColorSelection(index)}
               />
             ))}
           </div>
         </div>
 
-        {/* Product Details */}
         <div className="product-details">
           <h1>{product.name}</h1>
           <p className="product-price">{product.price}</p>
           <p className="product-description">{product.description}</p>
 
-          {/* Size Selector */}
-          <div className="size-selector">
-            {product.sizes?.length > 0 ? (
-              product.sizes.map((size) => (
+          <div className="size-quantity-row">
+            <div className="size-selector">
+              {product.sizes?.map((size) => (
                 <button
                   key={size}
                   className={`size-button ${
@@ -126,35 +189,13 @@ const ProductPage = () => {
                 >
                   {size}
                 </button>
-              ))
-            ) : (
-              <p>No sizes available</p>
-            )}
+              ))}
+            </div>
+
+            {/* Quantity Selector */}
+            <QuantitySelector initialQuantity={quantity} />
           </div>
 
-          {/* Quantity Selector */}
-          <div className="quantity-wrapper">
-            <button
-              className="quantity-arrow"
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            >
-              &#8722;
-            </button>
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(Math.max(1, e.target.value))}
-              min="1"
-            />
-            <button
-              className="quantity-arrow"
-              onClick={() => setQuantity(quantity + 1)}
-            >
-              &#43;
-            </button>
-          </div>
-
-          {/* Add to Cart Button */}
           <button className="add-to-cart-button" onClick={handleAddToCart}>
             Add to Cart
           </button>

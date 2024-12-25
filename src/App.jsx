@@ -6,6 +6,7 @@ import ClothingPage from "./pages/ClothingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProductPage from "./pages/ProductPage.jsx"; // Import ProductPage
+import CartPage from "./pages/CartPage.jsx";
 import "./assets/styles/global.css";
 
 const App = () => {
@@ -56,11 +57,20 @@ const App = () => {
           element={
             <>
             <Navbar/>
-              <ProductPage />
-              <Footer />
+            <ProductPage />
+            <Footer />
             </>
           }
         />
+        <Route path="/cart" element={
+          <>
+          <Navbar/>
+          <CartPage />
+          <Footer/>
+          </>
+        }
+      />
+
       </Routes>
     </>
   );

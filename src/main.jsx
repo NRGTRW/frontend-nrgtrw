@@ -5,6 +5,7 @@ import App from "./App";
 import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFound";
 import ClothingPage from "./pages/ClothingPage";
+import CartPage from "./pages/CartPage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -34,6 +35,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </App>
           }
         />
+        <Route path="/cart" element={
+          <CartPage />
+          } />
+
         <Route path="/404" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
