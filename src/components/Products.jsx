@@ -1,13 +1,23 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/products.css";
 
-// eslint-disable-file react/prop-types
 const Products = ({ products }) => {
   const [activeColors, setActiveColors] = useState({});
+  const navigate = useNavigate();
 
+  // Handle color change
   const handleColorChange = (productId, colorIndex) => {
     setActiveColors({ ...activeColors, [productId]: colorIndex });
+  };
+
+  // Navigate to the product page
+  const handleProductClick = (product) => {
+    const activeColorIndex = activeColors[product.id] || 0; // Default to the first color if none is selected
+    navigate(`/product/${product.id}`, {
+      state: { activeColorIndex },
+    });
   };
 
   return (
@@ -16,7 +26,11 @@ const Products = ({ products }) => {
         const activeColorIndex = activeColors[product.id] || 0;
 
         return (
-          <div className="product-card" key={product.id}>
+          <div
+            className="product-card"
+            key={product.id}
+            onClick={() => handleProductClick(product)}
+          >
             <div className="image-container">
               <img
                 src={product.colors[activeColorIndex].image}
@@ -38,7 +52,10 @@ const Products = ({ products }) => {
                       className={`color-circle ${
                         index === activeColorIndex ? "active" : ""
                       }`}
-                      onClick={() => handleColorChange(product.id, index)}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering product click
+                        handleColorChange(product.id, index);
+                      }}
                       style={{
                         backgroundImage: `url(${color.image})`,
                         backgroundSize: "cover",
