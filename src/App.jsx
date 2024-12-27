@@ -5,23 +5,25 @@ import Footer from "./components/Footer.jsx";
 import ClothingPage from "./pages/ClothingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import ProductPage from "./pages/ProductPage.jsx"; // Import ProductPage
+import CartPage from "./pages/CartPage.jsx";
 import "./assets/styles/global.css";
 
 const App = () => {
   return (
     <>
       <Routes>
-        {/* Render Navbar and Footer for all pages except NotFound */}
+        {/* NotFound Route */}
         <Route
           path="*"
           element={
-            <>
-              <main>
-                <NotFound />
-              </main>
-            </>
+            <main>
+              <NotFound />
+            </main>
           }
         />
+
+        {/* Home Route */}
         <Route
           path="/"
           element={
@@ -34,6 +36,8 @@ const App = () => {
             </>
           }
         />
+
+        {/* Clothing Route */}
         <Route
           path="/clothing"
           element={
@@ -46,6 +50,27 @@ const App = () => {
             </>
           }
         />
+
+        {/* Product Route */}
+        <Route
+          path="/product/:productId"
+          element={
+            <>
+            <Navbar/>
+            <ProductPage />
+            <Footer />
+            </>
+          }
+        />
+        <Route path="/cart" element={
+          <>
+          <Navbar/>
+          <CartPage />
+          <Footer/>
+          </>
+        }
+      />
+
       </Routes>
     </>
   );
