@@ -11,16 +11,19 @@ const StylesSection = () => {
       title: "ELEGANCE",
       image: eleganceImage,
       link: "/clothing",
+      category: "Elegance",
     },
     {
       title: "PUMP COVERS",
       image: coversImage,
       link: "/clothing",
+      category: "Pump Covers",
     },
     {
       title: "CONFIDENCE",
       image: confidenceImage,
       link: "/clothing",
+      category: "Confidence",
     },
   ];
 
@@ -29,7 +32,14 @@ const StylesSection = () => {
       <h2>CHOOSE YOUR STYLE</h2>
       <div className="styles-grid">
         {stylesData.map((style, index) => (
-          <Link to={style.link} key={index} className="style-card">
+          <Link
+            to={{
+              pathname: style.link,
+            }}
+            state={{ category: style.category }} 
+            key={index}
+            className="style-card"
+          >
             <div
               className="style-image"
               style={{ backgroundImage: `url(${style.image})` }}

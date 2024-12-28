@@ -398,27 +398,28 @@ export const eleganceProducts = [
   },
   {
     id: 4,
-    name: "T-Shirt",
+    name: "Bamboo T-Shirt",
     price: "$49",
-    description: "Casual and versatile T-shirt for everyday wear, available in a variety of colors.",
-    initialColor: "/src/assets/images/BlackT.webp",
-    sizes: ["S", "M", "L", "XL"],
     colors: [
       {
-        image: "/src/assets/images/BlackT.webp",
-        hoverImage: "/src/assets/HoverImages/BlackTHover.webp",
+        image: "/src/assets/images/WhiteBambooT.webp",
+        hoverImage: "/src/assets/HoverImages/WhiteBambooTHover.jpg",
       },
       {
-        image: "/src/assets/images/GreyT.webp",
-        hoverImage: "/src/assets/HoverImages/GreyTHover.webp",
+        image: "/src/assets/DifferentColors/BlackBambooT.webp",
+        hoverImage: "/src/assets/HoverImages/BlackbambooTHover.webp",
       },
       {
-        image: "/src/assets/images/WhiteT.webp",
-        hoverImage: "/src/assets/HoverImages/WhiteTHover.webp",
+        image: "/src/assets/DifferentColors/GreyBambooT.webp",
+        hoverImage: "/src/assets/HoverImages/GreyBambooTHover.webp",
       },
       {
-        image: "/src/assets/images/BrownT.webp",
-        hoverImage: "/src/assets/HoverImages/BrownTHover.webp",
+        image: "/src/assets/DifferentColors/GreenBambooT.jpg",
+        hoverImage: "/src/assets/HoverImages/GreenBambooTHover.webp",
+      },
+      {
+        image: "/src/assets/DifferentColors/BeigeBambooT.webp",
+        hoverImage: "/src/assets/HoverImages/BeigeBambooTHover.webp",
       },
     ],
   },
