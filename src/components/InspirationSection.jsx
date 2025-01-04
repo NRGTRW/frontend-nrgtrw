@@ -1,8 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../assets/styles/inspiration.css";
-import inspirationImage from "../assets/images/icecream-inspiration.webp";
+import inspirationImage from "../assets/images/inspiration.webp";
 
 const InspirationSection = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLearnMore = () => {
+    navigate("/inspiration"); // Navigate to the Inspiration page
+  };
+
   return (
     <section className="inspiration-section">
       <div className="inspiration-content">
@@ -16,7 +23,9 @@ const InspirationSection = () => {
             strength of innovation. Each piece is crafted to reflect balance
             and purpose.
           </p>
-          <button className="learn-more-button">LEARN MORE</button>
+          <button className="learn-more-button" onClick={handleLearnMore}>
+            LEARN MORE
+          </button>
         </div>
       </div>
     </section>

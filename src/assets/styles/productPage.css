@@ -275,3 +275,21 @@ body {
     font-size: 0.9rem;
   }
 }
+
+.add-to-cart-button {
+  background-color: #333;
+  color: white;
+  padding: 15px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+}
+
+.add-to-cart-button:hover {
+  background-color: #000;
+  transform: scale(1.05);
+}

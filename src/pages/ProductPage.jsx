@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import "../assets/styles/productPage.css";
-
 import {
   eleganceProducts,
   pumpCoversProducts,
   confidenceProducts,
 } from "../data/products";
+import GoBackButton from "../components/GoBackButton";
 
 const allProducts = [
   ...eleganceProducts,
@@ -19,12 +20,27 @@ const ProductPage = () => {
   const { productId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  const descriptionRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const detailsRef = useRef(null);
 
   const [product, setProduct] = useState(null);
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [isHoverImage, setIsHoverImage] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+
+  const scrollToSection = (hash) => {
+    if (hash === "description" && descriptionRef.current) {
+      descriptionRef.current.scrollIntoView({ behavior: "smooth" });
+    } else if (hash === "reviews" && reviewsRef.current) {
+      reviewsRef.current.scrollIntoView({ behavior: "smooth" });
+    } else if (hash === "details" && detailsRef.current) {
+      detailsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const fetchedProduct = allProducts.find(
@@ -37,8 +53,12 @@ const ProductPage = () => {
       setSelectedColorIndex(activeColorIndex);
 
       setSelectedSize(fetchedProduct.sizes ? fetchedProduct.sizes[0] : "One Size");
+
+      // Scroll to the specific section based on URL hash
+      const hash = location.hash.replace("#", "");
+      scrollToSection(hash);
     }
-  }, [productId, location.state]);
+  }, [productId, location]);
 
   const handleImageToggle = () => {
     setIsHoverImage(!isHoverImage);
@@ -54,16 +74,17 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = () => {
-    alert(
-      `${quantity} ${product?.name}(s) of size ${selectedSize} added to your cart!`
-    );
+    addToCart({
+      id: product.id,
+      name: product.name,
+      selectedSize,
+      selectedColor: product.colors[selectedColorIndex]?.image,
+      quantity,
+      price: product.price,
+    });
   };
 
-  const handleGoBack = () => {
-    navigate("/clothing");
-  };
-
-  const QuantitySelector = ({ min = 1, max = 99, initialQuantity = 1 }) => {
+  const QuantitySelector = ({ min = 1, max = 999, initialQuantity = 1 }) => {
     const [inputValue, setInputValue] = useState(initialQuantity.toString());
     const [typingTimeout, setTypingTimeout] = useState(null);
 
@@ -90,7 +111,7 @@ const ProductPage = () => {
         const parsedValue = Math.max(min, Math.min(max, parseInt(value) || min));
         setQuantity(parsedValue);
         setInputValue(parsedValue.toString());
-      }, 5000); // 5-second delay
+      }, 500); // 500ms delay
       setTypingTimeout(timeout);
     };
 
@@ -131,9 +152,7 @@ const ProductPage = () => {
 
   return (
     <div className="product-page">
-      <button className="go-back-button" onClick={handleGoBack}>
-        Back
-      </button>
+      <GoBackButton />
 
       <div className="spacer-bar2"></div>
       <div className="product-container">
@@ -195,12 +214,28 @@ const ProductPage = () => {
             {/* Quantity Selector */}
             <QuantitySelector initialQuantity={quantity} />
           </div>
+          <div ref={descriptionRef}>
+        <h2>Description</h2>
+        <p>This is the description of the product.</p>
+      </div>
 
+      <div ref={reviewsRef}>
+        <h2>Reviews</h2>
+        <p>These are the reviews for the product.</p>
+      </div>
+
+      <div ref={detailsRef}>
+        <h2>Details</h2>
+        <p>Here are the product details and specifications.</p>
+      </div>
           <button className="add-to-cart-button" onClick={handleAddToCart}>
             Add to Cart
           </button>
         </div>
       </div>
+
+      {/* Sections */}
+    
     </div>
   );
 };

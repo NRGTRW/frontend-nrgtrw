@@ -1,86 +1,90 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useCart } from "../context/CartContext";
+import GoBackButton from "../components/GoBackButton";
 import "../assets/styles/cartPage.css";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  // Sample cart items; replace this with context or state management later
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      size: "M",
-      color: "Red",
-      quantity: 2,
-      price: 50,
-      image: "/path/to/image1.jpg",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      size: "L",
-      color: "Blue",
-      quantity: 1,
-      price: 75,
-      image: "/path/to/image2.jpg",
-    },
-  ]);
+  const { cart, removeFromCart, moveToWishlist } = useCart();
+
+  const handleRemove = (item) => {
+    removeFromCart(item);
+  };
 
   const navigate = useNavigate();
 
-  const calculateTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+  const handleMoveToWishlist = (item) => {
+    moveToWishlist(item);
   };
 
-  const handleRemoveItem = (id) => {
-    const updatedCart = cartItems.filter((item) => item.id !== id);
-    setCartItems(updatedCart);
-  };
+  const calculateTotal = () =>
+    cart.reduce((total, item) => total + item.quantity * item.price, 0);
 
-  const handleCheckout = () => {
-    alert("Proceeding to checkout...");
-  };
-
-  if (cartItems.length === 0) {
+  if (!cart.length) {
     return (
-      <div className="cart-page">
-        <h2>Your Cart is Empty</h2>
-        <button onClick={() => navigate("/clothing")}>Continue Shopping</button>
+      <div className="cart-page empty">
+        <div className="spacer-bar"></div>
+        <h2>Your cart is currently empty. Explore our catalog and add items you love!</h2>
+        <GoBackButton text="Return to Previous Page" />
       </div>
     );
   }
 
   return (
     <div className="cart-page">
+      <div className="spacer-bar"></div>
       <h2>Your Cart</h2>
       <div className="cart-items">
-        {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
-            <img src={item.image} alt={item.name} className="cart-item-image" />
+        {cart.map((item) => (
+          <div
+            key={`${item.id}-${item.selectedSize}-${item.selectedColor}`}
+            className="cart-item"
+          >
+            <img
+              src={item.selectedColor}
+              alt={item.name}
+              className="cart-item-image"
+            />
             <div className="cart-item-details">
               <h3>{item.name}</h3>
-              <p>Size: {item.size}</p>
-              <p>Color: {item.color}</p>
-              <p>Price: ${item.price}</p>
+              <p>Size: {item.selectedSize}</p>
               <p>Quantity: {item.quantity}</p>
+              <p>Price: {item.price}</p>
             </div>
             <button
               className="remove-item-button"
-              onClick={() => handleRemoveItem(item.id)}
+              onClick={() => handleRemove(item)}
             >
               Remove
+            </button>
+            <button
+              className="wishlist-button"
+              onClick={() => handleMoveToWishlist(item)}
+            >
+              Move to Wishlist
             </button>
           </div>
         ))}
       </div>
       <div className="cart-summary">
-        <h3>Total: ${calculateTotal()}</h3>
-        <button className="checkout-button" onClick={handleCheckout}>
-          Proceed to Checkout
-        </button>
-      </div>
+  <h3>Total: {calculateTotal()}</h3>
+  <div className="button-group">
+    <button
+      className="continue-shopping-button"
+      onClick={() => navigate("/clothing")}
+    >
+      Continue Shopping
+    </button>
+    <button
+      className="checkout-button"
+      onClick={() => alert("Proceeding to checkout...")}
+    >
+      Proceed to Checkout
+    </button>
+  </div>
+  <GoBackButton />
+</div>
+
     </div>
   );
 };
