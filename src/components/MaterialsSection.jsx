@@ -1,25 +1,27 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/materials.css";
 import materialsImage from "../assets/images/materials.webp";
 
 const MaterialsSection = ({ refProp }) => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleDiscoverMore = () => {
-    navigate("/materials"); // Navigate to the Materials page
+    navigate("/materials");
   };
 
   return (
     <section className="materials-section" ref={refProp}>
-      <div className="materials-content">
+      <div className="materials-container">
         <div className="materials-text">
           <h2>OUR MATERIALS</h2>
           <p>
-            At NRG, we believe in sustainable elegance. Our materials are
-            handpicked to ensure premium quality, durability, and a timeless
-            aesthetic that reflects our commitment to excellence.
+            At NRG, we believe in the essence of sustainable elegance. Every
+            material we use is meticulously handpicked to ensure premium
+            quality, exceptional durability, and timeless aesthetic appeal. From
+            luxurious fabrics to innovative textures, our commitment to
+            excellence shines through in every piece we create.
           </p>
           <button
             className="discover-more-button"
