@@ -1,52 +1,57 @@
 .inspiration-section {
-  padding: 40px 20px;
+  padding: 60px 20px; /* Increase padding for spacious feel */
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f9f9f9;
+  background-color: #f9f9f9; /* Subtle background color */
 }
 
-.inspiration-content {
+.inspiration-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse; /* Reverse the positions: text on the right, image on the left */
   align-items: center;
-  gap: 30px;
+  gap: 50px; /* Add more space between text and image */
   max-width: 1200px;
   width: 100%;
 }
 
 .inspiration-image {
   flex: 1;
-  max-width: 50%;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inspiration-image img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px; /* Slightly more rounded corners */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   object-fit: cover;
 }
 
 .inspiration-text {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: left;
 }
 
 .inspiration-text h2 {
   font-family: "Cinzel", serif;
-  font-size: 36px;
+  font-size: 42px; /* Larger font for heading */
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-transform: uppercase; /* Consistent styling */
 }
 
 .inspiration-text p {
   font-family: "Poppins", sans-serif;
-  font-size: 18px;
+  font-size: 18px; /* Standard text size */
   color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.8; /* Increase line height for readability */
+  margin-bottom: 30px;
 }
 
 .learn-more-button {
@@ -55,26 +60,54 @@
   font-weight: 600;
   color: #fff;
   background-color: #000;
-  padding: 10px 20px;
+  padding: 12px 24px; /* Slightly larger button */
   border: none;
-  border-radius: 50px;
+  border-radius: 25px; /* Softer button shape */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .learn-more-button:hover {
   background-color: #333;
+  transform: scale(1.05); /* Subtle zoom on hover */
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .inspiration-content {
-    flex-direction: column;
-    gap: 20px;
+@media (max-width: 1024px) {
+  .inspiration-container {
+    flex-direction: column; /* Stack content vertically on smaller screens */
+    gap: 30px;
     text-align: center;
   }
 
   .inspiration-text {
     text-align: center;
+  }
+
+  .inspiration-text h2 {
+    font-size: 36px; /* Adjust heading size for smaller screens */
+  }
+
+  .inspiration-text p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .inspiration-image img {
+    border-radius: 12px; /* Adjust radius for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .inspiration-text h2 {
+    font-size: 32px; /* Further reduce font size on small devices */
+  }
+
+  .inspiration-text p {
+    font-size: 14px; /* Reduce text size */
+  }
+
+  .learn-more-button {
+    padding: 10px 20px; /* Adjust button size */
   }
 }
