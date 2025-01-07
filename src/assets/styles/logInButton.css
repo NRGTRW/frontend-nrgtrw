@@ -1,0 +1,97 @@
+/* Container for the profile or login button */
+.login-button-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Log In button styles (visible when user is not logged in) */
+  .login-button {
+    background-color: #000; /* Black button */
+    color: #fff; /* White text */
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #333; /* Darker black on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  /* Profile icon styles (visible when user is logged in) */
+  .profile-icon {
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #000; /* Optional border for profile image */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  .profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the circle */
+  }
+  
+  .profile-icon:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  /* Dropdown menu for user actions */
+  .profile-dropdown {
+    position: absolute;
+    top: 50px; /* Position below the profile icon */
+    right: 0;
+    background-color: #fff; /* White background */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for dropdown */
+    width: 150px; /* Adjust width as needed */
+    display: none; /* Hidden by default */
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
+  
+  .profile-dropdown.active {
+    display: block; /* Show dropdown when active */
+  }
+  
+  .profile-dropdown-item {
+    padding: 10px 15px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .profile-dropdown-item:hover {
+    background-color: #f9f9f9; /* Light gray on hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .login-button {
+      font-size: 14px; /* Adjust font size for smaller screens */
+      padding: 8px 16px;
+    }
+  
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .profile-dropdown {
+      width: 120px; /* Adjust dropdown width */
+    }
+  }
+  
