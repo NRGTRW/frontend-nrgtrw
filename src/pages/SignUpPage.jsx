@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 import "../assets/styles/authPage.css";
 
 const SignUpPage = () => {
@@ -10,27 +11,40 @@ const SignUpPage = () => {
     password: "",
     confirmPassword: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Perform basic validation
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
 
-    // Submit data to the server (you'll need to implement API logic)
-    console.log("SignUp Data:", formData);
+    // Display the loading page
+    setIsLoading(true);
 
-    // Navigate to Profile page after successful signup
-    navigate("/profile");
+    // Simulate signup success and navigate to profile
+    setTimeout(() => {
+      console.log("SignUp Data:", formData);
+      navigate("/profile");
+    }, 2500); // Transition after loading
   };
+
+  if (isLoading) {
+    return <LoadingPage onFinish={() => navigate("/profile")} />;
+  }
 
   return (
     <div className="auth-page">
@@ -56,35 +70,56 @@ const SignUpPage = () => {
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="auth-input"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            className="auth-input"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-          <button type="submit" className="auth-button">Sign Up</button>
+          <div className="password-field">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className="auth-input with-toggle"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle inside-field"
+              onClick={togglePasswordVisibility}
+              aria-label="Toggle password visibility"
+            >
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+          <div className="password-field">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              className="auth-input with-toggle"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle inside-field"
+              onClick={toggleConfirmPasswordVisibility}
+              aria-label="Toggle confirm password visibility"
+            >
+              {showConfirmPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+          <button type="submit" className="auth-button">
+            Sign Up
+          </button>
         </form>
         <div className="auth-footer">
-  <p>
-    Already have an account?{" "}
-    <a onClick={() => navigate("/login")} className="redirection-link">
-      Log in here
-    </a>
-  </p>
-</div>
-
+          <p>
+            Already have an account?{" "}
+            <a onClick={() => navigate("/login")} className="redirection-link">
+              Log in here
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

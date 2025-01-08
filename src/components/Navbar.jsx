@@ -77,7 +77,7 @@ const Navbar = () => {
             )}
           </div>
           <img
-            src={isLoggedIn ? user.profilePicture : "../assets/images/default-avatar.webp"}
+            src={isLoggedIn ? user.profilePicture : "./assets/images/default-avatar.webp"}
             alt="Profile"
             className="profile-icon"
             onClick={handleProfileNavigation}

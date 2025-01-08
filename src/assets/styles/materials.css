@@ -3,36 +3,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
   background-color: #f9f9f9; /* Subtle background color */
-=======
-  background-color: #f9f9f9; /* Matching inspiration background */
->>>>>>> b5dbf687ee5264438523475172a962435aecf0dd
 }
 
 .materials-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-<<<<<<< HEAD
   gap: 50px; /* Add more space between text and image */
-=======
-  gap: 30px; /* Space between text and image */
->>>>>>> b5dbf687ee5264438523475172a962435aecf0dd
   max-width: 1200px;
   width: 100%;
 }
 
 .materials-image {
   flex: 1;
-<<<<<<< HEAD
   display: flex;
   justify-content: center;
   align-items: center;
-=======
-  max-width: 50%; /* Same image size as inspiration */
-  overflow: hidden;
->>>>>>> b5dbf687ee5264438523475172a962435aecf0dd
 }
 
 .materials-image img {
@@ -53,11 +40,7 @@
 
 .materials-text h2 {
   font-family: "Cinzel", serif;
-<<<<<<< HEAD
   font-size: 42px; /* Larger font for heading */
-=======
-  font-size: 36px; /* Same font size as inspiration */
->>>>>>> b5dbf687ee5264438523475172a962435aecf0dd
   color: #333;
   margin-bottom: 20px;
   text-transform: uppercase; /* Consistent styling */
@@ -65,11 +48,7 @@
 
 .materials-text p {
   font-family: "Poppins", sans-serif;
-<<<<<<< HEAD
   font-size: 18px; /* Standard text size */
-=======
-  font-size: 18px; /* Consistent font size */
->>>>>>> b5dbf687ee5264438523475172a962435aecf0dd
   color: #555;
   line-height: 1.8; /* Increase line height for readability */
   margin-bottom: 30px;
@@ -94,17 +73,10 @@
 }
 
 /* Responsive Design */
-<<<<<<< HEAD
 @media (max-width: 1024px) {
   .materials-container {
     flex-direction: column; /* Stack content vertically on smaller screens */
     gap: 30px;
-=======
-@media (max-width: 768px) {
-  .materials-container {
-    flex-direction: column;
-    gap: 20px; /* Reduce gap for smaller screens */
->>>>>>> b5dbf687ee5264438523475172a962435aecf0dd
     text-align: center;
   }
 
