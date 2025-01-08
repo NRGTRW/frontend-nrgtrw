@@ -19,8 +19,8 @@ const ProfilePage = () => {
       <div className="profile-container">
         <div className="profile-picture">
           <img
-            src="/assets/images/default-profile.png"
-            alt="Profile"
+            src="../assets/images/default-avatar.webp"
+            // alt="Profile"
             className="profile-img"
           />
         </div>

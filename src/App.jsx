@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ClothingPage from "./pages/ClothingPage";
@@ -13,11 +13,14 @@ import InspirationPage from "./pages/InspirationPage";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage"; // Added ProfilePage
 import ScrollToTop from "./components/ScrollToTop";
+import SignupPage from "./pages/SignUpPage";
 import "./assets/styles/global.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 const App = () => {
+  const location = useLocation(); // To determine the current path
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -25,9 +28,13 @@ const App = () => {
     });
   }, []);
 
+  // Check if the current route is the NotFound page
+  const isNotFoundPage = location.pathname === "/not-found";
+
   return (
     <>
-      <Navbar />
+      {/* Render Navbar conditionally */}
+      {!isNotFoundPage && <Navbar />}
       <div className="content-wrapper">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -37,13 +44,13 @@ const App = () => {
           <Route path="/inspiration" element={[<ScrollToTop />, <InspirationPage />]} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<AuthPage type="login" />} />
-<Route path="/signup" element={<AuthPage type="signup" />} />
-
-          <Route path="/profile" element={<ProfilePage />} /> {/* Added Route */}
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      <Footer />
+      {/* Render Footer conditionally */}
+      {!isNotFoundPage && <Footer />}
     </>
   );
 };

@@ -8,9 +8,7 @@ import cartImage from "../assets/images/shopping-cart.png";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const handleProfileNavigation = () => {
-    navigate("/profile");
-  };  const { getTotalQuantity } = useCart();
+  const { getTotalQuantity } = useCart();
   const { isLoggedIn, user } = useAuth(); // Access authentication state
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -36,6 +34,11 @@ const Navbar = () => {
   const handleNavigation = (path) => {
     setMenuOpen(false);
     navigate(path);
+  };
+
+  // Navigation for profile
+  const handleProfileNavigation = () => {
+    navigate(isLoggedIn ? "/profile" : "/login");
   };
 
   return (
@@ -77,7 +80,7 @@ const Navbar = () => {
             src={isLoggedIn ? user.profilePicture : "../assets/images/default-avatar.webp"}
             alt="Profile"
             className="profile-icon"
-            onClick={() => handleNavigation(isLoggedIn ? "/profile" : "/login")}
+            onClick={handleProfileNavigation}
           />
         </div>
       </div>
