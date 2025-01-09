@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
     profilePicture: defaultProfilePicture, // Default profile picture
     name: "John Doe",
     email: "john.doe@example.com",
+    adress: "Optional",
+    phone: "Optional",
   });
 
   const login = (userData) => {
@@ -26,6 +28,8 @@ export const AuthProvider = ({ children }) => {
       profilePicture: defaultProfilePicture,
       name: "",
       email: "",
+      adress: "",
+      phone: "",
     });
   };
 

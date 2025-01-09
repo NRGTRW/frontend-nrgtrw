@@ -13,9 +13,12 @@ const LoadingPage = ({ onFinish }) => {
 
   return (
     <div className="loading-page">
+    <div className="loading-content">
       <div className="loading-spinner"></div>
-      <h2 className="loading-text">Preparing Your Experience...</h2>
+      <div className="loading-text">Preparing Your Experience...</div>
     </div>
+  </div>
+  
   );
 };
 
