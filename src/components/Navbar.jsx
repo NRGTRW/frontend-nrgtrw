@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext"; // Import useAuth
+import { useAuth } from "../context/AuthContext";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
+import defaultProfilePicture from "../assets/images/default-profile.webp";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { getTotalQuantity } = useCart();
-  const { isLoggedIn, user } = useAuth(); // Access authentication state
+  const { user } = useAuth();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -36,11 +37,6 @@ const Navbar = () => {
     navigate(path);
   };
 
-  // Navigation for profile
-  const handleProfileNavigation = () => {
-    navigate(isLoggedIn ? "/profile" : "/login");
-  };
-
   return (
     <header>
       <div className="top-bar">
@@ -63,24 +59,20 @@ const Navbar = () => {
               alt="Shopping Cart"
               className="cart-icon"
               onClick={() => handleNavigation("/cart")}
-              aria-label="View cart"
             />
             {getTotalQuantity() > 0 && (
               <div className="cart-bubble-container">
-                <span
-                  className="cart-bubble"
-                  aria-label={`${getTotalQuantity()} items in cart`}
-                >
+                <span className="cart-bubble">
                   {getTotalQuantity()}
                 </span>
               </div>
             )}
           </div>
           <img
-            src={isLoggedIn ? user.profilePicture : "./assets/images/default-avatar.webp"}
+            src={user?.profilePicture || defaultProfilePicture}
             alt="Profile"
             className="profile-icon"
-            onClick={handleProfileNavigation}
+            onClick={() => handleNavigation("/profile")}
           />
         </div>
       </div>

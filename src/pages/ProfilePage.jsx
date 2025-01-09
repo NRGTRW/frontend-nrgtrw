@@ -1,58 +1,119 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "../assets/styles/profilePage.css";
+import defaultProfilePicture from "../assets/images/default-profile.webp";
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john@example.com",
-    phone: "",
+  const navigate = useNavigate();
+  const { user, updateProfilePicture, logout } = useAuth();
+  const [profileImage, setProfileImage] = useState(
+    user?.profilePicture || defaultProfilePicture
+  );
+  const [formData, setFormData] = useState({
+    name: user?.name || "John Doe",
+    email: user?.email || "john.doe@example.com",
     address: "",
+    phone: "",
   });
+  const [pendingSave, setPendingSave] = useState(false);
+
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const newImageUrl = URL.createObjectURL(file);
+      setProfileImage(newImageUrl);
+      setPendingSave(true);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [name]: value });
+    setPendingSave(true);
+  };
+
+  const handleSave = () => {
+    updateProfilePicture(profileImage);
+    console.log("Saved Profile Data:", { ...formData, profileImage });
+    setPendingSave(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   return (
     <div className="profile-page">
       <div className="profile-container">
-        <div className="profile-picture">
+        <h1 className="profile-header">Your Profile</h1>
+        <div className="profile-image-container">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleProfilePictureChange}
+            style={{ display: "none" }}
+            id="profile-image-upload"
+          />
           <img
-            src="../assets/images/default-avatar.webp"
-            // alt="Profile"
-            className="profile-img"
+            src={profileImage}
+            alt="Profile"
+            className="profile-image"
+            onClick={() => document.getElementById("profile-image-upload").click()}
           />
         </div>
-        <div className="profile-info">
-          <h1>{profile.name}</h1>
-          <p>{profile.email}</p>
-          <form>
+        <div className="profile-fields">
+          <div className="profile-field">
+            <label>Name:</label>
             <input
               type="text"
-              name="phone"
-              placeholder="Phone (optional)"
-              value={profile.phone}
+              name="name"
+              value={formData.name}
               onChange={handleInputChange}
-              className="profile-input"
             />
+          </div>
+          <div className="profile-field">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              disabled
+            />
+          </div>
+          <div className="profile-field">
+            <label>Address:</label>
             <input
               type="text"
               name="address"
-              placeholder="Address (optional)"
-              value={profile.address}
+              value={formData.address}
               onChange={handleInputChange}
-              className="profile-input"
+              placeholder="Optional"
             />
-          </form>
+          </div>
+          <div className="profile-field">
+            <label>Phone:</label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              placeholder="Optional"
+            />
+          </div>
         </div>
-      </div>
-      <div className="profile-display">
-        {/* Add your 3D rotating objects here */}
-        <div className="rotating-objects">
-          {/* Placeholder: Replace with a 3D library like Three.js */}
-          <p>Rotating 3D Clothes Here</p>
-        </div>
+        <button
+          className={`edit-profile-button ${pendingSave ? "active" : ""}`}
+          onClick={handleSave}
+          disabled={!pendingSave}
+        >
+          Save Changes
+        </button>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );
