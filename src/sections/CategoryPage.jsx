@@ -8,7 +8,7 @@ const CategoryPage = () => {
   const [category, setCategory] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/categories/${slug}`)
+    axios.get(`http://localhost:5173/api/categories/${slug}`)
       .then((response) => setCategory(response.data))
       .catch((error) => console.error(error));
   }, [slug]);

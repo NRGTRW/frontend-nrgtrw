@@ -1,5 +1,5 @@
 .profile-page-container {
-  margin-top: 70px; /* Add margin to account for the fixed Navbar */
+  margin-top: 70px;
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -15,6 +15,7 @@
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* To position logout button within the container */
 }
 
 .profile-header {
@@ -57,40 +58,75 @@
   border-radius: 5px;
 }
 
-.save-button {
-  background: #4caf50;
-  color: #fff;
-  padding: 10px 20px;
+/* Scoped Button Styling */
+.profile-info button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin-right: 15px;
 }
 
-.save-button:hover {
-  background: #45a049;
+/* Button Color Scheme */
+.profile-info button.save-button,
+.profile-info button.edit-button,
+.profile-info button.cancel-button,
+.profile-info button.logout-button {
+  background-color: #333; /* Dark gray for the primary scheme */
+  color: #fff; /* White text for contrast */
 }
 
-.logout-button {
-  background: #f44336;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+.profile-info button:hover {
+  background-color: #444; /* Slightly lighter gray on hover */
+  transform: scale(1.05); /* Subtle zoom effect */
 }
 
-.logout-button:hover {
-  background: #d32f2f;
+.profile-info button:active {
+  background-color: #222; /* Darker gray when pressed */
+  transform: scale(0.98); /* Shrink effect on press */
 }
 
+.profile-info button:focus {
+  outline: 2px solid #666; /* Focus outline for accessibility */
+  outline-offset: 2px;
+}
+
+/* Disabled State */
+.profile-info button:disabled {
+  background-color: #555; /* Disabled gray */
+  color: #bbb; /* Faded text for disabled state */
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Cancel Button Specific Styling */
+.profile-info button.cancel-button {
+  background-color: #555; /* Slightly lighter gray for distinction */
+}
+
+.profile-info button.cancel-button:hover {
+  background-color: #666; /* Lighter gray on hover */
+}
+
+/* Logout Button Styling */
+.profile-info button.logout-button {
+  position: absolute; /* Position within the profile-info container */
+  bottom: 20px; /* 20px from the bottom */
+  right: 20px; /* 20px from the right */
+}
+
+/* Popup Message Styling */
 .popup-message {
   margin-top: 15px;
   color: #333;
   font-size: 14px;
 }
 
+/* Wishlist Section */
 .wishlist-3d {
   flex: 1.5;
   display: flex;

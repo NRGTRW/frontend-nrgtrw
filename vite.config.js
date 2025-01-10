@@ -5,7 +5,12 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': '/src', 
+      '@': '/src',
+    },
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5173', // Adjust for your backend server
     },
   },
 });
