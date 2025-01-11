@@ -1,166 +1,129 @@
-.profile-page-container {
-  margin-top: 70px;
+/* General Page Styling */
+.profile-page {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #f9f9f9;
-  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px); /* Space for top bar and footer */
+  background: linear-gradient(135deg, #f9f9f9, #eaeaea);
+  padding: 80px;
+  font-family: "Poppins", sans-serif;
 }
 
-.profile-info {
-  flex: 1;
+/* Profile Container Styling */
+.profile-container {
+  width: 100%;
+  max-width: 800px; /* Smaller width for alignment with the example */
   background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* To position logout button within the container */
+  border-radius: 15px; /* Rounded edges */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
 }
 
+/* Header and Subtitle */
 .profile-header {
-  text-align: center;
+  font-family: "Cinzel", serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile-subtitle {
+  font-size: 14px;
+  color: #555;
   margin-bottom: 20px;
 }
 
-.profile-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 3px solid #333;
-  object-fit: cover;
+/* Profile Picture Container */
+.profile-image-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 50%; /* Circular */
+  overflow: hidden;
+  background: #f3f3f3;
+  border: 3px solid #ccc;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
-.profile-image:hover {
-  transform: scale(1.1);
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.profile-details {
+/* Form Styling */
+.profile-form {
   margin-top: 20px;
 }
 
 .profile-field {
   margin-bottom: 15px;
+  text-align: left;
 }
 
 .profile-field label {
-  display: block;
-  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
   margin-bottom: 5px;
+  display: block;
 }
 
 .profile-field input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Scoped Button Styling */
-.profile-info button {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  margin-right: 15px;
-}
-
-/* Button Color Scheme */
-.profile-info button.save-button,
-.profile-info button.edit-button,
-.profile-info button.cancel-button,
-.profile-info button.logout-button {
-  background-color: #333; /* Dark gray for the primary scheme */
-  color: #fff; /* White text for contrast */
-}
-
-.profile-info button:hover {
-  background-color: #444; /* Slightly lighter gray on hover */
-  transform: scale(1.05); /* Subtle zoom effect */
-}
-
-.profile-info button:active {
-  background-color: #222; /* Darker gray when pressed */
-  transform: scale(0.98); /* Shrink effect on press */
-}
-
-.profile-info button:focus {
-  outline: 2px solid #666; /* Focus outline for accessibility */
-  outline-offset: 2px;
-}
-
-/* Disabled State */
-.profile-info button:disabled {
-  background-color: #555; /* Disabled gray */
-  color: #bbb; /* Faded text for disabled state */
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
-/* Cancel Button Specific Styling */
-.profile-info button.cancel-button {
-  background-color: #555; /* Slightly lighter gray for distinction */
-}
-
-.profile-info button.cancel-button:hover {
-  background-color: #666; /* Lighter gray on hover */
-}
-
-/* Logout Button Styling */
-.profile-info button.logout-button {
-  position: absolute; /* Position within the profile-info container */
-  bottom: 20px; /* 20px from the bottom */
-  right: 20px; /* 20px from the right */
-}
-
-/* Popup Message Styling */
-.popup-message {
-  margin-top: 15px;
-  color: #333;
   font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
-/* Wishlist Section */
-.wishlist-3d {
-  flex: 1.5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.profile-field input:focus {
+  border-color: #aaa;
 }
 
-.wishlist-display {
+/* Buttons */
+.button-container {
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.wishlist-item {
-  text-align: center;
-  cursor: pointer;
-}
-
-.wishlist-item img {
-  width: 100px;
-  height: 100px;
+.save-button,
+.logout-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  border: none;
   border-radius: 5px;
-  transition: transform 0.3s ease;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.wishlist-item:hover img {
-  transform: scale(1.1);
+.save-button {
+  background: linear-gradient(135deg, #000, #555);
 }
 
-.wishlist-item p {
-  margin-top: 10px;
-  font-weight: bold;
+.save-button:hover {
+  transform: scale(1.03);
+}
+
+.save-button:disabled {
+  background: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.logout-button {
+  background: #dc3545; /* Muted red */
+}
+
+.logout-button:hover {
+  background: #c82333;
+  transform: scale(1.03);
 }

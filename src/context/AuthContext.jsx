@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import React, { createContext, useContext, useState } from "react";
-import defaultProfilePicture from "../assets/images/default-profile.webp";
+const defaultProfilePicture = "/default-profile.webp"; // Use the public path
 
 const AuthContext = createContext();
 

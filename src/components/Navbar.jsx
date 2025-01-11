@@ -4,7 +4,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
-import defaultProfilePicture from "../assets/images/default-profile.webp";
+import defaultProfilePicture from "/default-profile.webp";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);

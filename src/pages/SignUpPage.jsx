@@ -11,7 +11,6 @@ const SignUpPage = () => {
     password: "",
     confirmPassword: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -31,10 +30,6 @@ const SignUpPage = () => {
       alert("Passwords do not match.");
       return;
     }
-
-    // Display the loading page
-    setIsLoading(true);
-
     // Simulate signup success and navigate to profile
     setTimeout(() => {
       console.log("SignUp Data:", formData);
