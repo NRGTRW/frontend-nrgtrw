@@ -10,9 +10,18 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { getTotalQuantity } = useCart();
-  const { user } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const handleNavigation = (path) => {
+    setMenuOpen(false); // Close menu on navigation
+    navigate(path);
+  };
+
+  const handleProfileNavigation = () => {
+    navigate(isLoggedIn ? "/profile" : "/login");
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -32,11 +41,6 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
-  const handleNavigation = (path) => {
-    setMenuOpen(false);
-    navigate(path);
-  };
-
   return (
     <header>
       <div className="top-bar">
@@ -49,7 +53,11 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </button>
-        <li className="logo" onClick={() => handleNavigation("/")}>
+        <li
+          className="logo"
+          onClick={() => handleNavigation("/")}
+          aria-label="Navigate to home"
+        >
           NRG
         </li>
         <div className="right-container">
@@ -59,10 +67,14 @@ const Navbar = () => {
               alt="Shopping Cart"
               className="cart-icon"
               onClick={() => handleNavigation("/cart")}
+              aria-label="View cart"
             />
             {getTotalQuantity() > 0 && (
               <div className="cart-bubble-container">
-                <span className="cart-bubble">
+                <span
+                  className="cart-bubble"
+                  aria-label={`${getTotalQuantity()} items in cart`}
+                >
                   {getTotalQuantity()}
                 </span>
               </div>
@@ -72,10 +84,17 @@ const Navbar = () => {
             src={user?.profilePicture || defaultProfilePicture}
             alt="Profile"
             className="profile-icon"
-            onClick={() => handleNavigation("/profile")}
+            onClick={handleProfileNavigation}
           />
         </div>
       </div>
+
+      <ul className={`menu ${menuOpen ? "show" : ""}`}>
+        <li onClick={() => handleNavigation("/")}>HOME</li>
+        <li onClick={() => handleNavigation("/clothing")}>CLOTHING</li>
+        <li onClick={() => handleNavigation("/materials")}>MATERIALS</li>
+        <li onClick={() => handleNavigation("/inspiration")}>INSPIRATION</li>
+      </ul>
     </header>
   );
 };

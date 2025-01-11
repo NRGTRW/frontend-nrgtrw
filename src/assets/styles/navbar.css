@@ -102,7 +102,7 @@
   border: none;
   background: none;
   cursor: pointer;
-  z-index: 1002;
+  z-index: 1002; /* Higher z-index to appear above other content */
 }
 
 .menu-toggle span {
@@ -130,12 +130,12 @@
 .menu {
   position: fixed;
   top: 0;
-  left: -100%;
+  left: -100%; /* Hidden by default */
   width: 280px;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.95);
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -144,7 +144,7 @@
 }
 
 .menu.show {
-  left: 0;
+  left: 0; /* Slide into view */
 }
 
 .menu li {
