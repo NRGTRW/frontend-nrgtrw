@@ -30,7 +30,8 @@ const App = () => {
 
   // Check if the current route is the NotFound page
   const isNotFoundPage = location.pathname === "/not-found";
-
+  // HIGH ERROR COMP
+  
   return (
     <>
       {/* Render Navbar conditionally */}
