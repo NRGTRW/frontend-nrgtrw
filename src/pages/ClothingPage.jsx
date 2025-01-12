@@ -2,11 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Products from "../components/Products";
 import "../assets/styles/clothingPage.css";
-import {
-  eleganceProducts,
-  pumpCoversProducts,
-  confidenceProducts,
-} from "../data/products";
+import { fetchItems } from "../services/itemService";
 
 const ClothingPage = () => {
   const location = useLocation();
@@ -16,15 +12,45 @@ const ClothingPage = () => {
   const pumpCoversRef = useRef(null);
   const confidenceRef = useRef(null);
 
+  const [eleganceProducts, setEleganceProducts] = useState([]);
+  const [pumpCoversProducts, setPumpCoversProducts] = useState([]);
+  const [confidenceProducts, setConfidenceProducts] = useState([]);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    // Scroll to the respective section and set the page title
+    const fetchProducts = async () => {
+      try {
+        const allProducts = await fetchItems();
+
+        const elegance = allProducts.filter(
+          (product) => product.category === "Elegance"
+        );
+        const pumpCovers = allProducts.filter(
+          (product) => product.category === "Pump Covers"
+        );
+        const confidence = allProducts.filter(
+          (product) => product.category === "Confidence"
+        );
+
+        setEleganceProducts(elegance);
+
+        // Swap data for Pump Covers and Confidence
+        setPumpCoversProducts(confidence);
+        setConfidenceProducts(pumpCovers);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError("Failed to load products. Please try again later.");
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
     if (location.state?.category) {
       const { category } = location.state;
-
-      // Update page title based on the category
       setPageTitle(category);
 
-      // Scroll to the respective section
       if (category === "Elegance") {
         eleganceRef.current.scrollIntoView({ behavior: "smooth" });
       } else if (category === "Pump Covers") {
@@ -37,24 +63,27 @@ const ClothingPage = () => {
 
   return (
     <div className="clothing-page">
-      {/* White Spacer Bar */}
       <div className="spacer-bar"></div>
+      {error ? (
+        <p className="error-message">{error}</p>
+      ) : (
+        <>
+          <section ref={eleganceRef}>
+            <h2 className="section-title">Elegance</h2>
+            <Products products={eleganceProducts} />
+          </section>
 
-      {/* Sections */}
-      <section ref={eleganceRef}>
-        <h2 className="section-title">Elegance</h2>
-        <Products products={eleganceProducts} />
-      </section>
+          <section ref={pumpCoversRef}>
+            <h2 className="section-title">Pump Covers</h2>
+            <Products products={pumpCoversProducts} />
+          </section>
 
-      <section ref={pumpCoversRef}>
-        <h2 className="section-title">Pump Covers</h2>
-        <Products products={pumpCoversProducts} />
-      </section>
-
-      <section ref={confidenceRef}>
-        <h2 className="section-title">Confidence</h2>
-        <Products products={confidenceProducts} />
-      </section>
+          <section ref={confidenceRef}>
+            <h2 className="section-title">Confidence</h2>
+            <Products products={confidenceProducts} />
+          </section>
+        </>
+      )}
     </div>
   );
 };

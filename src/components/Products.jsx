@@ -32,23 +32,24 @@ const Products = ({ products }) => {
             onClick={() => handleProductClick(product)}
           >
             <div className="image-container">
+              {/* Dynamically update the initial image based on activeColorIndex */}
               <img
-                src={product.colors[activeColorIndex].image}
+                src={product.colors[activeColorIndex].imageUrl} // Use activeColorIndex for the main image
                 alt={product.name}
                 className="product-image"
               />
               <img
-                src={product.colors[activeColorIndex].hoverImage}
+                src={product.colors[activeColorIndex].hoverImage} // Use activeColorIndex for hover image
                 alt={`${product.name} Hover`}
                 className="hover-image"
               />
               <div className="product-overlay">
                 <h3>{product.name}</h3>
-                <p>{product.price}</p>
+                <p>${product.price.toFixed(2)}</p>
                 <div className="color-options">
                   {product.colors.map((color, index) => (
                     <div
-                      key={index}
+                      key={`${product.id}-${index}`} // Ensure unique keys for each color
                       className={`color-circle ${
                         index === activeColorIndex ? "active" : ""
                       }`}
@@ -57,7 +58,7 @@ const Products = ({ products }) => {
                         handleColorChange(product.id, index);
                       }}
                       style={{
-                        backgroundImage: `url(${color.image})`,
+                        backgroundImage: `url(${color.imageUrl})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
