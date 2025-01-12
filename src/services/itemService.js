@@ -1,10 +1,8 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:8080/api/items";
+import axiosinstance from "./api.js"
 
 export const fetchItems = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axiosinstance.get("/items");
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
