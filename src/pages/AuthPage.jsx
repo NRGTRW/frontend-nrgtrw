@@ -1,44 +1,47 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-undef */
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingPage from "./LoadingPage";
+import { AuthContext } from "../context/AuthContext";
 import "../assets/styles/authPage.css";
 
 const AuthPage = ({ type }) => {
+  const { logIn } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Simulate authentication success
-    setIsLoading(true);
-
-    setTimeout(() => {
-      navigate("/profile");
-    }, 2500); // Transition after loading
-  };
-
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  if (isLoading) {
-    return <LoadingPage onFinish={() => navigate("/profile")} />;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (type === "login") {
+      try {
+        await logIn(formData);
+        navigate("/profile");
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("Failed to log in. Please check your credentials.");
+      }
+    } else {
+      navigate("/signup");
+    }
+  };
 
   return (
     <div className="auth-page">
       <div className="auth-container">
-        <h1 className="auth-header">Welcome Back</h1>
-        <p className="auth-subtitle">You're a few clicks away from seamless fashion.</p>
+        <h1 className="auth-header">
+          {type === "login" ? "Welcome Back" : "Create an Account"}
+        </h1>
+        <p className="auth-subtitle">
+          {type === "login"
+            ? "You're a few clicks away from seamless fashion."
+            : "Join us for seamless fashion shopping."}
+        </p>
         <form className="auth-form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -46,7 +49,7 @@ const AuthPage = ({ type }) => {
             placeholder="Email Address"
             className="auth-input"
             value={formData.email}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
           <div className="password-field">
@@ -54,14 +57,14 @@ const AuthPage = ({ type }) => {
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
-              className="auth-input"
+              className="auth-input with-toggle"
               value={formData.password}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
             <button
               type="button"
-              className="password-toggle"
+              className="password-toggle inside-field"
               onClick={togglePasswordVisibility}
               aria-label="Toggle password visibility"
             >

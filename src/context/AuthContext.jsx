@@ -1,49 +1,38 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/prop-types */
-import React, { createContext, useContext, useState } from "react";
-const defaultProfilePicture = "/default-profile.webp"; // Use the public path
+import React, { createContext, useContext, useState, useEffect } from "react";
+import api from "../services/api";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set true for testing
-  const [user, setUser] = useState({
-    profilePicture: defaultProfilePicture, // Default profile picture
-    name: "John Doe",
-    email: "john.doe@example.com",
-    adress: "Optional",
-    phone: "Optional",
-  });
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const login = (userData) => {
-    setIsLoggedIn(true);
-    setUser(userData);
+  useEffect(() => {
+    if (token) {
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+      api.get("/api/profile")
+        .then(({ data }) => setUser(data))
+        .catch(() => setUser(null));
+    }
+  }, [token]);
+
+  const login = async (credentials) => {
+    const { data } = await api.post("/api/auth/login", credentials);
+    localStorage.setItem("token", data.token);
+    setToken(data.token);
+    setUser(data.user);
   };
 
   const logout = () => {
-    setIsLoggedIn(false);
-    setUser({
-      profilePicture: defaultProfilePicture,
-      name: "",
-      email: "",
-      adress: "",
-      phone: "",
-    });
-  };
-
-  const updateProfilePicture = (newProfilePicture) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      profilePicture: newProfilePicture || defaultProfilePicture,
-    }));
+    localStorage.removeItem("token");
+    setToken(null);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, user, login, logout, updateProfilePicture }}
-    >
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
