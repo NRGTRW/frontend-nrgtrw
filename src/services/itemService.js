@@ -1,8 +1,8 @@
-import api from "./api";
+import axiosinstance from "./api.js"
 
 export const fetchItems = async () => {
   try {
-    const response = await api.get("/items");
+    const response = await axiosinstance.get("/items");
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -12,7 +12,7 @@ export const fetchItems = async () => {
 
 export const fetchProductById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await axiosinstance.get(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching product:", error);
