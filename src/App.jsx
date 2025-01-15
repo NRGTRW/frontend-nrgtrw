@@ -19,7 +19,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const App = () => {
-  const location = useLocation(); // To determine the current path
+  const location = useLocation();
 
   useEffect(() => {
     AOS.init({
@@ -28,21 +28,19 @@ const App = () => {
     });
   }, []);
 
-  // Check if the current route is the NotFound page
-  const isNotFoundPage = location.pathname === "/not-found";
-  // HIGH ERROR COMP
-  
+  const hideNavbarAndFooter = location.pathname === "/not-found";
+
   return (
     <>
-      {/* Render Navbar conditionally */}
-      {!isNotFoundPage && <Navbar />}
+      {!hideNavbarAndFooter && <Navbar />}
+      <ScrollToTop />
       <div className="content-wrapper">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/clothing" element={<ClothingPage />} />
-          <Route path="/product/:productId" element={[<ScrollToTop />, <ProductPage />]} />
-          <Route path="/materials" element={[<ScrollToTop />, <MaterialsPage />]} />
-          <Route path="/inspiration" element={[<ScrollToTop />, <InspirationPage />]} />
+          <Route path="/product/:productId" element={<ProductPage />} />
+          <Route path="/materials" element={<MaterialsPage />} />
+          <Route path="/inspiration" element={<InspirationPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<AuthPage type="login" />} />
           <Route path="/signup" element={<SignupPage />} />
@@ -50,8 +48,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      {/* Render Footer conditionally */}
-      {!isNotFoundPage && <Footer />}
+      {!hideNavbarAndFooter && <Footer />}
     </>
   );
 };
