@@ -1,8 +1,8 @@
 import React from "react";
 import useSWR from "swr";
 import Products from "../components/Products";
-import "../assets/styles/clothingPage.css";
 import { fetchItems } from "../services/itemService";
+import "../assets/styles/clothingPage.css";
 
 const fetcher = async () => await fetchItems();
 
