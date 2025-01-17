@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingPage from "./LoadingPage";
+import axios from "axios";
 import "../assets/styles/authPage.css";
 
 const SignUpPage = () => {
@@ -14,7 +14,7 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -23,23 +23,27 @@ const SignUpPage = () => {
   const toggleConfirmPasswordVisibility = () =>
     setShowConfirmPassword(!showConfirmPassword);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
-    // Simulate signup success and navigate to profile
-    setTimeout(() => {
-      console.log("SignUp Data:", formData);
-      navigate("/profile");
-    }, 2500); // Transition after loading
-  };
 
-  if (isLoading) {
-    return <LoadingPage onFinish={() => navigate("/profile")} />;
-  }
+    try {
+      await axios.post("/api/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      alert("Signup successful! Redirecting to login...");
+      navigate("/login");
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert("Failed to sign up. Please try again.");
+    }
+  };
 
   return (
     <div className="auth-page">
@@ -53,7 +57,7 @@ const SignUpPage = () => {
             placeholder="Full Name"
             className="auth-input"
             value={formData.name}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
           <input
@@ -62,7 +66,7 @@ const SignUpPage = () => {
             placeholder="Email Address"
             className="auth-input"
             value={formData.email}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
           <div className="password-field">
@@ -72,7 +76,7 @@ const SignUpPage = () => {
               placeholder="Password"
               className="auth-input with-toggle"
               value={formData.password}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
             <button
@@ -91,7 +95,7 @@ const SignUpPage = () => {
               placeholder="Confirm Password"
               className="auth-input with-toggle"
               value={formData.confirmPassword}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
             <button

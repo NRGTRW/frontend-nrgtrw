@@ -1,7 +1,9 @@
 import axios from "axios";
-const baseURL = process.env.BASE_URL
-const api = axios.create({
-  baseURL // Update for production
-});
-export default api;
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
+const api = axios.create({
+  baseURL,
+});
+
+export default api;
