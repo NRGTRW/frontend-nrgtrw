@@ -7,24 +7,24 @@ import { useNavigate } from "react-router-dom";
 const CartPage = () => {
   const { cart, removeFromCart, moveToWishlist } = useCart();
 
-  const handleRemove = (item) => {
-    removeFromCart(item);
+  const handleRemove = (product) => {
+    removeFromCart(product);
   };
 
   const navigate = useNavigate();
 
-  const handleMoveToWishlist = (item) => {
-    moveToWishlist(item);
+  const handleMoveToWishlist = (product) => {
+    moveToWishlist(product);
   };
 
   const calculateTotal = () =>
-    cart.reduce((total, item) => total + item.quantity * item.price, 0);
+    cart.reduce((total, product) => total + product.quantity * product.price, 0);
 
   if (!cart.length) {
     return (
       <div className="cart-page empty">
         <div className="spacer-bar"></div>
-        <h2>Your cart is currently empty. Explore our catalog and add items you love!</h2>
+        <h2>Your cart is currently empty. Explore our catalog and add products you love!</h2>
         <GoBackButton text="Return to Previous Page" />
       </div>
     );
@@ -35,31 +35,31 @@ const CartPage = () => {
       <div className="spacer-bar"></div>
       <h2>Your Cart</h2>
       <div className="cart-items">
-        {cart.map((item) => (
+        {cart.map((product) => (
           <div
-            key={`${item.id}-${item.selectedSize}-${item.selectedColor}`}
+            key={`${product.id}-${product.selectedSize}-${product.selectedColor}`}
             className="cart-item"
           >
             <img
-              src={item.selectedColor}
-              alt={item.name}
+              src={product.selectedColor}
+              alt={product.name}
               className="cart-item-image"
             />
             <div className="cart-item-details">
-              <h3>{item.name}</h3>
-              <p>Size: {item.selectedSize}</p>
-              <p>Quantity: {item.quantity}</p>
-              <p>Price: {item.price}</p>
+              <h3>{product.name}</h3>
+              <p>Size: {product.selectedSize}</p>
+              <p>Quantity: {product.quantity}</p>
+              <p>Price: ${product.price}</p>
             </div>
             <button
               className="remove-item-button"
-              onClick={() => handleRemove(item)}
+              onClick={() => handleRemove(product)}
             >
               Remove
             </button>
             <button
               className="wishlist-button"
-              onClick={() => handleMoveToWishlist(item)}
+              onClick={() => handleMoveToWishlist(product)}
             >
               Move to Wishlist
             </button>
@@ -67,24 +67,23 @@ const CartPage = () => {
         ))}
       </div>
       <div className="cart-summary">
-  <h3>Total: {calculateTotal()}</h3>
-  <div className="button-group">
-    <button
-      className="continue-shopping-button"
-      onClick={() => navigate("/clothing")}
-    >
-      Continue Shopping
-    </button>
-    <button
-      className="checkout-button"
-      onClick={() => alert("Proceeding to checkout...")}
-    >
-      Proceed to Checkout
-    </button>
-  </div>
-  <GoBackButton />
-</div>
-
+        <h3>Total: ${calculateTotal()}</h3>
+        <div className="button-group">
+          <button
+            className="continue-shopping-button"
+            onClick={() => navigate("/clothing")}
+          >
+            Continue Shopping
+          </button>
+          <button
+            className="checkout-button"
+            onClick={() => alert("Proceeding to checkout...")}
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+        <GoBackButton />
+      </div>
     </div>
   );
 };

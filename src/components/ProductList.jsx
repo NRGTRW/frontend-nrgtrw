@@ -1,7 +1,5 @@
-// Updated ClothingPage.jsx\import React from "react";
 import useSWR from "swr";
 import axios from "axios";
-import "../assets/styles/clothingPage.css";
 
 const fetchAllProducts = async () => {
   try {
@@ -13,15 +11,15 @@ const fetchAllProducts = async () => {
   }
 };
 
-const ClothingPage = () => {
+const ProductList = () => {
   const { data: products, error } = useSWR("/products", fetchAllProducts);
 
   if (error) return <p>Error loading products: {error.message}</p>;
   if (!products) return <p>Loading...</p>;
 
   return (
-    <div className="clothing-page">
-      <h1>Clothing Products</h1>
+    <div>
+      <h1>Products</h1>
       <ul>
         {products.map((product) => (
           <li key={product.id}>
@@ -35,4 +33,4 @@ const ClothingPage = () => {
   );
 };
 
-export default ClothingPage;
+export default ProductList;
