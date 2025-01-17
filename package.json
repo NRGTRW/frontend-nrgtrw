@@ -20,6 +20,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.2",
     "react-scroll": "^1.9.0",
+    "swr": "^2.3.0",
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "devDependencies": {

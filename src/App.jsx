@@ -1,58 +1,53 @@
-/* eslint-disable react/jsx-key */
-import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import ClothingPage from "./pages/ClothingPage";
+import ScrollToTop from "./components/ScrollToTop";
+import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
+
 import HomePage from "./pages/HomePage";
-import NotFound from "./pages/NotFound";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
+import ProfilePage from "./pages/ProfilePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import ClothingPage from "./pages/ClothingPage";
 import MaterialsPage from "./pages/MaterialsPage";
 import InspirationPage from "./pages/InspirationPage";
 import AuthPage from "./pages/AuthPage";
-import ProfilePage from "./pages/ProfilePage"; // Added ProfilePage
-import ScrollToTop from "./components/ScrollToTop";
-import SignupPage from "./pages/SignUpPage";
-import "./assets/styles/global.css";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import SignUpPage from "./pages/SignUpPage";
+
+const routes = [
+  { path: "/", component: HomePage },
+  { path: "/product/:productId", component: ProductPage },
+  { path: "/cart", component: CartPage },
+  { path: "/profile", component: ProfilePage },
+  { path: "/clothing", component: ClothingPage },
+  { path: "/materials", component: MaterialsPage },
+  { path: "/inspiration", component: InspirationPage },
+  { path: "/login", component: () => <AuthPage type="login" /> },
+  { path: "/signup", component: SignUpPage },
+  { path: "*", component: NotFoundPage },
+];
 
 const App = () => {
-  const location = useLocation(); // To determine the current path
-
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      easing: "ease-in-out",
-    });
-  }, []);
-
-  // Check if the current route is the NotFound page
-  const isNotFoundPage = location.pathname === "/not-found";
-  // HIGH ERROR COMP
-  
   return (
-    <>
-      {/* Render Navbar conditionally */}
-      {!isNotFoundPage && <Navbar />}
-      <div className="content-wrapper">
+    <AuthProvider>
+      <CartProvider>
+        <Navbar />
+        <ScrollToTop />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/clothing" element={<ClothingPage />} />
-          <Route path="/product/:productId" element={[<ScrollToTop />, <ProductPage />]} />
-          <Route path="/materials" element={[<ScrollToTop />, <MaterialsPage />]} />
-          <Route path="/inspiration" element={[<ScrollToTop />, <InspirationPage />]} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/login" element={<AuthPage type="login" />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="*" element={<NotFound />} />
+          {routes.map((route, index) => (
+            <Route
+              key={route.path || index}
+              path={route.path}
+              element={<route.component />}
+            />
+          ))}
         </Routes>
-      </div>
-      {/* Render Footer conditionally */}
-      {!isNotFoundPage && <Footer />}
-    </>
+        <Footer />
+      </CartProvider>
+    </AuthProvider>
   );
 };
 

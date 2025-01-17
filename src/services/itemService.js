@@ -1,8 +1,8 @@
-import axiosinstance from "./api.js"
+import api from "./api.js";
 
 export const fetchItems = async () => {
   try {
-    const response = await axiosinstance.get("/items");
+    const response = await api.get("/items");
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
