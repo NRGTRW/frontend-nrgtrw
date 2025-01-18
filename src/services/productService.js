@@ -1,42 +1,23 @@
-import api from "./api";
-import axiosinstance from "axios";
+import axios from "axios";
 
-export const fetchProductById = async (id) => {
-  try {
-    const response = await api.get(`/products/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching product with ID ${id}:`, error);
-    throw error;
-  }
-};
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchAllProducts = async () => {
   try {
-    const response = await axiosinstance.get("https://nrgtrw-images.s3.eu-central-1.amazonaws.com/products.json");
+    const response = await axios.get(`${API_URL}/products`);
     return response.data;
   } catch (error) {
     console.error("Error fetching all products:", error.message);
-    if (error.response) {
-      console.error("Status Code:", error.response.status);
-      console.error("Headers:", error.response.headers);
-      console.error("Data:", error.response.data);
-    }
-    throw error;
+    throw new Error("Failed to fetch products.");
   }
 };
-// export const fetchAllProducts = async () => {
-//   try {
-//     const response = await axios.get($`{import.meta.env.VITE_SERVER_URL}/products`);
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching all products:", error.message);
-//     if (error.response) {
-//       console.error("Status Code:", error.response.status);
-//       console.error("Headers:", error.response.headers);
-//       console.error("Data:", error.response.data);
-//     }
-//     throw error;
-//   }
-// };
+
+export const fetchProductById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching product by ID (${id}):`, error.message);
+    throw new Error("Failed to fetch product.");
+  }
+};

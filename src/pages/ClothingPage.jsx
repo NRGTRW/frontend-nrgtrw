@@ -1,36 +1,34 @@
-// Updated ClothingPage.jsx\import React from "react";
+import React from "react";
 import useSWR from "swr";
-import axios from "axios";
+import Products from "../components/Products";
 import "../assets/styles/clothingPage.css";
-
-const fetchAllProducts = async () => {
-  try {
-    const response = await axios.get("https://nrgtrw-images.s3.eu-central-1.amazonaws.com/products/products.json");
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching all products:", error);
-    throw error;
-  }
-};
+import { fetchAllProducts } from "../services/productService";
 
 const ClothingPage = () => {
-  const { data: products, error } = useSWR("/products", fetchAllProducts);
+  const { data: allProducts, error } = useSWR("/products", fetchAllProducts);
 
-  if (error) return <p>Error loading products: {error.message}</p>;
-  if (!products) return <p>Loading...</p>;
+  if (error) return <p className="error-message">Failed to load products.</p>;
+  if (!allProducts) return <p className="loading-message">Loading products...</p>;
+
+  const eleganceProducts = allProducts.filter((product) => product.category === "Elegance");
+  const pumpCoversProducts = allProducts.filter((product) => product.category === "Pump Covers");
+  const confidenceProducts = allProducts.filter((product) => product.category === "Confidence");
 
   return (
     <div className="clothing-page">
-      <h1>Clothing Products</h1>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            <img src={product.image} alt={product.name} width="100" />
-            <p>{product.name}</p>
-            <p>${product.price}</p>
-          </li>
-        ))}
-      </ul>
+      <div className="spacer-bar"></div>
+      <section>
+        <h2 className="section-title">Elegance</h2>
+        <Products products={eleganceProducts} />
+      </section>
+      <section>
+        <h2 className="section-title">Pump Covers</h2>
+        <Products products={pumpCoversProducts} />
+      </section>
+      <section>
+        <h2 className="section-title">Confidence</h2>
+        <Products products={confidenceProducts} />
+      </section>
     </div>
   );
 };

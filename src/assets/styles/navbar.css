@@ -3,7 +3,7 @@
   position: fixed; /* Ensure it stays at the top */
   top: 0;
   left: 0;
-  width: 100%;
+  width: -webkit-fill-available;
   height: 60px;
   background: rgba(255, 255, 255, 0.95);
   z-index: 9999; /* Higher z-index to appear above other content */

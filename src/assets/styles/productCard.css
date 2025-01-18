@@ -1,0 +1,123 @@
+/* General Styling */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Product Card */
+.product-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Container */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.hover-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-container:hover .hover-image {
+  opacity: 1;
+}
+
+.image-container:hover .product-image {
+  opacity: 0;
+}
+
+/* Hover Overlay */
+.hover-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: fit-content;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .hover-overlay {
+  opacity: 1; /* Fully visible on hover */
+}
+
+/* Product Info */
+.product-info {
+  text-align: center;
+  padding: 10px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.product-price {
+  font-size: 16px;
+  margin: 5px 0 15px;
+  color: #666;
+}
+
+/* Color Options */
+.color-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.color-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+.color-circle.selected {
+  border-color: black;
+  transform: scale(1.1);
+}

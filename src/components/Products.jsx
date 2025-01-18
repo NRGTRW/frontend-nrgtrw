@@ -1,70 +1,70 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../assets/styles/products.css";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import "../assets/styles/productCard.css";
 
 const Products = ({ products }) => {
-  const [activeColors, setActiveColors] = useState({});
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for navigation
 
-  // Handle color change
-  const handleColorChange = (productId, colorIndex) => {
-    setActiveColors({ ...activeColors, [productId]: colorIndex });
-  };
-
-  // Navigate to the product page
-  const handleProductClick = (product) => {
-    const activeColorIndex = activeColors[product.id] || 0; // Default to the first color if none is selected
-    navigate(`/product/${product.id}`, {
-      state: { activeColorIndex },
-    });
-  };
+  if (!products || products.length === 0) {
+    return <p>No products found in this category.</p>;
+  }
 
   return (
     <div className="product-grid">
       {products.map((product) => {
-        const activeColorIndex = activeColors[product.id] || 0;
+        const [selectedColorIndex, setSelectedColorIndex] = useState(0); // Track selected color index
+        const currentColor = product.colors?.[selectedColorIndex];
+
+        const handleImageClick = () => {
+          // Navigate to the ProductPage with the selected color
+          navigate(`/product/${product.id}`, {
+            state: { selectedColor: currentColor },
+          });
+        };
 
         return (
-          <div
-            className="product-card"
-            key={product.id}
-            onClick={() => handleProductClick(product)}
-          >
-            <div className="image-container">
-              {/* Dynamically update the initial image based on activeColorIndex */}
+          <div key={product.id} className="product-card">
+            {/* Image Container */}
+            <div
+              className="image-container"
+              onClick={handleImageClick} // Redirect on click
+              style={{ cursor: "pointer" }}
+            >
               <img
-                src={product.colors[activeColorIndex].imageUrl} // Use activeColorIndex for the main image
+                src={currentColor?.imageUrl || product.imageUrl}
                 alt={product.name}
                 className="product-image"
               />
               <img
-                src={product.colors[activeColorIndex].hoverImage} // Use activeColorIndex for hover image
-                alt={`${product.name} Hover`}
+                src={currentColor?.hoverImage || product.imageUrl}
+                alt={`${product.name} hover`}
                 className="hover-image"
               />
-              <div className="product-overlay">
+            </div>
+
+            {/* Hover Overlay */}
+            <div className="hover-overlay">
+              <div className="product-info">
                 <h3>{product.name}</h3>
                 <p>${product.price.toFixed(2)}</p>
-                <div className="color-options">
-                  {product.colors.map((color, index) => (
-                    <div
-                      key={`${product.id}-${index}`} // Ensure unique keys for each color
-                      className={`color-circle ${
-                        index === activeColorIndex ? "active" : ""
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering product click
-                        handleColorChange(product.id, index);
-                      }}
-                      style={{
-                        backgroundImage: `url(${color.imageUrl})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
-                    ></div>
-                  ))}
-                </div>
+              </div>
+              <div className="color-options">
+                {product.colors?.map((color, index) => (
+                  <div
+                    key={`color-${index}`}
+                    className={`color-circle ${
+                      index === selectedColorIndex ? "selected" : ""
+                    }`}
+                    style={{
+                      backgroundImage: `url(${color.imageUrl})`, // Set the background image
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering the parent click
+                      setSelectedColorIndex(index); // Set the selected color
+                    }}
+                    title={color.colorName} // Tooltip for color name
+                  ></div>
+                ))}
               </div>
             </div>
           </div>
