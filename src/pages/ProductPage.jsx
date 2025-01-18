@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import useSWR from "swr";
 import { fetchProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
@@ -9,6 +8,7 @@ import "../assets/styles/productPage.css";
 
 const ProductPage = () => {
   const { productId } = useParams();
+  const location = useLocation(); // Access state passed from ClothingPage
   const { addToCart } = useCart();
 
   const { data: product, error } = useSWR(
@@ -16,13 +16,15 @@ const ProductPage = () => {
     () => fetchProductById(productId)
   );
 
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(
+    location.state?.selectedColorIndex || 0 // Default to passed color or first color
+  );
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (product && !selectedSize) {
-      setSelectedSize(product.sizes[0]?.size); // Ensure we access the size properly
+      setSelectedSize(product.sizes[0]?.size);
     }
   }, [product]);
 
@@ -34,7 +36,7 @@ const ProductPage = () => {
       id: product.id,
       name: product.name,
       selectedSize,
-      selectedColor: product.colors[selectedColorIndex]?.image,
+      selectedColor: product.colors[selectedColorIndex]?.colorName,
       quantity,
       price: product.price,
     });
@@ -50,17 +52,17 @@ const ProductPage = () => {
         <div className="product-images">
           <div className="image-carousel">
             <img
-              src={currentColor.image}
-              alt={product.name}
+              src={currentColor.imageUrl}
+              alt={`${product.name} - ${currentColor.colorName}`}
               className="main-image"
             />
           </div>
           <div className="image-thumbnails">
             {product.colors.map((color, index) => (
               <img
-                key={color.colorName} // Ensure unique keys
-                src={color.image}
-                alt={`Color Option ${index + 1}`}
+                key={index}
+                src={color.imageUrl}
+                alt={`${product.name} - ${color.colorName}`}
                 className={`thumbnail ${
                   selectedColorIndex === index ? "active" : ""
                 }`}
@@ -79,7 +81,7 @@ const ProductPage = () => {
             <div className="size-selector">
               {product.sizes.map((size) => (
                 <button
-                  key={size.id} // Ensure unique keys
+                  key={size.id}
                   className={`size-button ${
                     selectedSize === size.size ? "selected" : ""
                   }`}
@@ -89,7 +91,6 @@ const ProductPage = () => {
                 </button>
               ))}
             </div>
-
             <div className="quantity-selector">
               <button
                 className="quantity-button minus"

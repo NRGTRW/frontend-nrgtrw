@@ -16,6 +16,7 @@ import MaterialsPage from "./pages/MaterialsPage";
 import InspirationPage from "./pages/InspirationPage";
 import AuthPage from "./pages/AuthPage";
 import SignUpPage from "./pages/SignUpPage";
+// import WishlistPage from "./pages/WishListPage";
 
 const routes = [
   { path: "/", component: HomePage },
@@ -25,6 +26,7 @@ const routes = [
   { path: "/clothing", component: ClothingPage },
   { path: "/materials", component: MaterialsPage },
   { path: "/inspiration", component: InspirationPage },
+  // { path: "/wishlist", component: WishlistPage },
   { path: "/login", component: () => <AuthPage type="login" /> },
   { path: "/signup", component: SignUpPage },
   { path: "*", component: NotFoundPage },

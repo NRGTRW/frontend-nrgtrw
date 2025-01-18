@@ -1,19 +1,19 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
 import GoBackButton from "../components/GoBackButton";
-import "../assets/styles/cartPage.css";
 import { useNavigate } from "react-router-dom";
+import "../assets/styles/cartPage.css";
 
 const CartPage = () => {
   const { cart, removeFromCart, moveToWishlist } = useCart();
+
+  const navigate = useNavigate();
 
   const handleRemove = (product) => {
     removeFromCart(product);
   };
 
-  const navigate = useNavigate();
-
-  const handleMoveToWishlist = (product) => {
+  const handleWishlistToggle = (product) => {
     moveToWishlist(product);
   };
 
@@ -51,18 +51,22 @@ const CartPage = () => {
               <p>Quantity: {product.quantity}</p>
               <p>Price: ${product.price}</p>
             </div>
-            <button
-              className="remove-item-button"
-              onClick={() => handleRemove(product)}
-            >
-              Remove
-            </button>
-            <button
-              className="wishlist-button"
-              onClick={() => handleMoveToWishlist(product)}
-            >
-              Move to Wishlist
-            </button>
+            <div className="cart-item-actions">
+              <button
+                className={`wishlist-icon ${
+                  product.isWishlisted ? "wishlisted" : ""
+                }`}
+                onClick={() => handleWishlistToggle(product)}
+              >
+                ♥
+              </button>
+              <button
+                className="remove-item-button"
+                onClick={() => handleRemove(product)}
+              >
+                Remove
+              </button>
+            </div>
           </div>
         ))}
       </div>

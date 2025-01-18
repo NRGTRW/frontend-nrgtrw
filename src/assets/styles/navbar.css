@@ -68,8 +68,8 @@
   color: white;
   font-size: 12px;
   font-weight: bold;
-  width: 20px;
-  height: 20px;
+  width: fit-content;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,4 +212,41 @@
   .menu li {
     font-size: 14px;
   }
+}
+
+/* Wishlist Icon */
+.wishlist-container {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.wishlist-icon {
+  font-size: 24px;
+  color: #aaa; /* Default color */
+  transition: color 0.3s ease;
+}
+
+.wishlist-icon.filled {
+  color: #ff6666; /* Filled color when items are in wishlist */
+}
+
+.wishlist-icon:hover {
+  color: #ff4d4d;
+}
+
+/* Cart Bubble */
+.cart-bubble-container {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+}
+
+.cart-bubble {
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 50%;
+  font-weight: bold;
 }
