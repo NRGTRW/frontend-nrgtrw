@@ -52,6 +52,7 @@ h2 {
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .cart-item-details {
@@ -158,4 +159,37 @@ h2 {
 .checkout-button:hover {
   background-color: #218838;
   transform: scale(1.05);
+}
+
+/* Smooth removal animation */
+.cart-item.removing {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Wishlist Icon Styling */
+.wishlist-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.wishlist-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Apply blur effect to the specific item only */
+.cart-item.blurred {
+  filter: blur(3px);
+  opacity: 0.5;
+  pointer-events: auto; /* Ensure clickable elements inside are still interactive */
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Ensure other items remain unaffected */
+.cart-item:not(.blurred) {
+  filter: none;
+  opacity: 1;
 }

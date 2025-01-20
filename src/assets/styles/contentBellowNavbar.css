@@ -1,0 +1,5 @@
+.content-bellow-navbar {
+    height: calc(var(--navbar-height, 60px)); /* Navbar height + additional padding */
+    width: 100%;
+  }
+  

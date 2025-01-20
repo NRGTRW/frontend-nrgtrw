@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
 
-// Create the Cart Context
+// Create the CartContext
 const CartContext = createContext();
 
+// Custom hook to use CartContext
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
@@ -11,6 +12,7 @@ export const useCart = () => {
   return context;
 };
 
+// CartProvider component
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
@@ -31,7 +33,6 @@ export const CartProvider = ({ children }) => {
             : cartItem
         );
       }
-
       return [...prevCart, item];
     });
   };
@@ -40,29 +41,17 @@ export const CartProvider = ({ children }) => {
     setCart((prevCart) =>
       prevCart.filter(
         (cartItem) =>
-          !(
-            cartItem.id === item.id &&
-            cartItem.selectedSize === item.selectedSize &&
-            cartItem.selectedColor === item.selectedColor
-          )
+          cartItem.id !== item.id ||
+          cartItem.selectedSize !== item.selectedSize ||
+          cartItem.selectedColor !== item.selectedColor
       )
     );
   };
 
   const moveToWishlist = (item) => {
-    setCart((prevCart) =>
-      prevCart.filter(
-        (cartItem) =>
-          !(
-            cartItem.id === item.id &&
-            cartItem.selectedSize === item.selectedSize &&
-            cartItem.selectedColor === item.selectedColor
-          )
-      )
-    );
+    removeFromCart(item);
     setWishlist((prevWishlist) => [...prevWishlist, item]);
   };
-  
 
   const getTotalQuantity = () =>
     cart.reduce((total, item) => total + item.quantity, 0);

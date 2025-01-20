@@ -1,12 +1,15 @@
-/* General Top Bar Styling */
+:root {
+  --navbar-height: 60px; /* Default navbar height */
+}
+
 .top-bar {
-  position: fixed; /* Ensure it stays at the top */
+  position: fixed;
   top: 0;
   left: 0;
-  width: -webkit-fill-available;
-  height: 60px;
+  width: 100%;
+  height: var(--navbar-height);
   background: rgba(255, 255, 255, 0.95);
-  z-index: 9999; /* Higher z-index to appear above other content */
+  z-index: 9999;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,23 +30,58 @@
   transform: translateX(-50%);
   letter-spacing: 0.2em;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
   list-style-type: none;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .logo:hover {
   transform: translateX(-50%) scale(1.1);
 }
 
-/* Right Container Styling (Cart and LogInButton) */
+/* Right Container Styling */
 .right-container {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* Icon Styling */
+.icon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+/* Wishlist Icon Styling */
+.wishlist-container {
+  position: relative;
+}
+
+.wishlist-icon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wishlist-icon:hover {
+  transform: scale(1.1);
+}
+
 /* Cart Icon Styling */
+.cart-container {
+  position: relative;
+}
+
 .cart-icon {
   width: 35px;
   height: 35px;
@@ -55,37 +93,32 @@
   transform: scale(1.1);
 }
 
-/* Cart item count bubble */
-.cart-container {
-  position: relative;
+/* Cart Bubble */
+.cart-bubble-container {
+  position: absolute;
+  top: -5px;
+  right: -10px;
 }
 
 .cart-bubble {
-  position: absolute;
-  top: -5px;
-  right: -5px;
   background-color: #ff4d4d;
   color: white;
   font-size: 12px;
-  font-weight: bold;
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 4px 8px;
   border-radius: 50%;
+  font-weight: bold;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Profile Icon Styling (LogInButton) */
+/* Profile Icon Styling */
 .profile-icon {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   object-fit: cover;
-  border: 2px solid #000; /* Optional border for visibility */
+  cursor: pointer;
+  border: 2px solid #000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-icon:hover {
@@ -93,7 +126,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Navbar Menu Toggle Button */
+/* Navbar Menu Toggle */
 .menu-toggle {
   display: flex;
   flex-direction: column;
@@ -102,7 +135,7 @@
   border: none;
   background: none;
   cursor: pointer;
-  z-index: 1001; /* Higher z-index to appear above other content */
+  z-index: 1001;
 }
 
 .menu-toggle span {
@@ -126,11 +159,11 @@
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* Sliding Menu Styling */
+/* Sliding Menu */
 .menu {
   position: fixed;
   top: 0;
-  left: -100%; /* Hidden by default */
+  left: -100%;
   width: 280px;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.95);
@@ -144,7 +177,7 @@
 }
 
 .menu.show {
-  left: 0; /* Slide into view */
+  left: 0;
 }
 
 .menu li {
@@ -186,8 +219,7 @@
     font-size: 16px;
   }
 
-  .cart-icon,
-  .profile-icon {
+  .icon {
     width: 30px;
     height: 30px;
   }
@@ -198,8 +230,7 @@
     font-size: 20px;
   }
 
-  .cart-icon,
-  .profile-icon {
+  .icon {
     width: 25px;
     height: 25px;
   }
@@ -212,41 +243,4 @@
   .menu li {
     font-size: 14px;
   }
-}
-
-/* Wishlist Icon */
-.wishlist-container {
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-}
-
-.wishlist-icon {
-  font-size: 24px;
-  color: #aaa; /* Default color */
-  transition: color 0.3s ease;
-}
-
-.wishlist-icon.filled {
-  color: #ff6666; /* Filled color when items are in wishlist */
-}
-
-.wishlist-icon:hover {
-  color: #ff4d4d;
-}
-
-/* Cart Bubble */
-.cart-bubble-container {
-  position: absolute;
-  top: -5px;
-  right: -10px;
-}
-
-.cart-bubble {
-  background-color: #ff4d4d;
-  color: white;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 50%;
-  font-weight: bold;
 }

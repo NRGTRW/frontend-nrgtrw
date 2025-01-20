@@ -5,10 +5,11 @@ import { fetchProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
 import GoBackButton from "../components/GoBackButton";
 import "../assets/styles/productPage.css";
+// TOAST(S)
 
 const ProductPage = () => {
   const { productId } = useParams();
-  const location = useLocation(); // Access state passed from ClothingPage
+  const location = useLocation();
   const { addToCart } = useCart();
 
   const { data: product, error } = useSWR(
@@ -16,11 +17,20 @@ const ProductPage = () => {
     () => fetchProductById(productId)
   );
 
+  // Extract initial selected color from state if available
+  const initialColorIndex = location.state?.selectedColor
+    ? product?.colors?.findIndex(
+        (color) => color.imageUrl === location.state.selectedColor.imageUrl
+      )
+    : 0;
+
   const [selectedColorIndex, setSelectedColorIndex] = useState(
-    location.state?.selectedColorIndex || 0 // Default to passed color or first color
+    initialColorIndex || 0
   );
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
+
+  const currentColor = product?.colors?.[selectedColorIndex] || {};
 
   useEffect(() => {
     if (product && !selectedSize) {
@@ -36,13 +46,11 @@ const ProductPage = () => {
       id: product.id,
       name: product.name,
       selectedSize,
-      selectedColor: product.colors[selectedColorIndex]?.colorName,
+      selectedColor: currentColor.imageUrl, // Updated to use `currentColor.imageUrl`
       quantity,
       price: product.price,
     });
   };
-
-  const currentColor = product.colors[selectedColorIndex];
 
   return (
     <div className="product-page">
@@ -52,13 +60,13 @@ const ProductPage = () => {
         <div className="product-images">
           <div className="image-carousel">
             <img
-              src={currentColor.imageUrl}
-              alt={`${product.name} - ${currentColor.colorName}`}
+              src={currentColor.imageUrl || product.imageUrl}
+              alt={`${product.name} - ${currentColor.colorName || "default"}`}
               className="main-image"
             />
           </div>
           <div className="image-thumbnails">
-            {product.colors.map((color, index) => (
+            {product.colors?.map((color, index) => (
               <img
                 key={index}
                 src={color.imageUrl}

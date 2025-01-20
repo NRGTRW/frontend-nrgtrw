@@ -1,93 +1,113 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import "../assets/styles/authPage.css";
+import axios from "../services/api";
+import "../assets/styles/authPage.css"; // Ensure you have this CSS file for styles
 
 const AuthPage = ({ type }) => {
-  const { logIn } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    profilePicture: "",
+  });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (type === "login") {
-      try {
-        await logIn(formData);
+    try {
+      if (type === "signup") {
+        await axios.post("/auth/signup", formData);
+        navigate("/login");
+      } else {
+        const { data } = await axios.post("/auth/login", {
+          email: formData.email,
+          password: formData.password,
+        });
+        localStorage.setItem("token", data.token);
         navigate("/profile");
-      } catch (error) {
-        console.error("Login error:", error);
-        alert("Failed to log in. Please check your credentials.");
       }
-    } else {
-      navigate("/signup");
+    } catch (error) {
+      setError(error.response?.data.message || "An error occurred");
     }
   };
 
   return (
     <div className="auth-page">
       <div className="auth-container">
-        <h1 className="auth-header">
-          {type === "login" ? "Welcome Back" : "Create an Account"}
-        </h1>
+        <h1 className="auth-header">{type === "signup" ? "Sign Up" : "Log In"}</h1>
         <p className="auth-subtitle">
-          {type === "login"
-            ? "You're a few clicks away from seamless fashion."
-            : "Join us for seamless fashion shopping."}
+          {type === "signup" ? "Create your account" : "Welcome back! Please log in"}
         </p>
+        {error && <p className="error-message">{error}</p>}
         <form className="auth-form" onSubmit={handleSubmit}>
+          {type === "signup" && (
+            <input
+              type="text"
+              name="name"
+              className="auth-input"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          )}
           <input
             type="email"
             name="email"
-            placeholder="Email Address"
             className="auth-input"
+            placeholder="Email"
             value={formData.email}
             onChange={handleInputChange}
-            required
           />
           <div className="password-field">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
+              className="auth-input"
               placeholder="Password"
-              className="auth-input with-toggle"
               value={formData.password}
               onChange={handleInputChange}
-              required
             />
             <button
               type="button"
-              className="password-toggle inside-field"
-              onClick={togglePasswordVisibility}
-              aria-label="Toggle password visibility"
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "HIDE" : "SHOW"}
+              {showPassword ? "Hide" : "Show"}
             </button>
           </div>
+          {type === "signup" && (
+            <input
+              type="text"
+              name="profilePicture"
+              className="auth-input"
+              placeholder="Profile Picture URL"
+              value={formData.profilePicture}
+              onChange={handleInputChange}
+            />
+          )}
           <button type="submit" className="auth-button">
-            {type === "login" ? "Log In" : "Sign Up"}
+            {type === "signup" ? "Sign Up" : "Log In"}
           </button>
         </form>
         <div className="auth-footer">
-          {type === "login" ? (
+          {type === "signup" ? (
             <p>
-              Don’t have an account?{" "}
-              <a onClick={() => navigate("/signup")} className="redirection-link">
-                Sign up here
+              Already have an account?{" "}
+              <a className="redirection-link" onClick={() => navigate("/login")}>
+                Log In
               </a>
             </p>
           ) : (
             <p>
-              Already have an account?{" "}
-              <a onClick={() => navigate("/login")} className="redirection-link">
-                Log in here
+              Don't have an account?{" "}
+              <a className="redirection-link" onClick={() => navigate("/signup")}>
+                Sign Up
               </a>
             </p>
           )}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/productCard.css";
 
 const Products = ({ products }) => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   if (!products || products.length === 0) {
     return <p>No products found in this category.</p>;
@@ -12,24 +12,23 @@ const Products = ({ products }) => {
   return (
     <div className="product-grid">
       {products.map((product) => {
-        const [selectedColorIndex, setSelectedColorIndex] = useState(0); // Track selected color index
+        const [selectedColorIndex, setSelectedColorIndex] = useState(0);
         const currentColor = product.colors?.[selectedColorIndex];
 
-        const handleImageClick = () => {
-          // Navigate to the ProductPage with the selected color
+        const handleProductClick = () => {
           navigate(`/product/${product.id}`, {
             state: { selectedColor: currentColor },
           });
         };
 
         return (
-          <div key={product.id} className="product-card">
+          <div
+            key={product.id}
+            className="product-card"
+            onClick={handleProductClick} // Redirect on click anywhere on the card
+          >
             {/* Image Container */}
-            <div
-              className="image-container"
-              onClick={handleImageClick} // Redirect on click
-              style={{ cursor: "pointer" }}
-            >
+            <div className="image-container">
               <img
                 src={currentColor?.imageUrl || product.imageUrl}
                 alt={product.name}
@@ -56,13 +55,13 @@ const Products = ({ products }) => {
                       index === selectedColorIndex ? "selected" : ""
                     }`}
                     style={{
-                      backgroundImage: `url(${color.imageUrl})`, // Set the background image
+                      backgroundImage: `url(${color.imageUrl})`,
                     }}
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent triggering the parent click
-                      setSelectedColorIndex(index); // Set the selected color
+                      setSelectedColorIndex(index);
                     }}
-                    title={color.colorName} // Tooltip for color name
+                    title={color.colorName}
                   ></div>
                 ))}
               </div>

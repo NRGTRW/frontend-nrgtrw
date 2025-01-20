@@ -12,8 +12,8 @@
   overflow: hidden;
   border-radius: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
   background-color: #fff;
+  cursor: pointer;
 }
 
 .product-card:hover {
@@ -46,11 +46,11 @@
   transition: opacity 0.3s ease;
 }
 
-.image-container:hover .hover-image {
+.product-card:hover .hover-image {
   opacity: 1;
 }
 
-.image-container:hover .product-image {
+.product-card:hover .product-image {
   opacity: 0;
 }
 
@@ -67,11 +67,13 @@
   justify-content: flex-end;
   align-items: center;
   opacity: 0; /* Initially hidden */
-  transition: opacity 0.3s ease;
+  pointer-events: none; /* Prevent interactions when not visible */
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .product-card:hover .hover-overlay {
   opacity: 1; /* Fully visible on hover */
+  pointer-events: auto; /* Allow interactions when visible */
 }
 
 /* Product Info */
@@ -103,9 +105,9 @@
 }
 
 .color-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   cursor: pointer;
   border: 2px solid transparent;
   background-size: cover;

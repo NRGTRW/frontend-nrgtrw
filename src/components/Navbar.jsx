@@ -1,18 +1,21 @@
+// Updated Navbar.jsx with Wishlist State Integration
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
+import heartOutline from "/wishlist-outline.png";
+import heartFilled from "/wishlist-filled.png";
 import defaultProfilePicture from "/default-profile.webp";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { getTotalQuantity } = useCart();
-  const { isLoggedIn, user } = useAuth();
+  const { getTotalQuantity, wishlist } = useCart();
+  const { user } = useAuth();
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   const handleNavigation = (path) => {
     setMenuOpen(false); // Close menu on navigation
@@ -20,7 +23,11 @@ const Navbar = () => {
   };
 
   const handleProfileNavigation = () => {
-    navigate(isLoggedIn ? "/profile" : "/login");
+    if (user) {
+      navigate("/profile");
+    } else {
+      navigate("/login");
+    }
   };
 
   useEffect(() => {
@@ -61,6 +68,14 @@ const Navbar = () => {
           NRG
         </li>
         <div className="right-container">
+          <div className="wishlist-container">
+            <img
+              src={wishlist.length > 0 ? heartOutline : heartFilled}
+              alt="Wishlist"
+              className="wishlist-icon"
+              onClick={() => handleNavigation("/wishlist")}
+            />
+          </div>
           <div className="cart-container">
             <img
               src={cartImage}

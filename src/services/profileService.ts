@@ -3,19 +3,25 @@ import axios from "axios";
 const API_URL = "/api/profile";
 
 // Fetch profile data
-export const fetchProfileData = async () => {
+const token = localStorage.getItem("token");
+
+const fetchProfile = async () => {
   try {
-    const response = await axios.get(API_URL, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
+    const response = await fetch("http://localhost:8080/api/profile", {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch profile.");
+    }
+
+    const profile = await response.json();
+    console.log("Profile:", profile);
   } catch (error) {
-    console.error("Error fetching profile data:", error);
-    throw error;
+    console.error(error.message);
   }
 };
+
 
 // Save profile data
 export const saveProfileData = async (formData) => {

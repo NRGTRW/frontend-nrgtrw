@@ -1,15 +1,25 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/footer.css";
 import instagramIcon from "../assets/images/instagram-icon.png";
 import tiktokIcon from "../assets/images/tiktok-icon.png";
 
+
 const Footer = () => {
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+  const navigate = useNavigate();
   return (
     <footer className="footer">
       <div className="footer-container">
         {/* Logo */}
-        <div className="footer-logo">
-          <h1>NRG</h1>
+        <div
+          className="footer-logo"
+          onClick={() => handleNavigation("/")}
+          aria-label="Navigate to home"
+        >
+         <h1>NRG</h1>
         </div>
 
         {/* Navigation Links */}

@@ -10,7 +10,15 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:5173', // Adjust for your backend server
+      // Proxy requests starting with "/api" to your backend server
+      '/api': {
+        target: 'http://localhost:8080', // Backend server's URL
+        changeOrigin: true, // Handle CORS
+        rewrite: (path) => path.replace(/^\/api/, ''), // Remove '/api' prefix if needed
+      },
     },
+  },
+  optimizeDeps: {
+    include: ["jwt-decode"], // Include jwt-decode for optimization
   },
 });

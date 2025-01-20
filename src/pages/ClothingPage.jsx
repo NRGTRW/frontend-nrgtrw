@@ -1,8 +1,14 @@
 import React from "react";
 import useSWR from "swr";
-import Products from "../components/Products";
+import ProductCard from "../components/ProductCard";
 import "../assets/styles/clothingPage.css";
 import { fetchAllProducts } from "../services/productService";
+
+const categoryMapping = {
+  1: "Elegance", // Maps categoryId 1 to "Elegance"
+  2: "Pump Covers", // Maps categoryId 2 to "Pump Covers"
+  3: "Confidence", // Add more mappings if necessary
+};
 
 const ClothingPage = () => {
   const { data: allProducts, error } = useSWR("/products", fetchAllProducts);
@@ -10,24 +16,36 @@ const ClothingPage = () => {
   if (error) return <p className="error-message">Failed to load products.</p>;
   if (!allProducts) return <p className="loading-message">Loading products...</p>;
 
-  const eleganceProducts = allProducts.filter((product) => product.category === "Elegance");
-  const pumpCoversProducts = allProducts.filter((product) => product.category === "Pump Covers");
-  const confidenceProducts = allProducts.filter((product) => product.category === "Confidence");
+  console.log("All products fetched:", allProducts);
+
+  const eleganceProducts = allProducts.filter(
+    (product) => product.categoryId === 1
+  );
+  const pumpCoversProducts = allProducts.filter(
+    (product) => product.categoryId === 2
+  );
+  const confidenceProducts = allProducts.filter(
+    (product) => product.categoryId === 3
+  );
+
+  console.log("Elegance Products:", eleganceProducts);
+  console.log("Pump Covers Products:", pumpCoversProducts);
+  console.log("Confidence Products:", confidenceProducts);
 
   return (
     <div className="clothing-page">
       <div className="spacer-bar"></div>
       <section>
         <h2 className="section-title">Elegance</h2>
-        <Products products={eleganceProducts} />
+        <ProductCard products={eleganceProducts} category="Elegance" />
       </section>
       <section>
         <h2 className="section-title">Pump Covers</h2>
-        <Products products={pumpCoversProducts} />
+        <ProductCard products={pumpCoversProducts} category="Pump Covers" />
       </section>
       <section>
         <h2 className="section-title">Confidence</h2>
-        <Products products={confidenceProducts} />
+        <ProductCard products={confidenceProducts} category="Confidence" />
       </section>
     </div>
   );
