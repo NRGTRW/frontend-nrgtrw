@@ -1,4 +1,4 @@
-import axios from 'axios'; // Replace './api' with your axios instance configuration
+import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

@@ -19,8 +19,8 @@ export const WishlistProvider = ({ children }) => {
       });
       setWishlist(response.data);
     } catch (error) {
-      console.error("Failed to load wishlist:", error);
-      toast.error("Failed to load wishlist.");
+      console.error("Failed to load wishlist:", error.response?.status, error.message);
+      // toast.error("Failed to load wishlist.");
     }
   };
 
@@ -38,8 +38,12 @@ export const WishlistProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setWishlist((prev) => [...prev, response.data]);
-      toast.success(`${item.name} added to wishlist.`);
+      if (!wishlist.some((existingItem) => existingItem.id === response.data.id)) {
+        setWishlist((prev) => [...prev, response.data]);
+        toast.success(`${item.name} added to wishlist.`);
+      } else {
+        toast.error("Item already in wishlist.");
+      }
     } catch (error) {
       console.error("Failed to add to wishlist:", error.message);
       toast.error("Failed to add to wishlist.");

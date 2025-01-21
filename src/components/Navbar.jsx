@@ -1,4 +1,4 @@
-// Updated Navbar.jsx with Wishlist State Integration
+// Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -24,9 +24,9 @@ const Navbar = () => {
 
   const handleProfileNavigation = () => {
     if (user) {
-      navigate("/profile");
+      navigate("/profile"); // Redirect to profile if logged in
     } else {
-      navigate("/login");
+      navigate("/signup"); // Redirect to signup if not logged in
     }
   };
 

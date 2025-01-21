@@ -5,6 +5,8 @@ import App from "./App";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext"; // Corrected import
 import { WishlistProvider } from "./context/WishlistContext";
+import { ProfileProvider } from "./context/ProfileContext";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -12,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthProvider> {/* Auth context wrapping inside BrowserRouter */}
         <CartProvider> {/* Cart context for managing the cart */}
           <WishlistProvider> {/* Wishlist context for managing the wishlist */}
-            <App />
+            <ProfileProvider>
+              <App />
+            </ProfileProvider>
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>

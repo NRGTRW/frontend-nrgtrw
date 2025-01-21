@@ -1,3 +1,57 @@
+// import React, { useEffect } from "react";
+// import { useCart } from "../context/CartContext";
+// import { useAuth } from "../context/AuthContext";
+// import { useNavigate } from "react-router-dom";
+// import { motion, AnimatePresence } from "framer-motion";
+// import "../assets/styles/cartPage.css";
+
+// const CartPage = () => {
+//   const { cart, removeFromCart } = useCart();
+//   const { authToken } = useAuth();
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     if (!authToken) {
+//       navigate("/signup"); // Redirect to signup if not logged in
+//     }
+//   }, [authToken, navigate]);
+
+//   const calculateTotal = () =>
+//     cart.reduce((total, product) => total + product.quantity * product.price, 0);
+
+//   return (
+//     <div className="cart-page">
+//       <h2>Your Cart</h2>
+//       <div className="cart-items">
+//         <AnimatePresence>
+//           {cart.map((product) => (
+//             <motion.div
+//               key={product.id}
+//               className="cart-item"
+//               initial={{ opacity: 0 }}
+//               animate={{ opacity: 1 }}
+//               exit={{ opacity: 0 }}
+//               transition={{ duration: 0.5 }}
+//             >
+//               <div className="cart-item-details">
+//                 <h3>{product.name}</h3>
+//                 <p>Size: {product.selectedSize}</p>
+//                 <p>Price: ${product.price.toFixed(2)}</p>
+//                 <button onClick={() => removeFromCart(product.id)}>
+//                   Remove
+//                 </button>
+//               </div>
+//             </motion.div>
+//           ))}
+//         </AnimatePresence>
+//       </div>
+//       <h3>Total: ${calculateTotal()}</h3>
+//     </div>
+//   );
+// };
+
+// export default CartPage;
+
 import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import GoBackButton from "../components/GoBackButton";

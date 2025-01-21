@@ -2,16 +2,13 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { saveToken, getToken, removeToken } from "./tokenUtils";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [authToken, setAuthToken] = useState(() => {
-    const token = getToken();
-    console.debug("Token during initialization:", token);
-    return token || null;
-  });
+  const [authToken, setAuthToken] = useState(() => getToken() || null);
   const [user, setUser] = useState(null);
 
   const logIn = async (credentials) => {
@@ -22,63 +19,53 @@ const AuthProvider = ({ children }) => {
       );
 
       const { token, user } = response.data;
-      console.debug("Login response:", response.data);
 
       if (token) {
-        saveToken(token); // Save token to localStorage
-        setAuthToken(token); // Update state
-        setUser(user); // Update user data
+        saveToken(token);
+        setAuthToken(token);
+        setUser(user);
+        toast.success("Logged in successfully!");
+        // Refresh the page after login to ensure user data is loaded
+        setTimeout(() => window.location.reload(), 500);
       } else {
-        console.error("No token received.");
+        throw new Error("No token received.");
       }
     } catch (error) {
       console.error("Failed to log in:", error.response?.data || error.message);
-      throw error;
+      toast.error(error.response?.data.message || "Failed to log in. Please try again.");
     }
   };
 
   const logOut = () => {
-    console.debug("Logging out...");
-    removeToken(); // Remove token from localStorage
+    removeToken();
     setAuthToken(null);
     setUser(null);
     navigate("/login");
+    toast.info("Logged out successfully.");
   };
 
   const fetchProfile = async () => {
     if (!authToken) {
-      console.error("No authToken available for profile fetch.");
       return;
     }
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
-      console.log("API Response:", response.data);
+      return response.data;
     } catch (error) {
-      console.error("API Error:", error.response?.data || error.message);
-    
-      // Optionally, redirect without logging out:
-      // navigate("/error-page");
+      console.error("Error fetching profile:", error.message);
+      throw error;
     }
   };
-  useEffect(() => {
-    const storedToken = getToken();
-    console.debug("Stored token on mount:", storedToken);
-    if (storedToken) {
-      setAuthToken(storedToken); // Initialize authToken state
-    }
-  }, []);
 
   useEffect(() => {
-    if (authToken) {
-      console.debug("Fetching profile with token:", authToken);
-      fetchProfile(); // Fetch profile on token change
-    } else {
-      console.error("No authToken found. Redirecting to login...");
-      navigate("/login");
+    const storedToken = getToken();
+    if (storedToken) {
+      setAuthToken(storedToken);
+      fetchProfile();
     }
-  }, [authToken, navigate]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, authToken, logIn, logOut }}>
