@@ -50,7 +50,7 @@ const Navbar = () => {
   }, [menuOpen]);
 
   const profilePicture = profile?.profilePicture
-    ? `http://localhost:8080${profile.profilePicture}`
+    ? `${import.meta.env.VITE_PROFILE_PIC_URL}${profile.profilePicture}`
     : defaultProfilePicture;
 
   return (
