@@ -75,7 +75,7 @@ const Navbar = () => {
         <div className="right-container">
           <div className="wishlist-container">
             <img
-              src={wishlist.length > 0 ? heartFilled : heartOutline}
+              src={wishlist.length > 0 ? heartOutline : heartFilled}
               alt="Wishlist"
               className="wishlist-icon"
               onClick={() => handleNavigation("/wishlist")}
