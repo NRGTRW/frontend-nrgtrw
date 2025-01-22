@@ -39,7 +39,7 @@ const ProfilePage = () => {
       });
       setProfilePicturePreview(
         profile.profilePicture
-          ? `http://localhost:8080${profile.profilePicture}`
+          ? `${import.meta.env.VITE_PROFILE_PIC_URL}${profile.profilePicture}`
           : "/default-profile.webp"
       );
     }
@@ -170,4 +170,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-  
