@@ -1,8 +1,8 @@
-// Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { useProfile } from "../context/ProfileContext";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
@@ -14,19 +14,20 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { getTotalQuantity, wishlist } = useCart();
   const { user } = useAuth();
+  const { profile } = useProfile();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   const handleNavigation = (path) => {
-    setMenuOpen(false); // Close menu on navigation
+    setMenuOpen(false);
     navigate(path);
   };
 
   const handleProfileNavigation = () => {
     if (user) {
-      navigate("/profile"); // Redirect to profile if logged in
+      navigate("/profile");
     } else {
-      navigate("/signup"); // Redirect to signup if not logged in
+      navigate("/signup");
     }
   };
 
@@ -47,6 +48,10 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuOpen]);
+
+  const profilePicture = profile?.profilePicture
+    ? `http://localhost:8080${profile.profilePicture}`
+    : defaultProfilePicture;
 
   return (
     <header>
@@ -70,7 +75,7 @@ const Navbar = () => {
         <div className="right-container">
           <div className="wishlist-container">
             <img
-              src={wishlist.length > 0 ? heartOutline : heartFilled}
+              src={wishlist.length > 0 ? heartFilled : heartOutline}
               alt="Wishlist"
               className="wishlist-icon"
               onClick={() => handleNavigation("/wishlist")}
@@ -96,7 +101,7 @@ const Navbar = () => {
             )}
           </div>
           <img
-            src={user?.profilePicture || defaultProfilePicture}
+            src={profilePicture || defaultProfilePicture}
             alt="Profile"
             className="profile-icon"
             onClick={handleProfileNavigation}
