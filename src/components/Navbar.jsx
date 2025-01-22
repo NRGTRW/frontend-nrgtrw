@@ -13,7 +13,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { getTotalQuantity, wishlist } = useCart();
-  const { user } = useAuth();
+  const { user, authToken } = useAuth();
   const { profile } = useProfile();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const handleProfileNavigation = () => {
-    if (user) {
+    if (authToken) {
       navigate("/profile");
     } else {
       navigate("/signup");
