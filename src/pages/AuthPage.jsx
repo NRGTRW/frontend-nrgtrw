@@ -1,77 +1,72 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../services/api";
-import "../assets/styles/authPage.css"; // Ensure you have this CSS file for styles
+import api from "../services/api";
+import "../assets/styles/authPage.css";
 
-const AuthPage = ({ type }) => {
+const AuthPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    profilePicture: "",
   });
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (type === "signup") {
-        await axios.post("/auth/signup", formData);
-        navigate("/login");
-      } else {
-        const { data } = await axios.post("/auth/login", {
-          email: formData.email,
-          password: formData.password,
-        });
-        localStorage.setItem("token", data.token);
-        navigate("/profile");
-      }
+      const response = await api.post("/auth/login", formData);
+      localStorage.setItem("token", response.data.token);
+      navigate("/profile");
     } catch (error) {
-      setError(error.response?.data.message || "An error occurred");
+      alert(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    const email = prompt("Enter your email address:");
+    if (!email) return;
+
+    try {
+      await api.post("/auth/reset-password", { email });
+      alert("Password reset email sent! Check your inbox.");
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Failed to send password reset email."
+      );
     }
   };
 
   return (
     <div className="auth-page">
       <div className="auth-container">
-        <h1 className="auth-header">{type === "signup" ? "Sign Up" : "Log In"}</h1>
-        <p className="auth-subtitle">
-          {type === "signup" ? "Create your account" : "Welcome back! Please log in"}
-        </p>
-        {error && <p className="error-message">{error}</p>}
+        <h1 className="auth-header">LOG IN</h1>
+        <p className="auth-subtitle">Welcome back! Please log in</p>
         <form className="auth-form" onSubmit={handleSubmit}>
-          {type === "signup" && (
-            <input
-              type="text"
-              name="name"
-              className="auth-input"
-              placeholder="Name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          )}
           <input
             type="email"
             name="email"
+            placeholder="Email Address"
             className="auth-input"
-            placeholder="Email"
             value={formData.email}
             onChange={handleInputChange}
+            required
           />
           <div className="password-field">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              className="auth-input"
               placeholder="Password"
+              className="auth-input with-toggle"
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
             <button
               type="button"
@@ -81,36 +76,34 @@ const AuthPage = ({ type }) => {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-          {type === "signup" && (
-            <input
-              type="text"
-              name="profilePicture"
-              className="auth-input"
-              placeholder="Profile Picture URL"
-              value={formData.profilePicture}
-              onChange={handleInputChange}
-            />
-          )}
           <button type="submit" className="auth-button">
-            {type === "signup" ? "Sign Up" : "Log In"}
+            Log In
           </button>
         </form>
         <div className="auth-footer">
-          {type === "signup" ? (
-            <p>
-              Already have an account?{" "}
-              <a className="redirection-link" onClick={() => navigate("/login")}>
-                Log In
-              </a>
-            </p>
-          ) : (
-            <p>
-              Don't have an account?{" "}
-              <a className="redirection-link" onClick={() => navigate("/signup")}>
-                Sign Up
-              </a>
-            </p>
-          )}
+          <button
+            type="button"
+            className="reset-password-link"
+            onClick={handlePasswordReset}
+            style={{
+              background: "none",
+              border: "none",
+              textDecoration: "underline",
+              cursor: "pointer",
+              marginTop: "10px",
+            }}
+          >
+            Forgot Password?
+          </button>
+          <p>
+            Don't have an account?{" "}
+            <a
+              onClick={() => navigate("/signup")}
+              className="redirection-link"
+            >
+              Sign Up
+            </a>
+          </p>
         </div>
       </div>
     </div>

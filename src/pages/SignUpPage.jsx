@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import "../assets/styles/authPage.css";
 
 const SignUpPage = () => {
@@ -32,7 +32,7 @@ const SignUpPage = () => {
     }
 
     try {
-      await axios.post("/api/auth/signup", {
+      await api.post("/auth/signup", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -40,8 +40,9 @@ const SignUpPage = () => {
       alert("Signup successful! Redirecting to login...");
       navigate("/login");
     } catch (error) {
-      console.error("Signup error:", error);
-      alert("Failed to sign up. Please try again.");
+      const message =
+        error.response?.data?.message || "Failed to sign up. Please try again.";
+      alert(message);
     }
   };
 
@@ -49,7 +50,7 @@ const SignUpPage = () => {
     <div className="auth-page">
       <div className="auth-container">
         <h1 className="auth-header">Create an Account</h1>
-        <p className="auth-subtitle">Join us for seamless fashion shopping.</p>
+        <p className="auth-subtitle">Join us for seamless shopping.</p>
         <form className="auth-form" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -81,11 +82,10 @@ const SignUpPage = () => {
             />
             <button
               type="button"
-              className="password-toggle inside-field"
+              className="password-toggle"
               onClick={togglePasswordVisibility}
-              aria-label="Toggle password visibility"
             >
-              {showPassword ? "HIDE" : "SHOW"}
+              {showPassword ? "Hide" : "Show"}
             </button>
           </div>
           <div className="password-field">
@@ -100,11 +100,10 @@ const SignUpPage = () => {
             />
             <button
               type="button"
-              className="password-toggle inside-field"
+              className="password-toggle"
               onClick={toggleConfirmPasswordVisibility}
-              aria-label="Toggle confirm password visibility"
             >
-              {showConfirmPassword ? "HIDE" : "SHOW"}
+              {showConfirmPassword ? "Hide" : "Show"}
             </button>
           </div>
           <button type="submit" className="auth-button">
@@ -114,8 +113,11 @@ const SignUpPage = () => {
         <div className="auth-footer">
           <p>
             Already have an account?{" "}
-            <a onClick={() => navigate("/login")} className="redirection-link">
-              Log in here
+            <a
+              onClick={() => navigate("/login")}
+              className="redirection-link"
+            >
+              Log In
             </a>
           </p>
         </div>

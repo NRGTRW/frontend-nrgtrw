@@ -1,27 +1,34 @@
-// ProfilePage.jsx
 import React, { useState, useEffect } from "react";
 import { useProfile } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 import "../assets/styles/profilePage.css";
+import LoadingPage from "./LoadingPage";
 
 const ProfilePage = () => {
   const { profile, isLoading, loadProfile, saveProfile, changeProfilePicture } = useProfile();
-  const { authToken } = useAuth();
+  const { authToken, logOut } = useAuth();
 
   const [formData, setFormData] = useState({
-    name: profile?.name || "",
-    email: profile?.email || "",
-    address: profile?.address || "",
-    phone: profile?.phone || "",
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
   });
   const [pendingSave, setPendingSave] = useState(false);
+  const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState("/default-profile.webp");
+  const [isMounted, setIsMounted] = useState(false); // Initialize animation state
 
+  // Load profile on initial render or when authToken changes
   useEffect(() => {
     if (authToken) {
       loadProfile(authToken);
     }
+    setIsMounted(true); // Trigger animation when the component mounts
   }, [authToken]);
 
+  // Update formData and profilePicturePreview when profile changes
   useEffect(() => {
     if (profile) {
       setFormData({
@@ -30,6 +37,11 @@ const ProfilePage = () => {
         address: profile.address || "",
         phone: profile.phone || "",
       });
+      setProfilePicturePreview(
+        profile.profilePicture
+          ? `http://localhost:8080${profile.profilePicture}`
+          : "/default-profile.webp"
+      );
     }
   }, [profile]);
 
@@ -41,24 +53,41 @@ const ProfilePage = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    await saveProfile(formData, authToken);
-    setPendingSave(false);
+    try {
+      // Save profile details
+      await saveProfile(formData, authToken);
+
+      // Save profile picture if one is selected
+      if (selectedProfilePicture) {
+        await changeProfilePicture(selectedProfilePicture, authToken);
+      }
+
+      // Reload the profile to update the state
+      await loadProfile(authToken);
+
+      toast.success("Profile updated successfully!");
+      setPendingSave(false);
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      toast.error("Failed to save profile. Please try again.");
+    }
   };
 
   const handleProfilePictureUpload = (file) => {
-    changeProfilePicture(file, authToken);
+    if (file) {
+      const previewURL = URL.createObjectURL(file);
+      setProfilePicturePreview(previewURL); // Update preview
+      setSelectedProfilePicture(file); // Set file for saving later
+      setPendingSave(true); // Activate save button
+    }
   };
 
-  if (isLoading) {
-    return <div className="profile-page">Loading profile...</div>;
-  }
-
-  if (!profile) {
-    return <div className="profile-page">No profile found. Please log in.</div>;
+  if (isLoading || !profile) {
+    return <LoadingPage onFinish={() => console.log("Loading finished!")} />;
   }
 
   return (
-    <div className="profile-page">
+    <div className={`profile-page ${isMounted ? "fade-in" : ""}`}>
       <div className="profile-container">
         <h1 className="profile-header">Your Profile</h1>
         <div
@@ -73,7 +102,7 @@ const ProfilePage = () => {
             onChange={(e) => handleProfilePictureUpload(e.target.files[0])}
           />
           <img
-            src={profile?.profilePicture || "/default-profile.webp"}
+            src={profilePicturePreview}
             alt="Profile"
             className="profile-image"
           />
@@ -126,6 +155,13 @@ const ProfilePage = () => {
             >
               Save Changes
             </button>
+            <button
+              className="logout-button"
+              type="button"
+              onClick={logOut}
+            >
+              Log Out
+            </button>
           </div>
         </form>
       </div>
@@ -134,3 +170,4 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+  

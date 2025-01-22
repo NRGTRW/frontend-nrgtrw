@@ -127,3 +127,26 @@
   background: #c82333;
   transform: scale(1.03);
 }
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-page {
+  opacity: 0; /* Initial state */
+  transform: translateY(20px); /* Initial state */
+}
+
+.profile-page.fade-in {
+  animation: fadeIn 0.5s ease-in-out; /* Trigger animation */
+  opacity: 1;
+  transform: translateY(0);
+}
