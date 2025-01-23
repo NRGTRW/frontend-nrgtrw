@@ -15,7 +15,6 @@ export const useCart = () => {
 // CartProvider component
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
 
   const addToCart = (item) => {
     setCart((prevCart) => {
@@ -48,23 +47,18 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const moveToWishlist = (item) => {
-    removeFromCart(item);
-    setWishlist((prevWishlist) => [...prevWishlist, item]);
+  // Add the missing function to calculate the total quantity
+  const getTotalQuantity = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
   };
-
-  const getTotalQuantity = () =>
-    cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <CartContext.Provider
       value={{
         cart,
-        wishlist,
         addToCart,
         removeFromCart,
-        moveToWishlist,
-        getTotalQuantity,
+        getTotalQuantity, // Expose this function to the context
       }}
     >
       {children}

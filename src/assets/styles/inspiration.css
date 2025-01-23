@@ -8,7 +8,7 @@
 
 .inspiration-container {
   display: flex;
-  flex-direction: row-reverse; /* Reverse the positions: text on the right, image on the left */
+  flex-direction: row; /* Reverse the positions: text on the right, image on the left */
   align-items: center;
   gap: 50px; /* Add more space between text and image */
   max-width: 1200px;
@@ -75,7 +75,7 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .inspiration-container {
-    flex-direction: column; /* Stack content vertically on smaller screens */
+    flex-direction: column-reverse; /* Stack content vertically on smaller screens */
     gap: 30px;
     text-align: center;
   }

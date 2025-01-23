@@ -6,7 +6,7 @@ const LoadingPage = ({ onFinish = () => {} }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       onFinish(); // Call the onFinish function (if provided)
-      window.location.reload(); // Refresh the page
+      // window.location.reload(); // Refresh the page
     }, 2000); // 2 seconds loading time
 
     return () => clearTimeout(timeout); // Cleanup timeout on component unmount

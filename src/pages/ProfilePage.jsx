@@ -81,7 +81,7 @@ const ProfilePage = () => {
       setPendingSave(true); // Activate save button
     }
   };
-
+    // Set loadingPage as a layer over the profile content
   if (isLoading || !profile) {
     return <LoadingPage onFinish={() => console.log("Loading finished!")} />;
   }

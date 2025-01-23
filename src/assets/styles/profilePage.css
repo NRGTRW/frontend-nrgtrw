@@ -5,25 +5,25 @@
   align-items: center;
   min-height: calc(100vh - 120px); /* Space for top bar and footer */
   background: linear-gradient(135deg, #f9f9f9, #eaeaea);
-  padding: 80px;
+  padding: 40px;
   font-family: "Poppins", sans-serif;
 }
 
 /* Profile Container Styling */
 .profile-container {
   width: 100%;
-  max-width: 800px; /* Smaller width for alignment with the example */
+  max-width: 800px;
   background: #fff;
-  border-radius: 15px; /* Rounded edges */
+  border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+  padding: 20px;
   text-align: center;
 }
 
 /* Header and Subtitle */
 .profile-header {
   font-family: "Cinzel", serif;
-  font-size: 24px;
+  font-size: 28px;
   margin-bottom: 10px;
   color: #333;
 }
@@ -128,6 +128,26 @@
   transform: scale(1.03);
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 15px;
+  }
+
+  .profile-header {
+    font-size: 22px;
+  }
+
+  .profile-field input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
 
 @keyframes fadeIn {
   from {

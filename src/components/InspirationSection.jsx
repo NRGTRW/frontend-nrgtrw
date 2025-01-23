@@ -1,18 +1,18 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/inspiration.css";
 import inspirationImage from "../assets/images/inspiration.webp";
 
 const InspirationSection = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleLearnMore = () => {
-    navigate("/inspiration"); // Navigate to the Inspiration page
+    navigate("/inspiration");
   };
 
   return (
     <section className="inspiration-section">
-      <div className="inspiration-content">
+      <div className="inspiration-container">
         <div className="inspiration-image">
           <img src={inspirationImage} alt="Our Inspiration" />
         </div>
@@ -29,6 +29,7 @@ const InspirationSection = () => {
         </div>
       </div>
     </section>
+
   );
 };
 

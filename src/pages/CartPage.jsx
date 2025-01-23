@@ -1,59 +1,6 @@
-// import React, { useEffect } from "react";
-// import { useCart } from "../context/CartContext";
-// import { useAuth } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
-// import { motion, AnimatePresence } from "framer-motion";
-// import "../assets/styles/cartPage.css";
-
-// const CartPage = () => {
-//   const { cart, removeFromCart } = useCart();
-//   const { authToken } = useAuth();
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (!authToken) {
-//       navigate("/signup"); // Redirect to signup if not logged in
-//     }
-//   }, [authToken, navigate]);
-
-//   const calculateTotal = () =>
-//     cart.reduce((total, product) => total + product.quantity * product.price, 0);
-
-//   return (
-//     <div className="cart-page">
-//       <h2>Your Cart</h2>
-//       <div className="cart-items">
-//         <AnimatePresence>
-//           {cart.map((product) => (
-//             <motion.div
-//               key={product.id}
-//               className="cart-item"
-//               initial={{ opacity: 0 }}
-//               animate={{ opacity: 1 }}
-//               exit={{ opacity: 0 }}
-//               transition={{ duration: 0.5 }}
-//             >
-//               <div className="cart-item-details">
-//                 <h3>{product.name}</h3>
-//                 <p>Size: {product.selectedSize}</p>
-//                 <p>Price: ${product.price.toFixed(2)}</p>
-//                 <button onClick={() => removeFromCart(product.id)}>
-//                   Remove
-//                 </button>
-//               </div>
-//             </motion.div>
-//           ))}
-//         </AnimatePresence>
-//       </div>
-//       <h3>Total: ${calculateTotal()}</h3>
-//     </div>
-//   );
-// };
-
-// export default CartPage;
-
 import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import GoBackButton from "../components/GoBackButton";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -61,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import "../assets/styles/cartPage.css";
 
 const CartPage = () => {
-  const { cart, removeFromCart, moveToWishlist } = useCart();
+  const { cart, removeFromCart} = useCart();
+  const { moveToWishlist } = useWishlist();
   const navigate = useNavigate();
   const [animatingItems, setAnimatingItems] = useState([]);
   const [cancelledItems, setCancelledItems] = useState(new Set());
@@ -75,7 +23,7 @@ const CartPage = () => {
     const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
 
     if (animatingItems.includes(productKey)) {
-      cancelWishlistMove(product); // Cancel the move
+      cancelWishlistMove(product);
     } else {
       toast.info(`${product.name} will be moved to your wishlist in 5 seconds.`);
       setAnimatingItems((prev) => [...prev, productKey]);
@@ -88,16 +36,15 @@ const CartPage = () => {
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
       }, 5000);
 
-      // Store the timer reference for potential cancellation
       product.timer = timer;
     }
   };
 
   const cancelWishlistMove = (product) => {
     const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
-    clearTimeout(product.timer); // Clear the timer
-    setAnimatingItems((prev) => prev.filter((key) => key !== productKey)); // Remove from animating
-    setCancelledItems((prev) => new Set([...prev, productKey])); // Mark as cancelled
+    clearTimeout(product.timer);
+    setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
+    setCancelledItems((prev) => new Set([...prev, productKey]));
     toast.info(`Cancelled moving ${product.name} to wishlist.`);
   };
 

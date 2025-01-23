@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "./AuthContext"; // Import the AuthContext to access authToken and logOut
+import { useAuth } from "./AuthContext"; // Auth context for token access
 
 const WishlistContext = createContext();
 
@@ -9,28 +9,25 @@ export const useWishlist = () => {
   return useContext(WishlistContext);
 };
 
+
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
-  const { authToken, logOut } = useAuth(); // Access authToken and logOut from AuthContext
+  const { authToken } = useAuth();
 
   const loadWishlist = async () => {
     if (!authToken) {
-      console.error("No auth token available.");
+      toast.error("Please log in to access your wishlist.");
       return;
     }
+
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: { Authorization: `Bearer ${authToken}` },
       });
-      setWishlist(response.data); // Set the wishlist data
+      setWishlist(response.data);
     } catch (error) {
-      console.error("Failed to load wishlist:", error.response?.data || error.message);
-      if (error.response?.status === 401) {
-        toast.error("Session expired. Please log in again.");
-        logOut(); // Log out the user if the session is expired
-      }
+      console.error("Failed to load wishlist:", error.message);
+      toast.error("Failed to load wishlist.");
     }
   };
 
@@ -39,6 +36,7 @@ export const WishlistProvider = ({ children }) => {
       toast.error("Please log in to add items to your wishlist.");
       return;
     }
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/wishlist`,
@@ -47,16 +45,10 @@ export const WishlistProvider = ({ children }) => {
           selectedSize: item.selectedSize,
           selectedColor: item.selectedColor,
         },
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
+        { headers: { Authorization: `Bearer ${authToken}` } }
       );
-      if (!wishlist.some((existingItem) => existingItem.id === response.data.id)) {
-        setWishlist((prev) => [...prev, response.data]);
-        toast.success(`${item.name} added to wishlist.`);
-      } else {
-        toast.error("Item already in wishlist.");
-      }
+      setWishlist((prev) => [...prev, response.data]);
+      toast.success(`${item.name} added to wishlist.`);
     } catch (error) {
       console.error("Failed to add to wishlist:", error.message);
       toast.error("Failed to add to wishlist.");
@@ -64,10 +56,6 @@ export const WishlistProvider = ({ children }) => {
   };
 
   const removeFromWishlist = async (itemId) => {
-    if (!authToken) {
-      toast.error("Please log in to manage your wishlist.");
-      return;
-    }
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/wishlist/${itemId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
@@ -81,13 +69,13 @@ export const WishlistProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    loadWishlist();
-  }, [authToken]); // Reload wishlist whenever the authToken changes
+    if (authToken) {
+      loadWishlist();
+    }
+  }, [authToken]);
 
   return (
-    <WishlistContext.Provider
-      value={{ wishlist, addToWishlist, removeFromWishlist, loadWishlist }}
-    >
+    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist }}>
       {children}
     </WishlistContext.Provider>
   );

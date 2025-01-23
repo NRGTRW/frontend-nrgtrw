@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-import { useProfile } from "../context/ProfileContext";
+import { useWishlist } from "../context/WishlistContext";
 import "../assets/styles/navbar.css";
 import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
@@ -12,9 +12,9 @@ import defaultProfilePicture from "/default-profile.webp";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { getTotalQuantity, wishlist } = useCart();
-  const { user, authToken } = useAuth();
-  const { profile } = useProfile();
+  const { getTotalQuantity } = useCart(); // Ensure this hook is correctly imported
+  const { user } = useAuth();
+  const { wishlist = [] } = useWishlist();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const handleProfileNavigation = () => {
-    if (authToken) {
+    if (user) {
       navigate("/profile");
     } else {
       navigate("/signup");
@@ -48,10 +48,6 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuOpen]);
-
-  const profilePicture = profile?.profilePicture
-    ? `${import.meta.env.VITE_PROFILE_PIC_URL}${profile.profilePicture}`
-    : defaultProfilePicture;
 
   return (
     <header>
@@ -101,7 +97,7 @@ const Navbar = () => {
             )}
           </div>
           <img
-            src={profilePicture || defaultProfilePicture}
+            src={user?.profilePicture || defaultProfilePicture}
             alt="Profile"
             className="profile-icon"
             onClick={handleProfileNavigation}
