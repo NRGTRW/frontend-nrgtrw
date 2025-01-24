@@ -1,46 +1,74 @@
 .inspiration-page {
-    padding: 50px;
-    font-family: "Roboto", Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-  }
-  
+  padding: 40px;
+  font-family: "Roboto", Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.inspiration-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  gap: 30px;
+}
+
+.text-section {
+  flex: 1;
+}
+
+.text-section h1 {
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.text-section p {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+.image-section {
+  flex: 1;
+}
+
+.image-section img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .inspiration-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    gap: 30px;
+    flex-direction: column;
   }
-  
-  .text-section {
-    flex: 1;
-  }
-  
+
   .text-section h1 {
-    font-size: 3rem;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 2rem;
   }
-  
+
   .text-section p {
-    font-size: 1.2rem;
-    color: #555;
-    line-height: 1.8;
+    font-size: 1rem;
   }
-  
-  .image-section {
-    flex: 1;
-  }
-  
+
   .image-section img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .text-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .text-section p {
+    font-size: 0.9rem;
+  }
+}
