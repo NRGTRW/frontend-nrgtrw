@@ -6,6 +6,7 @@ import "../assets/styles/profilePage.css";
 import { toast } from "react-toastify";
 
 const ProfilePage = () => {
+  const [isSaving, setIsSaving] = useState(false);
   const { profile, loadProfile, saveProfile, changeProfilePicture } = useProfile();
   const { authToken, logOut, loadUser } = useAuth();
   const location = useLocation();
@@ -28,7 +29,7 @@ const ProfilePage = () => {
       const token = localStorage.getItem("authToken");
 
       if (!token) {
-        toast.error("You are not authenticated. Redirecting to login...");
+        toast.error("You are not authenticated. Please login...");
         navigate("/login", { replace: true });
         return;
       }
@@ -75,7 +76,7 @@ const ProfilePage = () => {
       }
     };
   }, [selectedProfilePicture, profilePicturePreview]);
-  
+
   const handleProfilePictureUpload = (file) => {
     if (file) {
       const previewURL = URL.createObjectURL(file);
@@ -93,6 +94,7 @@ const ProfilePage = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
     try {
       await saveProfile(formData, authToken);
 
@@ -106,12 +108,14 @@ const ProfilePage = () => {
     } catch (error) {
       console.error("Error saving profile:", error.message);
       toast.error("Failed to save profile. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleGameButtonClick = () => {
-    setShowGameButton(false); // Hide button after click
-    window.location.reload(); // Refresh the page immediately
+    setShowGameButton(false);
+    window.location.reload();
   };
 
   if (isLoading) {
@@ -122,39 +126,73 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-container">
         <h1 className="profile-header">Your Profile</h1>
+
         {showGameButton && (
-          <div className="game-button-overlay">
-            <button className="game-refresh-button" onClick={handleGameButtonClick}>
-              <div className="circular-arrow"></div>
+          <div className="game-button-overlay" role="dialog" aria-label="Game control">
+            <button
+              className="game-refresh-button"
+              onClick={handleGameButtonClick}
+              aria-label="Refresh game"
+            >
+              <div className="circular-arrow" aria-hidden="true"></div>
               <span className="button-text">Press Me</span>
             </button>
           </div>
         )}
-        <div
-          className="profile-image-container"
-          onClick={() => document.getElementById("profile-image-upload").click()}
-        >
+
+        <div className="profile-image-container">
           <input
             type="file"
             accept="image/*"
             id="profile-image-upload"
-            style={{ display: "none" }}
-            onChange={(e) => handleProfilePictureUpload(e.target.files[0])}
+            className="visually-hidden"
+            onChange={(e) => handleProfilePictureUpload(e.target.files?.[0])}
           />
-          <img src={profilePicturePreview} alt="Profile" className="profile-image" />
+          <label
+            htmlFor="profile-image-upload"
+            className="profile-image-label"
+            role="button"
+            tabIndex={0}
+          >
+            <img
+              src={profilePicturePreview}
+              alt="User profile"
+              className="profile-image"
+              onError={(e) => {
+                e.target.src = "/default-profile.webp";
+              }}
+            />
+          </label>
         </div>
+
         <form className="profile-form" onSubmit={handleSave}>
           <div className="profile-field">
-            <label>Name:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleFormChange} />
-          </div>
-          <div className="profile-field">
-            <label>Email:</label>
-            <input type="email" name="email" value={formData.email} readOnly />
-          </div>
-          <div className="profile-field">
-            <label>Address:</label>
+            <label htmlFor="name">Name:</label>
             <input
+              id="name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+            />
+          </div>
+
+          <div className="profile-field">
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              readOnly
+              aria-readonly="true"
+            />
+          </div>
+
+          <div className="profile-field">
+            <label htmlFor="address">Address:</label>
+            <input
+              id="address"
               type="text"
               name="address"
               value={formData.address}
@@ -162,9 +200,11 @@ const ProfilePage = () => {
               placeholder="Optional"
             />
           </div>
+
           <div className="profile-field">
-            <label>Phone:</label>
+            <label htmlFor="phone">Phone:</label>
             <input
+              id="phone"
               type="tel"
               name="phone"
               value={formData.phone}
@@ -172,15 +212,23 @@ const ProfilePage = () => {
               placeholder="Optional"
             />
           </div>
+
           <div className="button-container">
             <button
               className={`save-button ${pendingSave ? "active" : ""}`}
               type="submit"
               disabled={!pendingSave}
+              aria-busy={isSaving}
             >
-              Save Changes
+              {isSaving ? "Saving..." : "Save Changes"}
             </button>
-            <button className="logout-button" type="button" onClick={logOut}>
+
+            <button
+              className="logout-button"
+              type="button"
+              onClick={logOut}
+              aria-label="Log out of account"
+            >
               Log Out
             </button>
           </div>

@@ -1,204 +1,208 @@
-/* Profile Page General Styling */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Luxury Monolithic Design */
 .profile-page {
-  padding-top: 80px; /* Adjust to match Navbar height */
-  padding-bottom: 120px; /* Adjust to match Footer height */
-  /* background: linear-gradient(135deg, #333333, #555555); Dark grey gradient background */
-  background: linear-gradient(135deg, #f9f9f9, #e3e3e3); /* Light gradient background */
-  min-height: calc(100vh - 120px); /* Ensure content fits within the viewport */
+  padding-top: 80px;
+  padding-bottom: 120px;
+  background: #f9f9f9;
+  min-height: calc(100vh - 120px);
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.8s ease-in;
 }
 
-/* Profile Container */
 .profile-container {
   max-width: 800px;
-  width: 100%;
+  width: 95%;
   background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  padding: 30px;
-  text-align: center;
-  border: 1px solid #ccc;
-}
-
-/* Header and Subtitle */
-.profile-header {
-  font-family: "Cinzel", serif;
-  font-size: 28px;
-  margin-bottom: 15px;
-  color: #333333;
-}
-
-.profile-subtitle {
-  font-size: 14px;
-  color: #666666;
-  margin-bottom: 20px;
-}
-
-/* Profile Picture Container */
-.profile-image-container {
+  border-radius: 12px;
+  padding: 48px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.03);
+  border: 1px solid #eeeeee;
   position: relative;
-  width: 130px;
-  height: 130px;
-  margin: 0 auto 20px;
-  border-radius: 50%; /* Circular */
   overflow: hidden;
-  background: #f3f3f3;
-  border: 4px solid #333333;
-  cursor: pointer;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #1a1a1a;
+}
+
+.profile-header {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.profile-image-container {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 40px;
+  border-radius: 50%;
+  border: 2px solid #e0e0e0;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .profile-image-container:hover {
-  transform: scale(1.05);
-  border-color: #555555;
+  transform: scale(1.03);
 }
 
 .profile-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
-/* Form Styling */
-.profile-form {
-  margin-top: 20px;
-}
-
+/* Minimalist Form Fields */
 .profile-field {
-  margin-bottom: 20px;
-  text-align: left;
+  margin-bottom: 32px;
+  position: relative;
 }
 
 .profile-field label {
-  font-size: 14px;
-  color: #444444;
-  font-weight: 500;
-  margin-bottom: 5px;
   display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .profile-field input {
   width: 100%;
-  padding: 12px;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .profile-field input:focus {
-  border-color: #333333;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Buttons */
+/* Luxury Buttons */
 .button-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 48px;
 }
 
 .save-button,
 .logout-button {
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  color: white;
+  padding: 16px 32px;
+  font-size: 1rem;
+  font-weight: 500;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  letter-spacing: 0.5px;
 }
 
 .save-button {
-  background: linear-gradient(135deg, #333333, #555555); /* Dark grey gradient */
+  background: #1a1a1a;
+  color: #fff;
 }
 
 .save-button:hover {
-  transform: scale(1.05);
-}
-
-.save-button:disabled {
-  background: #ddd;
-  color: #888;
-  cursor: not-allowed;
+  background: #333;
+  transform: translateY(-1px);
 }
 
 .logout-button {
-  background: #555555; /* Muted grey */
+  background: #fff;
+  color: #1a1a1a;
+  border: 1px solid #ddd;
 }
 
 .logout-button:hover {
-  background: #333333;
-  transform: scale(1.05);
+  border-color: #1a1a1a;
+  transform: translateY(-1px);
 }
 
-/* Game Button Overlay */
+.save-button:disabled {
+  background: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Game Button Overlay - Luxury Version */
 .game-button-overlay {
   position: fixed;
-  top: 50%;
+  top: 38%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
 }
 
-/* Game Refresh Button */
 .game-refresh-button {
-  background: linear-gradient(135deg, #333333, #555555); /* Sleek dark grey gradient */
-  font-size: 1.5rem;
-  color: white;
-  font-weight: bold;
+  background: #1a1a1a;
+  color: #fff;
   padding: 20px 40px;
   border: none;
-  border-radius: 50px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .game-refresh-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  background: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
-.game-refresh-button:hover .circular-arrow {
-  animation: rotate 0.6s linear infinite; /* Rotate arrow on hover */
-}
-
-/* Circular Arrow */
 .circular-arrow {
-  width: 40px;
-  height: 40px;
-  border: 4px solid white;
-  border-top: 4px solid transparent;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #fff;
   border-radius: 50%;
-  margin-bottom: 5px; /* Space between arrow and text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.3s ease;
 }
 
-/* Button Text */
-.button-text {
-  font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
+.game-refresh-button:hover .circular-arrow {
+  transform: rotate(90deg);
 }
 
-/* Animations */
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button-text {
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
