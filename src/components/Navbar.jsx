@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-import { useWishlist } from "../context/WishlistContext";
-import "../assets/styles/navbar.css";
+import defaultProfilePicture from "/default-profile.webp";
 import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
-import heartFilled from "/wishlist-filled.png";
-import defaultProfilePicture from "/default-profile.webp";
+import "../assets/styles/navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
   const navigate = useNavigate();
-  const { getTotalQuantity } = useCart(); // Ensure this hook is correctly imported
+  const { getTotalQuantity } = useCart();
   const { user } = useAuth();
-  const { wishlist = [] } = useWishlist();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -23,39 +21,32 @@ const Navbar = () => {
     navigate(path);
   };
 
-  const handleProfileNavigation = () => {
+  const handleAuthenticatedNavigation = (authenticatedPath, unauthenticatedPath) => {
     if (user) {
-      navigate("/profile");
+      navigate(authenticatedPath);
     } else {
-      navigate("/signup");
+      navigate(unauthenticatedPath);
     }
   };
 
+  const handleProfileNavigation = () => handleAuthenticatedNavigation("/profile", "/login");
+
+  // Update the profile picture dynamically
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest(".menu") && !e.target.closest(".menu-toggle")) {
-        setMenuOpen(false);
-      }
-    };
-
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuOpen]);
+    const newProfilePicture = user?.profilePicture
+      ? `${import.meta.env.VITE_PROFILE_PIC_URL}${user.profilePicture}`
+      : defaultProfilePicture;
+  
+    setProfilePicture(newProfilePicture);
+  }, [user]);  
 
   return (
-    <header>
+    <header className="navbar">
       <div className="top-bar">
         <button
           className={`menu-toggle ${menuOpen ? "open" : ""}`}
           onClick={toggleMenu}
-          aria-label="Menu Toggle"
+          aria-label="Toggle Menu"
         >
           <span></span>
           <span></span>
@@ -64,6 +55,8 @@ const Navbar = () => {
         <li
           className="logo"
           onClick={() => handleNavigation("/")}
+          onKeyPress={(e) => e.key === "Enter" && handleNavigation("/")}
+          tabIndex={0}
           aria-label="Navigate to home"
         >
           NRG
@@ -71,10 +64,12 @@ const Navbar = () => {
         <div className="right-container">
           <div className="wishlist-container">
             <img
-              src={wishlist.length > 0 ? heartOutline : heartFilled}
+              src={heartOutline}
               alt="Wishlist"
               className="wishlist-icon"
-              onClick={() => handleNavigation("/wishlist")}
+              onClick={() => handleAuthenticatedNavigation("/wishlist", "/login")}
+              tabIndex={0}
+              aria-label="Navigate to wishlist"
             />
           </div>
           <div className="cart-container">
@@ -83,6 +78,7 @@ const Navbar = () => {
               alt="Shopping Cart"
               className="cart-icon"
               onClick={() => handleNavigation("/cart")}
+              tabIndex={0}
               aria-label="View cart"
             />
             {getTotalQuantity() > 0 && (
@@ -97,10 +93,12 @@ const Navbar = () => {
             )}
           </div>
           <img
-            src={user?.profilePicture || defaultProfilePicture}
+            src={profilePicture}
             alt="Profile"
             className="profile-icon"
             onClick={handleProfileNavigation}
+            tabIndex={0}
+            aria-label="Navigate to profile"
           />
         </div>
       </div>

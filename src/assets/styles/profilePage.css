@@ -1,50 +1,59 @@
-/* General Page Styling */
+/* Profile Page General Styling */
 .profile-page {
+  padding-top: 80px; /* Adjust to match Navbar height */
+  padding-bottom: 120px; /* Adjust to match Footer height */
+  /* background: linear-gradient(135deg, #333333, #555555); Dark grey gradient background */
+  background: linear-gradient(135deg, #f9f9f9, #e3e3e3); /* Light gradient background */
+  min-height: calc(100vh - 120px); /* Ensure content fits within the viewport */
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 120px); /* Space for top bar and footer */
-  background: linear-gradient(135deg, #f9f9f9, #eaeaea);
-  padding: 40px;
-  font-family: "Poppins", sans-serif;
+  animation: fadeIn 0.8s ease-in;
 }
 
-/* Profile Container Styling */
+/* Profile Container */
 .profile-container {
-  width: 100%;
   max-width: 800px;
-  background: #fff;
+  width: 100%;
+  background: #ffffff;
   border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  padding: 30px;
   text-align: center;
+  border: 1px solid #ccc;
 }
 
 /* Header and Subtitle */
 .profile-header {
   font-family: "Cinzel", serif;
   font-size: 28px;
-  margin-bottom: 10px;
-  color: #333;
+  margin-bottom: 15px;
+  color: #333333;
 }
 
 .profile-subtitle {
   font-size: 14px;
-  color: #555;
+  color: #666666;
   margin-bottom: 20px;
 }
 
 /* Profile Picture Container */
 .profile-image-container {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   margin: 0 auto 20px;
   border-radius: 50%; /* Circular */
   overflow: hidden;
   background: #f3f3f3;
-  border: 3px solid #ccc;
+  border: 4px solid #333333;
   cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-image-container:hover {
+  transform: scale(1.05);
+  border-color: #555555;
 }
 
 .profile-image {
@@ -59,13 +68,13 @@
 }
 
 .profile-field {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
 .profile-field label {
   font-size: 14px;
-  color: #555;
+  color: #444444;
   font-weight: 500;
   margin-bottom: 5px;
   display: block;
@@ -73,44 +82,45 @@
 
 .profile-field input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-field input:focus {
-  border-color: #aaa;
+  border-color: #333333;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Buttons */
 .button-container {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 15px;
+  margin-top: 25px;
 }
 
 .save-button,
 .logout-button {
-  padding: 10px 15px;
+  padding: 12px 20px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .save-button {
-  background: linear-gradient(135deg, #000, #555);
+  background: linear-gradient(135deg, #333333, #555555); /* Dark grey gradient */
 }
 
 .save-button:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .save-button:disabled {
@@ -120,53 +130,75 @@
 }
 
 .logout-button {
-  background: #dc3545; /* Muted red */
+  background: #555555; /* Muted grey */
 }
 
 .logout-button:hover {
-  background: #c82333;
-  transform: scale(1.03);
+  background: #333333;
+  transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .profile-container {
-    padding: 15px;
-  }
-
-  .profile-header {
-    font-size: 22px;
-  }
-
-  .profile-field input {
-    padding: 8px;
-    font-size: 13px;
-  }
-
-  .button-container {
-    flex-direction: column;
-    gap: 15px;
-  }
+/* Game Button Overlay */
+.game-button-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
 }
 
-@keyframes fadeIn {
+/* Game Refresh Button */
+.game-refresh-button {
+  background: linear-gradient(135deg, #333333, #555555); /* Sleek dark grey gradient */
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.game-refresh-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.game-refresh-button:hover .circular-arrow {
+  animation: rotate 0.6s linear infinite; /* Rotate arrow on hover */
+}
+
+/* Circular Arrow */
+.circular-arrow {
+  width: 40px;
+  height: 40px;
+  border: 4px solid white;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  margin-bottom: 5px; /* Space between arrow and text */
+  transition: transform 0.3s ease;
+}
+
+/* Button Text */
+.button-text {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Animations */
+@keyframes rotate {
   from {
-    opacity: 0;
-    transform: translateY(20px);
+    transform: rotate(0deg);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: rotate(360deg);
   }
-}
-
-.profile-page {
-  opacity: 0; /* Initial state */
-  transform: translateY(20px); /* Initial state */
-}
-
-.profile-page.fade-in {
-  animation: fadeIn 0.5s ease-in-out; /* Trigger animation */
-  opacity: 1;
-  transform: translateY(0);
 }

@@ -1,87 +1,83 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+// AuthContext.jsx
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { saveToken, getToken, removeToken } from "./tokenUtils";
 import { toast } from "react-toastify";
-import { useProfile } from "../context/ProfileContext"; // Import useProfile to manage profiles
 
 export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const [authToken, setAuthToken] = useState(() => getToken() || null);
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem("authToken"));
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // Use profile context functions
-  const { setProfile, loadProfile } = useProfile();
+  const loadUser = useCallback(async () => {
+    if (!authToken) return;
 
-  const logIn = async (credentials) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        credentials
-      );
-  
-      const { token, user } = response.data;
-  
-      if (token) {
-        saveToken(token);
-        setAuthToken(token);
-        setUser(user);
-  
-        // Dynamically load profile after login
-        await loadProfile(token);
-  
-        toast.success("Logged in successfully!");
-        navigate("/profile"); // Navigate to the profile page
-      } else {
-        throw new Error("No token received.");
-      }
-    } catch (error) {
-      console.error("Failed to log in:", error.response?.data || error.message);
-      toast.error(error.response?.data.message || "Failed to log in. Please try again.");
-    }
-  };
-    
-
-  const logOut = () => {
-    removeToken();
-    setAuthToken(null);
-    setUser(null);
-    setProfile(null); // Clear the profile on logout
-    navigate("/login");
-    toast.info("Logged out successfully.");
-  };
-
-  const fetchProfile = async () => {
-    if (!authToken) {
-      return;
-    }
-    try {
+      setLoading(true);
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
-      setProfile(response.data); // Update the profile with fetched data
+      setUser(response.data);
     } catch (error) {
-      console.error("Error fetching profile:", error.message);
-      throw error;
+      console.error("Failed to load user:", error.message);
+      logOut();
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [authToken]);
+
+  const login = useCallback(async (credentials) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, credentials);
+      const { token, user: initialUserData } = response.data;
+      
+      localStorage.setItem('authToken', token);
+      setAuthToken(token);
+      
+      // Set initial user data immediately
+      setUser(initialUserData);
+      
+      // Then perform full profile load
+      await loadUser();
+      
+      toast.success('Login successful!');
+      return initialUserData;
+    } catch (error) {
+      toast.error("Login failed. Please check your credentials.");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [loadUser]);
+
+  const logOut = useCallback(() => {
+    setAuthToken(null);
+    setUser(null);
+    localStorage.removeItem("authToken");
+    toast.info("Logged out successfully.");
+    navigate("/login", { replace: true });
+  }, [navigate]);
 
   useEffect(() => {
-    const storedToken = getToken();
-    if (storedToken) {
-      setAuthToken(storedToken);
-      fetchProfile(); // Fetch profile on initial load if token exists
-    }
-  }, []);
+    loadUser();
+  }, [loadUser]);
 
   return (
-    <AuthContext.Provider value={{ user, authToken, logIn, logOut }}>
+    <AuthContext.Provider value={{ 
+      authToken, 
+      user, 
+      loading,
+      login, 
+      logOut,
+      loadUser 
+    }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export { AuthProvider };
-export const useAuth = () => useContext(AuthContext);

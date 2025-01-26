@@ -9,7 +9,7 @@ import "../assets/styles/cartPage.css";
 
 const CartPage = () => {
   const { cart, removeFromCart} = useCart();
-  const { moveToWishlist } = useWishlist();
+  const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
   const [animatingItems, setAnimatingItems] = useState([]);
   const [cancelledItems, setCancelledItems] = useState(new Set());
@@ -30,7 +30,7 @@ const CartPage = () => {
 
       const timer = setTimeout(() => {
         if (!cancelledItems.has(productKey)) {
-          moveToWishlist(product);
+          addToWishlist(product);
           toast.success(`${product.name} added to your wishlist.`);
         }
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));

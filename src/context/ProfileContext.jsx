@@ -1,10 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-// Create the ProfileContext
 export const ProfileContext = createContext();
 
-// Custom Hook to Use the ProfileContext
 export const useProfile = () => {
   const context = useContext(ProfileContext);
   if (!context) {
@@ -13,44 +11,51 @@ export const useProfile = () => {
   return context;
 };
 
-// ProfileProvider Component
 export const ProfileProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // Manage loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Load Profile Function
-  const loadProfile = async (authToken) => {
-    setIsLoading(true); // Start loading
+  // Memoized loadProfile function
+  const loadProfile = useCallback(async (authToken) => {
+    setIsLoading(true);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/profile`,
-        { headers: { Authorization: `Bearer ${authToken}` } }
-      );
-      setProfile(response.data); // Update profile state with response data
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      setProfile(response.data);
+      return response.data;
     } catch (error) {
       console.error("Failed to load profile:", error.message);
-      setProfile(null); // Reset profile on error
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        window.location.href = "/login";
+      }
+      setProfile(null);
+      throw error;
     } finally {
-      setIsLoading(false); // End loading
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  // Save Profile Function
-  const saveProfile = async (updatedProfile, authToken) => {
+  // Memoized saveProfile function
+  const saveProfile = useCallback(async (updatedProfile, authToken) => {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile`,
         updatedProfile,
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
-      setProfile(response.data); // Update profile with new data
+      setProfile(response.data);
+      return response.data;
     } catch (error) {
       console.error("Failed to save profile:", error.message);
+      throw error;
     }
-  };
+  }, []);
 
-  // Change Profile Picture Function
-  const changeProfilePicture = async (file, authToken) => {
+  // Memoized changeProfilePicture function
+  const changeProfilePicture = useCallback(async (file, authToken) => {
     const formData = new FormData();
     formData.append("profilePicture", file);
 
@@ -66,23 +71,41 @@ export const ProfileProvider = ({ children }) => {
         }
       );
 
-      const previewPath = uploadResponse.data.previewPath;
-
-      // Save profile picture path to the database
       const saveResponse = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile/save`,
-        { profilePicture: previewPath },
+        { profilePicture: uploadResponse.data.previewPath },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
 
-      setProfile((prev) => ({
-        ...prev,
-        profilePicture: saveResponse.data.profilePicture,
-      }));
+      setProfile((prev) => ({ ...prev, profilePicture: saveResponse.data.profilePicture }));
     } catch (error) {
       console.error("Failed to change profile picture:", error.message);
+      throw error;
     }
-  };
+  }, []);
+
+  // Refresh the profile using refreshTrigger
+  useEffect(() => {
+    if (refreshTrigger > 0) {
+      const refreshData = async () => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+          try {
+            await loadProfile(token);
+          } catch (error) {
+            console.error("Failed to refresh profile:", error.message);
+          }
+        }
+      };
+
+      refreshData();
+    }
+  }, [refreshTrigger, loadProfile]);
+
+  // Manual refresh trigger
+  const refreshProfile = useCallback(() => {
+    setRefreshTrigger((prev) => prev + 1);
+  }, []);
 
   return (
     <ProfileContext.Provider
@@ -91,12 +114,11 @@ export const ProfileProvider = ({ children }) => {
         isLoading,
         loadProfile,
         saveProfile,
-        setProfile,
         changeProfilePicture,
+        refreshProfile,
       }}
     >
       {children}
     </ProfileContext.Provider>
   );
 };
-  

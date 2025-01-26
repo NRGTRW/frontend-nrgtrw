@@ -92,6 +92,7 @@
 
 .redirection-link:hover {
   color: #0056b3; /* Slightly darker blue on hover */
+  text-decoration: none;
 }
 
 .auth-footer p {
@@ -198,4 +199,21 @@
 .password-toggle:hover {
   color: #333;
   transform: scale(1.05);
+}
+
+.reset-password-link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  color: #333333; /* Primary blue */
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 5px;
+  transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.reset-password-link:hover {
+  color: #333333; /* Darker blue on hover */
+  text-decoration: none; /* Optional: Remove underline on hover */
 }

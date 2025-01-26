@@ -9,7 +9,6 @@ export const useWishlist = () => {
   return useContext(WishlistContext);
 };
 
-
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const { authToken } = useAuth();
@@ -75,7 +74,14 @@ export const WishlistProvider = ({ children }) => {
   }, [authToken]);
 
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist }}>
+    <WishlistContext.Provider
+      value={{
+        wishlist,
+        loadWishlist, // Expose loadWishlist
+        addToWishlist,
+        removeFromWishlist,
+      }}
+    >
       {children}
     </WishlistContext.Provider>
   );

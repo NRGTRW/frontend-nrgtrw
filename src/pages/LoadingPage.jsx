@@ -5,8 +5,7 @@ import "../assets/styles/loadingPage.css";
 const LoadingPage = ({ onFinish = () => {} }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      onFinish(); // Call the onFinish function (if provided)
-      // window.location.reload(); // Refresh the page
+      onFinish(); // Notify parent that loading is done
     }, 2000); // 2 seconds loading time
 
     return () => clearTimeout(timeout); // Cleanup timeout on component unmount

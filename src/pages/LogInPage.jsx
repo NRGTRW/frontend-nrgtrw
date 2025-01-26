@@ -1,14 +1,18 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import "../assets/styles/authPage.css";
+import "../assets/styles/logIn.css";
+import LoadingPage from "./LoadingPage";
+import { toast } from "react-toastify";
 
-const AuthPage = () => {
+const LogInPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -19,31 +23,53 @@ const AuthPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await api.post("/auth/login", formData);
-      localStorage.setItem("token", response.data.token);
-      navigate("/profile");
+      const token = response.data.token;
+  
+      // Store the token in localStorage
+      localStorage.setItem("authToken", token);
+  
+      toast.success("Login successful!");
+      navigate("/profile", { replace: true, state: { fromLogin: true } });
     } catch (error) {
-      alert(
+      console.error("Login failed:", error.message);
+      toast.error(
         error.response?.data?.message || "Login failed. Please try again."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
+  
+  
 
   const handlePasswordReset = async () => {
     const email = prompt("Enter your email address:");
-    if (!email) return;
+    if (!email) {
+      toast.error("Email is required for password reset.");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
 
     try {
       await api.post("/auth/reset-password", { email });
-      alert("Password reset email sent! Check your inbox.");
+      toast.success("Password reset email sent! Check your inbox.");
     } catch (error) {
-      alert(
+      console.error("Password reset failed:", error.response || error.message);
+      toast.error(
         error.response?.data?.message || "Failed to send password reset email."
       );
     }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingPage />
+  ) : (
     <div className="auth-page">
       <div className="auth-container">
         <h1 className="auth-header">LOG IN</h1>
@@ -76,8 +102,12 @@ const AuthPage = () => {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-          <button type="submit" className="auth-button">
-            Log In
+          <button
+            type="submit"
+            className="auth-button"
+            disabled={isLoading} // Disable while loading
+          >
+            {isLoading ? "Logging In..." : "Log In"}
           </button>
         </form>
         <div className="auth-footer">
@@ -85,13 +115,6 @@ const AuthPage = () => {
             type="button"
             className="reset-password-link"
             onClick={handlePasswordReset}
-            style={{
-              background: "none",
-              border: "none",
-              textDecoration: "underline",
-              cursor: "pointer",
-              marginTop: "10px",
-            }}
           >
             Forgot Password?
           </button>
@@ -110,4 +133,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default LogInPage;

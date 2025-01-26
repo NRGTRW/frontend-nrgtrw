@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import { CartProvider } from "./context/CartContext";
-import { AuthProvider } from "./context/AuthContext"; // Fixed import
+import { AuthProvider } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/global.css";
@@ -17,23 +17,24 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ClothingPage from "./pages/ClothingPage";
 import MaterialsPage from "./pages/MaterialsPage";
 import InspirationPage from "./pages/InspirationPage";
-import AuthPage from "./pages/AuthPage";
+import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import WishlistPage from "./pages/WishlistPage";
 import ContentBellowNavbar from "./components/ContentBellowNavbar";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   const routes = [
     { path: "/", component: HomePage },
     { path: "/product/:productId", component: ProductPage },
     { path: "/cart", component: CartPage },
-    { path: "/profile", component: ProfilePage },
     { path: "/clothing", component: ClothingPage },
     { path: "/materials", component: MaterialsPage },
     { path: "/inspiration", component: InspirationPage },
     { path: "/wishlist", component: WishlistPage },
-    { path: "/login", component: () => <AuthPage type="login" /> },
+    { path: "/login", component: LogInPage },
     { path: "/signup", component: SignUpPage },
+    { path: "/profile", component: ProfilePage },
   ];
 
   return (
@@ -50,14 +51,20 @@ const App = () => {
                 <main>
                   {path !== "*" && <Navbar />}
                   <ScrollToTop />
-                  <main style={{ minHeight: "calc(100vh - 120px)" }}>
                     <Component />
-                  </main>
                   {path !== "*" && <Footer />}
                 </main>
               }
             />
           ))}
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="*"
             element={

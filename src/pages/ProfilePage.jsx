@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useProfile } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../assets/styles/profilePage.css";
-import LoadingPage from "./LoadingPage";
+import { toast } from "react-toastify";
 
 const ProfilePage = () => {
-  const { profile, isLoading, loadProfile, saveProfile, changeProfilePicture } = useProfile();
-  const { authToken, logOut } = useAuth();
+  const { profile, loadProfile, saveProfile, changeProfilePicture } = useProfile();
+  const { authToken, logOut, loadUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -18,17 +20,38 @@ const ProfilePage = () => {
   const [pendingSave, setPendingSave] = useState(false);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState("/default-profile.webp");
-  const [isMounted, setIsMounted] = useState(false); // Initialize animation state
+  const [isLoading, setIsLoading] = useState(true);
+  const [showGameButton, setShowGameButton] = useState(location.state?.fromLogin || false);
 
-  // Load profile on initial render or when authToken changes
   useEffect(() => {
-    if (authToken) {
-      loadProfile(authToken);
-    }
-    setIsMounted(true); // Trigger animation when the component mounts
-  }, [authToken]);
+    const initializeProfile = async () => {
+      const token = localStorage.getItem("authToken");
 
-  // Update formData and profilePicturePreview when profile changes
+      if (!token) {
+        toast.error("You are not authenticated. Redirecting to login...");
+        navigate("/login", { replace: true });
+        return;
+      }
+
+      try {
+        if (location.state?.fromLogin) {
+          await Promise.all([loadUser(), loadProfile(token)]);
+          navigate(location.pathname, { replace: true, state: {} });
+        } else {
+          await loadProfile(token);
+        }
+      } catch (error) {
+        console.error("Failed to load profile:", error.message);
+        toast.error("Failed to load profile. Redirecting to login...");
+        navigate("/login", { replace: true });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeProfile();
+  }, [navigate, location.state, location.pathname, loadUser, loadProfile]);
+
   useEffect(() => {
     if (profile) {
       setFormData({
@@ -45,6 +68,23 @@ const ProfilePage = () => {
     }
   }, [profile]);
 
+  useEffect(() => {
+    return () => {
+      if (selectedProfilePicture) {
+        URL.revokeObjectURL(profilePicturePreview);
+      }
+    };
+  }, [selectedProfilePicture, profilePicturePreview]);
+  
+  const handleProfilePictureUpload = (file) => {
+    if (file) {
+      const previewURL = URL.createObjectURL(file);
+      setProfilePicturePreview(previewURL);
+      setSelectedProfilePicture(file);
+      setPendingSave(true);
+    }
+  };
+
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -54,42 +94,42 @@ const ProfilePage = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      // Save profile details
       await saveProfile(formData, authToken);
 
-      // Save profile picture if one is selected
       if (selectedProfilePicture) {
         await changeProfilePicture(selectedProfilePicture, authToken);
       }
 
-      // Reload the profile to update the state
-      await loadProfile(authToken);
-
+      await Promise.all([loadUser(), loadProfile(authToken)]);
       toast.success("Profile updated successfully!");
       setPendingSave(false);
     } catch (error) {
-      console.error("Error saving profile:", error);
+      console.error("Error saving profile:", error.message);
       toast.error("Failed to save profile. Please try again.");
     }
   };
 
-  const handleProfilePictureUpload = (file) => {
-    if (file) {
-      const previewURL = URL.createObjectURL(file);
-      setProfilePicturePreview(previewURL); // Update preview
-      setSelectedProfilePicture(file); // Set file for saving later
-      setPendingSave(true); // Activate save button
-    }
+  const handleGameButtonClick = () => {
+    setShowGameButton(false); // Hide button after click
+    window.location.reload(); // Refresh the page immediately
   };
-    // Set loadingPage as a layer over the profile content
-  if (isLoading || !profile) {
-    return <LoadingPage onFinish={() => console.log("Loading finished!")} />;
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
   }
 
   return (
-    <div className={`profile-page ${isMounted ? "fade-in" : ""}`}>
+    <div className="profile-page">
       <div className="profile-container">
         <h1 className="profile-header">Your Profile</h1>
+        {showGameButton && (
+          <div className="game-button-overlay">
+            <button className="game-refresh-button" onClick={handleGameButtonClick}>
+              <div className="circular-arrow"></div>
+              <span className="button-text">Press Me</span>
+            </button>
+          </div>
+        )}
         <div
           className="profile-image-container"
           onClick={() => document.getElementById("profile-image-upload").click()}
@@ -101,31 +141,16 @@ const ProfilePage = () => {
             style={{ display: "none" }}
             onChange={(e) => handleProfilePictureUpload(e.target.files[0])}
           />
-          <img
-            src={profilePicturePreview}
-            alt="Profile"
-            className="profile-image"
-          />
+          <img src={profilePicturePreview} alt="Profile" className="profile-image" />
         </div>
         <form className="profile-form" onSubmit={handleSave}>
           <div className="profile-field">
             <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleFormChange}
-            />
+            <input type="text" name="name" value={formData.name} onChange={handleFormChange} />
           </div>
           <div className="profile-field">
             <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleFormChange}
-              disabled
-            />
+            <input type="email" name="email" value={formData.email} readOnly />
           </div>
           <div className="profile-field">
             <label>Address:</label>
@@ -155,11 +180,7 @@ const ProfilePage = () => {
             >
               Save Changes
             </button>
-            <button
-              className="logout-button"
-              type="button"
-              onClick={logOut}
-            >
+            <button className="logout-button" type="button" onClick={logOut}>
               Log Out
             </button>
           </div>
