@@ -33,12 +33,14 @@ const Navbar = () => {
 
   // Update the profile picture dynamically
   useEffect(() => {
+    const baseImageUrl = import.meta.env.VITE_IMAGE_BASE_URL || "https://nrgtrw-images.s3.eu-central-1.amazonaws.com";
+
     const newProfilePicture = user?.profilePicture
-      ? `${import.meta.env.VITE_PROFILE_PIC_URL}${user.profilePicture}`
+      ? `${baseImageUrl}/${user.profilePicture}` // Append base URL only once
       : defaultProfilePicture;
-  
+
     setProfilePicture(newProfilePicture);
-  }, [user]);  
+  }, [user]);
 
   return (
     <header className="navbar">
@@ -92,14 +94,25 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <img
+<img
+  src={user?.profilePicture || defaultProfilePicture}
+  alt="Profile"
+  className="profile-icon"
+  onError={(e) => {
+    e.target.src = defaultProfilePicture;
+  }}
+  onClick={handleProfileNavigation}
+            tabIndex={0}
+            aria-label="Navigate to profile"
+/>
+          {/* <img
             src={profilePicture}
             alt="Profile"
             className="profile-icon"
             onClick={handleProfileNavigation}
             tabIndex={0}
             aria-label="Navigate to profile"
-          />
+          /> */}
         </div>
       </div>
 

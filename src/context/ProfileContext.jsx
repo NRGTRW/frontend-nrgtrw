@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import axios from "axios";
 
 export const ProfileContext = createContext();
@@ -14,98 +14,134 @@ export const useProfile = () => {
 export const ProfileProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Memoized loadProfile function
+  // Load profile data from the backend
   const loadProfile = useCallback(async (authToken) => {
     setIsLoading(true);
     try {
+      console.log("Loading profile data from backend...");
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
+      console.log("Profile data loaded:", response.data);
       setProfile(response.data);
-      return response.data;
     } catch (error) {
-      console.error("Failed to load profile:", error.message);
-      if (error.response?.status === 401) {
-        localStorage.removeItem("authToken");
-        window.location.href = "/login";
-      }
+      console.error("Failed to load profile:", {
+        errorMessage: error.message,
+        responseData: error.response?.data,
+        responseStatus: error.response?.status,
+      });
       setProfile(null);
-      throw error;
+      throw error; // Propagate the error to the caller
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  // Memoized saveProfile function
+  // Save updated profile data to the backend
   const saveProfile = useCallback(async (updatedProfile, authToken) => {
     try {
+      console.log("Saving updated profile data...");
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile`,
         updatedProfile,
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
       );
+      console.log("Profile data saved successfully:", response.data);
       setProfile(response.data);
       return response.data;
     } catch (error) {
-      console.error("Failed to save profile:", error.message);
+      console.error("Failed to save profile:", {
+        errorMessage: error.message,
+        responseData: error.response?.data,
+        responseStatus: error.response?.status,
+      });
       throw error;
     }
   }, []);
 
-  // Memoized changeProfilePicture function
-  const changeProfilePicture = useCallback(async (file, authToken) => {
+  // Upload and save function
+const changeProfilePicture = useCallback(async (file, authToken) => {
+  try {
     const formData = new FormData();
-    formData.append("profilePicture", file);
+    formData.append('profilePicture', file, file.name);
+    
+    // Validate file before upload
+    if (!file.type.startsWith('image/')) {
+      throw new Error('Only image files are allowed');
+    }
 
+    const uploadResponse = await axios.post(
+      `${import.meta.env.VITE_API_URL}/profile/upload`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 15000
+      }
+    );
+
+    if (uploadResponse.status !== 200) {
+      throw new Error(uploadResponse.data.error || 'Upload failed');
+    }
+
+    // Verify response structure
+    if (!uploadResponse.data?.previewPath) {
+      throw new Error('Invalid server response format');
+    }
+
+    return await saveProfilePicture(uploadResponse.data.previewPath, authToken);
+  } catch (error) {
+    console.error('Full Error Chain:', {
+      axiosError: error.message,
+      serverResponse: error.response?.data,
+      stack: error.stack
+    });
+    throw error;
+  }
+}, []);
+  
+  // Separate save function
+  const saveProfilePicture = async (url, authToken) => {
     try {
-      const uploadResponse = await axios.post(
-        `${import.meta.env.VITE_API_URL}/profile/upload`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
+      console.log('Saving profile picture URL:', url);
+      
+      // Validate URL format before sending
+      if (!url.startsWith('http')) {
+        throw new Error('Invalid image URL format received');
+      }
+  
       const saveResponse = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile/save`,
-        { profilePicture: uploadResponse.data.previewPath },
-        { headers: { Authorization: `Bearer ${authToken}` } }
-      );
-
-      setProfile((prev) => ({ ...prev, profilePicture: saveResponse.data.profilePicture }));
-    } catch (error) {
-      console.error("Failed to change profile picture:", error.message);
-      throw error;
-    }
-  }, []);
-
-  // Refresh the profile using refreshTrigger
-  useEffect(() => {
-    if (refreshTrigger > 0) {
-      const refreshData = async () => {
-        const token = localStorage.getItem("authToken");
-        if (token) {
-          try {
-            await loadProfile(token);
-          } catch (error) {
-            console.error("Failed to refresh profile:", error.message);
-          }
+        { profilePicture: url },
+        { 
+          headers: { 
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          timeout: 10000
         }
-      };
-
-      refreshData();
+      );
+  
+      console.log('Save response:', saveResponse.data);
+      return saveResponse.data;
+    } catch (error) {
+      console.error('Save Picture Error:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        config: error.config
+      });
+      throw new Error(
+        error.response?.data?.error || 
+        error.message || 
+        'Failed to save profile picture'
+      );
     }
-  }, [refreshTrigger, loadProfile]);
-
-  // Manual refresh trigger
-  const refreshProfile = useCallback(() => {
-    setRefreshTrigger((prev) => prev + 1);
-  }, []);
+  };
 
   return (
     <ProfileContext.Provider
@@ -115,7 +151,6 @@ export const ProfileProvider = ({ children }) => {
         loadProfile,
         saveProfile,
         changeProfilePicture,
-        refreshProfile,
       }}
     >
       {children}

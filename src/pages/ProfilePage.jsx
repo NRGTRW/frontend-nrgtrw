@@ -62,10 +62,13 @@ const ProfilePage = () => {
         phone: profile.phone || "",
       });
       setProfilePicturePreview(
-        profile.profilePicture
-          ? `${import.meta.env.VITE_PROFILE_PIC_URL}${profile.profilePicture}`
-          : "/default-profile.webp"
+        profile.profilePicture || "/default-profile.webp"
       );
+      // setProfilePicturePreview(
+      //   profile.profilePicture
+      //     ? `${import.meta.env.VITE_IMAGE_BASE_URL}/${profile.profilePicture}`
+      //     : "/default-profile.webp"
+      // );
     }
   }, [profile]);
 
@@ -95,19 +98,25 @@ const ProfilePage = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     setIsSaving(true);
+  
     try {
+      // Save profile form data first
       await saveProfile(formData, authToken);
-
+  
+      // Then handle profile picture if selected
       if (selectedProfilePicture) {
-        await changeProfilePicture(selectedProfilePicture, authToken);
+        const updatedProfile = await changeProfilePicture(selectedProfilePicture, authToken);
+        
+        // Update preview with direct URL from response
+        setProfilePicturePreview(updatedProfile.profilePicture);
       }
-
-      await Promise.all([loadUser(), loadProfile(authToken)]);
+  
+      await loadProfile(authToken);
       toast.success("Profile updated successfully!");
       setPendingSave(false);
     } catch (error) {
-      console.error("Error saving profile:", error.message);
-      toast.error("Failed to save profile. Please try again.");
+      console.error("Save error:", error);
+      toast.error(error.message || "Failed to save profile");
     } finally {
       setIsSaving(false);
     }
@@ -239,3 +248,4 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+  
