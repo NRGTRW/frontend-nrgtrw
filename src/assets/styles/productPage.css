@@ -295,3 +295,24 @@ body {
   background-color: #000;
   transform: scale(1.05);
 }
+
+/* Remove the border from the input */
+.quantity-value {
+  border: none;
+  outline: none; /* Prevents outline on focus */
+  text-align: center;
+  width: 2rem; /* Adjust as needed */
+  font-size: 1rem; /* Ensures consistency */
+  background-color: transparent; /* Matches the background */
+}
+
+/* Prevent accidental resizing */
+.quantity-value::-webkit-inner-spin-button, 
+.quantity-value::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-value {
+  -moz-appearance: textfield; /* Removes arrows in Firefox */
+}

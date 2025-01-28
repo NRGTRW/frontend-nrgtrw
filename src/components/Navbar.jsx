@@ -9,19 +9,29 @@ import "../assets/styles/navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null); // for outside-click detection
+
+  // Refs for outside-click detection
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
+
   const navigate = useNavigate();
   const { getTotalQuantity } = useCart();
   const { profile } = useProfile();
 
-  // Close hamburger menu if user clicks outside
+  // Close hamburger menu if user clicks outside the menu & button
   useEffect(() => {
     if (!menuOpen) return;
 
     function handleClickOutside(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false);
+      // If click is inside the menu OR on the button, do nothing
+      if (
+        menuRef.current?.contains(e.target) ||
+        buttonRef.current?.contains(e.target)
+      ) {
+        return;
       }
+      // Otherwise, click is truly outside => close menu
+      setMenuOpen(false);
     }
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -29,7 +39,12 @@ const Navbar = () => {
   }, [menuOpen]);
 
   // Toggling the menu
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const toggleMenu = () => {
+    setMenuOpen((prev) => {
+      console.log("Toggling from:", prev, "to:", !prev);
+      return !prev;
+    });
+  };
 
   // Navigation helpers
   const handleNavigation = (path) => {
@@ -37,7 +52,7 @@ const Navbar = () => {
     navigate(path);
   };
 
-  // If we have a profile, the user is considered logged in
+  // Check login status from profile
   const isLoggedIn = !!profile;
 
   // Decide if route is protected; if not logged in, go to login
@@ -66,6 +81,7 @@ const Navbar = () => {
       <div className="top-bar">
         {/* Hamburger menu icon */}
         <button
+          ref={buttonRef}
           className={`menu-toggle ${menuOpen ? "open" : ""}`}
           onClick={toggleMenu}
           aria-label="Toggle Menu"

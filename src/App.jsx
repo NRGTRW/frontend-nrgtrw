@@ -24,7 +24,10 @@ import ContentBellowNavbar from "./components/ContentBellowNavbar";
 import PrivateRoute from "./components/PrivateRoute";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import VerifyOTPPage from "./pages/VerifyOTPPage";
-
+import AboutUs from "./pages/AboutUsPage";
+import ContactUs from "./pages/ContactUsPage";
+import FAQPage from "./pages/FAQPage";
+import MyOrder from "./pages/MyOrderPage";
 
 const App = () => {
   const routes = [
@@ -40,6 +43,10 @@ const App = () => {
     { path: "/profile", component: ProfilePage },
     { path: "/reset-password/:token", component: ResetPasswordPage },
     {path: "/verify-otp", component: VerifyOTPPage },
+    { path: "/about-us", component: AboutUs },
+    { path: "/contact-us", component: ContactUs },
+    { path: "/faq", component: FAQPage },
+    { path: "/my-order", component: MyOrder },
   ];
 
   return (
