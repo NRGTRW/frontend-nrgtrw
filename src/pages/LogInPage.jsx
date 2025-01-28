@@ -26,12 +26,12 @@ const LogInPage = () => {
       setIsLoading(true);
       const response = await api.post("/auth/login", formData);
       const token = response.data.token;
-  
+
       // Store the token in localStorage
       localStorage.setItem("authToken", token);
-  
+
       toast.success("Login successful!");
-      navigate("/profile", { replace: true, state: { fromLogin: true } });
+      navigate("/profile", { replace: true });
     } catch (error) {
       console.error("Login failed:", error.message);
       toast.error(
@@ -41,8 +41,6 @@ const LogInPage = () => {
       setIsLoading(false);
     }
   };
-  
-  
 
   const handlePasswordReset = async () => {
     const email = prompt("Enter your email address:");
@@ -105,7 +103,7 @@ const LogInPage = () => {
           <button
             type="submit"
             className="auth-button"
-            disabled={isLoading} // Disable while loading
+            disabled={isLoading}
           >
             {isLoading ? "Logging In..." : "Log In"}
           </button>

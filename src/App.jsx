@@ -22,6 +22,7 @@ import SignUpPage from "./pages/SignUpPage";
 import WishlistPage from "./pages/WishlistPage";
 import ContentBellowNavbar from "./components/ContentBellowNavbar";
 import PrivateRoute from "./components/PrivateRoute";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const App = () => {
   const routes = [
@@ -35,6 +36,7 @@ const App = () => {
     { path: "/login", component: LogInPage },
     { path: "/signup", component: SignUpPage },
     { path: "/profile", component: ProfilePage },
+    { path: "/reset-password/:token", component: ResetPasswordPage },
   ];
 
   return (
