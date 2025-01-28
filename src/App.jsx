@@ -23,6 +23,8 @@ import WishlistPage from "./pages/WishlistPage";
 import ContentBellowNavbar from "./components/ContentBellowNavbar";
 import PrivateRoute from "./components/PrivateRoute";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import VerifyOTPPage from "./pages/VerifyOTPPage";
+
 
 const App = () => {
   const routes = [
@@ -37,6 +39,7 @@ const App = () => {
     { path: "/signup", component: SignUpPage },
     { path: "/profile", component: ProfilePage },
     { path: "/reset-password/:token", component: ResetPasswordPage },
+    {path: "/verify-otp", component: VerifyOTPPage },
   ];
 
   return (

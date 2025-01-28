@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
+import { useProfile } from "../context/ProfileContext";
 import defaultProfilePicture from "/default-profile.webp";
 import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
@@ -9,42 +9,62 @@ import "../assets/styles/navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
+  const menuRef = useRef(null); // for outside-click detection
   const navigate = useNavigate();
   const { getTotalQuantity } = useCart();
-  const { user } = useAuth();
+  const { profile } = useProfile();
 
+  // Close hamburger menu if user clicks outside
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
+  // Toggling the menu
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
+  // Navigation helpers
   const handleNavigation = (path) => {
     setMenuOpen(false);
     navigate(path);
   };
 
-  const handleAuthenticatedNavigation = (authenticatedPath, unauthenticatedPath) => {
-    if (user) {
-      navigate(authenticatedPath);
-    } else {
-      navigate(unauthenticatedPath);
-    }
+  // If we have a profile, the user is considered logged in
+  const isLoggedIn = !!profile;
+
+  // Decide if route is protected; if not logged in, go to login
+  const handleAuthenticatedNavigation = (protectedPath, fallbackPath) => {
+    if (isLoggedIn) handleNavigation(protectedPath);
+    else handleNavigation(fallbackPath);
   };
 
-  const handleProfileNavigation = () => handleAuthenticatedNavigation("/profile", "/login");
-
-  // Update the profile picture dynamically
-  useEffect(() => {
-    const baseImageUrl = import.meta.env.VITE_IMAGE_BASE_URL || "https://nrgtrw-images.s3.eu-central-1.amazonaws.com";
-
-    const newProfilePicture = user?.profilePicture
-      ? `${baseImageUrl}/${user.profilePicture}` // Append base URL only once
-      : defaultProfilePicture;
-
-    setProfilePicture(newProfilePicture);
-  }, [user]);
+  // Build final profile image URL
+  let profilePicture = defaultProfilePicture;
+  if (profile?.profilePicture) {
+    if (/^https?:\/\//.test(profile.profilePicture)) {
+      // If it's already a full URL
+      profilePicture = profile.profilePicture;
+    } else {
+      // else prepend your base URL
+      const baseImageUrl =
+        import.meta.env.VITE_IMAGE_BASE_URL ||
+        "https://nrgtrw-images.s3.eu-central-1.amazonaws.com";
+      profilePicture = `${baseImageUrl}/${profile.profilePicture}`;
+    }
+  }
 
   return (
     <header className="navbar">
       <div className="top-bar">
+        {/* Hamburger menu icon */}
         <button
           className={`menu-toggle ${menuOpen ? "open" : ""}`}
           onClick={toggleMenu}
@@ -54,16 +74,20 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </button>
+
+        {/* Logo */}
         <li
           className="logo"
           onClick={() => handleNavigation("/")}
-          onKeyPress={(e) => e.key === "Enter" && handleNavigation("/")}
           tabIndex={0}
           aria-label="Navigate to home"
         >
           NRG
         </li>
+
+        {/* Right side icons */}
         <div className="right-container">
+          {/* Wishlist */}
           <div className="wishlist-container">
             <img
               src={heartOutline}
@@ -74,6 +98,8 @@ const Navbar = () => {
               aria-label="Navigate to wishlist"
             />
           </div>
+
+          {/* Cart */}
           <div className="cart-container">
             <img
               src={cartImage}
@@ -94,29 +120,25 @@ const Navbar = () => {
               </div>
             )}
           </div>
-<img
-  src={user?.profilePicture || defaultProfilePicture}
-  alt="Profile"
-  className="profile-icon"
-  onError={(e) => {
-    e.target.src = defaultProfilePicture;
-  }}
-  onClick={handleProfileNavigation}
-            tabIndex={0}
-            aria-label="Navigate to profile"
-/>
-          {/* <img
+
+          {/* Profile picture */}
+          <img
             src={profilePicture}
             alt="Profile"
             className="profile-icon"
-            onClick={handleProfileNavigation}
+            onError={(e) => {
+              // fallback if the image fails
+              e.target.src = defaultProfilePicture;
+            }}
+            onClick={() => handleAuthenticatedNavigation("/profile", "/login")}
             tabIndex={0}
             aria-label="Navigate to profile"
-          /> */}
+          />
         </div>
       </div>
 
-      <ul className={`menu ${menuOpen ? "show" : ""}`}>
+      {/* Menu (closes on outside click) */}
+      <ul ref={menuRef} className={`menu ${menuOpen ? "show" : ""}`}>
         <li onClick={() => handleNavigation("/")}>HOME</li>
         <li onClick={() => handleNavigation("/clothing")}>CLOTHING</li>
         <li onClick={() => handleNavigation("/materials")}>MATERIALS</li>
