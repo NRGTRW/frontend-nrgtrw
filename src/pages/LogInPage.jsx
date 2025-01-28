@@ -24,24 +24,33 @@ const LogInPage = () => {
     setIsLoading(true); // Start loader
 
     try {
-      const response = await api.post("/auth/login", formData); // API call to login
+      // API call to log the user in
+      const response = await api.post("/auth/login", formData);
       const token = response.data.token;
 
       // Store the token in localStorage
       localStorage.setItem("authToken", token);
 
-      toast.success("Login successful!"); // Success notification
+      toast.success("Login successful!");
       navigate("/profile", { replace: true }); // Redirect to profile page
     } catch (error) {
-      console.error("Login failed:", error.message);
-      toast.error(
-        error.response?.data?.message || "Login failed. Please try again."
-      ); // Show error message
+      console.error("Login failed:", error);
+
+      // Distinguish between 404 (user not found) and 401 (wrong password)
+      if (error.response?.status === 404) {
+        toast.error("No account found with that email address.");
+      } else if (error.response?.status === 401) {
+        toast.error("Incorrect password. Please try again.");
+      } else {
+        // For other errors, show a generic message or use the server's
+        toast.error(error.response?.data?.error || "Login failed. Please try again.");
+      }
     } finally {
       setIsLoading(false); // Stop loader
     }
   };
 
+  // Handle password reset (optional feature)
   const handlePasswordReset = async () => {
     const email = prompt("Enter your email address:");
     if (!email) {
@@ -55,7 +64,7 @@ const LogInPage = () => {
     }
 
     try {
-      await api.post("/auth/reset-password", { email }); // API call for password reset
+      await api.post("/auth/reset-password", { email });
       toast.success("Password reset email sent! Check your inbox.");
     } catch (error) {
       console.error("Password reset failed:", error.message);
@@ -66,7 +75,7 @@ const LogInPage = () => {
   };
 
   return isLoading ? (
-    <LoadingPage message="Logging you in..." /> // Show loader during API call
+    <LoadingPage message="Logging you in..." />
   ) : (
     <div className="auth-page">
       <div className="auth-container">

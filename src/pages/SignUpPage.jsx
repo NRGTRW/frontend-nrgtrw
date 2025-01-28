@@ -19,15 +19,17 @@ const SignUpPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Basic client-side check
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match.");
       return;
@@ -47,7 +49,19 @@ const SignUpPage = () => {
       toast.success("Signup successful! Check your email for the OTP.");
       navigate("/verify-otp");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to sign up.");
+      console.error("Signup failed:", error);
+
+      // Check for 400 errors (e.g., "User already exists" or "All fields are required")
+      if (error.response?.status === 400) {
+        toast.error(
+          error.response?.data?.error || "Bad request. Please check your inputs."
+        );
+      } else {
+        // Fallback for other errors
+        toast.error(
+          error.response?.data?.error || "Failed to sign up. Please try again."
+        );
+      }
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +103,11 @@ const SignUpPage = () => {
               onChange={handleInputChange}
               required
             />
-            <button type="button" className="password-toggle" onClick={togglePasswordVisibility}>
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={togglePasswordVisibility}
+            >
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
@@ -103,7 +121,11 @@ const SignUpPage = () => {
               onChange={handleInputChange}
               required
             />
-            <button type="button" className="password-toggle" onClick={toggleConfirmPasswordVisibility}>
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={toggleConfirmPasswordVisibility}
+            >
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
           </div>
