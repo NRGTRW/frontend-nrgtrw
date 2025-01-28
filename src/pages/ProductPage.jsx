@@ -31,13 +31,20 @@ const ProductPage = () => {
   );
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [maxLimitReached, setMaxLimitReached] = useState(false); // New state
+  const [maxLimitReached, setMaxLimitReached] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Set maximum quantity to 999
   const maxQuantity = 999;
 
   // Current color object
   const currentColor = product?.colors?.[selectedColorIndex] || {};
+
+  // Collect images for the carousel (main image + hover image)
+  const images = [
+    currentColor.imageUrl,
+    currentColor.hoverImage,
+  ].filter(Boolean); // Remove undefined/null values
 
   // Pick a default size once product is loaded
   useEffect(() => {
@@ -71,7 +78,7 @@ const ProductPage = () => {
   // Handle quantity changes by typing
   const handleQuantityInput = (e) => {
     const newVal = parseInt(e.target.value, 10);
-    
+
     if (isNaN(newVal) || newVal < 1) {
       setQuantity(1);
       setMaxLimitReached(false);
@@ -84,6 +91,20 @@ const ProductPage = () => {
     }
   };
 
+  // Navigate images left
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
+  // Navigate images right
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   return (
     <div className="product-page">
       <GoBackButton />
@@ -93,23 +114,38 @@ const ProductPage = () => {
         {/* Left side: images */}
         <div className="product-images">
           <div className="image-carousel">
+            {/* Left arrow */}
+            <button className="carousel-arrow left-arrow" onClick={prevImage}>
+              ❮
+            </button>
+
+            {/* Main Image Display */}
             <img
-              src={currentColor.imageUrl || product.imageUrl}
+              src={images[currentImageIndex]}
               alt={`${product.name} - ${currentColor.colorName || "default"}`}
               className="main-image"
             />
+
+            {/* Right arrow */}
+            <button className="carousel-arrow right-arrow" onClick={nextImage}>
+              ❯
+            </button>
           </div>
 
-          <div className="image-thumbnails">
+          {/* Color Selector Thumbnails */}
+          <div className="color-thumbnails">
             {product.colors?.map((color, index) => (
               <img
                 key={index}
                 src={color.imageUrl}
                 alt={`${product.name} - ${color.colorName}`}
                 className={`thumbnail ${
-                  selectedColorIndex === index ? "active" : ""
+                  selectedColorIndex === index ? "selected" : ""
                 }`}
-                onClick={() => setSelectedColorIndex(index)}
+                onClick={() => {
+                  setSelectedColorIndex(index);
+                  setCurrentImageIndex(0); // Reset carousel when color is changed
+                }}
               />
             ))}
           </div>
@@ -176,7 +212,8 @@ const ProductPage = () => {
             {/* Show message if user reaches max quantity */}
             {maxLimitReached && (
               <p className="max-limit-message">
-                Maximum quantity reached. For bulk orders, please <a href="/contact">contact us</a>.
+                Maximum quantity reached. For bulk orders, please{" "}
+                <a href="/contact">contact us</a>.
               </p>
             )}
           </div>

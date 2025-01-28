@@ -76,11 +76,11 @@ body {
   right: -20px;
 }
 
-.image-thumbnails {
+.color-thumbnails {
   display: flex;
   justify-content: center;
   gap: 10px;
-  flex-wrap: wrap; /* Wrap thumbnails on smaller screens */
+  margin-top: 10px;
 }
 
 .thumbnail {
@@ -89,15 +89,22 @@ body {
   border-radius: 5px;
   cursor: pointer;
   opacity: 0.7;
-  transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s ease, opacity 0.3s ease, border 0.3s ease;
+  border: 3px solid transparent; /* Default - No border */
 }
 
-.thumbnail.active,
 .thumbnail:hover {
   opacity: 1;
-  transform: scale(1.1);
-  border: 2px solid #000000;
+  transform: scale(1.05);
 }
+
+/* ✅ Solid, filled border for selected thumbnail */
+.thumbnail.selected {
+  border: 3px solid #181818; /* Fully filled solid black border */
+  opacity: 1;
+  transform: scale(1.05);
+}
+
 
 .product-details {
   flex: 1;
