@@ -37,7 +37,6 @@ const ProfilePage = () => {
       const token = localStorage.getItem("authToken");
 
       if (!token) {
-        toast.error("You are not authenticated. Please login...");
         navigate("/login", { replace: true });
         return;
       }
