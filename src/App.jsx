@@ -45,7 +45,7 @@ const App = () => {
     {path: "/verify-otp", component: VerifyOTPPage },
     { path: "/about-us", component: AboutUs },
     { path: "/contact-us", component: ContactUs },
-    { path: "/faq", component: FAQPage },
+    { path: "/faqs", component: FAQPage },
     { path: "/my-order", component: MyOrder },
   ];
 

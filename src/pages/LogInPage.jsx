@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -21,40 +22,34 @@ const LogInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loader
+    setIsLoading(true);
 
     try {
-      // API call to log the user in
       const response = await api.post("/auth/login", formData);
       const token = response.data.token;
-
-      // Store the token in localStorage
       localStorage.setItem("authToken", token);
-
       toast.success("Login successful!");
-      navigate("/profile", { replace: true }); // Redirect to profile page
+      navigate("/profile", { replace: true });
     } catch (error) {
       console.error("Login failed:", error);
-
-      // Distinguish between 404 (user not found) and 401 (wrong password)
       if (error.response?.status === 404) {
         toast.error("No account found with that email address.");
       } else if (error.response?.status === 401) {
         toast.error("Incorrect password. Please try again.");
       } else {
-        // For other errors, show a generic message or use the server's
         toast.error(error.response?.data?.error || "Login failed. Please try again.");
       }
     } finally {
-      setIsLoading(false); // Stop loader
+      setIsLoading(false);
     }
   };
 
-  // Handle password reset (optional feature)
+  // ✅ **Fixed Password Reset Function**
   const handlePasswordReset = async () => {
-    const email = prompt("Enter your email address:");
+    const email = formData.email.trim(); // Take email directly from input field
+
     if (!email) {
-      toast.error("Email is required for password reset.");
+      toast.error("Please enter your email in the login field before resetting your password.");
       return;
     }
 
@@ -68,9 +63,7 @@ const LogInPage = () => {
       toast.success("Password reset email sent! Check your inbox.");
     } catch (error) {
       console.error("Password reset failed:", error.message);
-      toast.error(
-        error.response?.data?.message || "Failed to send password reset email."
-      );
+      toast.error(error.response?.data?.message || "Failed to send password reset email.");
     }
   };
 

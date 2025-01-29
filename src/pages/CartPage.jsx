@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import "../assets/styles/cartPage.css";
 
 const CartPage = () => {
-  const { cart, removeFromCart} = useCart();
+  const { cart, removeFromCart } = useCart();
   const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
   const [animatingItems, setAnimatingItems] = useState([]);
@@ -21,32 +21,58 @@ const CartPage = () => {
 
   const handleWishlistToggle = (product) => {
     const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
-
+  
     if (animatingItems.includes(productKey)) {
       cancelWishlistMove(product);
     } else {
       toast.info(`${product.name} will be moved to your wishlist in 5 seconds.`);
+      
       setAnimatingItems((prev) => [...prev, productKey]);
-
+  
+      // ✅ Remove from cancelledItems if reattempting
+      setCancelledItems((prev) => {
+        const updatedSet = new Set(prev);
+        updatedSet.delete(productKey);
+        return updatedSet;
+      });
+  
       const timer = setTimeout(() => {
+        // ✅ Double-check if item is still in cancelledItems before adding
         if (!cancelledItems.has(productKey)) {
-          addToWishlist(product);
-          toast.success(`${product.name} added to your wishlist.`);
+          addToWishlist(product)
+            .then(() => {
+              removeFromCart(product);
+              toast.success(`${product.name} added to your wishlist and removed from your cart.`);
+            })
+            .catch(() => {
+              toast.error(`Failed to add ${product.name} to your wishlist. Please try again.`);
+            });
         }
+  
+        // ✅ Always remove from animatingItems after timeout
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
       }, 5000);
-
+  
       product.timer = timer;
     }
   };
-
+  
   const cancelWishlistMove = (product) => {
     const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
     clearTimeout(product.timer);
+  
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-    setCancelledItems((prev) => new Set([...prev, productKey]));
+  
+    // ✅ Temporarily block this item but allow reattempts
+    setCancelledItems((prev) => {
+      const updatedSet = new Set(prev);
+      updatedSet.add(productKey);
+      return updatedSet;
+    });
+  
     toast.info(`Cancelled moving ${product.name} to wishlist.`);
   };
+  
 
   const calculateTotal = () =>
     cart.reduce((total, product) => total + product.quantity * product.price, 0);
@@ -97,8 +123,8 @@ const CartPage = () => {
                     src={
                       animatingItems.includes(productKey) &&
                       !cancelledItems.has(productKey)
-                        ? "/wishlist-outline.png"
-                        : "/wishlist-filled.png"
+                        ? "/wishlist-filled.png"
+                        : "/wishlist-outline.png"
                     }
                     alt="Wishlist"
                     className="wishlist-icon"
@@ -121,7 +147,7 @@ const CartPage = () => {
         </AnimatePresence>
       </div>
       <div className="cart-summary">
-        <h3>Total: ${calculateTotal()}</h3>
+        <h3>Total: ${calculateTotal().toFixed(2)}</h3>
         <div className="button-group">
           <button
             className="continue-shopping-button"

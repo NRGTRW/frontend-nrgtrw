@@ -12,7 +12,7 @@ export default defineConfig({
     proxy: {
       // Proxy requests starting with "/api" to your backend server
       '/api': {
-        target: 'http://localhost:8080', // Backend server's URL
+        target: import.meta.env.VITE_API_URL || "http://localhost:8080/api", // Backend server's URL
         changeOrigin: true, // Handle CORS
         rewrite: (path) => path.replace(/^\/api/, ''), // Remove '/api' prefix if needed
       },
