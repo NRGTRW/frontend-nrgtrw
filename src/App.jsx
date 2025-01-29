@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/global.css";
 
@@ -52,7 +52,15 @@ const App = () => {
   return (
     <AuthProvider>
       <CartProvider>
-        <ToastContainer />
+        <ToastContainer  
+          position="top-center" 
+          autoClose={5000} // Increased visibility duration
+          hideProgressBar={false} 
+          closeOnClick 
+          pauseOnHover
+          draggable
+          transition={Slide} // ✅ Pushes from top smoothly
+          />
         <ContentBellowNavbar />
         <Routes>
           {routes.map(({ path, component: Component }, index) => (

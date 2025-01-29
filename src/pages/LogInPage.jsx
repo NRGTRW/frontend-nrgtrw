@@ -44,7 +44,7 @@ const LogInPage = () => {
     }
   };
 
-  // ✅ **Fixed Password Reset Function**
+  // ✅ **Fixed Password Reset Function with Spam Warning**
   const handlePasswordReset = async () => {
     const email = formData.email.trim(); // Take email directly from input field
 
@@ -61,6 +61,7 @@ const LogInPage = () => {
     try {
       await api.post("/auth/reset-password", { email });
       toast.success("Password reset email sent! Check your inbox.");
+      toast.info("⚠️ If you don't see the email, check your spam folder.");
     } catch (error) {
       console.error("Password reset failed:", error.message);
       toast.error(error.response?.data?.message || "Failed to send password reset email.");

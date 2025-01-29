@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -31,7 +32,7 @@ const SignUpPage = () => {
 
     // Basic client-side check
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error("Passwords do not match.", { autoClose: 6000 });
       return;
     }
 
@@ -46,20 +47,26 @@ const SignUpPage = () => {
       // ✅ Store email in localStorage for OTP verification
       localStorage.setItem("email", formData.email);
 
-      toast.success("Signup successful! Check your email for the OTP.");
+      toast.success("Signup successful! Check your email for the OTP.", {
+        autoClose: 6000,
+      });
+      toast.info("⚠️ If you don’t see the email, check your spam folder.", {
+        autoClose: 7000,
+      });
+
       navigate("/verify-otp");
     } catch (error) {
       console.error("Signup failed:", error);
 
-      // Check for 400 errors (e.g., "User already exists" or "All fields are required")
       if (error.response?.status === 400) {
         toast.error(
-          error.response?.data?.error || "Bad request. Please check your inputs."
+          error.response?.data?.error || "Bad request. Please check your inputs.",
+          { autoClose: 7000 }
         );
       } else {
-        // Fallback for other errors
         toast.error(
-          error.response?.data?.error || "Failed to sign up. Please try again."
+          error.response?.data?.error || "Failed to sign up. Please try again.",
+          { autoClose: 7000 }
         );
       }
     } finally {
