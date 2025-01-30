@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import prisma from "../../../backend-nrgtrw/prisma/lib/prisma";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Utility to get the token
@@ -45,20 +45,19 @@ export const addToWishlist = async (item) => {
 };
 
 // Remove Item from Wishlist
-export const removeFromWishlist = async ({ productId, selectedSize, selectedColor }) => {
+
+export const removeFromWishlist = async (wishlistId) => {
   try {
-    const response = await axios.delete(`${API_URL}/wishlist/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      data: { // Optional data passed in the body
-        selectedSize,
-        selectedColor,
-      },
+    console.log("🗑 Removing Wishlist Item:", { wishlistId });
+
+    const response = await axios.delete(`${API_URL}/wishlist/${wishlistId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
+
     return response.data;
   } catch (error) {
-    console.error('Failed to remove from wishlist:', error);
-    throw error;
+    console.error("❌ Failed to remove item from wishlist:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Unable to remove item from wishlist. Please try again.");
   }
 };
+

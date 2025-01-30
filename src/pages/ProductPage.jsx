@@ -3,7 +3,11 @@ import { useParams, useLocation } from "react-router-dom";
 import useSWR from "swr";
 import { fetchProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
+import { useAuth } from "../context/AuthContext";
 import GoBackButton from "../components/GoBackButton";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 import "../assets/styles/productPage.css";
 
 const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -12,41 +16,32 @@ const ProductPage = () => {
   const { productId } = useParams();
   const location = useLocation();
   const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist();
+  const { user } = useAuth(); // ✅ Get user authentication state
 
-  // Fetch product data by ID
   const { data: product, error } = useSWR(
     productId ? `/api/products/${productId}` : null,
     () => fetchProductById(productId)
   );
 
-  // Determine initial color index
   const initialColorIndex = location.state?.selectedColor
     ? product?.colors?.findIndex(
         (color) => color.imageUrl === location.state.selectedColor.imageUrl
       )
     : 0;
 
-  const [selectedColorIndex, setSelectedColorIndex] = useState(
-    initialColorIndex || 0
-  );
+  const [selectedColorIndex, setSelectedColorIndex] = useState(initialColorIndex || 0);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [maxLimitReached, setMaxLimitReached] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [animatingItems, setAnimatingItems] = useState([]);
+  const [cancelledItems, setCancelledItems] = useState(new Set());
 
-  // Set maximum quantity to 999
-  const maxQuantity = 999;
-
-  // Current color object
+  const maxQuantity = 99;
   const currentColor = product?.colors?.[selectedColorIndex] || {};
+  const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
 
-  // Collect images for the carousel (main image + hover image)
-  const images = [
-    currentColor.imageUrl,
-    currentColor.hoverImage,
-  ].filter(Boolean); // Remove undefined/null values
-
-  // Pick a default size once product is loaded
   useEffect(() => {
     if (product && product.sizes?.length && !selectedSize) {
       setSelectedSize(product.sizes[0].size.size);
@@ -56,14 +51,10 @@ const ProductPage = () => {
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
-  // Sort sizes in custom order
   const sortedSizes = product.sizes
-    ? [...product.sizes].sort((a, b) =>
-        SIZE_ORDER.indexOf(a.size.size) - SIZE_ORDER.indexOf(b.size.size)
-      )
+    ? [...product.sizes].sort((a, b) => SIZE_ORDER.indexOf(a.size.size) - SIZE_ORDER.indexOf(b.size.size))
     : [];
 
-  // Handle add to cart
   const handleAddToCart = () => {
     addToCart({
       id: product.id,
@@ -75,34 +66,63 @@ const ProductPage = () => {
     });
   };
 
-  // Handle quantity changes by typing
-  const handleQuantityInput = (e) => {
-    const newVal = parseInt(e.target.value, 10);
+  const handleWishlistToggle = () => {
+  if (!user) {
+    toast.error("You must log in to add items to your wishlist.");
+    return;
+  }
 
-    if (isNaN(newVal) || newVal < 1) {
-      setQuantity(1);
-      setMaxLimitReached(false);
-    } else if (newVal > maxQuantity) {
-      setQuantity(maxQuantity);
-      setMaxLimitReached(true);
-    } else {
-      setQuantity(newVal);
-      setMaxLimitReached(false);
-    }
-  };
+  const productKey = `${product.id}-${selectedSize}-${currentColor.imageUrl}`;
 
-  // Navigate images left
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
+  if (animatingItems.includes(productKey)) {
+    cancelWishlistMove();
+  } else {
+    toast.info(`${product.name} will be moved to your wishlist.`);
 
-  // Navigate images right
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
+    setAnimatingItems((prev) => [...prev, productKey]);
+
+    setCancelledItems((prev) => {
+      const updatedSet = new Set(prev);
+      updatedSet.delete(productKey);
+      return updatedSet;
+    });
+
+    const timer = setTimeout(() => {
+      if (!cancelledItems.has(productKey)) {
+        addToWishlist({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          selectedSize,
+          selectedColor: currentColor.imageUrl,
+        }).catch((error) => {
+          if (error === "User not logged in") {
+            toast.error("You must log in first to add items to your wishlist.");
+          }
+        });
+      }
+
+      setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
+    }, 5000);
+
+    product.timer = timer;
+  }
+};
+
+
+  const cancelWishlistMove = () => {
+    const productKey = `${product.id}-${selectedSize}-${currentColor.imageUrl}`;
+    clearTimeout(product.timer);
+
+    setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
+
+    setCancelledItems((prev) => {
+      const updatedSet = new Set(prev);
+      updatedSet.add(productKey);
+      return updatedSet;
+    });
+
+    toast.info(`Cancelled moving ${product.name} to wishlist.`);
   };
 
   return (
@@ -111,42 +131,36 @@ const ProductPage = () => {
       <div className="spacer-bar2"></div>
 
       <div className="product-container">
+        {/* ✅ Wishlist Button (Top-Right of Product Card) */}
+        <motion.img
+  src={
+    animatingItems.includes(`${product.id}-${selectedSize}-${currentColor.imageUrl}`) &&
+    !cancelledItems.has(`${product.id}-${selectedSize}-${currentColor.imageUrl}`)
+      ? "/wishlist-filled.png"
+      : "/wishlist-outline.png"
+  }
+  alt="Wishlist"
+  className="wishlist-icon-productPage"
+  onClick={() =>
+    animatingItems.includes(`${product.id}-${selectedSize}-${currentColor.imageUrl}`)
+      ? cancelWishlistMove()
+      : handleWishlistToggle()
+  }
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+/>
+
         {/* Left side: images */}
         <div className="product-images">
           <div className="image-carousel">
-            {/* Left arrow */}
-            <button className="carousel-arrow left-arrow" onClick={prevImage}>
-              ❮
-            </button>
-
-            {/* Main Image Display */}
-            <img
-              src={images[currentImageIndex]}
-              alt={`${product.name} - ${currentColor.colorName || "default"}`}
-              className="main-image"
-            />
-
-            {/* Right arrow */}
-            <button className="carousel-arrow right-arrow" onClick={nextImage}>
-              ❯
-            </button>
+            <button className="carousel-arrow left-arrow" onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))}>❮</button>
+            <img src={images[currentImageIndex]} alt={`${product.name} - ${currentColor.colorName || "default"}`} className="main-image" />
+            <button className="carousel-arrow right-arrow" onClick={() => setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}>❯</button>
           </div>
 
-          {/* Color Selector Thumbnails */}
           <div className="color-thumbnails">
             {product.colors?.map((color, index) => (
-              <img
-                key={index}
-                src={color.imageUrl}
-                alt={`${product.name} - ${color.colorName}`}
-                className={`thumbnail ${
-                  selectedColorIndex === index ? "selected" : ""
-                }`}
-                onClick={() => {
-                  setSelectedColorIndex(index);
-                  setCurrentImageIndex(0); // Reset carousel when color is changed
-                }}
-              />
+              <img key={index} src={color.imageUrl} alt={`${product.name} - ${color.colorName}`} className={`thumbnail ${selectedColorIndex === index ? "selected" : ""}`} onClick={() => { setSelectedColorIndex(index); setCurrentImageIndex(0); }} />
             ))}
           </div>
         </div>
@@ -158,69 +172,25 @@ const ProductPage = () => {
           <p className="product-description">{product.description}</p>
 
           <div className="size-quantity-row">
-            {/* Size selector */}
             <div className="size-selector">
               {sortedSizes.map((productSize) => {
                 const sizeString = productSize.size.size;
                 return (
-                  <button
-                    key={productSize.id}
-                    className={`size-button ${
-                      selectedSize === sizeString ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedSize(sizeString)}
-                  >
+                  <button key={productSize.id} className={`size-button ${selectedSize === sizeString ? "selected" : ""}`} onClick={() => setSelectedSize(sizeString)}>
                     {sizeString}
                   </button>
                 );
               })}
             </div>
 
-            {/* Quantity selector with max limit */}
             <div className="quantity-selector">
-              <button
-                className="quantity-button minus"
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                disabled={quantity <= 1}
-              >
-                -
-              </button>
-              <input
-                type="number"
-                min="1"
-                max={maxQuantity}
-                className="quantity-value"
-                value={quantity}
-                onChange={handleQuantityInput}
-              />
-              <button
-                className="quantity-button plus"
-                onClick={() => {
-                  if (quantity < maxQuantity) {
-                    setQuantity(quantity + 1);
-                    setMaxLimitReached(false);
-                  } else {
-                    setMaxLimitReached(true);
-                  }
-                }}
-                disabled={quantity >= maxQuantity}
-              >
-                +
-              </button>
+              <button className="quantity-button minus" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1}>-</button>
+              <input type="number" min="1" max={maxQuantity} className="quantity-value" value={quantity} onChange={(e) => setQuantity(Math.min(Math.max(1, parseInt(e.target.value, 10)), maxQuantity))} />
+              <button className="quantity-button plus" onClick={() => setQuantity(Math.min(quantity + 1, maxQuantity))} disabled={quantity >= maxQuantity}>+</button>
             </div>
-
-            {/* Show message if user reaches max quantity */}
-            {maxLimitReached && (
-              <p className="max-limit-message">
-                Maximum quantity reached. For bulk orders, please{" "}
-                <a href="/contact">contact us</a>.
-              </p>
-            )}
           </div>
 
-          <button className="add-to-cart-button" onClick={handleAddToCart}>
-            Add to Cart
-          </button>
+          <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ const CartPage = () => {
     if (animatingItems.includes(productKey)) {
       cancelWishlistMove(product);
     } else {
-      toast.info(`${product.name} will be moved to your wishlist in 5 seconds.`);
+      toast.info(`${product.name} will be moved to your wishlist.`);
       
       setAnimatingItems((prev) => [...prev, productKey]);
   
@@ -42,7 +42,6 @@ const CartPage = () => {
           addToWishlist(product)
             .then(() => {
               removeFromCart(product);
-              toast.success(`${product.name} added to your wishlist and removed from your cart.`);
             })
             .catch(() => {
               toast.error(`Failed to add ${product.name} to your wishlist. Please try again.`);

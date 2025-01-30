@@ -111,11 +111,11 @@
 }
 
 .remove-from-wishlist-button {
-  background-color: #ff4d4d;
+  background-color: #333;
 }
 
 .remove-from-wishlist-button:hover {
-  background-color: #d9534f;
+  background-color: #333;
 }
 
 /* Responsive Design */
