@@ -12,11 +12,9 @@ export const useWishlist = () => {
 
 export const WishlistProvider = ({ children }) => {
   const { authToken } = useAuth();
-  const { data: wishlist = [], mutate } = useSWR(authToken ? "/wishlist" : null, fetchWishlist);
-
+  
   async function fetchWishlist() {
     if (!authToken) return [];
-
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist`, {
         headers: { Authorization: `Bearer ${authToken}` },
@@ -29,6 +27,13 @@ export const WishlistProvider = ({ children }) => {
       return [];
     }
   }
+
+  const { data: wishlist = [], mutate } = useSWR(authToken ? "/wishlist" : null, fetchWishlist);
+
+  // ✅ Define `loadWishlist`
+  const loadWishlist = async () => {
+    await mutate(); // Refresh wishlist
+  };
 
   const addToWishlist = async (product) => {
     if (!authToken) {
@@ -55,7 +60,7 @@ export const WishlistProvider = ({ children }) => {
       console.log("✅ Wishlist API Response:", response.data);
 
       if (response.status === 201 || response.status === 200) {
-        await mutate(); // ✅ Refresh wishlist after adding item
+        await loadWishlist(); // ✅ Use `loadWishlist` after adding item
         toast.success(`${product.name} added to your wishlist.`);
       } else {
         toast.error("Failed to add item to wishlist.");
@@ -75,12 +80,15 @@ export const WishlistProvider = ({ children }) => {
     try {
       console.log("🗑 Removing Wishlist Item:", { wishlistId });
 
-      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/wishlist/${wishlistId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/wishlist/${wishlistId}`, // ✅ Correct URL format
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
 
       if (response.status === 200) {
-        await mutate((prev) => prev.filter((item) => item.id !== wishlistId), false); // ✅ Remove item from cache
+        await mutate(); // ✅ Refresh wishlist after removal
         toast.success("Item removed from wishlist.");
       } else {
         toast.error("Failed to remove from wishlist.");
@@ -89,11 +97,12 @@ export const WishlistProvider = ({ children }) => {
       console.error("❌ Failed to remove from wishlist:", error.response?.data || error.message);
       toast.error(error.response?.data?.message || "Failed to remove from wishlist.");
     }
-  };
+};
+
 
   return (
     <WishlistContext.Provider
-      value={{ wishlist, addToWishlist, removeFromWishlist }}
+      value={{ wishlist, addToWishlist, removeFromWishlist, loadWishlist }}
     >
       {children}
     </WishlistContext.Provider>
