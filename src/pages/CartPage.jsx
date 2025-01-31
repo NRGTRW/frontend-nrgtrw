@@ -15,63 +15,72 @@ const CartPage = () => {
   const [cancelledItems, setCancelledItems] = useState(new Set());
 
   const handleRemove = (product) => {
-    removeFromCart(product);
-    toast.success(`${product.name} removed from your cart.`);
+    if (!product.cartItemId) {
+      console.error("❌ Missing cartItemId for product:", product);
+      toast.error("Error: Unable to remove item.");
+      return;
+    }
+
+    removeFromCart(product.cartItemId); // ✅ Ensure `cartItemId` is used
+    // toast.success(`Item removed from your cart.`);
+    // ${product.name}
   };
 
   const handleWishlistToggle = (product) => {
-    const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
-  
+    const productKey = `${product.cartItemId}-${product.selectedSize}-${product.selectedColor}`;
+
     if (animatingItems.includes(productKey)) {
       cancelWishlistMove(product);
     } else {
-      toast.info(`${product.name} will be moved to your wishlist.`);
-      
+      toast.info(`Item will be moved to your wishlist.`);
       setAnimatingItems((prev) => [...prev, productKey]);
-  
+
       // ✅ Remove from cancelledItems if reattempting
       setCancelledItems((prev) => {
         const updatedSet = new Set(prev);
         updatedSet.delete(productKey);
         return updatedSet;
       });
-  
+
       const timer = setTimeout(() => {
-        // ✅ Double-check if item is still in cancelledItems before adding
         if (!cancelledItems.has(productKey)) {
-          addToWishlist(product)
+          addToWishlist({
+            id: product.productId, // ✅ Use productId, not cartItemId
+            name: product.name,
+            price: product.price,
+            selectedSize: product.selectedSize,
+            selectedColor: product.selectedColor,
+          })
             .then(() => {
-              removeFromCart(product);
+              removeFromCart(product.cartItemId); // ✅ Remove using cartItemId
             })
             .catch(() => {
-              toast.error(`Failed to add ${product.name} to your wishlist. Please try again.`);
+              toast.error(
+                `Failed to add ${product.name} to your wishlist. Please try again.`
+              );
             });
         }
-  
-        // ✅ Always remove from animatingItems after timeout
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
       }, 5000);
-  
+
       product.timer = timer;
     }
   };
-  
+
   const cancelWishlistMove = (product) => {
-    const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
+    const productKey = `${product.cartItemId}-${product.selectedSize}-${product.selectedColor}`;
     clearTimeout(product.timer);
-  
+
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-  
-    // ✅ Temporarily block this item but allow reattempts
+
     setCancelledItems((prev) => {
       const updatedSet = new Set(prev);
       updatedSet.add(productKey);
       return updatedSet;
     });
-  
+
     toast.info(`Cancelled moving ${product.name} to wishlist.`);
   };
-  
 
   const calculateTotal = () =>
     cart.reduce((total, product) => total + product.quantity * product.price, 0);
@@ -92,24 +101,21 @@ const CartPage = () => {
       <h2>Your Cart</h2>
       <div className="cart-items">
         <AnimatePresence>
-          {cart.map((product) => {
-            const productKey = `${product.id}-${product.selectedSize}-${product.selectedColor}`;
+          {cart.map((product, index) => {
+            if (!product.cartItemId) {  // ✅ Ensure we're checking `cartItemId`
+              console.error("❌ Missing cartItemId in cart item:", product);
+              return null; // Prevent rendering items with missing IDs
+            }
+
+            const productKey = `${product.cartItemId}-${index}`; // ✅ Use cartItemId
+
             return (
-              <motion.div
-                key={productKey}
-                className="cart-item"
-                initial={{ opacity: 1, x: 0 }}
-                animate={{
-                  opacity: animatingItems.includes(productKey) ? 0.5 : 1,
-                }}
-                exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 0.5 }}
-              >
+              <motion.div key={productKey} className="cart-item">
                 <img
                   src={product.selectedColor}
                   alt={product.name}
                   className="cart-item-image"
-                  onClick={() => navigate(`/product/${product.id}`)}
+                  onClick={() => navigate(`/product/${product.productId}`)}
                 />
                 <div className="cart-item-details">
                   <h3>{product.name}</h3>
@@ -118,7 +124,8 @@ const CartPage = () => {
                   <p>Price: ${product.price}</p>
                 </div>
                 <div className="cart-item-actions">
-                  <img
+                  {/* ✅ Wishlist Button - Now Correctly Implemented */}
+                  <motion.img
                     src={
                       animatingItems.includes(productKey) &&
                       !cancelledItems.has(productKey)
@@ -132,6 +139,8 @@ const CartPage = () => {
                         ? cancelWishlistMove(product)
                         : handleWishlistToggle(product)
                     }
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   />
                   <button
                     className="remove-item-button"

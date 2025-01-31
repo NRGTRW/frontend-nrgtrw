@@ -61,7 +61,7 @@ export const WishlistProvider = ({ children }) => {
 
       if (response.status === 201 || response.status === 200) {
         await loadWishlist(); // ✅ Use `loadWishlist` after adding item
-        toast.success(`${product.name} added to your wishlist.`);
+        toast.success(`Item added to your wishlist.`);
       } else {
         toast.error("Failed to add item to wishlist.");
       }
@@ -89,7 +89,7 @@ export const WishlistProvider = ({ children }) => {
 
       if (response.status === 200) {
         await mutate(); // ✅ Refresh wishlist after removal
-        toast.success("Item removed from wishlist.");
+        toast.success("Item removed from your wishlist.");
       } else {
         toast.error("Failed to remove from wishlist.");
       }

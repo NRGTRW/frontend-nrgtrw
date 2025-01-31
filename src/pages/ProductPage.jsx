@@ -33,17 +33,17 @@ const ProductPage = () => {
   const [selectedColorIndex, setSelectedColorIndex] = useState(initialColorIndex || 0);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [maxLimitReached, setMaxLimitReached] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [animatingItems, setAnimatingItems] = useState([]);
   const [cancelledItems, setCancelledItems] = useState(new Set());
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const maxQuantity = 99;
   const currentColor = product?.colors?.[selectedColorIndex] || {};
   const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
 
+  // Set initial size if it's not already selected
   useEffect(() => {
-    if (product && product.sizes?.length && !selectedSize) {
+    if (product?.sizes?.length && !selectedSize) {
       setSelectedSize(product.sizes[0].size.size);
     }
   }, [product, selectedSize]);
@@ -64,64 +64,51 @@ const ProductPage = () => {
       selectedSize,
       selectedColor: currentColor.imageUrl,
     });
+
+    toast.success(`${product.name} added to cart!`);
   };
 
   const handleWishlistToggle = () => {
-  if (!user) {
-    toast.error("You must log in to add items to your wishlist.");
-    return;
-  }
+    if (!user) {
+      toast.error("You must log in to add items to your wishlist.");
+      return;
+    }
 
-  const productKey = `${product.id}-${selectedSize}-${currentColor.imageUrl}`;
-
-  if (animatingItems.includes(productKey)) {
-    cancelWishlistMove();
-  } else {
-    toast.info(`${product.name} will be moved to your wishlist.`);
-
-    setAnimatingItems((prev) => [...prev, productKey]);
-
-    setCancelledItems((prev) => {
-      const updatedSet = new Set(prev);
-      updatedSet.delete(productKey);
-      return updatedSet;
-    });
-
-    const timer = setTimeout(() => {
-      if (!cancelledItems.has(productKey)) {
-        addToWishlist({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          selectedSize,
-          selectedColor: currentColor.imageUrl,
-        }).catch((error) => {
-          if (error === "User not logged in") {
-            toast.error("You must log in first to add items to your wishlist.");
-          }
-        });
-      }
-
-      setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-    }, 5000);
-
-    product.timer = timer;
-  }
-};
-
-
-  const cancelWishlistMove = () => {
     const productKey = `${product.id}-${selectedSize}-${currentColor.imageUrl}`;
+
+    if (animatingItems.includes(productKey)) {
+      cancelWishlistMove(productKey);
+    } else {
+      toast.info(`Item will be moved to your wishlist.`);
+
+      setAnimatingItems((prev) => [...prev, productKey]);
+      setCancelledItems((prev) => new Set([...prev].filter((key) => key !== productKey)));
+
+      const timer = setTimeout(() => {
+        if (!cancelledItems.has(productKey)) {
+          addToWishlist({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            selectedSize,
+            selectedColor: currentColor.imageUrl,
+          }).catch((error) => {
+            if (error === "User not logged in") {
+              toast.error("You must log in first to add items to your wishlist.");
+            }
+          });
+        }
+        setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
+      }, 5000);
+
+      product.timer = timer;
+    }
+  };
+
+  const cancelWishlistMove = (productKey) => {
     clearTimeout(product.timer);
-
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-
-    setCancelledItems((prev) => {
-      const updatedSet = new Set(prev);
-      updatedSet.add(productKey);
-      return updatedSet;
-    });
-
+    setCancelledItems((prev) => new Set([...prev, productKey]));
     toast.info(`Cancelled moving ${product.name} to wishlist.`);
   };
 
@@ -133,34 +120,54 @@ const ProductPage = () => {
       <div className="product-container">
         {/* ✅ Wishlist Button (Top-Right of Product Card) */}
         <motion.img
-  src={
-    animatingItems.includes(`${product.id}-${selectedSize}-${currentColor.imageUrl}`) &&
-    !cancelledItems.has(`${product.id}-${selectedSize}-${currentColor.imageUrl}`)
-      ? "/wishlist-filled.png"
-      : "/wishlist-outline.png"
-  }
-  alt="Wishlist"
-  className="wishlist-icon-productPage"
-  onClick={() =>
-    animatingItems.includes(`${product.id}-${selectedSize}-${currentColor.imageUrl}`)
-      ? cancelWishlistMove()
-      : handleWishlistToggle()
-  }
-  whileHover={{ scale: 1.1 }}
-  whileTap={{ scale: 0.9 }}
-/>
+          src={
+            animatingItems.includes(`${product.id}-${selectedSize}-${currentColor.imageUrl}`) &&
+            !cancelledItems.has(`${product.id}-${selectedSize}-${currentColor.imageUrl}`)
+              ? "/wishlist-filled.png"
+              : "/wishlist-outline.png"
+          }
+          alt="Wishlist"
+          className="wishlist-icon-productPage"
+          onClick={handleWishlistToggle}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        />
 
         {/* Left side: images */}
         <div className="product-images">
           <div className="image-carousel">
-            <button className="carousel-arrow left-arrow" onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))}>❮</button>
-            <img src={images[currentImageIndex]} alt={`${product.name} - ${currentColor.colorName || "default"}`} className="main-image" />
-            <button className="carousel-arrow right-arrow" onClick={() => setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}>❯</button>
+            <button
+              className="carousel-arrow left-arrow"
+              onClick={() =>
+                setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+              }
+            >
+              ❮
+            </button>
+            <img
+              src={images[currentImageIndex]}
+              alt={`${product.name} - ${currentColor.colorName || "default"}`}
+              className="main-image"
+            />
+            <button
+              className="carousel-arrow right-arrow"
+              onClick={() =>
+                setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+              }
+            >
+              ❯
+            </button>
           </div>
 
           <div className="color-thumbnails">
             {product.colors?.map((color, index) => (
-              <img key={index} src={color.imageUrl} alt={`${product.name} - ${color.colorName}`} className={`thumbnail ${selectedColorIndex === index ? "selected" : ""}`} onClick={() => { setSelectedColorIndex(index); setCurrentImageIndex(0); }} />
+              <img
+                key={index}
+                src={color.imageUrl}
+                alt={`${product.name} - ${color.colorName}`}
+                className={`thumbnail ${selectedColorIndex === index ? "selected" : ""}`}
+                onClick={() => setSelectedColorIndex(index)}
+              />
             ))}
           </div>
         </div>
@@ -173,24 +180,39 @@ const ProductPage = () => {
 
           <div className="size-quantity-row">
             <div className="size-selector">
-              {sortedSizes.map((productSize) => {
-                const sizeString = productSize.size.size;
-                return (
-                  <button key={productSize.id} className={`size-button ${selectedSize === sizeString ? "selected" : ""}`} onClick={() => setSelectedSize(sizeString)}>
-                    {sizeString}
-                  </button>
-                );
-              })}
+              {sortedSizes.map((productSize) => (
+                <button
+                  key={productSize.id}
+                  className={`size-button ${selectedSize === productSize.size.size ? "selected" : ""}`}
+                  onClick={() => setSelectedSize(productSize.size.size)}
+                >
+                  {productSize.size.size}
+                </button>
+              ))}
             </div>
 
             <div className="quantity-selector">
-              <button className="quantity-button minus" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1}>-</button>
-              <input type="number" min="1" max={maxQuantity} className="quantity-value" value={quantity} onChange={(e) => setQuantity(Math.min(Math.max(1, parseInt(e.target.value, 10)), maxQuantity))} />
-              <button className="quantity-button plus" onClick={() => setQuantity(Math.min(quantity + 1, maxQuantity))} disabled={quantity >= maxQuantity}>+</button>
+              <button
+                className="quantity-button minus"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                disabled={quantity <= 1}
+              >
+                -
+              </button>
+              <span className="quantity-value">{quantity}</span>
+              <button
+                className="quantity-button plus"
+                onClick={() => setQuantity(Math.min(quantity + 1, maxQuantity))}
+                disabled={quantity >= maxQuantity}
+              >
+                +
+              </button>
             </div>
           </div>
 
-          <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
+          <button className="add-to-cart-button" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
