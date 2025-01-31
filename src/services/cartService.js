@@ -1,5 +1,5 @@
 export const addToCartHandler = async (item) => {
-  const response = await fetch("/api/cart", {
+  const response = await fetch("/cart", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(item),
