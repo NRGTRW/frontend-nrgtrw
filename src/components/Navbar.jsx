@@ -1,4 +1,3 @@
-// Navbar.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -10,6 +9,7 @@ import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
 import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";
+import CartPreview from "./CartPreview"; // Import the CartPreview component
 
 // Helper to retrieve auth token from localStorage
 const getAuthToken = () => localStorage.getItem("authToken");
@@ -38,6 +38,7 @@ const fetcher = async (url) => {
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showCartPreview, setShowCartPreview] = useState(false); // local state to show/hide the cart preview
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const Navbar = () => {
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
 
-  // Fetch profile information with SWR (refreshes every 5 seconds if logged in)
+  // Fetch profile information with SWR (refreshes every 3 seconds if logged in)
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
     fetcher,
@@ -88,6 +89,15 @@ const Navbar = () => {
       : `${import.meta.env.VITE_IMAGE_BASE_URL}/${profile.profilePicture}`
     : defaultProfilePicture;
 
+  // Handlers to show/hide the cart preview when hovering over the cart icon
+  const handleCartMouseEnter = () => {
+    setShowCartPreview(true);
+  };
+
+  const handleCartMouseLeave = () => {
+    setShowCartPreview(false);
+  };
+
   return (
     <header className="navbar">
       <div className="top-bar">
@@ -126,14 +136,18 @@ const Navbar = () => {
               tabIndex={0}
               aria-label="Navigate to wishlist"
             />
-            {/* Optional Stylish Badge: Remove or customize as desired */}
             {wishlistCount > 0 && (
               <span className="badge">{wishlistCount}</span>
             )}
           </div>
 
-          {/* Cart Icon */}
-          <div className="cart-container">
+          {/* Cart Icon with Cart Preview */}
+          <div
+            className="cart-container"
+            onMouseEnter={handleCartMouseEnter}
+            onMouseLeave={handleCartMouseLeave}
+            style={{ position: "relative" }} // Ensure proper positioning for the pop-up
+          >
             <img
               src={cartImage}
               alt="Shopping Cart"
@@ -152,6 +166,7 @@ const Navbar = () => {
                 </span>
               </div>
             )}
+            {showCartPreview && <CartPreview />}
           </div>
 
           {/* Profile Icon */}
