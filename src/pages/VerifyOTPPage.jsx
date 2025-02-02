@@ -31,7 +31,7 @@ const VerifyOTPPage = () => {
       });
 
       localStorage.setItem("authToken", response.data.token); // Store token
-      toast.success("OTP Verified! Redirecting...");
+      toast.success("You've been Verified! Redirecting...");
       setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
       toast.error(err.response?.data?.error || "Invalid OTP. Try again.");
@@ -42,12 +42,12 @@ const VerifyOTPPage = () => {
 
   return (
     <>
-      {isLoading && <LoaderModal message="Verifying OTP..." />}
+      {isLoading && <LoaderModal message="Verifying..." />}
       <div className="otp-page">
         <div className="otp-container">
           <h2 className="otp-header">Email Verification</h2>
           <p className="otp-description">
-            Enter the 6-digit OTP sent to your email to verify your account.
+            Enter the 6-digit Verification code sent to your email to verify your account.
           </p>
           <form className="otp-form" onSubmit={handleSubmit}>
             <input

@@ -27,6 +27,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
+
 .product-images {
   flex: 1;
   min-width: 300px;
@@ -104,7 +105,6 @@ body {
   transform: scale(1.05);
 }
 
-
 .product-details {
   flex: 1;
   min-width: 300px;
@@ -134,7 +134,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
-  color:#333;
+  color: #333;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -171,7 +171,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color:#333;
+  color: #333;
 }
 
 .quantity-button:hover {
@@ -323,6 +323,7 @@ body {
   -moz-appearance: textfield; /* Removes arrows in Firefox */
 }
 
+/* Wishlist Icon for Product Page */
 .wishlist-icon-productPage {
   position: absolute;
   top: 15px;
@@ -338,13 +339,12 @@ body {
   transform: scale(1.1);
 }
 
-/* ✅ Move Wishlist Button to Bottom-Right on Mobile */
+/* ✅ On Mobile, ensure the wishlist button remains at the top right corner of the image */
 @media (max-width: 768px) {
   .wishlist-icon-productPage {
-    position: absolute;
-    top: auto;
-    bottom: 17%; /* Move to bottom */
-    right: 15%; /* Keep it aligned right */
+    top: 30px;
+    right: 30px;
+    bottom: auto;
     width: 40px;
     height: 40px;
   }

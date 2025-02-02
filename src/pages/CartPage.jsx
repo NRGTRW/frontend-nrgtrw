@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import GoBackButton from "../components/GoBackButton";
@@ -11,85 +11,93 @@ const CartPage = () => {
   const { cart, removeFromCart } = useCart();
   const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
+
   const [animatingItems, setAnimatingItems] = useState([]);
   const [cancelledItems, setCancelledItems] = useState(new Set());
+  const timersRef = useRef({}); // Track active wishlist timers
 
+  // 🚀 Optimistic removal of cart items
   const handleRemove = (product) => {
-    if (!product.cartItemId) {
-      console.error("❌ Missing cartItemId for product:", product);
+    if (!product.cartItemId || !product.name) {
       toast.error("Error: Unable to remove item.");
       return;
     }
 
-    removeFromCart(product.cartItemId); // ✅ Ensure `cartItemId` is used
-    // toast.success(`Item removed from your cart.`);
-    // ${product.name}
+    toast.promise(removeFromCart(product.cartItemId), {
+      pending: `Removing ${product.name}...`,
+      success: `${product.name}(s) removed from your cart!`,
+      error: `Failed to remove ${product.name} from cart.`,
+    });
   };
 
+  // ❤️ Wishlist toggle with animation delay
   const handleWishlistToggle = (product) => {
-    const productKey = `${product.cartItemId}-${product.selectedSize}-${product.selectedColor}`;
+    if (!product.name) {
+      toast.error("Error: Unable to add item to wishlist.");
+      return;
+    }
+
+    const productKey = `${product.productId}-${product.selectedSize}-${product.selectedColor}`;
 
     if (animatingItems.includes(productKey)) {
-      cancelWishlistMove(product);
+      cancelWishlistMove(productKey);
     } else {
-      toast.info(`Item will be moved to your wishlist.`);
+      toast.info(`${product.name} will be moved to your wishlist.`);
       setAnimatingItems((prev) => [...prev, productKey]);
-
-      // ✅ Remove from cancelledItems if reattempting
-      setCancelledItems((prev) => {
-        const updatedSet = new Set(prev);
-        updatedSet.delete(productKey);
-        return updatedSet;
-      });
 
       const timer = setTimeout(() => {
         if (!cancelledItems.has(productKey)) {
           addToWishlist({
-            id: product.productId, // ✅ Use productId, not cartItemId
+            id: product.productId,
             name: product.name,
             price: product.price,
             selectedSize: product.selectedSize,
             selectedColor: product.selectedColor,
           })
-            .then(() => {
-              removeFromCart(product.cartItemId); // ✅ Remove using cartItemId
-            })
+            .then(() => removeFromCart(product.cartItemId))
             .catch(() => {
-              toast.error(
-                `Failed to add ${product.name} to your wishlist. Please try again.`
-              );
+              toast.error(`Failed to add ${product.name} to wishlist. Please try again.`);
             });
         }
-        setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-      }, 5000);
 
-      product.timer = timer;
+        setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
+        delete timersRef.current[productKey]; // Cleanup timer reference
+      }, 4000);
+
+      timersRef.current[productKey] = timer;
     }
   };
 
-  const cancelWishlistMove = (product) => {
-    const productKey = `${product.cartItemId}-${product.selectedSize}-${product.selectedColor}`;
-    clearTimeout(product.timer);
-
+  // ❌ Cancel wishlist move
+  const cancelWishlistMove = (productKey) => {
+    if (timersRef.current[productKey]) {
+      clearTimeout(timersRef.current[productKey]);
+      delete timersRef.current[productKey];
+    }
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-
-    setCancelledItems((prev) => {
-      const updatedSet = new Set(prev);
-      updatedSet.add(productKey);
-      return updatedSet;
-    });
-
-    toast.info(`Cancelled moving ${product.name} to wishlist.`);
+    setCancelledItems((prev) => new Set([...prev, productKey]));
+    toast.info(`Cancelled moving item to wishlist.`);
   };
 
+  // 🔄 Cleanup timers when the component unmounts
+  useEffect(() => {
+    return () => {
+      Object.values(timersRef.current).forEach(clearTimeout);
+      timersRef.current = {};
+    };
+  }, []);
+
+  // 🛒 Calculate total price
   const calculateTotal = () =>
     cart.reduce((total, product) => total + product.quantity * product.price, 0);
 
   if (!cart.length) {
     return (
       <div className="cart-page empty">
-        <div className="spacer-bar"></div>
-        <h2>Your cart is currently empty. Explore our catalog and add products you love!</h2>
+        <h2>
+          Your cart is currently empty. Explore our catalog and add products you
+          love!
+        </h2>
         <GoBackButton text="Return to Previous Page" />
       </div>
     );
@@ -97,81 +105,85 @@ const CartPage = () => {
 
   return (
     <div className="cart-page">
-      <div className="spacer-bar"></div>
       <h2>Your Cart</h2>
       <div className="cart-items">
         <AnimatePresence>
-          {cart.map((product, index) => {
-            if (!product.cartItemId) {  // ✅ Ensure we're checking `cartItemId`
-              console.error("❌ Missing cartItemId in cart item:", product);
-              return null; // Prevent rendering items with missing IDs
+          {cart.map((product) => {
+            if (!product.cartItemId || !product.name) {
+              console.error("❌ Missing cartItemId or name in cart item:", product);
+              return null;
             }
 
-            const productKey = `${product.cartItemId}-${index}`; // ✅ Use cartItemId
+            const productKey = `${product.productId}-${product.selectedSize}-${product.selectedColor}`;
+            const isAnimating =
+              animatingItems.includes(productKey) && !cancelledItems.has(productKey);
 
             return (
-              <motion.div key={productKey} className="cart-item">
+              <motion.div
+                key={product.cartItemId}
+                className={`cart-item ${isAnimating ? "blurred" : ""}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+              >
                 <img
-                  src={product.selectedColor}
+                  src={product.imageUrl}
                   alt={product.name}
                   className="cart-item-image"
                   onClick={() => navigate(`/product/${product.productId}`)}
                 />
                 <div className="cart-item-details">
-                  <h3>{product.name}</h3>
+                  <h3>{product.name || "Unnamed Product"}</h3>
                   <p>Size: {product.selectedSize}</p>
                   <p>Quantity: {product.quantity}</p>
-                  <p>Price: ${product.price}</p>
+                  <p>Price: ${Number(product.price).toFixed(2)}</p>
                 </div>
                 <div className="cart-item-actions">
-                  {/* ✅ Wishlist Button - Now Correctly Implemented */}
                   <motion.img
-                    src={
-                      animatingItems.includes(productKey) &&
-                      !cancelledItems.has(productKey)
-                        ? "/wishlist-filled.png"
-                        : "/wishlist-outline.png"
-                    }
+                    src={isAnimating ? "/wishlist-filled.png" : "/wishlist-outline.png"}
                     alt="Wishlist"
-                    className="wishlist-icon"
-                    onClick={() =>
-                      animatingItems.includes(productKey)
-                        ? cancelWishlistMove(product)
-                        : handleWishlistToggle(product)
-                    }
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    className={`wishlist-icon ${isAnimating ? "wishlisted" : ""}`}
+                    onClick={() => handleWishlistToggle(product)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   />
-                  <button
+                  <motion.button
                     className="remove-item-button"
                     onClick={() => handleRemove(product)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     Remove
-                  </button>
+                  </motion.button>
                 </div>
               </motion.div>
             );
           })}
         </AnimatePresence>
       </div>
-      <div className="cart-summary">
-        <h3>Total: ${calculateTotal().toFixed(2)}</h3>
-        <div className="button-group">
-          <button
-            className="continue-shopping-button"
-            onClick={() => navigate("/clothing")}
-          >
-            Continue Shopping
-          </button>
-          <button
-            className="checkout-button"
-            onClick={() => toast.info("Proceeding to checkout...")}
-          >
-            Proceed to Checkout
-          </button>
-        </div>
-        <GoBackButton />
+
+      <h3>Total: ${calculateTotal().toFixed(2)}</h3>
+
+      <div className="cart-actions">
+        <motion.button
+          className="continue-shopping-button"
+          onClick={() => navigate("/shop")}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Continue Shopping
+        </motion.button>
+        <motion.button
+          className="checkout-button"
+          onClick={() => navigate("/checkout")}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Checkout
+        </motion.button>
       </div>
+
+      <GoBackButton />
     </div>
   );
 };

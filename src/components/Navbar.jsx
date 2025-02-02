@@ -1,23 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import useSWR from "swr";
 import api from "../services/api";
 import defaultProfilePicture from "/default-profile.webp";
 import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
+import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";
 
-// ✅ Function to get the stored token
 const getAuthToken = () => localStorage.getItem("authToken");
 
-// ✅ SWR Fetcher Function (Only Calls API if Token Exists)
 const fetcher = async (url) => {
   const token = getAuthToken();
 
   if (!token) {
     console.warn("Skipping profile fetch: No auth token.");
-    return null; // Prevents unauthorized requests
+    return null;
   }
 
   try {
@@ -28,8 +28,8 @@ const fetcher = async (url) => {
   } catch (error) {
     console.error("Error fetching profile:", error.response?.status);
     if (error.response?.status === 401) {
-      console.warn("Token might be expired. Consider logging out.");
-      localStorage.removeItem("authToken"); // Auto-remove invalid token
+      console.warn("Token might be expired. Logging out.");
+      localStorage.removeItem("authToken");
     }
     return null;
   }
@@ -41,13 +41,12 @@ const Navbar = () => {
   const buttonRef = useRef(null);
   const navigate = useNavigate();
   const { getTotalQuantity } = useCart();
+  const { wishlist } = useWishlist();
 
-  // ✅ Use SWR for fetching profile only if user is logged in
   const { data: profile } = useSWR(getAuthToken() ? "/profile" : null, fetcher, {
-    refreshInterval: getAuthToken() ? 5000 : 0, // ✅ Polling only if user is logged in
+    refreshInterval: getAuthToken() ? 5000 : 0,
   });
 
-  // Close menu if user clicks outside
   useEffect(() => {
     if (!menuOpen) return;
     function handleClickOutside(e) {
@@ -69,7 +68,6 @@ const Navbar = () => {
     else handleNavigation(fallbackPath);
   };
 
-  // ✅ Build Profile Image URL (Handles Missing or Broken Images)
   const profilePicture = profile?.profilePicture
     ? profile.profilePicture.startsWith("http")
       ? profile.profilePicture
@@ -91,7 +89,14 @@ const Navbar = () => {
 
         <div className="right-container">
           <div className="wishlist-container">
-            <img src={heartOutline} alt="Wishlist" className="wishlist-icon" onClick={() => handleAuthenticatedNavigation("/wishlist", "/login")} tabIndex={0} aria-label="Navigate to wishlist" />
+            <img
+              src={wishlist.length > 0 ? heartFilled : heartOutline}
+              alt="Wishlist"
+              className="wishlist-icon"
+              onClick={() => handleAuthenticatedNavigation("/wishlist", "/login")}
+              tabIndex={0}
+              aria-label="Navigate to wishlist"
+            />
           </div>
 
           <div className="cart-container">
@@ -105,7 +110,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* ✅ Profile Picture (Now Updates Dynamically & Fails Gracefully) */}
           <img
             src={profilePicture}
             alt="Profile"

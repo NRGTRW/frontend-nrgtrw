@@ -76,24 +76,28 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  justify-content: center; /* Center the wishlist icon and button */
+  width: 100px;
 }
 
 /* Wishlist Icon */
 .wishlist-icon {
-  background: none;
-  border: none;
-  font-size: 24px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+  display: block;
+  margin: 5px auto;
   color: #aaa; /* Default color */
-  transition: color 0.3s ease;
 }
 
 .wishlist-icon.wishlisted {
   color: #ff0000; /* Red when wishlisted */
+  animation: heartPulse 0.5s ease-in-out;
 }
 
 .wishlist-icon:hover {
-  color: #ff6666; /* Lighter red on hover */
+  transform: scale(1.15);
 }
 
 /* Remove Button */
@@ -129,9 +133,10 @@ h2 {
   justify-content: flex-end;
 }
 
+/* Continue Shopping Button */
 .continue-shopping-button {
-  background-color: #007bff;
-  color: white;
+  background-color: #d1d1d1; /* Soft, neutral gray for a calming effect */
+  color: #111; /* Dark gray for contrast */
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -141,12 +146,12 @@ h2 {
 }
 
 .continue-shopping-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+  background-color: #bdbdbd; /* Slightly darker gray for depth */
 }
 
+/* Checkout Button */
 .checkout-button {
-  background-color: #28a745;
+  background-color: #111; /* Deep black for authority and trust */
   color: white;
   border: none;
   border-radius: 5px;
@@ -157,8 +162,7 @@ h2 {
 }
 
 .checkout-button:hover {
-  background-color: #218838;
-  transform: scale(1.05);
+  background-color: #333; /* Slightly lighter black for subtle effect */
 }
 
 /* Smooth removal animation */
@@ -168,28 +172,21 @@ h2 {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Wishlist Icon Styling */
-.wishlist-icon {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.wishlist-icon:hover {
-  transform: scale(1.1);
-}
-
-/* Apply blur effect to the specific item only */
+/* Blurred effect when moving item to wishlist */
 .cart-item.blurred {
   filter: blur(3px);
   opacity: 0.5;
-  pointer-events: auto; /* Ensure clickable elements inside are still interactive */
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* Ensure other items remain unaffected */
-.cart-item:not(.blurred) {
-  filter: none;
-  opacity: 1;
+/* Allow wishlist icon to be clickable even if the parent is blurred */
+.cart-item.blurred .wishlist-icon {
+  pointer-events: auto;
+}
+
+/* Wishlist Animation */
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }

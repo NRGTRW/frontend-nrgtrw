@@ -47,7 +47,7 @@ const SignUpPage = () => {
       // ✅ Store email in localStorage for OTP verification
       localStorage.setItem("email", formData.email);
 
-      toast.success("Signup successful! Check your email for the OTP.", {
+      toast.success("Signup successful! Check your email for the Verification code.", {
         autoClose: 6000,
       });
       toast.info("⚠️ If you don’t see the email, check your spam folder.", {

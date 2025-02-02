@@ -1,10 +1,15 @@
 import React from "react";
 import { SWRConfig } from "swr";
-import api from "../services/api"; // Centralized API service
+import api from "../services/api";
 
 const fetcher = async (url) => {
-  const response = await api.get(url);
-  return response.data;
+  try {
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("SWR Fetch Error:", error.message);
+    throw error;
+  }
 };
 
 const SWRProvider = ({ children }) => {
@@ -12,11 +17,13 @@ const SWRProvider = ({ children }) => {
     <SWRConfig
       value={{
         fetcher,
-        refreshInterval: 5000, // ✅ Polling every 5 sec globally
-        revalidateOnFocus: true, // ✅ Refresh when user refocuses the page
-        revalidateOnReconnect: true, // ✅ Refresh when network reconnects
-        dedupingInterval: 2000, // ✅ Avoid duplicate fetches within 2 sec
-        shouldRetryOnError: true, // ✅ Retry on network errors
+        refreshInterval: 1000,
+        revalidateOnFocus: true,
+        revalidateOnReconnect: true,
+        dedupingInterval: 5000,
+        shouldRetryOnError: true,
+        errorRetryInterval: 5000,
+        errorRetryCount: 3,
       }}
     >
       {children}

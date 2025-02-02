@@ -1,14 +1,15 @@
 import axios from "axios";
+import { getToken } from "../context/tokenUtils"; // ✅ Ensure latest token is used
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080/api",
 });
 
-// Add a request interceptor to include the token in all requests
+// ✅ Add request interceptor for all requests
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authToken");
-    console.log("📌 Sending Token in Headers:", token); // Debugging
+    const token = getToken();
+    console.log("📌 Sending Token in Headers:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -16,6 +17,5 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
 
 export default api;

@@ -1,26 +1,32 @@
-import axios from "axios";
-import { createContext, useContext, useState, useEffect } from "react";
+// CartContext.jsx
+import React, { createContext, useContext } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "./AuthContext";
+import axios from "axios";
 import useSWR from "swr";
+import { getToken } from "./tokenUtils";
 
 const CartContext = createContext();
 
-export const useCart = () => {
-  return useContext(CartContext);
-};
+export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const { authToken } = useAuth();
-
-  // ✅ Fetch cart from backend
+  // 1) Fetch cart data
   const fetchCart = async () => {
-    if (!authToken) return [];
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
-      return response.data;
+
+      console.log("🛒 Fetched Cart Data:", response.data);
+
+      // Here we ensure the cart item always has the correct image:
+      //  - If selectedColor is a URL, use it
+      //  - Otherwise use the product's default imageUrl
+      //  - Otherwise fall back to "/default-image.png"
+      return response.data.map((item) => ({
+        ...item,
+        imageUrl: item.selectedColor || item.imageUrl || "/default-image.png",
+      }));
     } catch (error) {
       console.error("❌ Failed to load cart:", error.response?.data || error.message);
       toast.error(error.response?.data?.message || "Failed to load cart.");
@@ -28,23 +34,21 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const { data: cart = [], mutate } = useSWR(authToken ? "/cart" : null, fetchCart);
+  // 2) Use SWR to load (and cache) the cart
+  const { data: cart = [], mutate } = useSWR(getToken() ? "/cart" : null, fetchCart);
 
-  useEffect(() => {
-    if (authToken) {
-      mutate();
-    }
-  }, [authToken]);
-
+  // 3) Add to cart
   const addToCart = async (product) => {
-    if (!authToken) {
+    if (!getToken()) {
       toast.error("You need to be logged in to add items to your cart.");
       return;
     }
 
     try {
       const requestData = {
-        productId: Number(product.id),
+        productId: Number(product.productId),
+        name: product.name,
+        price: product.price,
         selectedSize: product.selectedSize || null,
         selectedColor: product.selectedColor || null,
         quantity: product.quantity || 1,
@@ -55,12 +59,12 @@ export const CartProvider = ({ children }) => {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/cart`,
         requestData,
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        { headers: { Authorization: `Bearer ${getToken()}` } }
       );
 
       if (response.status === 201 || response.status === 200) {
-        mutate(); // ✅ Refresh cart automatically
-        toast.success(`Item added to your cart.`);
+        // Refresh cart automatically
+        mutate();
       } else {
         toast.error("Failed to add item to cart.");
       }
@@ -70,41 +74,50 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // 4) Remove from cart (with optimistic update)
   const removeFromCart = async (cartItemId) => {
+    if (!cartItemId) {
+      toast.error("Error: Invalid cart item.");
+      return;
+    }
+
+    // Immediately remove the item from our local cart (optimistic)
+    mutate((currentCart) => currentCart.filter((item) => item.cartItemId !== cartItemId), false);
+
     try {
-      if (!cartItemId) {
-        console.error("❌ Invalid item: Missing cartItemId", cartItemId);
-        toast.error("Error: Invalid item.");
-        return;
-      }
-  
       console.log(`📤 Removing item with cartItemId: ${cartItemId}`);
-  
-      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/cart/${cartItemId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-  
-      if (response.status === 200) {
-        console.log("✅ Removed item from your cart:", response.data);
-        mutate(); // Refresh cart
-        toast.success("Item removed from your cart.");
-      } else {
-        throw new Error("Failed to remove item from cart.");
-      }
+
+      await toast.promise(
+        axios.delete(`${import.meta.env.VITE_API_URL}/cart/${cartItemId}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }),
+        {
+          pending: "Removing item from cart...",
+          // success: "Item removed from cart!",
+          error: "Failed to remove item from cart.",
+        }
+      );
+
+      // Finally revalidate to ensure we have the latest state from the server
+      mutate();
     } catch (error) {
       console.error("❌ Delete error:", error.response?.data || error.message);
       toast.error(error.response?.data?.message || "Could not remove item from cart.");
+
+      // If there's an error, re‐fetch the cart to revert the optimistic update
+      mutate();
     }
   };
-    
-  
 
+  // 5) Get total quantity
   const getTotalQuantity = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalQuantity }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, getTotalQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );
