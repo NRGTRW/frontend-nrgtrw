@@ -50,7 +50,7 @@ const Navbar = () => {
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
     fetcher,
-    { refreshInterval: getAuthToken() ? 5000 : 0 }
+    { refreshInterval: getAuthToken() ? 3000 : 0 }
   );
 
   // Close mobile menu when clicking outside of it

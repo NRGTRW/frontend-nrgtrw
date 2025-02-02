@@ -51,24 +51,44 @@ export const WishlistProvider = ({ children }) => {
 
   // Function to add an item to the wishlist
   const addToWishlist = async (product) => {
+    // Check if the user is authenticated
     if (!authToken) {
       toast.error("You need to be logged in to add items to your wishlist.");
       return;
     }
+  
+    // Validate the product ID
     const productId = product.productId || product.id;
     if (!productId || isNaN(Number(productId))) {
       console.error("❌ Invalid product ID:", product);
       toast.error("Error: Invalid product ID.");
       return;
     }
+  
+    // Build the request payload
+    const requestData = {
+      productId: Number(productId),
+      selectedSize: product.selectedSize || null,
+      selectedColor: product.selectedColor || null,
+      quantity: product.quantity || 1,
+    };
+  
+    // Create an optimistic wishlist item.
+    // We use a temporary ID (here, Date.now()) that should be replaced by the server response.
+    const newItem = {
+      id: Date.now(), // temporary unique ID
+      product: { ...product },
+      selectedSize: requestData.selectedSize,
+      selectedColor: requestData.selectedColor,
+      quantity: requestData.quantity,
+    };
+  
+    // Optimistically update the wishlist cache
+    // `mutate` is assumed to be from your useSWR hook in WishlistContext.
+    mutate((currentWishlist = []) => [newItem, ...currentWishlist], false);
+  
     try {
-      const requestData = {
-        productId: Number(productId),
-        selectedSize: product.selectedSize || null,
-        selectedColor: product.selectedColor || null,
-        quantity: product.quantity || 1,
-      };
-      console.log("📤 Sending Wishlist Data:", requestData);
+      // Send the API request while showing a toast notification
       await toast.promise(
         axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, requestData, {
           headers: { Authorization: `Bearer ${authToken}` },
@@ -79,14 +99,18 @@ export const WishlistProvider = ({ children }) => {
           error: `Failed to add ${product.name} to wishlist.`,
         }
       );
+      // Revalidate the wishlist to get the updated data from the server (replaces our optimistic item)
       await mutate();
     } catch (error) {
+      // On error, revalidate the cache to remove the optimistic update
+      await mutate();
       console.error("❌ Wishlist API Error:", error.response?.data || error.message);
       toast.error(
         error.response?.data?.message || `Could not add ${product.name} to wishlist.`
       );
     }
   };
+  
 
   // Function to remove an item from the wishlist
   const removeFromWishlist = async (wishlistId) => {

@@ -160,7 +160,7 @@ const ProductPage = () => {
         }
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
         delete timersRef.current[productKey];
-      }, 5000);
+      }, 3000);
 
       timersRef.current[productKey] = timer;
     }

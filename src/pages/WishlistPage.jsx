@@ -17,7 +17,7 @@ const WishlistPage = () => {
 
   // ✅ Automatically refetch the wishlist every 5 seconds
   const { data: wishlist = [], mutate } = useSWR("/wishlist", fetchWishlist, {
-    refreshInterval: 5000, // ✅ Fetch new data every 5 seconds
+    refreshInterval: 3000, // ✅ Fetch new data every 5 seconds
   });
 
   if (!wishlist.length) {
