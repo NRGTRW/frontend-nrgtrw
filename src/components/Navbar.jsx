@@ -1,5 +1,6 @@
+// Navbar.jsx
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import useSWR from "swr";
@@ -10,16 +11,16 @@ import heartOutline from "/wishlist-outline.png";
 import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";
 
+// Helper to retrieve auth token from localStorage
 const getAuthToken = () => localStorage.getItem("authToken");
 
+// SWR fetcher for profile data
 const fetcher = async (url) => {
   const token = getAuthToken();
-
   if (!token) {
     console.warn("Skipping profile fetch: No auth token.");
     return null;
   }
-
   try {
     const response = await api.get(url, {
       headers: { Authorization: `Bearer ${token}` },
@@ -40,21 +41,32 @@ const Navbar = () => {
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const navigate = useNavigate();
+
   const { getTotalQuantity } = useCart();
   const { wishlist } = useWishlist();
+  const wishlistCount = wishlist.length;
 
-  const { data: profile } = useSWR(getAuthToken() ? "/profile" : null, fetcher, {
-    refreshInterval: getAuthToken() ? 5000 : 0,
-  });
+  // Fetch profile information with SWR (refreshes every 5 seconds if logged in)
+  const { data: profile } = useSWR(
+    getAuthToken() ? "/profile" : null,
+    fetcher,
+    { refreshInterval: getAuthToken() ? 5000 : 0 }
+  );
 
+  // Close mobile menu when clicking outside of it
   useEffect(() => {
     if (!menuOpen) return;
     function handleClickOutside(e) {
-      if (menuRef.current?.contains(e.target) || buttonRef.current?.contains(e.target)) return;
+      if (
+        menuRef.current?.contains(e.target) ||
+        buttonRef.current?.contains(e.target)
+      )
+        return;
       setMenuOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -62,12 +74,14 @@ const Navbar = () => {
     setMenuOpen(false);
     navigate(path);
   };
+
   const isLoggedIn = !!profile;
   const handleAuthenticatedNavigation = (protectedPath, fallbackPath) => {
     if (isLoggedIn) handleNavigation(protectedPath);
     else handleNavigation(fallbackPath);
   };
 
+  // Determine profile picture (or fallback to default)
   const profilePicture = profile?.profilePicture
     ? profile.profilePicture.startsWith("http")
       ? profile.profilePicture
@@ -77,51 +91,85 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="top-bar">
-        <button ref={buttonRef} className={`menu-toggle ${menuOpen ? "open" : ""}`} onClick={toggleMenu} aria-label="Toggle Menu">
+        {/* Hamburger Menu Button */}
+        <button
+          ref={buttonRef}
+          className={`menu-toggle ${menuOpen ? "open" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Toggle Menu"
+        >
           <span></span>
           <span></span>
           <span></span>
         </button>
 
-        <li className="logo" onClick={() => handleNavigation("/")} tabIndex={0} aria-label="Navigate to home">
+        {/* Logo */}
+        <li
+          className="logo"
+          onClick={() => handleNavigation("/")}
+          tabIndex={0}
+          aria-label="Navigate to home"
+        >
           NRG
         </li>
 
         <div className="right-container">
-          <div className="wishlist-container">
+          {/* Wishlist Icon */}
+          <div className="wishlist-container" style={{ position: "relative" }}>
             <img
-              src={wishlist.length > 0 ? heartFilled : heartOutline}
+              src={wishlistCount > 0 ? heartFilled : heartOutline}
               alt="Wishlist"
               className="wishlist-icon"
-              onClick={() => handleAuthenticatedNavigation("/wishlist", "/login")}
+              onClick={() =>
+                handleAuthenticatedNavigation("/wishlist", "/login")
+              }
               tabIndex={0}
               aria-label="Navigate to wishlist"
             />
+            {/* Optional Stylish Badge: Remove or customize as desired */}
+            {wishlistCount > 0 && (
+              <span className="badge">{wishlistCount}</span>
+            )}
           </div>
 
+          {/* Cart Icon */}
           <div className="cart-container">
-            <img src={cartImage} alt="Shopping Cart" className="cart-icon" onClick={() => handleNavigation("/cart")} tabIndex={0} aria-label="View cart" />
+            <img
+              src={cartImage}
+              alt="Shopping Cart"
+              className="cart-icon"
+              onClick={() => handleNavigation("/cart")}
+              tabIndex={0}
+              aria-label="View cart"
+            />
             {getTotalQuantity() > 0 && (
               <div className="cart-bubble-container">
-                <span className="cart-bubble" aria-label={`${getTotalQuantity()} items in cart`}>
+                <span
+                  className="cart-bubble"
+                  aria-label={`${getTotalQuantity()} items in cart`}
+                >
                   {getTotalQuantity()}
                 </span>
               </div>
             )}
           </div>
 
+          {/* Profile Icon */}
           <img
             src={profilePicture}
             alt="Profile"
             className="profile-icon"
             onError={(e) => (e.target.src = defaultProfilePicture)}
-            onClick={() => handleAuthenticatedNavigation("/profile", "/login")}
+            onClick={() =>
+              handleAuthenticatedNavigation("/profile", "/login")
+            }
             tabIndex={0}
             aria-label="Navigate to profile"
           />
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <ul ref={menuRef} className={`menu ${menuOpen ? "show" : ""}`}>
         <li onClick={() => handleNavigation("/")}>HOME</li>
         <li onClick={() => handleNavigation("/clothing")}>CLOTHING</li>

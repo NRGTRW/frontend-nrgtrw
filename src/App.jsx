@@ -1,11 +1,12 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion"; // ✅ Import Framer Motion
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { WishlistProvider } from "./context/WishlistContext"; // <-- Import WishlistProvider
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/global.css";
@@ -31,7 +32,7 @@ import FAQPage from "./pages/FAQPage";
 import MyOrder from "./pages/MyOrderPage";
 
 const App = () => {
-  const location = useLocation(); // ✅ Get the current route
+  const location = useLocation();
 
   const routes = [
     { path: "/", component: HomePage },
@@ -54,62 +55,64 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <CartProvider>
-        <ToastContainer  
-          position="top-center" 
-          autoClose={5000} 
-          hideProgressBar={false} 
-          closeOnClick 
-          pauseOnHover
-          draggable
-          transition={Slide} // ✅ Pushes from top smoothly
-        />
-        <ContentBellowNavbar />
-        
-        {/* ✅ Wrapping Routes inside AnimatePresence + motion.div for smooth page transitions */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname} // ✅ Ensure animations re-trigger on route changes
-            initial={{ opacity: 0}} 
-            animate={{ opacity: 1}} 
-            exit={{ opacity: 0}} 
-            transition={{ duration: 0.3 }}
-          >
-            <Routes location={location} key={location.pathname}>
-              {routes.map(({ path, component: Component }, index) => (
+      {/* Wrap WishlistProvider so that it can access the auth token */}
+      <WishlistProvider>
+        <CartProvider>
+          <ToastContainer  
+            position="top-center" 
+            autoClose={2500} 
+            hideProgressBar={false} 
+            closeOnClick 
+            pauseOnHover
+            draggable
+            transition={Slide}
+          />
+          <ContentBellowNavbar />
+          
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Routes location={location} key={location.pathname}>
+                {routes.map(({ path, component: Component }, index) => (
+                  <Route
+                    key={path || index}
+                    path={path}
+                    element={
+                      <main>
+                        {path !== "*" && <Navbar />}
+                        <ScrollToTop />
+                        <Component />
+                        {path !== "*" && <Footer />}
+                      </main>
+                    }
+                  />
+                ))}
                 <Route
-                  key={path || index}
-                  path={path}
+                  path="/profile"
+                  element={
+                    <PrivateRoute>
+                      <ProfilePage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="*"
                   element={
                     <main>
-                      {path !== "*" && <Navbar />}
-                      <ScrollToTop />
-                      <Component />
-                      {path !== "*" && <Footer />}
+                      <NotFoundPage />
                     </main>
                   }
                 />
-              ))}
-              <Route
-                path="/profile"
-                element={
-                  <PrivateRoute>
-                    <ProfilePage />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <main>
-                    <NotFoundPage />
-                  </main>
-                }
-              />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
-      </CartProvider>
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
+        </CartProvider>
+      </WishlistProvider>
     </AuthProvider>
   );
 };

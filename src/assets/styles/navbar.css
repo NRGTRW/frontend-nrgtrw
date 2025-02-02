@@ -101,8 +101,8 @@
 }
 
 .cart-bubble {
-  background-color: #ff4d4d;
-  color: white;
+  background-color: #ff3b30;
+  color: #fff;
   font-size: 12px;
   padding: 4px 8px;
   border-radius: 50%;
@@ -243,4 +243,17 @@
   .menu li {
     font-size: 14px;
   }
+}
+
+.badge {
+  background-color: #ff3b30; /* Vibrant red */
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }

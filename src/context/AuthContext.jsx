@@ -1,57 +1,58 @@
+// AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useProfile } from "./ProfileContext";
-import { saveToken, getToken, removeToken } from "./tokenUtils"; // ✅ Use token utils
+import { useProfile } from "./ProfileContext"; // if you have a ProfileContext
 
 export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [authToken, setAuthToken] = useState(getToken()); // ✅ Use getToken() for initial state
+  // Initialize authToken from localStorage
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem("authToken"));
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { logoutProfile } = useProfile(); // ✅ Access profile logout
+  const { logoutProfile } = useProfile();
 
-  // ✅ Load user dynamically with the latest token
+  // Function to load the user profile
   const loadUser = useCallback(async () => {
-    const token = getToken();
-    if (!token) return;
-
+    if (!authToken) return;
     try {
       setLoading(true);
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${authToken}` },
       });
       setUser(response.data);
     } catch (error) {
-      console.error("❌ Failed to load user:", error.message);
-      logOut();
+      console.error("Failed to load user:", error.message);
+      logOut(); // Logout if token is invalid
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authToken]);
 
-  // ✅ Login function updates token and reloads user
+  // Login function using the correct endpoint /auth/login
   const login = useCallback(
     async (credentials) => {
       try {
         setLoading(true);
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, credentials);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/login`,
+          credentials
+        );
         const { token, user: initialUserData } = response.data;
-
-        saveToken(token); // ✅ Store token properly
+        // Save token and update state
+        localStorage.setItem("authToken", token);
         setAuthToken(token);
         setUser(initialUserData);
-        await loadUser(); // ✅ Fetch full profile after login
-
+        // Reload the user profile
+        await loadUser();
         toast.success("Login successful!");
         return initialUserData;
       } catch (error) {
-        console.error("❌ Login failed:", error.message);
         toast.error("Login failed. Please check your credentials.");
         throw error;
       } finally {
@@ -61,19 +62,19 @@ export const AuthProvider = ({ children }) => {
     [loadUser]
   );
 
-  // ✅ Logout function clears token, profile, and session
+  // Logout function to clear auth state
   const logOut = useCallback(() => {
-    removeToken(); // ✅ Properly remove token
     setAuthToken(null);
     setUser(null);
-    logoutProfile(); // ✅ Clear profile data
+    localStorage.removeItem("authToken");
+    logoutProfile();
     toast.info("Logged out successfully.");
     navigate("/login", { replace: true });
   }, [navigate, logoutProfile]);
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   return (
     <AuthContext.Provider value={{ authToken, user, loading, login, logOut, loadUser }}>

@@ -3,9 +3,9 @@ export const saveToken = (token) => {
 };
 
 export const getToken = () => {
-  return localStorage.getItem("authToken"); // ✅ Fixed key
+  return localStorage.getItem("authToken");
 };
 
 export const removeToken = () => {
-  localStorage.removeItem("authToken"); // ✅ Fixed key
+  localStorage.removeItem("authToken");
 };

@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
-import LoadingPage from "./LoadingPage"; // Loader for loading state
+import api from "../services/api"; // For password reset endpoint
 import { toast } from "react-toastify"; // Toast notifications for feedback
 import "../assets/styles/logIn.css";
+import { useAuth } from "../context/AuthContext"; // Use AuthContext for login
+import { useWishlist } from "../context/WishlistContext"; // For refreshing wishlist
 
 const LogInPage = () => {
   const [formData, setFormData] = useState({
@@ -15,9 +16,13 @@ const LogInPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Get login function from AuthContext and loadWishlist from WishlistContext
+  const { login } = useAuth();
+  const { loadWishlist } = useWishlist();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -25,10 +30,10 @@ const LogInPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await api.post("/auth/login", formData);
-      const token = response.data.token;
-      localStorage.setItem("authToken", token);
-      toast.success("Login successful!");
+      // Use AuthContext's login function to update auth state
+      await login(formData);
+      // Explicitly refresh the wishlist after login
+      await loadWishlist();
       navigate("/profile", { replace: true });
     } catch (error) {
       console.error("Login failed:", error);
@@ -37,14 +42,16 @@ const LogInPage = () => {
       } else if (error.response?.status === 401) {
         toast.error("Incorrect password. Please try again.");
       } else {
-        toast.error(error.response?.data?.error || "Login failed. Please try again.");
+        toast.error(
+          error.response?.data?.error || "Login failed. Please try again."
+        );
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  // ✅ **Fixed Password Reset Function with Spam Warning**
+  // ✅ Fixed Password Reset Function with Spam Warning
   const handlePasswordReset = async () => {
     const email = formData.email.trim(); // Take email directly from input field
 
@@ -64,13 +71,13 @@ const LogInPage = () => {
       toast.info("⚠️ If you don't see the email, check your spam folder.");
     } catch (error) {
       console.error("Password reset failed:", error.message);
-      toast.error(error.response?.data?.message || "Failed to send password reset email.");
+      toast.error(
+        error.response?.data?.message || "Failed to send password reset email."
+      );
     }
   };
 
-  return isLoading ? (
-    <LoadingPage message="Logging you in..." />
-  ) : (
+  return (
     <div className="auth-page">
       <div className="auth-container">
         <h1 className="auth-header">LOG IN</h1>
@@ -108,9 +115,9 @@ const LogInPage = () => {
             </button>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button with Inline Loading Spinner */}
           <button type="submit" className="auth-button" disabled={isLoading}>
-            {isLoading ? "Logging In..." : "Log In"}
+            {isLoading ? <span className="spinner"></span> : "Log In"}
           </button>
         </form>
 
