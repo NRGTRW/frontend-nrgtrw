@@ -38,14 +38,18 @@ const fetcher = async (url) => {
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showCartPreview, setShowCartPreview] = useState(false); // local state to show/hide the cart preview
+  const [showCartPreview, setShowCartPreview] = useState(false);
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
+  const cartContainerRef = useRef(null);
   const navigate = useNavigate();
 
   const { getTotalQuantity } = useCart();
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
+
+  // Determine if the device supports touch events
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   // Fetch profile information with SWR (refreshes every 3 seconds if logged in)
   const { data: profile } = useSWR(
@@ -70,6 +74,24 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
+  // For touch devices: close cart preview when tapping outside the cart container
+  useEffect(() => {
+    if (isTouchDevice && showCartPreview) {
+      const handleOutsideTouch = (e) => {
+        if (
+          cartContainerRef.current &&
+          !cartContainerRef.current.contains(e.target)
+        ) {
+          setShowCartPreview(false);
+        }
+      };
+      document.addEventListener("touchstart", handleOutsideTouch);
+      return () => {
+        document.removeEventListener("touchstart", handleOutsideTouch);
+      };
+    }
+  }, [isTouchDevice, showCartPreview]);
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
     setMenuOpen(false);
@@ -89,13 +111,23 @@ const Navbar = () => {
       : `${import.meta.env.VITE_IMAGE_BASE_URL}/${profile.profilePicture}`
     : defaultProfilePicture;
 
-  // Handlers to show/hide the cart preview when hovering over the cart icon
+  // Handlers for non-touch devices
   const handleCartMouseEnter = () => {
-    setShowCartPreview(true);
+    if (!isTouchDevice) {
+      setShowCartPreview(true);
+    }
+  };
+  const handleCartMouseLeave = () => {
+    if (!isTouchDevice) {
+      setShowCartPreview(false);
+    }
   };
 
-  const handleCartMouseLeave = () => {
-    setShowCartPreview(false);
+  // For touch devices, toggle the preview on click
+  const handleCartClick = () => {
+    if (isTouchDevice) {
+      setShowCartPreview((prev) => !prev);
+    }
   };
 
   return (
@@ -143,16 +175,23 @@ const Navbar = () => {
 
           {/* Cart Icon with Cart Preview */}
           <div
+            ref={cartContainerRef}
             className="cart-container"
             onMouseEnter={handleCartMouseEnter}
             onMouseLeave={handleCartMouseLeave}
-            style={{ position: "relative" }} // Ensure proper positioning for the pop-up
+            onClick={handleCartClick}
+            style={{ position: "relative" }}
           >
             <img
               src={cartImage}
               alt="Shopping Cart"
               className="cart-icon"
-              onClick={() => handleNavigation("/cart")}
+              onClick={() => {
+                // For desktop, clicking navigates to cart; for touch, toggles preview.
+                if (!isTouchDevice) {
+                  handleNavigation("/cart");
+                }
+              }}
               tabIndex={0}
               aria-label="View cart"
             />
