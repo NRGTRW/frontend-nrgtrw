@@ -1,3 +1,19 @@
+/* Ensure the Wishlist Page always fills the viewport height */
+.wishlist-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: If you want the grid and browse button to push to the bottom when content is sparse,
+   you can wrap the main content in a flex container with flex-grow.
+   For example, if you wrap your grid and header in a container with the class "wishlist-content", you could use:
+   
+   .wishlist-content {
+     flex-grow: 1;
+   }
+*/
+
 /* General Wishlist Grid Styling */
 .wishlist-grid {
   display: grid;
@@ -128,4 +144,25 @@
   .wishlist-card {
     max-width: 100%;
   }
+}
+
+.browse-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.browse-products-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.browse-products-button:hover {
+  background-color: #333;
 }

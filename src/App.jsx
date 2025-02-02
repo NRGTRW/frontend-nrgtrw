@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, matchPath } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -53,22 +53,27 @@ const App = () => {
     { path: "/my-order", component: MyOrder },
   ];
 
+  // Determine if the current location matches any of the defined routes
+  const isValidRoute = routes.some((route) =>
+    matchPath({ path: route.path, end: true }, location.pathname)
+  );
+
   return (
     <AuthProvider>
       {/* Wrap WishlistProvider so that it can access the auth token */}
       <WishlistProvider>
         <CartProvider>
-          <ToastContainer  
-            position="top-center" 
-            autoClose={2500} 
-            hideProgressBar={false} 
-            closeOnClick 
+          <ToastContainer
+            position="top-center"
+            autoClose={2500}
+            hideProgressBar={false}
+            closeOnClick
             pauseOnHover
             draggable
             transition={Slide}
           />
-          <ContentBellowNavbar />
-          
+          {/* Render ContentBellowNavbar only if the current route is valid */}
+          {isValidRoute && <ContentBellowNavbar />}
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

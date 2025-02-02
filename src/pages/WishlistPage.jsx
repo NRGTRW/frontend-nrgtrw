@@ -1,8 +1,7 @@
 import React from "react";
 import { useWishlist } from "../context/WishlistContext";
-import GoBackButton from "../components/GoBackButton";
 import { useNavigate } from "react-router-dom";
-import useSWR from "swr"; // ✅ Auto-refresh mechanism
+import useSWR from "swr"; // Auto-refresh mechanism
 import api from "../services/api"; // Fetch wishlist data
 import "../assets/styles/wishlistPage.css";
 
@@ -15,16 +14,24 @@ const WishlistPage = () => {
   const { removeFromWishlist } = useWishlist();
   const navigate = useNavigate();
 
-  // ✅ Automatically refetch the wishlist every 5 seconds
+  // Automatically refetch the wishlist every 3 seconds
   const { data: wishlist = [], mutate } = useSWR("/wishlist", fetchWishlist, {
-    refreshInterval: 3000, // ✅ Fetch new data every 5 seconds
+    refreshInterval: 3000,
   });
 
+  // If wishlist is empty, show a centered message with a "Browse Products" button
   if (!wishlist.length) {
     return (
       <div className="wishlist-page empty">
         <h2>Your wishlist is empty. Start adding your favorites!</h2>
-        <GoBackButton text="Browse Products" />
+        <div className="browse-button-container">
+          <button
+            className="browse-products-button"
+            onClick={() => navigate("/clothing")}
+          >
+            Browse Products
+          </button>
+        </div>
       </div>
     );
   }
@@ -64,12 +71,12 @@ const WishlistPage = () => {
                 {item.selectedSize && <p>Size: {item.selectedSize}</p>}
               </div>
               <div className="wishlist-action-buttons">
-              <button
+                <button
                   className="wishlist-action-button remove-from-wishlist-button"
                   onClick={async (e) => {
-                    e.stopPropagation(); // ✅ Prevent accidental navigation
-                    await removeFromWishlist(item.id); // ✅ Use wishlist ID instead of productId
-                    mutate(); // ✅ Update UI immediately after removing
+                    e.stopPropagation(); // Prevent accidental navigation
+                    await removeFromWishlist(item.id); // Use wishlist ID instead of productId
+                    mutate(); // Update UI immediately after removing
                   }}
                 >
                   Remove
@@ -79,7 +86,14 @@ const WishlistPage = () => {
           );
         })}
       </div>
-      <GoBackButton />
+      <div className="browse-button-container">
+        <button
+          className="browse-products-button"
+          onClick={() => navigate("/clothing")}
+        >
+          Browse Products
+        </button>
+      </div>
     </div>
   );
 };
