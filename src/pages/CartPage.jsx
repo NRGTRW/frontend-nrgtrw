@@ -167,7 +167,7 @@ const CartPage = () => {
       <div className="cart-actions">
         <motion.button
           className="continue-shopping-button"
-          onClick={() => navigate("/shop")}
+          onClick={() => navigate("/clothing")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
