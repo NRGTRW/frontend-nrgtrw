@@ -1,0 +1,16 @@
+.admin-dashboard {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-dashboard table {
+    margin-top: 10px;
+  }
+  
+  .admin-dashboard select {
+    padding: 5px;
+    width: 100px;
+  }
+  

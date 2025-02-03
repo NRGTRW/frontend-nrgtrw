@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../assets/styles/profilePage.css";
 import { toast } from "react-toastify";
 import LoaderModal from "../components/LoaderModal";
+import LoadingPage from "./LoadingPage";
 
 const ProfilePage = () => {
   const [isSaving, setIsSaving] = useState(false);
@@ -142,7 +143,7 @@ const ProfilePage = () => {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return <LoadingPage />;
   }
 
   return (
