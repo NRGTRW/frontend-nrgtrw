@@ -61,14 +61,22 @@ const ProductPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (product) {
+      console.log("📌 Product Data in Frontend:", product);
+    }
+  }, [product]);
+  
+
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
-  const sortedSizes = product.sizes
-    ? [...product.sizes].sort(
-        (a, b) => SIZE_ORDER.indexOf(a.size.size) - SIZE_ORDER.indexOf(b.size.size)
-      )
-    : [];
+  const sortedSizes = product.productsize
+  ? [...product.productsize].map((ps) => ps.size).sort(
+      (a, b) => SIZE_ORDER.indexOf(a.size) - SIZE_ORDER.indexOf(b.size)
+    )
+  : [];
+
 
   // --- Quantity Handling ---
   const handleQuantityChange = (e) => {
@@ -101,35 +109,30 @@ const ProductPage = () => {
       toast.error("Error: Cannot add item to cart.");
       return;
     }
-
-    // Check if item already exists in the cart (matching product id, size, and color)
-    const existingItem = cart.find(
-      (item) =>
-        item.productId === product.id &&
-        item.selectedSize === selectedSize &&
-        item.selectedColor === currentColor.imageUrl
-    );
-
-    if (existingItem) {
-      const newQuantity = existingItem.quantity + quantity;
-      if (newQuantity > MAX_QUANTITY) {
-        setMaxQuantityMessage(true);
-        return;
-      }
+  
+    // ✅ Ensure a size is selected if required
+    if (product?.productsize?.length > 0 && !selectedSize) {
+      toast.error("Please select a size before adding to cart.");
+      return;
     }
-
-    // Call addToCart with merged quantity if needed
+  
+    // ✅ Ensure selected color is not null
+    const finalColor = currentColor?.imageUrl || "default-color";
+  
+    // ✅ Send request to backend (it will handle quantity updates)
     addToCart({
       productId: product.id,
       name: product.name,
       price: product.price,
       selectedSize,
-      selectedColor: currentColor.imageUrl,
-      quantity: existingItem ? existingItem.quantity + quantity : quantity,
+      selectedColor: finalColor,
+      quantity,
     });
-
+  
     toast.success(`Added ${quantity} ${product.name}(s) to your cart.`);
   };
+  
+  
 
   // --- Wishlist Functionality ---
   const handleWishlistToggle = () => {
@@ -243,17 +246,18 @@ const ProductPage = () => {
           <p className="product-description">{product.description}</p>
 
           <div className="size-quantity-row">
-            <div className="size-selector">
-              {sortedSizes.map((productSize) => (
-                <button
-                  key={productSize.id}
-                  className={`size-button ${selectedSize === productSize.size.size ? "selected" : ""}`}
-                  onClick={() => setSelectedSize(productSize.size.size)}
-                >
-                  {productSize.size.size}
-                </button>
-              ))}
-            </div>
+          <div className="size-selector">
+  {product.productsize?.map((productSize) => (
+    <button
+      key={productSize.size.id}
+      className={`size-button ${selectedSize === productSize.size.size ? "selected" : ""}`}
+      onClick={() => setSelectedSize(productSize.size.size)}
+    >
+      {productSize.size.size}
+    </button>
+  ))}
+</div>
+
 
             <div className="quantity-selector">
               <button className="quantity-button minus" onClick={decreaseQuantity} disabled={quantity <= 1}>

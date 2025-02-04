@@ -6,13 +6,16 @@ import useSWR from "swr"; // ✅ SWR for refreshing data
 import "../assets/styles/productCard.css";
 import wishlistOutline from "/wishlist-outline.png";
 import wishlistFilled from "/wishlist-filled.png";
+import {toast} from "react-toastify";
 
 const Products = ({ products }) => {
   const navigate = useNavigate();
-  const { addToWishlist, removeFromWishlist, wishlist } = useWishlist(); 
-  // ✅ We no longer import `loadWishlist` since we rely on SWR's `mutate`
-  const { user } = useAuth(); 
+  const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
+  const { user } = useAuth();
   const { mutate } = useSWR("/wishlist"); // ✅ Re-fetch after changes
+
+  // ✅ Store selected colors in a state object (per product ID)
+  const [selectedColors, setSelectedColors] = useState({});
 
   if (!products || products.length === 0) {
     return <p>No products found in this category.</p>;
@@ -21,10 +24,10 @@ const Products = ({ products }) => {
   return (
     <div className="product-grid">
       {products.map((product) => {
-        const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-        const currentColor = product.colors?.[selectedColorIndex];
+        const selectedColorIndex =
+          selectedColors[product.id] ?? 0; // Default to first color
+        const currentColor = product.colors?.[selectedColorIndex] || product.colors?.[0];
 
-        // Handle product card click → navigate to product details
         const handleProductClick = () => {
           navigate(`/product/${product.id}`, {
             state: { selectedColor: currentColor },
@@ -39,21 +42,18 @@ const Products = ({ products }) => {
         );
         const isInWishlist = !!wishlistItem;
 
-        // Toggle wishlist
         const handleWishlistToggle = async (e) => {
-          e.stopPropagation(); // Prevent card click navigation
+          e.stopPropagation(); // ✅ Prevent card navigation when clicking wishlist
 
           if (!user) {
-            alert("You need to log in to manage your wishlist.");
+            toast.info("You need to log in to manage your wishlist.");
             return;
           }
 
           try {
             if (isInWishlist) {
-              // ✅ Remove using the actual wishlist ID
               await removeFromWishlist(wishlistItem.id);
             } else {
-              // ✅ Add by passing product info
               await addToWishlist({
                 id: product.id,
                 name: product.name,
@@ -61,10 +61,9 @@ const Products = ({ products }) => {
                 selectedSize: null,
                 selectedColor: currentColor?.imageUrl,
               });
+              toast.success(`${product.name} added to your wishlist!`);
             }
-
-            // ✅ Refresh the SWR cache so both pages see updated data
-            mutate();
+            mutate(); // ✅ Refresh the wishlist
           } catch (error) {
             console.error("Error updating wishlist:", error);
           }
@@ -88,13 +87,15 @@ const Products = ({ products }) => {
 
             {/* Hover Overlay */}
             <div className="hover-overlay">
-              {/* Wishlist Button in Top-Right */}
-              <img
-                src={isInWishlist ? wishlistFilled : wishlistOutline}
-                alt="Wishlist"
-                className="wishlist-button"
-                onClick={handleWishlistToggle}
-              />
+              <div className="wishlist-button-container">
+                {/* ✅ Prevent event bubbling on wishlist button */}
+                <img
+                  src={isInWishlist ? wishlistFilled : wishlistOutline}
+                  alt="Wishlist"
+                  className="wishlist-button"
+                  onClick={handleWishlistToggle}
+                />
+              </div>
 
               <div className="product-info">
                 <h3>{product.name}</h3>
@@ -111,8 +112,11 @@ const Products = ({ products }) => {
                     }`}
                     style={{ backgroundImage: `url(${color.imageUrl})` }}
                     onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedColorIndex(index);
+                      e.stopPropagation(); // ✅ Prevent accidental navigation
+                      setSelectedColors((prev) => ({
+                        ...prev,
+                        [product.id]: index, // ✅ Update selected color per product
+                      }));
                     }}
                     title={color.colorName}
                   ></div>

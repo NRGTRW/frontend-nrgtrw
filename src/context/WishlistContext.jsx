@@ -1,4 +1,3 @@
-// WishlistContext.jsx
 import axios from "axios";
 import { createContext, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -17,16 +16,26 @@ export const WishlistProvider = ({ children }) => {
 
   // Function to fetch the wishlist data using the auth token
   async function fetchWishlist(token) {
-    if (!token) return [];
+    if (!token) {
+      console.error("❌ No token provided. Cannot fetch wishlist.");
+      return [];
+    }
+
+    const apiUrl = `${import.meta.env.VITE_API_URL}/wishlist`;
+    console.log(`🔍 Fetching wishlist from: ${apiUrl}`);
+    console.log(`🔑 Using Token: ${token}`);
+
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist`, {
+      const response = await axios.get(apiUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       console.log("✅ Wishlist fetched:", response.data);
       return response.data;
     } catch (error) {
       console.error("❌ Failed to load wishlist:", error.message);
-      toast.error("Failed to load wishlist.");
+      console.error("📌 Error Response:", error.response?.data || "No additional data");
+      // toast.error("Failed to load wishlist.");
       return [];
     }
   }
@@ -51,66 +60,39 @@ export const WishlistProvider = ({ children }) => {
 
   // Function to add an item to the wishlist
   const addToWishlist = async (product) => {
-    // Check if the user is authenticated
     if (!authToken) {
       toast.error("You need to be logged in to add items to your wishlist.");
       return;
     }
-  
-    // Validate the product ID
+
     const productId = product.productId || product.id;
     if (!productId || isNaN(Number(productId))) {
       console.error("❌ Invalid product ID:", product);
       toast.error("Error: Invalid product ID.");
       return;
     }
-  
-    // Build the request payload
+
     const requestData = {
       productId: Number(productId),
       selectedSize: product.selectedSize || null,
       selectedColor: product.selectedColor || null,
       quantity: product.quantity || 1,
     };
-  
-    // Create an optimistic wishlist item.
-    // We use a temporary ID (here, Date.now()) that should be replaced by the server response.
-    const newItem = {
-      id: Date.now(), // temporary unique ID
-      product: { ...product },
-      selectedSize: requestData.selectedSize,
-      selectedColor: requestData.selectedColor,
-      quantity: requestData.quantity,
-    };
-  
-    // Optimistically update the wishlist cache
-    // `mutate` is assumed to be from your useSWR hook in WishlistContext.
-    mutate((currentWishlist = []) => [newItem, ...currentWishlist], false);
-  
+
+    console.log("🛒 Adding to Wishlist:", requestData);
+
     try {
-      // Send the API request while showing a toast notification
-      await toast.promise(
-        axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, requestData, {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }),
-        {
-          pending: `Adding ${product.name} to wishlist...`,
-          success: `${product.name} added to your wishlist!`,
-          error: `Failed to add ${product.name} to wishlist.`,
-        }
-      );
-      // Revalidate the wishlist to get the updated data from the server (replaces our optimistic item)
-      await mutate();
+      await axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, requestData, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+
+      console.log("✅ Wishlist Item Added!");
+      await mutate(); // ✅ Re-fetch wishlist to update UI
     } catch (error) {
-      // On error, revalidate the cache to remove the optimistic update
-      await mutate();
       console.error("❌ Wishlist API Error:", error.response?.data || error.message);
-      toast.error(
-        error.response?.data?.message || `Could not add ${product.name} to wishlist.`
-      );
+      toast.error(error.response?.data?.message || "Could not add item to wishlist.");
     }
   };
-  
 
   // Function to remove an item from the wishlist
   const removeFromWishlist = async (wishlistId) => {
@@ -118,8 +100,11 @@ export const WishlistProvider = ({ children }) => {
       toast.error("Please log in to remove items from your wishlist.");
       return;
     }
+
+    // Ensure item exists before removing
     const item = wishlist.find((item) => item.id === wishlistId);
     const productName = item?.product?.name || "Item";
+
     try {
       console.log("🗑 Removing Wishlist Item:", { wishlistId, productName });
       await toast.promise(
@@ -132,7 +117,7 @@ export const WishlistProvider = ({ children }) => {
           error: `Failed to remove ${productName} from wishlist.`,
         }
       );
-      await mutate();
+      await mutate(); // ✅ Re-fetch wishlist after removal
     } catch (error) {
       console.error("❌ Failed to remove from wishlist:", error.response?.data || error.message);
       toast.error(

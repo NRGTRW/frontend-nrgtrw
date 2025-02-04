@@ -5,9 +5,16 @@ import useSWR from "swr"; // Auto-refresh mechanism
 import api from "../services/api"; // Fetch wishlist data
 import "../assets/styles/wishlistPage.css";
 
+// Fetch wishlist function with proper error handling
 const fetchWishlist = async () => {
-  const response = await api.get("/wishlist");
-  return response.data;
+  try {
+    const response = await api.get("/wishlist");
+    console.log("✅ Wishlist API Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Failed to fetch wishlist:", error.response?.data || error.message);
+    return [];
+  }
 };
 
 const WishlistPage = () => {
@@ -42,7 +49,18 @@ const WishlistPage = () => {
       <h2>Your Wishlist</h2>
       <div className="wishlist-grid">
         {wishlist.map((item) => {
-          if (!item.product) return null; // Ensure product data exists
+          if (!item.product) {
+            console.warn("⚠️ Missing product data for item:", item);
+            return (
+              <div className="wishlist-card" key={item.id}>
+                <p>⚠️ Product not found</p>
+              </div>
+            );
+          }
+
+          // Ensure correct color is displayed
+          const selectedColor = item.selectedColor || item.product.imageUrl;
+          console.log(`🎨 Displaying ${item.product.name} with color:`, selectedColor);
 
           return (
             <div className="wishlist-card" key={item.id}>
@@ -51,22 +69,22 @@ const WishlistPage = () => {
                 onClick={() => navigate(`/product/${item.productId}`)}
               >
                 <img
-                  src={item.selectedColor || item.product.imageUrl}
-                  alt={item.product.name}
+                  src={selectedColor || "/fallback-image.jpg"} // ✅ Uses `selectedColor` correctly
+                  alt={item.product.name || "Unnamed Product"}
                   className="wishlist-product-image"
                 />
                 {item.product.hoverImage && (
                   <img
                     src={item.product.hoverImage}
-                    alt={item.product.name}
+                    alt={`Hover - ${item.product.name}`}
                     className="wishlist-hover-image"
                   />
                 )}
               </div>
               <div className="wishlist-product-info">
-                <h3 className="wishlist-product-name">{item.product.name}</h3>
+                <h3 className="wishlist-product-name">{item.product.name || "Unnamed Product"}</h3>
                 <p className="wishlist-product-price">
-                  ${item.product.price.toFixed(2)}
+                  ${item.product.price ? item.product.price.toFixed(2) : "N/A"}
                 </p>
                 {item.selectedSize && <p>Size: {item.selectedSize}</p>}
               </div>
