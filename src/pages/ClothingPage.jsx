@@ -7,6 +7,7 @@ import { fetchAllProducts } from "../services/productService";
 const categoryMapping = {
   1: "Elegance", // Maps categoryId 1 to "Elegance"
   2: "Pump Covers", // Maps categoryId 2 to "Pump Covers"
+  // 3: "Confidence", // Add more mappings if necessary
 };
 
 const ClothingPage = () => {
@@ -23,13 +24,13 @@ const ClothingPage = () => {
   const pumpCoversProducts = allProducts.filter(
     (product) => product.categoryId === 2
   );
-  const confidenceProducts = allProducts.filter(
-    (product) => product.categoryId === 3
-  );
+  // const confidenceProducts = allProducts.filter(
+  //   (product) => product.categoryId === 3
+  // );
 
   console.log("Elegance Products:", eleganceProducts);
   console.log("Pump Covers Products:", pumpCoversProducts);
-  console.log("Confidence Products:", confidenceProducts);
+  // console.log("Confidence Products:", confidenceProducts);
 
   return (
     <div className="clothing-page">
@@ -42,10 +43,10 @@ const ClothingPage = () => {
         <h2 className="section-title">Pump Covers</h2>
         <ProductCard products={pumpCoversProducts} category="Pump Covers" />
       </section>
-      <section>
+      {/* <section>
         <h2 className="section-title">Confidence</h2>
         <ProductCard products={confidenceProducts} category="Confidence" />
-      </section>
+      </section> */}
     </div>
   );
 };
