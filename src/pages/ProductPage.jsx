@@ -16,7 +16,8 @@ const MAX_QUANTITY = 99; // Maximum allowed quantity
 const ProductPage = () => {
   const { productId } = useParams();
   const location = useLocation();
-  const { addToCart } = useCart();
+  // Destructure both addToCart and cart so we can check for existing items.
+  const { addToCart, cart } = useCart();
   const { addToWishlist } = useWishlist();
   const { user } = useAuth();
 
@@ -108,7 +109,7 @@ const ProductPage = () => {
     setMaxQuantityMessage(false);
   };
 
-  // --- Add to Cart (with merging quantities) ---
+  // --- Add to Cart (Merging Quantities) ---
   const handleAddToCart = () => {
     if (!product || !product.id || !product.name || !product.price) {
       toast.error("Error: Cannot add item to cart.");
@@ -124,6 +125,16 @@ const ProductPage = () => {
     // Ensure selected color is not null
     const finalColor = currentColor?.imageUrl || "default-color";
 
+    // Check if this item is already in the cart (matching product, size, and color)
+    const existingItem = cart.find(
+      (item) =>
+        item.productId === product.id &&
+        item.selectedSize === selectedSize &&
+        item.selectedColor === finalColor
+    );
+    // If it exists, sum the new quantity with the existing quantity; otherwise use the chosen quantity.
+    const mergedQuantity = existingItem ? existingItem.quantity + quantity : quantity;
+
     // Send request to backend (it will handle quantity updates)
     addToCart({
       productId: product.id,
@@ -131,7 +142,7 @@ const ProductPage = () => {
       price: product.price,
       selectedSize,
       selectedColor: finalColor,
-      quantity,
+      quantity: mergedQuantity,
     });
 
     toast.success(`Added ${quantity} ${product.name}(s) to your cart.`);
