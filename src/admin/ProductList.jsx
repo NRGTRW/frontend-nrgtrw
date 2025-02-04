@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllProducts, deleteProduct } from "../services/productService";
 import DeleteModal from "./DeleteModal";
-import "../assets/styles/Productlist.css"
+import "../assets/styles/ProductList.css";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
