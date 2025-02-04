@@ -13,17 +13,17 @@ const StylesSection = () => {
       link: "/clothing",
       category: "Elegance",
     },
+    // {
+    //   title: "PUMP COVERS",
+    //   image: coversImage,
+    //   link: "/clothing",
+    //   category: "Pump Covers",
+    // },
     {
       title: "PUMP COVERS",
-      image: coversImage,
-      link: "/clothing",
-      category: "Pump Covers",
-    },
-    {
-      title: "CONFIDENCE",
       image: confidenceImage,
       link: "/clothing",
-      category: "Confidence",
+      category: "Pump Covers",
     },
   ];
 
