@@ -41,9 +41,9 @@ const Products = ({ products }) => {
             item.selectedColor === currentColor?.imageUrl
         );
         const isInWishlist = !!wishlistItem;
-
         const handleWishlistToggle = async (e) => {
-          e.stopPropagation(); // ✅ Prevent card navigation when clicking wishlist
+          e.stopPropagation();
+          console.log("Wishlist toggle clicked for product:", product.id);
 
           if (!user) {
             toast.info("You need to log in to manage your wishlist.");

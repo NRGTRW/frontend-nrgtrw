@@ -10,7 +10,6 @@ const WishlistContext = createContext();
 // Custom hook to use the Wishlist context
 export const useWishlist = () => useContext(WishlistContext);
 
-// Provider component
 export const WishlistProvider = ({ children }) => {
   const { authToken } = useAuth();
 
@@ -21,6 +20,7 @@ export const WishlistProvider = ({ children }) => {
       return [];
     }
 
+    // VITE_API_URL should include '/api'
     const apiUrl = `${import.meta.env.VITE_API_URL}/wishlist`;
     console.log(`🔍 Fetching wishlist from: ${apiUrl}`);
     console.log(`🔑 Using Token: ${token}`);
@@ -35,14 +35,13 @@ export const WishlistProvider = ({ children }) => {
     } catch (error) {
       console.error("❌ Failed to load wishlist:", error.message);
       console.error("📌 Error Response:", error.response?.data || "No additional data");
-      // toast.error("Failed to load wishlist.");
       return [];
     }
   }
 
-  // Use SWR to fetch wishlist data when an authToken exists
+  // SWR hook using the key "/wishlist" (do not prepend '/api')
   const { data: wishlist = [], mutate } = useSWR(
-    authToken ? [`/wishlist`, authToken] : null,
+    authToken ? ["/wishlist", authToken] : null,
     () => fetchWishlist(authToken)
   );
 
@@ -51,7 +50,7 @@ export const WishlistProvider = ({ children }) => {
     await mutate();
   };
 
-  // Automatically re-fetch the wishlist whenever the authToken changes (e.g., after login)
+  // Automatically re-fetch when the authToken changes
   useEffect(() => {
     if (authToken) {
       loadWishlist();
@@ -82,15 +81,21 @@ export const WishlistProvider = ({ children }) => {
     console.log("🛒 Adding to Wishlist:", requestData);
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, requestData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/wishlist`,
+        requestData,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
 
       console.log("✅ Wishlist Item Added!");
-      await mutate(); // ✅ Re-fetch wishlist to update UI
+      await mutate(); // Re-fetch wishlist to update UI
     } catch (error) {
       console.error("❌ Wishlist API Error:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Could not add item to wishlist.");
+      toast.error(
+        error.response?.data?.message || "Could not add item to wishlist."
+      );
     }
   };
 
@@ -101,33 +106,37 @@ export const WishlistProvider = ({ children }) => {
       return;
     }
 
-    // Ensure item exists before removing
+    // Find the item (optional – for display purposes)
     const item = wishlist.find((item) => item.id === wishlistId);
     const productName = item?.product?.name || "Item";
 
     try {
       console.log("🗑 Removing Wishlist Item:", { wishlistId, productName });
       await toast.promise(
-        axios.delete(`${import.meta.env.VITE_API_URL}/wishlist/${wishlistId}`, {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }),
+        axios.delete(
+          `${import.meta.env.VITE_API_URL}/wishlist/${wishlistId}`,
+          { headers: { Authorization: `Bearer ${authToken}` } }
+        ),
         {
           pending: `Removing ${productName} from wishlist...`,
           success: `${productName} removed from your wishlist!`,
           error: `Failed to remove ${productName} from wishlist.`,
         }
       );
-      await mutate(); // ✅ Re-fetch wishlist after removal
+      await mutate(); // Re-fetch wishlist after removal
     } catch (error) {
       console.error("❌ Failed to remove from wishlist:", error.response?.data || error.message);
       toast.error(
-        error.response?.data?.message || `Failed to remove ${productName} from wishlist.`
+        error.response?.data?.message ||
+          `Failed to remove ${productName} from wishlist.`
       );
     }
   };
 
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, loadWishlist }}>
+    <WishlistContext.Provider
+      value={{ wishlist, addToWishlist, removeFromWishlist, loadWishlist }}
+    >
       {children}
     </WishlistContext.Provider>
   );
