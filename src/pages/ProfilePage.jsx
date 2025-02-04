@@ -121,7 +121,7 @@ const ProfilePage = () => {
       }
   
       await reloadProfile(authToken); // Trigger a profile reload
-      toast.success("✅ Changes saved! Your profile has been updated.");
+      toast.success("Changes saved! Your profile has been updated.");
       setPendingSave(false);
     } catch (error) {
       console.error("Save error:", error);
