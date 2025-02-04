@@ -46,12 +46,18 @@ const ProductPage = () => {
   const currentColor = product?.colors?.[selectedColorIndex] || {};
   const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
 
-  // Compute sorted sizes using the "productsize" relation from the API response.
-  const sortedSizes = product?.productsize
-    ? [...product.productsize]
+  // --- Use the correct key "sizes" from the API ---
+  // Compute sorted sizes using the "sizes" relation from the API response.
+  const sortedSizes = product?.sizes
+    ? [...product.sizes]
         .map((ps) => ps.size)
         .sort((a, b) => SIZE_ORDER.indexOf(a.size) - SIZE_ORDER.indexOf(b.size))
     : [];
+
+  // Debug log to check if sizes are coming through
+  useEffect(() => {
+    console.log("Sorted sizes:", sortedSizes);
+  }, [sortedSizes]);
 
   // Set an initial size if not already selected using sortedSizes
   useEffect(() => {
@@ -110,7 +116,7 @@ const ProductPage = () => {
     }
 
     // Ensure a size is selected if required
-    if (product?.productsize?.length > 0 && !selectedSize) {
+    if (product?.sizes?.length > 0 && !selectedSize) {
       toast.error("Please select a size before adding to cart.");
       return;
     }
