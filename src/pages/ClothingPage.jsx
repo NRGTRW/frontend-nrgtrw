@@ -7,7 +7,6 @@ import { fetchAllProducts } from "../services/productService";
 const categoryMapping = {
   1: "Elegance", // Maps categoryId 1 to "Elegance"
   2: "Pump Covers", // Maps categoryId 2 to "Pump Covers"
-  3: "Confidence", // Add more mappings if necessary
 };
 
 const ClothingPage = () => {
