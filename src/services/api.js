@@ -1,15 +1,13 @@
 import axios from "axios";
-import { getToken } from "../context/tokenUtils"; // ✅ Ensure latest token is used
+import { getToken } from "../context/tokenUtils";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080/api",
 });
 
-// ✅ Add request interceptor for all requests
 api.interceptors.request.use(
   (config) => {
     const token = getToken();
-    console.log("📌 Sending Token in Headers:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -17,5 +15,31 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
+/**
+ * ✅ Fetch all users (Admin Only)
+ */
+export const fetchAllUsers = async () => {
+  try {
+    const response = await api.get("/admin/users");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error.message);
+    throw new Error("Failed to fetch users.");
+  }
+};
+
+/**
+ * ✅ Update user role (Root Admin Only)
+ */
+export const updateUserRole = async (userId, role) => {
+  try {
+    const response = await api.put(`/admin/users/${userId}/role`, { role });
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating role for user ${userId}:`, error.message);
+    throw new Error("Failed to update user role.");
+  }
+};
 
 export default api;

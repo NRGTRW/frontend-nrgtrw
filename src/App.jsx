@@ -1,13 +1,14 @@
 import React from "react";
-import { Routes, Route, useLocation, matchPath } from "react-router-dom";
+import { Routes, Route, useLocation, matchPath, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import { CartProvider } from "./context/CartContext";
-import { AuthProvider } from "./context/AuthContext";
-import { WishlistProvider } from "./context/WishlistContext"; // <-- Import WishlistProvider
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { WishlistProvider } from "./context/WishlistContext";
 import { ToastContainer, Slide } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/global.css";
 
@@ -30,6 +31,21 @@ import AboutUs from "./pages/AboutUsPage";
 import ContactUs from "./pages/ContactUsPage";
 import FAQPage from "./pages/FAQPage";
 import MyOrder from "./pages/MyOrderPage";
+import AdminLayout from "./admin/AdminLayout";
+import AdminDashboard from "./admin/AdminDashboard";
+import ProductList from "./admin/ProductList";
+import ProductForm from "./admin/ProductForm";
+
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
+  if (!["admin", "root_admin"].includes(user.role)) return <Navigate to="/" replace />;
+
+  return children;
+};
 
 const App = () => {
   const location = useLocation();
@@ -53,16 +69,12 @@ const App = () => {
     { path: "/my-order", component: MyOrder },
   ];
 
-  // Determine if the current location matches any of the defined routes
   const isValidRoute = routes.some((route) =>
     matchPath({ path: route.path, end: true }, location.pathname)
   );
 
   return (
-    <AuthProvider>
-      {/* Wrap WishlistProvider so that it can access the auth token */}
-      <WishlistProvider>
-        <CartProvider>
+    <>
           <ToastContainer
             position="top-center"
             autoClose={2500}
@@ -72,7 +84,6 @@ const App = () => {
             draggable
             transition={Slide}
           />
-          {/* Render ContentBellowNavbar only if the current route is valid */}
           {isValidRoute && <ContentBellowNavbar />}
           <AnimatePresence mode="wait">
             <motion.div
@@ -105,6 +116,21 @@ const App = () => {
                     </PrivateRoute>
                   }
                 />
+                {/* Admin Routes */}
+                <Route
+                  path="/admin/*"
+                  element={
+                    <AdminRoute>
+                      <AdminLayout>
+                        <Routes>
+                          <Route path="dashboard" element={<AdminDashboard />} />
+                          <Route path="products" element={<ProductList />} />
+                          <Route path="add-product" element={<ProductForm />} />
+                        </Routes>
+                      </AdminLayout>
+                    </AdminRoute>
+                  }
+                />
                 <Route
                   path="*"
                   element={
@@ -116,9 +142,7 @@ const App = () => {
               </Routes>
             </motion.div>
           </AnimatePresence>
-        </CartProvider>
-      </WishlistProvider>
-    </AuthProvider>
+        </>
   );
 };
 
