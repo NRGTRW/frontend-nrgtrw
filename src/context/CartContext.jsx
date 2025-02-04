@@ -29,7 +29,7 @@ export const CartProvider = ({ children }) => {
       }));
     } catch (error) {
       console.error("❌ Failed to load cart:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Failed to load cart.");
+      // toast.error(error.response?.data?.message || "Failed to load cart.");
       return [];
     }
   };
@@ -40,7 +40,7 @@ export const CartProvider = ({ children }) => {
   // 3) Add to cart
   const addToCart = async (product) => {
     if (!getToken()) {
-      toast.error("You need to be logged in to add items to your cart.");
+      toast.error("🔒 Access denied! Please log in to add items to your cart.");
       return;
     }
 
@@ -66,11 +66,11 @@ export const CartProvider = ({ children }) => {
         // Refresh cart automatically
         mutate();
       } else {
-        toast.error("Failed to add item to cart.");
+        toast.error("⚠️ Oops! Something went wrong while adding this item to your cart.");
       }
     } catch (error) {
       console.error("❌ Cart API Error:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Could not add item to cart.");
+      toast.error(error.response?.data?.message || "❌ Unable to add this item! Please refresh the page and try again.");
     }
   };
 

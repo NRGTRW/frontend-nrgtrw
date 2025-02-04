@@ -60,7 +60,7 @@ export const WishlistProvider = ({ children }) => {
   // Function to add an item to the wishlist
   const addToWishlist = async (product) => {
     if (!authToken) {
-      toast.error("You need to be logged in to add items to your wishlist.");
+      toast.error("💖 Want to save this for later? Log in to manage your wishlist.");
       return;
     }
 
@@ -94,17 +94,13 @@ export const WishlistProvider = ({ children }) => {
     } catch (error) {
       console.error("❌ Wishlist API Error:", error.response?.data || error.message);
       toast.error(
-        error.response?.data?.message || "Could not add item to wishlist."
+        error.response?.data?.message || "🚨 Could not add to wishlist. Please try again later!"
       );
     }
   };
 
   // Function to remove an item from the wishlist
   const removeFromWishlist = async (wishlistId) => {
-    if (!authToken) {
-      toast.error("Please log in to remove items from your wishlist.");
-      return;
-    }
 
     // Find the item (optional – for display purposes)
     const item = wishlist.find((item) => item.id === wishlistId);

@@ -61,14 +61,14 @@ const LogInPage = () => {
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error("Please enter a valid email address.");
+      toast.error("📩 Invalid email! Make sure you enter a properly formatted email.");
       return;
     }
 
     try {
       await api.post("/auth/reset-password", { email });
-      toast.success("Password reset email sent! Check your inbox.");
-      toast.info("⚠️ If you don't see the email, check your spam folder.");
+      toast.success("📧 Reset email sent! Follow the instructions in your inbox.");
+      toast.info("📩 Didn’t receive the email? Check your spam or junk folder.");
     } catch (error) {
       console.error("Password reset failed:", error.message);
       toast.error(

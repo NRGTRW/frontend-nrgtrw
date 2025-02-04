@@ -118,7 +118,7 @@ const ProductPage = () => {
 
     // Ensure a size is selected if required
     if (product?.sizes?.length > 0 && !selectedSize) {
-      toast.error("Please select a size before adding to cart.");
+      toast.error("📏 Size required! Please choose a size before adding this item to your cart.");
       return;
     }
 
@@ -145,13 +145,13 @@ const ProductPage = () => {
       quantity: mergedQuantity,
     });
 
-    toast.success(`Added ${quantity} ${product.name}(s) to your cart.`);
+    toast.success(`🛒 Success! ${quantity} ${product.name}(s) have been added to your cart.`);
   };
 
   // --- Wishlist Functionality ---
   const handleWishlistToggle = () => {
     if (!user) {
-      toast.error("You must log in to add items to your wishlist.");
+      toast.error("You must be loged in to add items to your wishlist.");
       return;
     }
 
@@ -172,7 +172,7 @@ const ProductPage = () => {
             selectedSize,
             selectedColor: currentColor.imageUrl,
           }).catch(() => {
-            toast.error("Failed to add item to wishlist.");
+            toast.error(`Failed to add ${product.name} to wishlist.`);
           });
         }
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
@@ -190,7 +190,7 @@ const ProductPage = () => {
     }
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
     setCancelledItems((prev) => new Set([...prev, productKey]));
-    toast.info("Cancelled moving item to wishlist.");
+    toast.info(`Cancelled moving the ${product.name} to wishlist.`);
   };
 
   return (

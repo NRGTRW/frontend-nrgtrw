@@ -55,13 +55,14 @@ const ProfilePage = () => {
 
         // Handle 401 Unauthorized errors
         if (error.response?.status === 401) {
-          toast.error("Session expired. Refreshing...");
+          toast.error("🔄 Session timeout! Refreshing for security.");
           setTimeout(refreshPage, 2000); // Refresh after 2 seconds
         } else {
           toast.error("Failed to load profile. Redirecting to login...");
           navigate("/login", { replace: true });
         }
       } finally {
+        toast.info("🛠️ Edit mode activated! You can now update your details.");
         setIsLoading(false);
         setShowLoader(false);
       }
@@ -120,7 +121,7 @@ const ProfilePage = () => {
       }
   
       await reloadProfile(authToken); // Trigger a profile reload
-      toast.success("Profile updated successfully!");
+      toast.success("✅ Changes saved! Your profile has been updated.");
       setPendingSave(false);
     } catch (error) {
       console.error("Save error:", error);

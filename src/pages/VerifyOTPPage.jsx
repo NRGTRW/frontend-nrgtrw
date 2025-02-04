@@ -31,10 +31,10 @@ const VerifyOTPPage = () => {
       });
 
       localStorage.setItem("authToken", response.data.token); // Store token
-      toast.success("You've been Verified! Redirecting...");
+      toast.success("🔓 Verification successful! Welcome aboard.");
       setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
-      toast.error(err.response?.data?.error || "Invalid OTP. Try again.");
+      toast.error(err.response?.data?.error || "🚫 Incorrect code! Please check and enter the correct verification code.");
     } finally {
       setIsLoading(false); // Hide loader
     }

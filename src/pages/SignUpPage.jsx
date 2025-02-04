@@ -32,7 +32,7 @@ const SignUpPage = () => {
 
     // Basic client-side check
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match.", { autoClose: 6000 });
+      toast.error("🔑 Password mismatch! Ensure both fields match exactly.", { autoClose: 6000 });
       return;
     }
 
@@ -47,10 +47,10 @@ const SignUpPage = () => {
       // ✅ Store email in localStorage for OTP verification
       localStorage.setItem("email", formData.email);
 
-      toast.success("Signup successful! Check your email for the Verification code.", {
+      toast.success("🎉 Signup complete! Check your inbox for a verification email.", {
         autoClose: 6000,
       });
-      toast.info("⚠️ If you don’t see the email, check your spam folder.", {
+      toast.info("⚠️ If you don’t see the email, check your spam folder.⚠️", {
         autoClose: 7000,
       });
 
@@ -65,7 +65,7 @@ const SignUpPage = () => {
         );
       } else {
         toast.error(
-          error.response?.data?.error || "Failed to sign up. Please try again.",
+          error.response?.data?.error || "❌ Signup failed! Please review your details and try again.",
           { autoClose: 7000 }
         );
       }

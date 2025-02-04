@@ -19,7 +19,7 @@ const CartPage = () => {
   // 🚀 Optimistic removal of cart items
   const handleRemove = (product) => {
     if (!product.cartItemId || !product.name) {
-      toast.error("Error: Unable to remove item.");
+      toast.error(`🗑️ Unable to remove  ${product.name}! Please try again later.`);
       return;
     }
 
@@ -33,7 +33,7 @@ const CartPage = () => {
   // ❤️ Wishlist toggle with animation delay
   const handleWishlistToggle = (product) => {
     if (!product.name) {
-      toast.error("Error: Unable to add item to wishlist.");
+      toast.error(`Error: Unable to add ${product.name} to wishlist.`);
       return;
     }
 
@@ -69,14 +69,14 @@ const CartPage = () => {
   };
 
   // ❌ Cancel wishlist move
-  const cancelWishlistMove = (productKey) => {
+  const cancelWishlistMove = (productKey, product) => {
     if (timersRef.current[productKey]) {
       clearTimeout(timersRef.current[productKey]);
       delete timersRef.current[productKey];
     }
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
     setCancelledItems((prev) => new Set([...prev, productKey]));
-    toast.info(`Cancelled moving item to wishlist.`);
+    toast.info(`❌ Wishlist update canceled! The ${product.name} remains in your cart.`);
   };
 
   // 🔄 Cleanup timers when the component unmounts

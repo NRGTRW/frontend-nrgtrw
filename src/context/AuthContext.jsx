@@ -50,10 +50,10 @@ export const AuthProvider = ({ children }) => {
         setUser(initialUserData);
         // Reload the user profile
         await loadUser();
-        toast.success("Login successful!");
+        toast.success("🎉 Welcome back! You’re now logged in.");
         return initialUserData;
       } catch (error) {
-        toast.error("Login failed. Please check your credentials.");
+        toast.error("🚫 Login unsuccessful! Please double-check your email and password.");
         throw error;
       } finally {
         setLoading(false);
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("authToken");
     logoutProfile();
-    toast.info("Logged out successfully.");
+    toast.info("👋 You have been logged out. See you again soon!");
     navigate("/login", { replace: true });
   }, [navigate, logoutProfile]);
 
