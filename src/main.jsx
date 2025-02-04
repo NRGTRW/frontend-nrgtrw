@@ -6,12 +6,11 @@ import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import { ProfileProvider } from "./context/ProfileContext";
-import SWRProvider from "./context/SWRContext"; // SWR Global Provider
+import SWRProvider from "./context/SWRContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* ProfileProvider now wraps AuthProvider as required */}
       <ProfileProvider>
         <AuthProvider>
           <WishlistProvider>

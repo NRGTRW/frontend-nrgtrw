@@ -4,9 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import { CartProvider } from "./context/CartContext";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import { WishlistProvider } from "./context/WishlistContext";
+import {  useAuth } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +22,6 @@ import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import WishlistPage from "./pages/WishlistPage";
 import ContentBellowNavbar from "./components/ContentBellowNavbar";
-import PrivateRoute from "./components/PrivateRoute";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import VerifyOTPPage from "./pages/VerifyOTPPage";
 import AboutUs from "./pages/AboutUsPage";
@@ -111,9 +108,7 @@ const App = () => {
                 <Route
                   path="/profile"
                   element={
-                    <PrivateRoute>
                       <ProfilePage />
-                    </PrivateRoute>
                   }
                 />
                 {/* Admin Routes */}
