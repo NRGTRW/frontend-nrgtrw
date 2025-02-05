@@ -8,6 +8,7 @@ import wishlistOutline from "/wishlist-outline.png";
 import wishlistFilled from "/wishlist-filled.png";
 import { toast } from "react-toastify";
 import { deleteProduct } from "../services/productService";  // Import the deleteProduct function
+import DeleteConfirmationModal from "./DeleteConfirmationModal";  // Import the modal component
 
 const Products = ({ products }) => {
   const navigate = useNavigate();
@@ -15,20 +16,25 @@ const Products = ({ products }) => {
   const { user } = useAuth();
   const { mutate } = useSWR("/wishlist");
   const [selectedColors, setSelectedColors] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const handleDeleteProduct = async (productId) => {
-    // Confirm deletion
-    const confirmDelete = window.confirm("Are you sure you want to delete this product? This action is irreversible.");
-    if (confirmDelete) {
+    // Show the custom confirmation modal instead of window.confirm
+    setProductToDelete(productId);
+    setShowModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (productToDelete) {
       try {
-        console.log("Deleting product with ID:", productId); // Log productId
-        const response = await deleteProduct(productId);  // Call the deleteProduct function from the service
-        console.log("Delete response:", response); // Log the response from the backend
-  
+        console.log("Deleting product with ID:", productToDelete);
+        const response = await deleteProduct(productToDelete);
+        console.log("Delete response:", response);
+
         if (response.success) {
           toast.success("Product deleted successfully!");
-          // Refresh the products list to reflect the deletion
-          mutate();  // This will re-fetch the list of products
+          mutate();  // Refresh the products list to reflect the deletion
         } else {
           toast.error("Failed to delete product.");
         }
@@ -36,9 +42,9 @@ const Products = ({ products }) => {
         console.error("Error deleting product:", error);
         toast.error("An error occurred while deleting the product.");
       }
+      setShowModal(false);
     }
   };
-  
 
   const handleEditProduct = (productId) => {
     navigate(`/product/${productId}`);
@@ -159,6 +165,14 @@ const Products = ({ products }) => {
           </div>
         );
       })}
+      
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        showModal={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={confirmDelete}
+        productName={products.find((product) => product.id === productToDelete)?.name}
+      />
     </div>
   );
 };

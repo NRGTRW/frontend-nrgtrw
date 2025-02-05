@@ -126,12 +126,14 @@ const App = () => {
                   path="/admin/*"
                   element={
                     <AdminRoute>
+                      <Navbar/>
                         <Routes>
                           <Route path="dashboard" element={<AdminDashboard />} />
                           <Route path="products" element={<ProductList />} />
                           <Route path="add-product" element={<ProductForm />} />
                           <Route path="create-a-product" element={<CreateAProductPage />} />
                         </Routes>
+                        <Footer />
                     </AdminRoute>
                   }
                 />

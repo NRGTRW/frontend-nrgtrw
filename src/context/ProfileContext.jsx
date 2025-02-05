@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import axios from "axios";
-import { getToken } from "./tokenUtils"; // ✅ Import token utils
+import { getToken } from "./tokenUtils";
 
 export const ProfileContext = createContext();
 
@@ -16,12 +16,11 @@ export const ProfileProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✅ Load Profile dynamically with the latest token
   const loadProfile = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: { Authorization: `Bearer ${getToken()}` }, // ✅ Dynamically fetch token
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       setProfile(response.data);
     } catch (error) {
@@ -32,15 +31,12 @@ export const ProfileProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Save Profile changes
   const saveProfile = useCallback(async (updatedProfile) => {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile`,
         updatedProfile,
-        {
-          headers: { Authorization: `Bearer ${getToken()}` }, // ✅ Use latest token
-        }
+        { headers: { Authorization: `Bearer ${getToken()}` } }
       );
       setProfile(response.data);
       return response.data;
@@ -50,13 +46,11 @@ export const ProfileProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Change Profile Picture
   const changeProfilePicture = useCallback(async (file) => {
     try {
       const formData = new FormData();
       formData.append("profilePicture", file, file.name);
-
-      // Upload the file
+      
       const uploadResponse = await axios.post(
         `${import.meta.env.VITE_API_URL}/profile/upload`,
         formData,
@@ -68,13 +62,10 @@ export const ProfileProvider = ({ children }) => {
         }
       );
 
-      // Save profile picture path
       const saveResponse = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile/save`,
         { profilePicture: uploadResponse.data.previewPath },
-        {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        }
+        { headers: { Authorization: `Bearer ${getToken()}` } }
       );
 
       setProfile(saveResponse.data);
@@ -85,7 +76,6 @@ export const ProfileProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Reload Profile
   const reloadProfile = useCallback(async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
@@ -98,24 +88,14 @@ export const ProfileProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Clear Profile on Logout
   const logoutProfile = useCallback(() => {
     setProfile(null);
   }, []);
 
   return (
-    <ProfileContext.Provider
-      value={{
-        profile,
-        setProfile,
-        isLoading,
-        loadProfile,
-        saveProfile,
-        changeProfilePicture,
-        reloadProfile,
-        logoutProfile,
-      }}
-    >
+    <ProfileContext.Provider value={{
+      profile, setProfile, isLoading, loadProfile, saveProfile, changeProfilePicture, reloadProfile, logoutProfile
+    }}>
       {children}
     </ProfileContext.Provider>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../assets/styles/AdminDashboard.css";
 import "../assets/styles/admin.css";
+import {toast} from "react-toastify";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ const AdminDashboard = () => {
       
     } catch (error) {
       console.error('Error:', error);
-      alert(`Error: ${error.message}`);
+      toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -46,7 +47,7 @@ const AdminDashboard = () => {
       await fetchUsers();
     } catch (error) {
       console.error("Failed to update role:", error);
-      alert(`Role update failed: ${error.response?.data?.error || error.message}`);
+      toast.error(`Role update failed: ${error.response?.data?.error || error.message}`);
     }
   };
 

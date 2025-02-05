@@ -22,15 +22,15 @@ export const WishlistProvider = ({ children }) => {
 
     // VITE_API_URL should include '/api'
     const apiUrl = `${import.meta.env.VITE_API_URL}/wishlist`;
-    console.log(`🔍 Fetching wishlist from: ${apiUrl}`);
-    console.log(`🔑 Using Token: ${token}`);
+    // console.log(`🔍 Fetching wishlist from: ${apiUrl}`);
+    // console.log(`🔑 Using Token: ${token}`);
 
     try {
       const response = await axios.get(apiUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("✅ Wishlist fetched:", response.data);
+      // console.log("✅ Wishlist fetched:", response.data);
       return response.data;
     } catch (error) {
       console.error("❌ Failed to load wishlist:", error.message);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchProfileData, saveProfileData, uploadProfilePictureData } from "../services/profileService";
-
+import {toast} from "react-toastify";
 const useProfileLogic = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -70,7 +70,7 @@ const useProfileLogic = () => {
   const handleSave = async (e) => {
     e.preventDefault(); // Prevent page refresh
     if (emailError) {
-      alert("Please fix email errors before saving.");
+      toast.error("Please fix email errors before saving.");
       return;
     }
     try {
