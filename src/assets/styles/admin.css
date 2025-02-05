@@ -1,83 +1,208 @@
-/* General Admin Styles */
-.admin-dashboard, .product-list, .product-form {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-    font-family: Arial, sans-serif;
+======== Light Theme Color Scheme ========
+:root {
+  --primary-100: #e8f4ff;
+  --primary-200: #c7e4fe;
+  --primary-300: #a3d2fc;
+  --primary-400: #7fbffa;
+  --primary-500: #5bacf8;
+  --primary-600: #3d94e6;
+  --primary-700: #267dd4;
+  --primary-800: #1566c2;
+  --primary-900: #094fb0;
+
+  --surface-50: #ffffff;
+  --surface-100: #f8f9fa;
+  --surface-200: #e9ecef;
+  --surface-300: #dee2e6;
+  --surface-400: #ced4da;
+  --surface-500: #adb5bd;
+  --surface-600: #6c757d;
+  --surface-700: #495057;
+  --surface-800: #343a40;
+  --surface-900: #212529;
+
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --glass: rgba(0, 0, 0, 0.05);
+}
+
+/* ======== Clean Admin Layout ======== */
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  min-height: 100vh;
+  background: var(--surface-50);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.admin-sidebar {
+  background: var(--surface-100);
+  padding: 2rem 1.5rem;
+  border-right: 1px solid var(--surface-200);
+  box-shadow: 8px 0 16px -8px rgba(0, 0, 0, 0.04);
+}
+
+.admin-sidebar::before {
+  background: linear-gradient(
+    160deg,
+    var(--primary-100) 0%,
+    transparent 60%
+  );
+  opacity: 0.1;
+}
+
+.admin-sidebar-title {
+  color: var(--surface-900);
+  border-bottom: 1px solid var(--surface-200);
+}
+
+.admin-nav-link {
+  color: var(--surface-600);
+  border: 1px solid transparent;
+}
+
+.admin-nav-link:hover {
+  background: var(--primary-100);
+  color: var(--primary-700);
+  border-color: var(--primary-200);
+}
+
+.admin-nav-link.active {
+  background: var(--primary-50);
+  border-left: 3px solid var(--primary-500);
+}
+
+.admin-main-content {
+  background: var(--surface-50);
+}
+
+/* Modern Typography */
+body {
+  color: var(--surface-800);
+}
+
+/* Adjusted Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-100: #0a1a2f;
+    --primary-200: #142a4a;
+    --primary-300: #1e3a65;
+    --primary-400: #284a80;
+    --primary-500: #325a9b;
+    --primary-600: #3c6ab6;
+    --primary-700: #467ad1;
+    --primary-800: #508aec;
+    --primary-900: #5a9aff;
+
+    --surface-50: #121212;
+    --surface-100: #1e1e1e;
+    --surface-200: #2a2a2a;
+    --surface-300: #363636;
+    --surface-400: #424242;
+    --surface-500: #4e4e4e;
+    --surface-600: #5a5a5a;
+    --surface-700: #666666;
+    --surface-800: #727272;
+    --surface-900: #7e7e7e;
+
+    --glass: rgba(255, 255, 255, 0.05);
   }
-  
-  h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+}
+
+/* Rest of the CSS remains the same */
+
+/* Advanced Interactions */
+.admin-nav-link {
+  will-change: transform, background-color;
+}
+
+.admin-nav-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, var(--primary-100), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.admin-nav-link:hover::after {
+  opacity: 0.2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
-  
-  /* Table Styling */
-  table {
+
+  .admin-sidebar {
     width: 100%;
-    border-collapse: collapse;
-    background: white;
+    padding: 1.5rem;
+    border-right: none;
+    border-bottom: 1px solid var(--surface-200);
   }
-  
-  th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+
+  .admin-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  
-  th {
-    background: #f4f4f4;
-    font-weight: bold;
+
+  .admin-nav-link {
+    flex: 1 1 auto;
+    padding: 0.75rem;
+    justify-content: center;
   }
-  
-  tr:hover {
-    background: #f9f9f9;
+
+  .admin-main-content {
+    padding: 2rem;
   }
-  
-  /* Buttons */
-  button {
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s ease;
+}
+
+/* Cyberpunk Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-50: #0a0c10;
+    --surface-100: #14171f;
+    --surface-200: #1f2430;
+    --surface-300: #2a3142;
+    --surface-400: #464f66;
+    --surface-500: #6b7899;
+    --surface-600: #96a1bd;
+    --surface-700: #c1c9db;
+    --surface-800: #e0e4ec;
+    --surface-900: #f1f3f7;
+
+    --glass: rgba(0, 0, 0, 0.1);
   }
-  
-  button:hover {
-    opacity: 0.8;
+
+  .admin-sidebar::before {
+    background: linear-gradient(
+      160deg,
+      var(--primary-900) 0%,
+      transparent 60%
+    );
+    opacity: 0.25;
   }
-  
-  button.delete {
-    background: red;
-    color: white;
-    border-radius: 4px;
+
+  .admin-nav-link:hover {
+    background: var(--surface-200);
+    border-color: var(--surface-300);
   }
-  
-  button.edit {
-    background: #007bff;
-    color: white;
-    border-radius: 4px;
+
+  .admin-nav-link.active {
+    background: var(--surface-200);
+    border-left-color: var(--primary-500);
   }
-  
-  /* Select Dropdown */
-  select {
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
-    }
-  
-    th {
-      display: none;
-    }
-  
-    td {
-      padding: 10px;
-      border-bottom: none;
-    }
-  }
-  
+}
+
+/* Micro-Animations */
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.admin-nav-link:hover i {
+  animation: subtleFloat 1.5s ease-in-out infinite;
+}
+

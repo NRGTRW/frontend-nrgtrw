@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllProducts, deleteProduct } from "../services/productService";
 import DeleteModal from "./DeleteModal";
-import "../assets/styles/ProductList.css";
+import "../assets/styles/admin.css";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -34,16 +34,20 @@ const ProductList = () => {
   };
 
   return (
-    <div className="product-list">
-      <h2>Manage Products</h2>
+    <div className="admin-card">
+      <div className="admin-header">
+        <h2 className="admin-title">Manage Products</h2>
+      </div>
+  
       {loading ? (
-        <p>Loading...</p>
+        <div className="admin-loading"></div>
       ) : (
-        <table>
+        <table className="admin-table">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Product Name</th>
               <th>Price</th>
+              <th>Stock</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -52,14 +56,21 @@ const ProductList = () => {
               <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>${product.price.toFixed(2)}</td>
+                <td>{product.stock}</td>
                 <td>
-                  <button onClick={() => setSelectedProduct(product)}>❌ Delete</button>
+                  <button 
+                    className="admin-btn danger"
+                    onClick={() => setSelectedProduct(product)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+  
       {selectedProduct && (
         <DeleteModal
           isOpen={!!selectedProduct}

@@ -1,45 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllUsers, updateUserRole } from "../services/api";
-import "../assets/styles/AdminDashboard.css"
 import axios from "axios";
+import "../assets/styles/AdminDashboard.css";
+import "../assets/styles/admin.css";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
-useEffect(() => {
-  const fetchAllUsers = async () => {
+  const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, {
+      const response = await axios.get('/api/admin/users', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      setUsers(response.data);
+      
+      if (response.data.success) {
+        setUsers(response.data.data);
+      } else {
+        throw new Error(response.data.error);
+      }
+      
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error:', error);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
-  fetchAllUsers();
-}, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      await updateUserRole(userId, newRole);
-      loadUsers();
+      await axios.put(`/api/users/role`, { 
+        userId, 
+        newRole 
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}` // Corrected parentheses
+        }
+      });
+      await fetchUsers();
     } catch (error) {
       console.error("Failed to update role:", error);
+      alert(`Role update failed: ${error.response?.data?.error || error.message}`);
     }
   };
 
   return (
-    <div className="admin-dashboard">
-      <h2>Admin Dashboard</h2>
+    <div className="admin-card glass">
+      <div className="admin-header">
+        <h2 className="admin-title">User Management</h2>
+      </div>
+      
       {loading ? (
-        <p>Loading...</p>
+        <div className="admin-loading"></div>
       ) : (
-        <table>
+        <table className="admin-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -55,13 +75,22 @@ useEffect(() => {
                 <td>{user.email}</td>
                 <td>
                   <select
+                    className="admin-input"
                     value={user.role}
                     onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                    disabled={user.role === "root_admin"}
+                    disabled={user.role === "ROOT_ADMIN"}
                   >
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
                   </select>
+                </td>
+                <td>
+                  <button 
+                    className="admin-btn danger"
+                    onClick={() => handleDelete(user.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

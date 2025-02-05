@@ -1,0 +1,189 @@
+/* Create Product Page Styles */
+.create-product-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Roboto", Arial, sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.create-spacer-bar {
+  height: 90px;
+}
+
+.product-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.product-images {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+}
+
+.product-images input[type="file"] {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.image-preview {
+  margin-top: 15px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-details {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-details label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: -10px;
+}
+
+.product-details input,
+.product-details textarea,
+.product-details select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.product-details input:focus,
+.product-details textarea:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.size-management button {
+  padding: 8px 16px;
+  margin: 5px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.size-management button:hover {
+  background: #e0e0e0;
+}
+
+.color-option input[type="text"],
+.color-option input[type="file"] {
+  margin-bottom: 10px;
+}
+
+.publish-button {
+  background: #222;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.publish-button:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.confirmation-popup button {
+  padding: 8px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.confirmation-popup button:first-child {
+  background: #28a745;
+  color: white;
+}
+
+.confirmation-popup button:last-child {
+  background: #dc3545;
+  color: white;
+}
+
+/* Styling for dynamic color options and image uploads */
+.color-option {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.color-option input[type="file"] {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.size-management button {
+  margin-right: 10px;
+}
+
+.size-management div {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.size-management span {
+  margin-right: 10px;
+}
+
+/* Adjust styles for responsiveness on mobile */
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .product-images,
+  .product-details {
+    min-width: 100%;
+  }
+}

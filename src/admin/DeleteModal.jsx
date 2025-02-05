@@ -1,21 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../assets/styles/DeleteModal.css"
+import "../assets/styles/admin.css";
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-lg font-semibold text-red-600">This is irreversible</h2>
-        <p className="text-gray-700 mt-2">Are you sure you want to delete this product?</p>
-        <div className="flex justify-end mt-4">
-          <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2" onClick={onClose}>
+    <div className="admin-modal-backdrop">
+      <div className="admin-modal">
+        <h2 className="admin-modal-title">Confirm Deletion</h2>
+        <p className="admin-modal-text">This action cannot be undone</p>
+        <div className="admin-modal-actions">
+          <button 
+            className="admin-btn secondary" 
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="bg-red-600 text-white px-4 py-2 rounded" onClick={onConfirm}>
-            DELETE
+          <button 
+            className="admin-btn danger" 
+            onClick={onConfirm}
+          >
+            Confirm Delete
           </button>
         </div>
       </div>

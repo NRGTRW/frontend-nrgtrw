@@ -257,3 +257,8 @@
   right: -10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+
+.admin-icon:hover{
+  transform: scale(1.1);
+  transition: 500ms;
+}

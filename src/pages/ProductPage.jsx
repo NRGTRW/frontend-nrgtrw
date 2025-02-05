@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import { fetchProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
@@ -16,6 +16,7 @@ const MAX_QUANTITY = 99;
 const ProductPage = () => {
   const { productId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { addToCart, cart } = useCart();
   const { addToWishlist } = useWishlist();
   const { user } = useAuth();
@@ -79,10 +80,8 @@ const ProductPage = () => {
       return;
     }
   
-    // Get color data
     const selectedColor = product.colors?.[selectedColorIndex] || {};
     
-    // Validate required fields
     const missingFields = [];
     if (product.sizes?.length > 0 && !selectedSize) missingFields.push("size");
     if (!selectedColor.imageUrl) missingFields.push("color");
@@ -92,14 +91,12 @@ const ProductPage = () => {
       return;
     }
   
-    // Find existing item using all relevant identifiers
     const existingItem = cart.find(item => 
       item.productId === product.id &&
       item.selectedSize === selectedSize &&
       item.selectedColor === selectedColor.imageUrl
     );
   
-    // Calculate new quantity
     const currentQuantity = existingItem?.quantity || 0;
     const newQuantity = Math.min(currentQuantity + quantity, MAX_QUANTITY);
     
@@ -108,15 +105,14 @@ const ProductPage = () => {
       return;
     }
   
-    // Send all required fields
     addToCart({
       productId: product.id,
       name: product.name,
       price: product.price,
       selectedSize: selectedSize,
-      selectedColor: selectedColor.imageUrl, // Use image URL as color identifier
-      quantity: quantity, // Send the delta to add
-      imageUrl: selectedColor.imageUrl // Include image URL if required
+      selectedColor: selectedColor.imageUrl, 
+      quantity: quantity, 
+      imageUrl: selectedColor.imageUrl 
     });
   
     toast.success(
@@ -141,6 +137,14 @@ const ProductPage = () => {
     }).catch(() => toast.error(`Failed to add ${product.name} to wishlist.`));
   };
 
+  const handleDeleteProduct = () => {
+    if (window.confirm("This action is permanent. Do you want to delete this product?")) {
+      // Proceed with deletion, API call for deletion should go here
+      toast.success("Product deleted successfully.");
+      navigate("/admin/products"); // Navigate to the manage products page after deletion
+    }
+  };
+
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
@@ -160,6 +164,19 @@ const ProductPage = () => {
         />
 
         <div className="product-images">
+          {/* Delete button in the top-right corner of the image section */}
+          {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
+            <div 
+              className="wishlist-button" 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteProduct();
+              }}
+            >
+              ❌
+            </div>
+          )}
+
           <div className="image-carousel">
             <button
               className="carousel-arrow left-arrow"

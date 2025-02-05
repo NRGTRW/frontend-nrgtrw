@@ -9,12 +9,10 @@ import cartImage from "../assets/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
 import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";
-import CartPreview from "./CartPreview"; // Import the CartPreview component
+import CartPreview from "./CartPreview";
 
-// Helper to retrieve auth token from localStorage
 const getAuthToken = () => localStorage.getItem("authToken");
 
-// SWR fetcher for profile data
 const fetcher = async (url) => {
   const token = getAuthToken();
   if (!token) {
@@ -48,17 +46,16 @@ const Navbar = () => {
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
 
-  // Determine if the device supports touch events
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  // Fetch profile information with SWR (refreshes every 3 seconds if logged in)
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
     fetcher,
     { refreshInterval: getAuthToken() ? 3000 : 0 }
   );
 
-  // Close mobile menu when clicking outside of it
+  const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'ROOT_ADMIN';
+
   useEffect(() => {
     if (!menuOpen) return;
     function handleClickOutside(e) {
@@ -74,24 +71,6 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
-  // For touch devices: close cart preview when tapping outside the cart container
-  useEffect(() => {
-    if (isTouchDevice && showCartPreview) {
-      const handleOutsideTouch = (e) => {
-        if (
-          cartContainerRef.current &&
-          !cartContainerRef.current.contains(e.target)
-        ) {
-          setShowCartPreview(false);
-        }
-      };
-      document.addEventListener("touchstart", handleOutsideTouch);
-      return () => {
-        document.removeEventListener("touchstart", handleOutsideTouch);
-      };
-    }
-  }, [isTouchDevice, showCartPreview]);
-
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
     setMenuOpen(false);
@@ -104,14 +83,12 @@ const Navbar = () => {
     else handleNavigation(fallbackPath);
   };
 
-  // Determine profile picture (or fallback to default)
   const profilePicture = profile?.profilePicture
     ? profile.profilePicture.startsWith("http")
       ? profile.profilePicture
       : `${import.meta.env.VITE_IMAGE_BASE_URL}/${profile.profilePicture}`
     : defaultProfilePicture;
 
-  // Handlers for non-touch devices
   const handleCartMouseEnter = () => {
     if (!isTouchDevice) {
       setShowCartPreview(true);
@@ -123,7 +100,6 @@ const Navbar = () => {
     }
   };
 
-  // For touch devices, toggle the preview on click
   const handleCartClick = () => {
     if (isTouchDevice) {
       setShowCartPreview((prev) => !prev);
@@ -133,7 +109,6 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="top-bar">
-        {/* Hamburger Menu Button */}
         <button
           ref={buttonRef}
           className={`menu-toggle ${menuOpen ? "open" : ""}`}
@@ -145,7 +120,6 @@ const Navbar = () => {
           <span></span>
         </button>
 
-        {/* Logo */}
         <li
           className="logo"
           onClick={() => handleNavigation("/")}
@@ -156,6 +130,27 @@ const Navbar = () => {
         </li>
 
         <div className="right-container">
+          {/* Admin Icons */}
+          {isAdmin && (
+            <>
+              <Link to="/clothing" className="admin-icon" aria-label="Admin Dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                  <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z"/>
+                </svg>
+              </Link>
+              <Link to="/admin/create-a-product" className="admin-icon" aria-label="Add Product">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
+                </svg>
+              </Link>
+              <Link to="/admin/dashboard" className="admin-icon" aria-label="Manage Products">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                  <path d="M5 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2zm3-6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0-5h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0-5h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/>
+                </svg>
+              </Link>
+            </>
+          )}
+
           {/* Wishlist Icon */}
           <div className="wishlist-container" style={{ position: "relative" }}>
             <img
@@ -187,7 +182,6 @@ const Navbar = () => {
               alt="Shopping Cart"
               className="cart-icon"
               onClick={() => {
-                // For desktop, clicking navigates to cart; for touch, toggles preview.
                 if (!isTouchDevice) {
                   handleNavigation("/cart");
                 }

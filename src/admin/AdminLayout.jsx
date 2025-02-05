@@ -1,35 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../assets/styles/admin.css";
 
 const AdminLayout = ({ children }) => {
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 text-white p-5">
-        <h2 className="text-xl font-semibold mb-4">Admin Panel</h2>
+    <div className="admin-layout">
+      <aside className="admin-sidebar">
+        <h2 className="admin-brand">Admin Panel</h2>
         <nav>
-          <ul>
-            <li className="mb-2">
-              <Link to="/admin/dashboard" className="hover:text-gray-300">
-                🛠 Admin Dashboard
+          <ul className="admin-nav">
+            <li>
+              <Link to="/admin/dashboard" className="admin-nav-link">
+                <i className="admin-icon">📊</i>
+                Dashboard
               </Link>
             </li>
-            <li className="mb-2">
-              <Link to="/admin/products" className="hover:text-gray-300">
-                🏷 Manage Products
+            <li>
+              <Link to="/admin/products" className="admin-nav-link">
+                <i className="admin-icon">🛍️</i>
+                Products
               </Link>
             </li>
-            <li className="mb-2">
-              <Link to="/admin/add-product" className="hover:text-gray-300">
-                ➕ Add Product
+            <li>
+              <Link to="/admin/add-product" className="admin-nav-link">
+                <i className="admin-icon">✨</i>
+                Add Product
               </Link>
             </li>
           </ul>
         </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="admin-main">
         {children}
       </main>
     </div>

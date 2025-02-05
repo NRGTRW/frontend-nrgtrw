@@ -46,14 +46,14 @@ const AdminDashboard = () => {
 
   return (
     <div>
-      {user.role === "root_admin" && (
+      {user.role === "ROOT_ADMIN" && (
         <>
           <h2>Manage Users</h2>
           <ul>
             {users.map((u) => (
               <li key={u.id}>
                 {u.name} - {u.role} 
-                {u.role !== "root_admin" && (
+                {u.role !== "ROOT_ADMIN" && (
                   <>
                     <button onClick={() => assignAdmin(u.id)}>Promote to Admin</button>
                     <button onClick={() => removeAdmin(u.id)}>Remove Admin</button>

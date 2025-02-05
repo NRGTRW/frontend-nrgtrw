@@ -32,6 +32,7 @@ body {
   flex: 1;
   min-width: 300px;
   text-align: center;
+  position: relative; /* This is key for positioning the delete button inside the image container */
 }
 
 .image-carousel {
@@ -90,7 +91,7 @@ body {
   cursor: pointer;
   opacity: 0.7;
   transition: transform 0.3s ease, opacity 0.3s ease, border 0.3s ease;
-  border: 3px solid transparent; /* Default - No border */
+  border: 3px solid transparent;
 }
 
 .thumbnail:hover {
@@ -100,7 +101,7 @@ body {
 
 /* ✅ Solid, filled border for selected thumbnail */
 .thumbnail.selected {
-  border: 3px solid #181818; /* Fully filled solid black border */
+  border: 3px solid #181818;
   opacity: 1;
   transform: scale(1.05);
 }
@@ -118,14 +119,14 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  flex-wrap: wrap;
   margin: 20px 0;
 }
 
 .size-selector {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; /* Wrap sizes on smaller screens */
+  flex-wrap: wrap;
 }
 
 .size-button {
@@ -223,7 +224,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  width: 100%; /* Full width on smaller screens */
+  width: 100%;
 }
 
 .add-to-cart-button:hover {
@@ -248,79 +249,6 @@ body {
 .go-back-button:hover {
   background-color: #333;
   transform: scale(1.05);
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-  .product-container {
-    flex-direction: column; /* Stack content vertically on smaller screens */
-  }
-
-  .size-quantity-row {
-    flex-direction: column; /* Stack sizes and quantity selector */
-    align-items: flex-start;
-  }
-
-  .add-to-cart-button {
-    width: 100%; /* Full width for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .quantity-button {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-
-  .quantity-input {
-    font-size: 1.2rem;
-    width: 60px;
-  }
-
-  .size-button {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
-}
-
-.add-to-cart-button {
-  background-color: #333;
-  color: white;
-  padding: 15px 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  width: 100%;
-}
-
-.add-to-cart-button:hover {
-  background-color: #000;
-  transform: scale(1.05);
-}
-
-/* Remove the border from the input */
-.quantity-value {
-  border: none;
-  outline: none; /* Prevents outline on focus */
-  text-align: center;
-  width: 2rem; /* Adjust as needed */
-  font-size: 1rem; /* Ensures consistency */
-  background-color: transparent; /* Matches the background */
-}
-
-/* Prevent accidental resizing */
-.quantity-value::-webkit-inner-spin-button, 
-.quantity-value::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.quantity-value {
-  -moz-appearance: textfield; /* Removes arrows in Firefox */
 }
 
 /* Wishlist Icon for Product Page */
@@ -349,3 +277,20 @@ body {
     height: 40px;
   }
 }
+
+/* Delete button in top-right corner of images section */
+.wishlist-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 100; /* Ensure it stays on top of other elements */
+  color: red;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.wishlist-button:hover {
+  transform: scale(1.1);
+}
+

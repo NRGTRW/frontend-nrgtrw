@@ -1,4 +1,4 @@
-import React from "react";
+import { React,  useEffect, useState } from "react";
 import { Routes, Route, useLocation, matchPath, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
@@ -32,16 +32,26 @@ import AdminLayout from "./admin/AdminLayout";
 import AdminDashboard from "./admin/AdminDashboard";
 import ProductList from "./admin/ProductList";
 import ProductForm from "./admin/ProductForm";
+import CreateAProductPage from "./admin/CreateAProductPage";
 
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
+  const [isAuthorized, setIsAuthorized] = useState(null);
+
+  useEffect(() => {
+    if (!loading && user) {
+      const userRole = user.role?.trim().toUpperCase();
+      setIsAuthorized(["ADMIN", "ROOT_ADMIN"].includes(userRole));
+    }
+  }, [user, loading]);
 
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
-  if (!["admin", "root_admin"].includes(user.role)) return <Navigate to="/" replace />;
+  if (isAuthorized === false) return <Navigate to="/" replace />;
+  if (isAuthorized) return children;
 
-  return children;
+  return <div>Verifying permissions...</div>;
 };
 
 const App = () => {
@@ -116,13 +126,12 @@ const App = () => {
                   path="/admin/*"
                   element={
                     <AdminRoute>
-                      <AdminLayout>
                         <Routes>
                           <Route path="dashboard" element={<AdminDashboard />} />
                           <Route path="products" element={<ProductList />} />
                           <Route path="add-product" element={<ProductForm />} />
+                          <Route path="create-a-product" element={<CreateAProductPage />} />
                         </Routes>
-                      </AdminLayout>
                     </AdminRoute>
                   }
                 />

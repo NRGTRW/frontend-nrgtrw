@@ -62,14 +62,19 @@ export const updateProduct = async (productId, formData) => {
 /**
  * Delete a product (Admin only).
  */
+/**
+ * Delete a product (Admin only).
+ */
 export const deleteProduct = async (id) => {
   try {
-    const response = await axios.delete(`${import.meta.env.VITE_API_URL}/products/${id}`, {
+    console.log("Sending DELETE request for product ID:", id);
+    const response = await axios.delete(`${API_URL}/products/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
     });
-    return response.data;
+    console.log("Delete response:", response.data);  // Log the response data for debugging
+    return response.data;  // Return the response to handle it on the frontend
   } catch (error) {
     console.error(`Error deleting product ID ${id}:`, error.message);
     throw new Error('Failed to delete product.');

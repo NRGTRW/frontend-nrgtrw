@@ -25,7 +25,12 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
-      setUser(response.data);
+      const userData = response.data;
+  
+      // Ensure the role is available, if not, set a default
+      userData.role = userData.role?.trim() || "USER";
+        
+      setUser(userData);
     } catch (error) {
       console.error("Failed to load user:", error.message);
       logOut(); // Logout if token is invalid
@@ -33,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   }, [authToken]);
+  
 
   // Login function using the correct endpoint /auth/login
   const login = useCallback(

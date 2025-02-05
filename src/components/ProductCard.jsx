@@ -1,21 +1,48 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWishlist } from "../context/WishlistContext"; // ✅ Wishlist context
-import { useAuth } from "../context/AuthContext"; // ✅ Auth check
-import useSWR from "swr"; // ✅ SWR for refreshing data
+import { useWishlist } from "../context/WishlistContext";
+import { useAuth } from "../context/AuthContext";
+import useSWR from "swr";
 import "../assets/styles/productCard.css";
 import wishlistOutline from "/wishlist-outline.png";
 import wishlistFilled from "/wishlist-filled.png";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { deleteProduct } from "../services/productService";  // Import the deleteProduct function
 
 const Products = ({ products }) => {
   const navigate = useNavigate();
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
   const { user } = useAuth();
-  const { mutate } = useSWR("/wishlist"); // ✅ Re-fetch after changes
-
-  // ✅ Store selected colors in a state object (per product ID)
+  const { mutate } = useSWR("/wishlist");
   const [selectedColors, setSelectedColors] = useState({});
+
+  const handleDeleteProduct = async (productId) => {
+    // Confirm deletion
+    const confirmDelete = window.confirm("Are you sure you want to delete this product? This action is irreversible.");
+    if (confirmDelete) {
+      try {
+        console.log("Deleting product with ID:", productId); // Log productId
+        const response = await deleteProduct(productId);  // Call the deleteProduct function from the service
+        console.log("Delete response:", response); // Log the response from the backend
+  
+        if (response.success) {
+          toast.success("Product deleted successfully!");
+          // Refresh the products list to reflect the deletion
+          mutate();  // This will re-fetch the list of products
+        } else {
+          toast.error("Failed to delete product.");
+        }
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        toast.error("An error occurred while deleting the product.");
+      }
+    }
+  };
+  
+
+  const handleEditProduct = (productId) => {
+    navigate(`/product/${productId}`);
+  };
 
   if (!products || products.length === 0) {
     return <p>No products found in this category.</p>;
@@ -24,8 +51,7 @@ const Products = ({ products }) => {
   return (
     <div className="product-grid">
       {products.map((product) => {
-        const selectedColorIndex =
-          selectedColors[product.id] ?? 0; // Default to first color
+        const selectedColorIndex = selectedColors[product.id] ?? 0;
         const currentColor = product.colors?.[selectedColorIndex] || product.colors?.[0];
 
         const handleProductClick = () => {
@@ -34,17 +60,15 @@ const Products = ({ products }) => {
           });
         };
 
-        // Check if this product/color combo is in the wishlist
         const wishlistItem = wishlist.find(
           (item) =>
             item.productId === product.id &&
             item.selectedColor === currentColor?.imageUrl
         );
         const isInWishlist = !!wishlistItem;
+        
         const handleWishlistToggle = async (e) => {
           e.stopPropagation();
-          console.log("Wishlist toggle clicked for product:", product.id);
-
           if (!user) {
             toast.info("You need to log in to manage your wishlist.");
             return;
@@ -63,7 +87,7 @@ const Products = ({ products }) => {
               });
               toast.success(`${product.name} added to your wishlist!`);
             }
-            mutate(); // ✅ Refresh the wishlist
+            mutate();
           } catch (error) {
             console.error("Error updating wishlist:", error);
           }
@@ -71,7 +95,19 @@ const Products = ({ products }) => {
 
         return (
           <div key={product.id} className="product-card" onClick={handleProductClick}>
-            {/* Image Container */}
+            {/* Admin Delete Button */}
+            {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
+              <div
+                className="delete-product"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteProduct(product.id);  // Trigger deleteProduct on click
+                }}
+              >
+                ×
+              </div>
+            )}
+
             <div className="image-container">
               <img
                 src={currentColor?.imageUrl || product.imageUrl}
@@ -85,10 +121,8 @@ const Products = ({ products }) => {
               />
             </div>
 
-            {/* Hover Overlay */}
             <div className="hover-overlay">
               <div className="wishlist-button-container">
-                {/* ✅ Prevent event bubbling on wishlist button */}
                 <img
                   src={isInWishlist ? wishlistFilled : wishlistOutline}
                   alt="Wishlist"
@@ -102,7 +136,6 @@ const Products = ({ products }) => {
                 <p>${product.price.toFixed(2)}</p>
               </div>
 
-              {/* Color Options */}
               <div className="color-options">
                 {product.colors?.map((color, index) => (
                   <div
@@ -112,10 +145,10 @@ const Products = ({ products }) => {
                     }`}
                     style={{ backgroundImage: `url(${color.imageUrl})` }}
                     onClick={(e) => {
-                      e.stopPropagation(); // ✅ Prevent accidental navigation
+                      e.stopPropagation();
                       setSelectedColors((prev) => ({
                         ...prev,
-                        [product.id]: index, // ✅ Update selected color per product
+                        [product.id]: index,
                       }));
                     }}
                     title={color.colorName}

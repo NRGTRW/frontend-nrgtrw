@@ -61,19 +61,19 @@
   left: 0;
   width: 100%;
   height: fit-content;
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  opacity: 0; /* Initially hidden */
-  pointer-events: none; /* Prevent interactions when not visible */
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .product-card:hover .hover-overlay {
-  opacity: 1; /* Fully visible on hover */
-  pointer-events: auto; /* Allow interactions when visible */
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Product Info */
@@ -124,7 +124,6 @@
   transform: scale(1.1);
 }
 
-
 /* Wishlist Button */
 .wishlist-button {
   position: absolute;
@@ -141,21 +140,57 @@
   transform: scale(1.1);
 }
 
-/* Adjust for smaller screens */
+/* Delete Button */
+.delete-product {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 3;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-product:hover {
+  background: #ff4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .wishlist-button {
+    right: 40px;
     width: 24px;
     height: 24px;
-    top: 5px;
-    right: 5px;
+  }
+  
+  .delete-product {
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .wishlist-button {
+    right: 35px;
     width: 20px;
     height: 20px;
-    top: 5px;
-    right: 5px;
+  }
+  
+  .delete-product {
+    width: 20px;
+    height: 20px;
+    font-size: 18px;
   }
 }
