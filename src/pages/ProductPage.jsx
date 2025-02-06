@@ -137,13 +137,6 @@ const ProductPage = () => {
     }).catch(() => toast.error(`Failed to add ${product.name} to wishlist.`));
   };
 
-  const handleDeleteProduct = () => {
-    if (window.confirm("This action is permanent. Do you want to delete this product?")) {
-      // Proceed with deletion, API call for deletion should go here
-      toast.success("Product deleted successfully.");
-      navigate("/admin/products"); // Navigate to the manage products page after deletion
-    }
-  };
 
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
@@ -164,18 +157,6 @@ const ProductPage = () => {
         />
 
         <div className="product-images">
-          {/* Delete button in the top-right corner of the image section */}
-          {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
-            <div 
-              className="wishlist-button" 
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteProduct();
-              }}
-            >
-              ❌
-            </div>
-          )}
 
           <div className="image-carousel">
             <button

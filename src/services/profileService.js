@@ -1,9 +1,19 @@
 import axios from "axios";
+import { getToken } from "./tokenUtils";
 
-export const fetchProfile = async (authToken) => {
+// Function to get the Authorization header dynamically
+const getAuthHeaders = () => {
+  const token = getToken(); // Make sure getToken() returns a valid token
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+  };
+};
+
+export const fetchProfile = async () => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
-      headers: { Authorization: `Bearer ${authToken}` },
+      headers: getAuthHeaders(),
     });
     return response.data;
   } catch (error) {
@@ -12,10 +22,10 @@ export const fetchProfile = async (authToken) => {
   }
 };
 
-export const updateProfile = async (authToken, formData) => {
+export const updateProfile = async (formData) => {
   try {
     const response = await axios.put(`${import.meta.env.VITE_API_URL}/profile`, formData, {
-      headers: { Authorization: `Bearer ${authToken}` },
+      headers: getAuthHeaders(),
     });
     return response.data;
   } catch (error) {
@@ -24,16 +34,13 @@ export const updateProfile = async (authToken, formData) => {
   }
 };
 
-export const uploadProfilePicture = async (authToken, file) => {
+export const uploadProfilePicture = async (file) => {
   const formData = new FormData();
   formData.append("profilePicture", file);
 
   try {
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/profile/upload`, formData, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        "Content-Type": "multipart/form-data",
-      },
+      headers: getAuthHeaders(),
     });
     return response.data;
   } catch (error) {

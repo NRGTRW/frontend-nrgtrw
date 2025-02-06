@@ -80,3 +80,22 @@ export const deleteProduct = async (id) => {
     throw new Error('Failed to delete product.');
   }
 };
+
+// Define the function to upload an image to S3
+export const uploadImageToS3 = async (imageFile) => {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/upload-image`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("Image uploaded successfully:", response.data);
+    return response.data.imageUrl; // Assuming the response contains the image URL
+  } catch (error) {
+    console.error("Error uploading image:", error.response ? error.response.data : error.message);
+    throw new Error("Failed to upload image");
+  }
+};

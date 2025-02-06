@@ -8,6 +8,7 @@ import "../assets/styles/createAProductPage.css";
 import { uploadImageToS3 } from "../services/productService";
 import PublishConfirmationModal from "../components/PublishConfirmationModal";
 
+
 const CreateAProductPage = () => {
   const navigate = useNavigate();
 
@@ -49,6 +50,21 @@ const CreateAProductPage = () => {
     };
   }, [imagePreview, hoverImagePreview, productDetails.colors]);
 
+  // Set the main image and hover image to the first color's values
+  useEffect(() => {
+    if (productDetails.colors.length > 0) {
+      const firstColor = productDetails.colors[0];
+      if (!productDetails.images[0].imageUrl && firstColor.imageUrl) {
+        setProductDetails((prevState) => ({
+          ...prevState,
+          images: [
+            { imageUrl: firstColor.imageUrl, hoverImage: firstColor.hoverImage }
+          ],
+        }));
+      }
+    }
+  }, [productDetails.colors]);
+
   // Handle changes for simple input fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,30 +88,6 @@ const CreateAProductPage = () => {
         ...prevState,
         sizes: prevState.sizes.filter((s) => s !== size),
       }));
-    }
-  };
-
-  // Handle product image and hover image file selection
-  const handleImageChange = (e, imageType) => {
-    const file = e.target.files[0];
-    if (file && file instanceof File) {
-      if (imageType === "image") {
-        setProductDetails((prevState) => ({
-          ...prevState,
-          images: [{ imageUrl: file, hoverImage: "" }],
-        }));
-        setImagePreview(URL.createObjectURL(file));
-      } else if (imageType === "hoverImage") {
-        setProductDetails((prevState) => {
-          const updatedImages = [...prevState.images];
-          if (updatedImages.length === 0) {
-            updatedImages.push({ imageUrl: null, hoverImage: null });
-          }
-          updatedImages[0] = { ...updatedImages[0], hoverImage: file };
-          return { ...prevState, images: updatedImages };
-        });
-        setHoverImagePreview(URL.createObjectURL(file));
-      }
     }
   };
 
@@ -151,54 +143,91 @@ const CreateAProductPage = () => {
     }
   };
 
+  // Disable the remove color button if there's only one color
+  const isRemoveDisabled = productDetails.colors.length <= 1;
+
   // Cancel publish action: hide the confirmation popup
   const cancelPublish = () => {
     setShowConfirmation(false);
   };
 
-  // confirmPublish: build FormData and send the POST request to create the product
+  // Confirm and publish product
   const confirmPublish = async () => {
-    const formData = new FormData();
-  
-    // Basic Fields
-    formData.append("name", productDetails.name);
-    formData.append("description", productDetails.description);
-    formData.append("price", productDetails.price);
-    formData.append("category", productDetails.category);
-  
-    // Sizes (Array)
-    productDetails.sizes.forEach(size => {
-      formData.append("sizes", size);
-    });
-  
-    // Product Images (Array)
-    productDetails.images.forEach(image => {
-      if (image.imageUrl instanceof File) {
-        formData.append("images", image.imageUrl);
-      }
-      if (image.hoverImage instanceof File) {
-        formData.append("images", image.hoverImage);
-      }
-    });
-  
-    // Colors (Nested Objects)
-   // In confirmPublish function
-productDetails.colors.forEach((color, index) => {
-  formData.append(`colors[${index}].colorName`, color.colorName);
-  
-  if (color.imageUrl instanceof File) {
-    formData.append(`colors[${index}].imageUrl`, color.imageUrl); // Field name: colors[0].imageUrl
-  }
-  
-  if (color.hoverImage instanceof File) {
-    formData.append(`colors[${index}].hoverImage`, color.hoverImage); // Field name: colors[0].hoverImage
-  }
-});
-  
-    // Send Request
+    // Validate category selection
+    const categoryMap = {
+      elegance: 1, // Changed to lowercase
+      "pump covers": 2, // Changed to lowercase
+    };
+    const selectedCategory = productDetails.category.toLowerCase().trim();
+    const categoryId = categoryMap[selectedCategory];
+    if (!categoryId) {
+      toast.error("Invalid category selected");
+      return;
+    }
+
+    // Prepare product data (without images)
+    const productData = {
+      name: productDetails.name,
+      description: productDetails.description,
+      price: parseFloat(productDetails.price),
+      categoryId: categoryId,
+      sizes: productDetails.sizes,
+      colors: productDetails.colors.map((color) => ({
+        colorName: color.colorName,
+      })),
+    };
+
     try {
+      // 1. Create product with basic data
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/products`,
+        productData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      // 2. Upload images separately if creation succeeded
+      if (response.data.success) {
+        await handleImageUploads(response.data.productId);
+        toast.success("Product published successfully!");
+        navigate("/clothing");
+      }
+    } catch (error) {
+      toast.error("Failed to publish product");
+      console.error("Error:", error);
+    }
+  };
+
+  const handleImageUploads = async (productId) => {
+    const formData = new FormData();
+
+    // Add main image first to ensure order
+    if (productDetails.images[0]?.imageUrl instanceof File) {
+      formData.append("mainImage", productDetails.images[0].imageUrl);
+    }
+    if (productDetails.images[0]?.hoverImage instanceof File) {
+      formData.append("hoverImage", productDetails.images[0].hoverImage);
+    }
+
+    // Maintain color order when appending files
+    productDetails.colors.forEach((color) => {
+      if (color.imageUrl instanceof File) {
+        formData.append("colorImages", color.imageUrl);
+      }
+      if (color.hoverImage instanceof File) {
+        formData.append("colorHoverImages", color.hoverImage);
+      }
+    });
+
+    formData.append("productId", productId);
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/products/upload-images`,
         formData,
         {
           headers: {
@@ -207,24 +236,16 @@ productDetails.colors.forEach((color, index) => {
           },
         }
       );
-      toast.success("Product published successfully!");
-      navigate("/products");
     } catch (error) {
-      toast.error("Failed to publish product");
-      console.error("Error:", error);
+      console.error("Image upload failed:", error);
+      throw error;
     }
   };
-  
 
-  console.log(`${import.meta.env.VITE_API_URL}/products`);
-
-    
-  
-
-  // handlePublish: show the confirmation popup
-  const handlePublish = () => {
-    setShowConfirmation(true); 
-  };
+    // handlePublish: show the confirmation popup
+    const handlePublish = () => {
+      setShowConfirmation(true); 
+    };
 
   return (
     <div className="cp-page">
@@ -239,54 +260,6 @@ productDetails.colors.forEach((color, index) => {
           transition={{ duration: 0.5 }}
         >
           <h2>Product Images</h2>
-          <div className="cp-page__input-group">
-            <label>
-              Main Image <span className="cp-page__required-marker">*</span>
-            </label>
-            <input
-              type="file"
-              className="cp-page__file-input"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, "image")}
-            />
-            {imagePreview && (
-              <div className="cp-page__image-wrapper">
-                <div className="cp-page__preview-container">
-                  <img src={imagePreview} alt="Main Preview" className="cp-page__preview-image" />
-                </div>
-                <button
-                  className="cp-page__remove-image-btn"
-                  onClick={() => setImagePreview(null)}
-                >
-                  ×
-                </button>
-              </div>
-            )}
-          </div>
-
-          <div className="cp-page__input-group">
-            <label>Hover Image</label>
-            <input
-              type="file"
-              className="cp-page__file-input"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, "hoverImage")}
-            />
-            {hoverImagePreview && (
-              <div className="cp-page__image-wrapper">
-                <div className="cp-page__preview-container">
-                  <img src={hoverImagePreview} alt="Hover Preview" className="cp-page__preview-image" />
-                </div>
-                <button
-                  className="cp-page__remove-image-btn"
-                  onClick={() => setHoverImagePreview(null)}
-                >
-                  ×
-                </button>
-              </div>
-            )}
-          </div>
-
           <div className="cp-page__input-group">
             <label>Color Options</label>
             {productDetails.colors.map((color, index) => (
@@ -333,7 +306,7 @@ productDetails.colors.forEach((color, index) => {
               <button type="button" className="cp-page__action-btn" onClick={() => handleColorChange("add")}>
                 Add Color
               </button>
-              <button type="button" className="cp-page__danger-btn" onClick={() => handleColorChange("remove")}>
+              <button type="button" className="cp-page__danger-btn" onClick={() => handleColorChange("remove")} disabled={isRemoveDisabled}>
                 Remove Color
               </button>
             </div>
@@ -343,9 +316,7 @@ productDetails.colors.forEach((color, index) => {
         <div className="cp-page__details-section">
           <h1>Add New Product</h1>
           <div className="cp-page__input-group">
-            <label>
-              Name <span className="cp-page__required-marker">*</span>
-            </label>
+            <label>Name <span className="cp-page__required-marker">*</span></label>
             <input
               type="text"
               className="cp-page__form-input"
@@ -357,9 +328,7 @@ productDetails.colors.forEach((color, index) => {
           </div>
 
           <div className="cp-page__input-group">
-            <label>
-              Description <span className="cp-page__required-marker">*</span>
-            </label>
+            <label>Description <span className="cp-page__required-marker">*</span></label>
             <textarea
               className="cp-page__form-textarea"
               name="description"
@@ -370,9 +339,7 @@ productDetails.colors.forEach((color, index) => {
           </div>
 
           <div className="cp-page__input-group">
-            <label>
-              Price <span className="cp-page__required-marker">*</span>
-            </label>
+            <label>Price <span className="cp-page__required-marker">*</span></label>
             <input
               type="number"
               className="cp-page__form-input"
@@ -384,27 +351,24 @@ productDetails.colors.forEach((color, index) => {
           </div>
 
           <div className="cp-page__input-group">
-            <label>
-              Category <span className="cp-page__required-marker">*</span>
-            </label>
-            <select 
+            <label>Category <span className="cp-page__required-marker">*</span></label>
+            <select
               className="cp-page__form-select"
-              name="category" 
-              value={productDetails.category} 
+              name="category"
+              value={productDetails.category}
               onChange={handleInputChange}
+              required
             >
               <option value="">Select Category</option>
-              <option value="Elegance">Elegance</option>
-              <option value="Pump Covers">Pump Covers 2</option>
+              <option value="elegance">Elegance</option>
+              <option value="pump covers">Pump Covers</option>
             </select>
           </div>
 
           <div className="cp-page__input-group">
-            <label>
-              Sizes <span className="cp-page__required-marker">*</span>
-            </label>
+            <label>Sizes <span className="cp-page__required-marker">*</span></label>
             <div className="cp-page__size-manager">
-              {["S", "M", "L", "XL", "XXL"].map((size) => (
+              {["S", "M", "L", "XL"].map((size) => (
                 <button 
                   key={size} 
                   type="button" 
