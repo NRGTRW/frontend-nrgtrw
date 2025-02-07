@@ -1,0 +1,30 @@
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Ensure smooth animation */
+  .hamburger-icon path {
+    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+  }
+  
+  /* 🔥 Correct Cross Alignment */
+  .menu-toggle.open .top-bar {
+    transform: rotate(45deg) translate(6px, -6px);
+  }
+  
+  .menu-toggle.open .middle-bar {
+    opacity: 0;
+  }
+  
+  .menu-toggle.open .bottom-bar {
+    transform: rotate(-45deg) translate(-12px, 0px);
+  }
+  

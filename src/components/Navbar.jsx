@@ -10,6 +10,7 @@ import heartOutline from "/wishlist-outline.png";
 import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";
 import CartPreview from "./CartPreview";
+import HamburgerIcon from "./HamburgerIcon";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -127,17 +128,11 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="top-bar">
-        <button
-          ref={buttonRef}
-          className={`menu-toggle ${menuOpen ? "open" : ""}`}
-          onClick={toggleMenu}
-          aria-label="Toggle Menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
+      <HamburgerIcon
+          isOpen={menuOpen}
+          toggleMenu={toggleMenu}
+          buttonRef={buttonRef}
+        />
         <li
           className="logo"
           onClick={() => handleNavigation("/")}

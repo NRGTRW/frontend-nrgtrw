@@ -41,6 +41,9 @@ export const AuthProvider = ({ children }) => {
         credentials
       );
       const { token, user: initialUserData } = response.data;
+  
+      console.log("✅ Token received after login:", token); // Debugging
+  
       localStorage.setItem("authToken", token);
       setAuthToken(token);
       setUser(initialUserData);
@@ -48,12 +51,13 @@ export const AuthProvider = ({ children }) => {
       toast.success("🎉 Welcome back! You’re now logged in.");
       return initialUserData;
     } catch (error) {
-      toast.error("🚫 Login unsuccessful! Please double-check your email and password.");
+      toast.error("🚫 Login unsuccessful! Please check your credentials.");
       throw error;
     } finally {
       setLoading(false);
     }
   }, [loadUser]);
+  
 
   const logOut = useCallback(() => {
     setAuthToken(null);
