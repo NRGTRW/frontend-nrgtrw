@@ -231,6 +231,11 @@
   .right-container > *:nth-child(6) {
     order: -1; /* These will now move above the first three items */
   }
+
+  .logo{
+    font-size: 36px; /* Smaller logo size for smaller screens */
+    letter-spacing: 0.1em; /* Adjust letter spacing */
+  }
 }
 
 

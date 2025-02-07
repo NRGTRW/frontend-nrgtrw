@@ -98,7 +98,7 @@ const UserRow = ({ user, profilePicture, defaultProfilePicture }) => {
             borderRadius: "5px",
             top: "100%",
             left: "50%",
-            transform: "translate(-50%, 10px)",
+            transform: "translate(-80%, 10px)",
             whiteSpace: "nowrap",
             zIndex: 10,
             boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
