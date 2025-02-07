@@ -16,3 +16,10 @@
     transform: scale(1.05);
   }
   
+  @media(max-width: 768px ) {
+    /* On smaller screens, make the button positioned fixed */
+   .go-back-button {
+      margin-top:80px;
+      
+   }
+  }
