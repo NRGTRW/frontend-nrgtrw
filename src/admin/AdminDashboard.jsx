@@ -11,19 +11,19 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     try {
       const token = getToken();
-      console.log("🔍 Retrieved Token:", token);
-
+      console.log("🔍 Retrieved Token in Production:", token);
+  
       if (!token) {
         toast.error("⚠️ No token found. Please log in again.");
         return;
       }
-
+  
       const response = await axios.get("/api/admin/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      console.log("✅ API Response:", response.data);
-
+  
+      console.log("✅ API Response in Production:", response);
+  
       if (response.data.success) {
         let sortedUsers = response.data.data.sort((a, b) => a.id - b.id);
         sortedUsers = sortedUsers.sort((a, b) => (a.role === "ROOT_ADMIN" ? -1 : 1));
@@ -32,12 +32,13 @@ const AdminDashboard = () => {
         throw new Error(response.data.error);
       }
     } catch (error) {
-      console.error("❌ Fetch Users Error:", error.response?.data || error.message);
+      console.error("❌ Fetch Users Error in Production:", error.response?.data || error.message);
       toast.error(`Error: ${error.response?.data?.message || error.message}`);
     } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchUsers();
