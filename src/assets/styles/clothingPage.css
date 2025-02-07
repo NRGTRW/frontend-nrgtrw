@@ -144,12 +144,7 @@
 }
 
 /* Add Space Below Top Bar */
-.clothing-page {
-  font-family: "Poppins", sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  padding-top: 100px; /* Adjust this value if needed */
-}
+
 
 /* Product Grid */
 .product-grid {

@@ -1,25 +1,21 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigationType } from "react-router-dom";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+  const navigationType = useNavigationType();
 
   useEffect(() => {
-    try {
-      // Routes where scrolling to the top is required
-      const scrollToTopRoutes = ["/product", "/materials", "/inspiration"];
-
-      // Ensure the pathname is valid and matches scroll-to-top routes
-      if (pathname && scrollToTopRoutes.some((route) => pathname.startsWith(route))) {
-        // Delay scrolling to avoid conflicts during transitions
-        setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 100);
+    // Always scroll to top for /materials and /inspiration
+    if (pathname === "/materials" || pathname === "/inspiration") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // For other pages, scroll to top on non-POP navigations (or if desired, also smooth)
+      if (navigationType !== "POP") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    } catch (error) {
-      console.error("ScrollToTop error:", error); // Log errors for debugging
     }
-  }, [pathname]);
+  }, [pathname, navigationType]);
 
   return null;
 };

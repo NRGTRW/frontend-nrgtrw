@@ -33,10 +33,8 @@ const StylesSection = () => {
       <div className="styles-grid">
         {stylesData.map((style, index) => (
           <Link
-            to={{
-              pathname: style.link,
-            }}
-            state={{ category: style.category }} 
+            to={{ pathname: style.link }}
+            state={{ category: style.category }}
             key={index}
             className="style-card"
           >

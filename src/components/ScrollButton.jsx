@@ -39,7 +39,7 @@ const ScrollButton = () => {
           cursor: "pointer",
         }}
       >
-        ↑ 
+        ↑
       </button>
     )
   );
