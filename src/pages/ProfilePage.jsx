@@ -135,6 +135,7 @@ const ProfilePage = () => {
     } finally {
       setIsSaving(false);
       setShowLoader(false);
+      navigate("/");
     }
   };
 
