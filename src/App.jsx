@@ -79,15 +79,30 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2500}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-        transition={Slide}
-      />
+<ToastContainer
+  position="top-center"
+  autoClose={2500}
+  hideProgressBar={false}
+  newestOnTop={true}
+  closeOnClick
+  pauseOnHover
+  draggable
+  transition={Slide}
+  style={{
+    top: "120px", // Shifts the toasts lower so they appear under the navbar
+    zIndex: 9999,
+    width: "100%",
+  }}
+  toastStyle={{
+    background: "#f9f9f9",      // Light background for a light theme
+    color: "#333",               // Dark text for readability
+    border: "1px solid #ddd",    // Subtle border
+    borderRadius: "4px",         // Slightly rounded corners
+    fontFamily: "Arial, sans-serif",
+    fontWeight: "500",
+    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)", // Soft shadow
+  }}
+/>
       {isValidRoute && <ContentBellowNavbar />}
       {/* 
         Smoother animation on route transitions:

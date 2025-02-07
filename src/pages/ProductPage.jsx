@@ -22,6 +22,7 @@ const ProductPage = () => {
   const { addToWishlist } = useWishlist();
   const { user } = useAuth();
 
+  // SWR fetch for the product details.
   const { data: product, error } = useSWR(
     productId ? `/api/products/${productId}` : null,
     () => fetchProductById(productId)
@@ -40,6 +41,8 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [maxQuantityMessage, setMaxQuantityMessage] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // NEW: Track wishlist status (for temporary filled icon).
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const currentColor = product?.colors?.[selectedColorIndex] || {};
   const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
@@ -116,11 +119,13 @@ const ProductPage = () => {
       imageUrl: selectedColor.imageUrl 
     });
   
-  if (getToken())  toast.success(
-      existingItem 
-        ? `🛒 Added ${quantity} more (Total: ${newQuantity})`
-        : `🛒 Added ${quantity} ${product.name} to cart!`
-    );
+    if (getToken()) {
+      toast.success(
+        existingItem 
+          ? `🛒 Added ${quantity} more (Total: ${newQuantity})`
+          : `🛒 Added ${quantity} ${product.name} to cart!`
+      );
+    }
   };
 
   const handleWishlistToggle = () => {
@@ -135,9 +140,18 @@ const ProductPage = () => {
       price: product.price,
       selectedSize,
       selectedColor: currentColor.imageUrl,
-    }).catch(() => toast.error(`Failed to add ${product.name} to wishlist.`));
+    })
+      .then(() => {
+        // Show filled icon temporarily.
+        setIsWishlisted(true);
+        toast.success(`Added ${product.name} to wishlist!`);
+        // Reset the icon to its initial state after 2 seconds.
+        setTimeout(() => setIsWishlisted(false), 2500);
+      })
+      .catch(() =>
+        toast.error(`Failed to add ${product.name} to wishlist.`)
+      );
   };
-
 
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
@@ -149,7 +163,7 @@ const ProductPage = () => {
 
       <div className="product-container">
         <motion.img
-          src="/wishlist-outline.png"
+          src={isWishlisted ? "/wishlist-filled.png" : "/wishlist-outline.png"}
           alt="Wishlist"
           className="wishlist-icon-productPage"
           onClick={handleWishlistToggle}
@@ -158,7 +172,6 @@ const ProductPage = () => {
         />
 
         <div className="product-images">
-
           <div className="image-carousel">
             <button
               className="carousel-arrow left-arrow"

@@ -62,7 +62,7 @@ const CartPage = () => {
 
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
         delete timersRef.current[productKey]; // Cleanup timer reference
-      }, 4000);
+      }, 2500);
 
       timersRef.current[productKey] = timer;
     }
