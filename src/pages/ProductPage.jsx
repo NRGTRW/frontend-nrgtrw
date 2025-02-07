@@ -9,6 +9,7 @@ import GoBackButton from "../components/GoBackButton";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import "../assets/styles/productPage.css";
+import { getToken } from "../context/tokenUtils";
 
 const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
 const MAX_QUANTITY = 99;
@@ -115,7 +116,7 @@ const ProductPage = () => {
       imageUrl: selectedColor.imageUrl 
     });
   
-    toast.success(
+  if (getToken())  toast.success(
       existingItem 
         ? `🛒 Added ${quantity} more (Total: ${newQuantity})`
         : `🛒 Added ${quantity} ${product.name} to cart!`

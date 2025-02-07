@@ -71,6 +71,24 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
+  // For touch devices: close cart preview when tapping outside the cart container
+  useEffect(() => {
+    if (isTouchDevice && showCartPreview) {
+      const handleOutsideTouch = (e) => {
+        if (
+          cartContainerRef.current &&
+          !cartContainerRef.current.contains(e.target)
+        ) {
+          setShowCartPreview(false);
+        }
+      };
+      document.addEventListener("touchstart", handleOutsideTouch);
+      return () => {
+        document.removeEventListener("touchstart", handleOutsideTouch);
+      };
+    }
+  }, [isTouchDevice, showCartPreview]);
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
     setMenuOpen(false);
