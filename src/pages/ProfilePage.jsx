@@ -139,11 +139,6 @@ const ProfilePage = () => {
     }
   };
 
-  const handleGameButtonClick = () => {
-    setShowGameButton(false);
-    refreshPage(); // Refresh on game button click
-  };
-
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -154,20 +149,6 @@ const ProfilePage = () => {
       <div className="profile-page">
         <div className="profile-container">
           <h1 className="profile-header">Your Profile</h1>
-
-          {showGameButton && (
-            <div className="game-button-overlay" role="dialog" aria-label="Game control">
-              <button
-                className="game-refresh-button"
-                onClick={handleGameButtonClick}
-                aria-label="Refresh game"
-              >
-                <div className="circular-arrow" aria-hidden="true"></div>
-                <span className="button-text">Press Me</span>
-              </button>
-            </div>
-          )}
-
           <div className="profile-image-container">
             <input
               type="file"

@@ -11,6 +11,7 @@ import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";
 import CartPreview from "./CartPreview";
 import HamburgerIcon from "./HamburgerIcon";
+import UserRow from "./UserRow";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -216,17 +217,16 @@ const Navbar = () => {
           </div>
 
           {/* Profile Icon */}
-          <img
-            src={profilePicture}
-            alt="Profile"
-            className="profile-icon"
-            onError={(e) => (e.target.src = defaultProfilePicture)}
-            onClick={() =>
-              handleAuthenticatedNavigation("/profile", "/login")
-            }
-            tabIndex={0}
-            aria-label="Navigate to profile"
-          />
+        {/* Profile Icon with Hovering User Name */}
+{/* Profile Icon with Hovering User Name */}
+<UserRow
+  user={profile}
+  profilePicture={profilePicture}
+  defaultProfilePicture={defaultProfilePicture}
+  handleClick={() => handleAuthenticatedNavigation("/profile", "/login")}
+/>
+
+
         </div>
       </div>
 
