@@ -55,7 +55,7 @@ const AdminDashboard = () => {
       }
 
       await axios.put(
-        "/api/admin/users/role",
+        `${import.meta.env.VITE_API_URL}/admin/users/role`,
         { userId, newRole },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
 
       console.log(`🗑️ Attempting to delete user ID: ${userId}`);
 
-      await axios.delete(`/api/admin/users/${userId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
