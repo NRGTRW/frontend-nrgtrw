@@ -97,7 +97,7 @@ const App = () => {
         style={{
           top: "120px", // Shifts the toasts lower so they appear under the navbar
           zIndex: 9999,
-          width: "100%",
+          // width: "100%",
         }}
         toastStyle={{
           background: "#f9f9f9", // Light background for a light theme
