@@ -19,9 +19,12 @@ export const ProfileProvider = ({ children }) => {
   const loadProfile = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/profile`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        },
+      );
       setProfile(response.data);
     } catch (error) {
       console.error("❌ Failed to load profile:", error.message);
@@ -36,7 +39,7 @@ export const ProfileProvider = ({ children }) => {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile`,
         updatedProfile,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        { headers: { Authorization: `Bearer ${getToken()}` } },
       );
       setProfile(response.data);
       return response.data;
@@ -50,7 +53,7 @@ export const ProfileProvider = ({ children }) => {
     try {
       const formData = new FormData();
       formData.append("profilePicture", file, file.name);
-      
+
       const uploadResponse = await axios.post(
         `${import.meta.env.VITE_API_URL}/profile/upload`,
         formData,
@@ -59,13 +62,13 @@ export const ProfileProvider = ({ children }) => {
             Authorization: `Bearer ${getToken()}`,
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       const saveResponse = await axios.put(
         `${import.meta.env.VITE_API_URL}/profile/save`,
         { profilePicture: uploadResponse.data.previewPath },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        { headers: { Authorization: `Bearer ${getToken()}` } },
       );
 
       setProfile(saveResponse.data);
@@ -78,9 +81,12 @@ export const ProfileProvider = ({ children }) => {
 
   const reloadProfile = useCallback(async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/profile`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        },
+      );
       setProfile(response.data);
     } catch (error) {
       console.error("❌ Failed to reload profile:", error.message);
@@ -93,9 +99,18 @@ export const ProfileProvider = ({ children }) => {
   }, []);
 
   return (
-    <ProfileContext.Provider value={{
-      profile, setProfile, isLoading, loadProfile, saveProfile, changeProfilePicture, reloadProfile, logoutProfile
-    }}>
+    <ProfileContext.Provider
+      value={{
+        profile,
+        setProfile,
+        isLoading,
+        loadProfile,
+        saveProfile,
+        changeProfilePicture,
+        reloadProfile,
+        logoutProfile,
+      }}
+    >
       {children}
     </ProfileContext.Provider>
   );

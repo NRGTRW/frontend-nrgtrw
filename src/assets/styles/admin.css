@@ -1,5 +1,4 @@
-======== Light Theme Color Scheme ========
-:root {
+======== Light Theme Color Scheme ======== :root {
   --primary-100: #e8f4ff;
   --primary-200: #c7e4fe;
   --primary-300: #a3d2fc;
@@ -31,7 +30,7 @@
   grid-template-columns: minmax(200px, 280px) 1fr;
   min-height: 100vh;
   background: var(--surface-50);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .admin-sidebar {
@@ -42,11 +41,7 @@
 }
 
 .admin-sidebar::before {
-  background: linear-gradient(
-    160deg,
-    var(--primary-100) 0%,
-    transparent 60%
-  );
+  background: linear-gradient(160deg, var(--primary-100) 0%, transparent 60%);
   opacity: 0.1;
 }
 
@@ -116,10 +111,14 @@ body {
 }
 
 .admin-nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 0%, var(--primary-100), transparent 60%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    var(--primary-100),
+    transparent 60%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -177,11 +176,7 @@ body {
   }
 
   .admin-sidebar::before {
-    background: linear-gradient(
-      160deg,
-      var(--primary-900) 0%,
-      transparent 60%
-    );
+    background: linear-gradient(160deg, var(--primary-900) 0%, transparent 60%);
     opacity: 0.25;
   }
 
@@ -198,11 +193,15 @@ body {
 
 /* Micro-Animations */
 @keyframes subtleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
 }
 
 .admin-nav-link:hover i {
   animation: subtleFloat 1.5s ease-in-out infinite;
 }
-

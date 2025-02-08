@@ -49,7 +49,7 @@ const ResetPasswordPage = () => {
     <div className="reset-password-page">
       <div className="reset-password-container">
         <h2>Reset Password</h2>
-        
+
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
 

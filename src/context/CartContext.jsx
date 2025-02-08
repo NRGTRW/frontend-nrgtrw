@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import useSWR from "swr";
@@ -9,29 +9,46 @@ const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
+  // Keep the token in state so that changes trigger revalidation.
+  const [token, setToken] = useState(getToken());
+
+  // Listen for token changes (e.g. on logout) by polling every second.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newToken = getToken();
+      if (newToken !== token) {
+        setToken(newToken);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [token]);
+
   const fetchCart = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       return response.data.map((item) => ({
         ...item,
         imageUrl: item.selectedColor || item.imageUrl || "/default-image.png",
       }));
     } catch (error) {
-      console.error("Failed to load cart:", error.response?.data || error.message);
+      console.error(
+        "Failed to load cart:",
+        error.response?.data || error.message
+      );
       return [];
     }
   };
 
-  const { data: cart = [], mutate } = useSWR(getToken() ? "/cart" : null, fetchCart);
+  // Use token as part of the SWR key so that when token is null, SWR returns null.
+  const { data: cart = [], mutate } = useSWR(token ? `/cart?token=${token}` : null, fetchCart);
 
   const addToCart = async (product) => {
-    if (!getToken()) {
+    if (!token) {
       toast.error("🔒 Please log in to add items to your cart.");
       return;
     }
-  
     try {
       const requestData = {
         productId: Number(product.productId),
@@ -40,39 +57,42 @@ export const CartProvider = ({ children }) => {
         selectedSize: product.selectedSize,
         selectedColor: product.selectedColor,
         quantity: product.quantity,
-        imageUrl: product.imageUrl
+        imageUrl: product.imageUrl,
       };
-  
-      console.log("Sending cart data:", requestData); // Debug log
-  
+
+      console.log("Sending cart data:", requestData);
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/cart`,
         requestData,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-  
       mutate(); // Refresh cart data
       return response.data;
     } catch (error) {
       console.error("Cart Error:", {
         status: error.response?.status,
         data: error.response?.data,
-        config: error.config
+        config: error.config,
       });
-      
-      const errorMessage = error.response?.data?.message 
-        || "Failed to update cart. Please check your input.";
-      
+      const errorMessage =
+        error.response?.data?.message ||
+        "Failed to update cart. Please check your input.";
       toast.error(errorMessage);
       throw error;
     }
   };
 
   const removeFromCart = async (cartItemId) => {
-    mutate((currentCart) => currentCart.filter((item) => item.cartItemId !== cartItemId), false);
+    // Optimistically remove from cart
+    mutate(
+      (currentCart) =>
+        currentCart.filter((item) => item.cartItemId !== cartItemId),
+      false
+    );
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/cart/${cartItemId}`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       mutate();
     } catch (error) {
@@ -81,10 +101,13 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const getTotalQuantity = () => cart.reduce((total, item) => total + item.quantity, 0);
+  const getTotalQuantity = () =>
+    cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalQuantity }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, getTotalQuantity, mutate }}
+    >
       {children}
     </CartContext.Provider>
   );

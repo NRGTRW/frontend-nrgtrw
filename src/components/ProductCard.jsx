@@ -7,8 +7,8 @@ import "../assets/styles/productCard.css";
 import wishlistOutline from "/wishlist-outline.png";
 import wishlistFilled from "/wishlist-filled.png";
 import { toast } from "react-toastify";
-import { deleteProduct } from "../services/productService";  // Import the deleteProduct function
-import DeleteConfirmationModal from "./DeleteConfirmationModal";  // Import the modal component
+import { deleteProduct } from "../services/productService"; // Import the deleteProduct function
+import DeleteConfirmationModal from "./DeleteConfirmationModal"; // Import the modal component
 
 const Products = ({ products }) => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Products = ({ products }) => {
 
         if (response.success) {
           toast.success("Product deleted successfully!");
-          mutate();  // Refresh the products list to reflect the deletion
+          mutate(); // Refresh the products list to reflect the deletion
         } else {
           toast.error("Failed to delete product.");
         }
@@ -58,7 +58,8 @@ const Products = ({ products }) => {
     <div className="product-grid">
       {products.map((product) => {
         const selectedColorIndex = selectedColors[product.id] ?? 0;
-        const currentColor = product.colors?.[selectedColorIndex] || product.colors?.[0];
+        const currentColor =
+          product.colors?.[selectedColorIndex] || product.colors?.[0];
 
         const handleProductClick = () => {
           navigate(`/product/${product.id}`, {
@@ -69,10 +70,10 @@ const Products = ({ products }) => {
         const wishlistItem = wishlist.find(
           (item) =>
             item.productId === product.id &&
-            item.selectedColor === currentColor?.imageUrl
+            item.selectedColor === currentColor?.imageUrl,
         );
         const isInWishlist = !!wishlistItem;
-        
+
         const handleWishlistToggle = async (e) => {
           e.stopPropagation();
           if (!user) {
@@ -100,14 +101,18 @@ const Products = ({ products }) => {
         };
 
         return (
-          <div key={product.id} className="product-card" onClick={handleProductClick}>
+          <div
+            key={product.id}
+            className="product-card"
+            onClick={handleProductClick}
+          >
             {/* Admin Delete Button */}
             {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
               <div
                 className="delete-product"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDeleteProduct(product.id);  // Trigger deleteProduct on click
+                  handleDeleteProduct(product.id); // Trigger deleteProduct on click
                 }}
               >
                 ×
@@ -165,13 +170,15 @@ const Products = ({ products }) => {
           </div>
         );
       })}
-      
+
       {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         showModal={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={confirmDelete}
-        productName={products.find((product) => product.id === productToDelete)?.name}
+        productName={
+          products.find((product) => product.id === productToDelete)?.name
+        }
       />
     </div>
   );

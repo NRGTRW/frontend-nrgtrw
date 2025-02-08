@@ -18,10 +18,16 @@ const LogInButton = ({ user, onLogin, onLogout }) => {
           </div>
           {dropdownOpen && (
             <div className="profile-dropdown active">
-              <div className="profile-dropdown-item" onClick={() => console.log("Go to profile")}>
+              <div
+                className="profile-dropdown-item"
+                onClick={() => console.log("Go to profile")}
+              >
                 Profile
               </div>
-              <div className="profile-dropdown-item" onClick={() => console.log("Settings")}>
+              <div
+                className="profile-dropdown-item"
+                onClick={() => console.log("Settings")}
+              >
                 Settings
               </div>
               <div className="profile-dropdown-item" onClick={onLogout}>

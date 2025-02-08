@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "../assets/styles/DeleteModal.css"
+import "../assets/styles/DeleteModal.css";
 import "../assets/styles/admin.css";
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
@@ -12,16 +12,10 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
         <h2 className="admin-modal-title">Confirm Deletion</h2>
         <p className="admin-modal-text">This action cannot be undone</p>
         <div className="admin-modal-actions">
-          <button 
-            className="admin-btn secondary" 
-            onClick={onClose}
-          >
+          <button className="admin-btn secondary" onClick={onClose}>
             Cancel
           </button>
-          <button 
-            className="admin-btn danger" 
-            onClick={onConfirm}
-          >
+          <button className="admin-btn danger" onClick={onConfirm}>
             Confirm Delete
           </button>
         </div>

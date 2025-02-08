@@ -73,7 +73,11 @@ const UserRow = ({ user, profilePicture, defaultProfilePicture }) => {
   return (
     <div
       ref={containerRef}
-      style={{ position: "relative", display: "inline-block", cursor: "pointer" }}
+      style={{
+        position: "relative",
+        display: "inline-block",
+        cursor: "pointer",
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}

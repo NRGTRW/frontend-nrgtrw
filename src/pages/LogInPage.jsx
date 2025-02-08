@@ -43,7 +43,7 @@ const LogInPage = () => {
         toast.error("Incorrect password. Please try again.");
       } else {
         toast.error(
-          error.response?.data?.error || "Login failed. Please try again."
+          error.response?.data?.error || "Login failed. Please try again.",
         );
       }
     } finally {
@@ -56,23 +56,31 @@ const LogInPage = () => {
     const email = formData.email.trim(); // Take email directly from input field
 
     if (!email) {
-      toast.error("Please enter your email in the login field before resetting your password.");
+      toast.error(
+        "Please enter your email in the login field before resetting your password.",
+      );
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error("📩 Invalid email! Make sure you enter a properly formatted email.");
+      toast.error(
+        "📩 Invalid email! Make sure you enter a properly formatted email.",
+      );
       return;
     }
 
     try {
       await api.post("/auth/reset-password", { email });
-      toast.success("📧 Reset email sent! Follow the instructions in your inbox.");
-      toast.info("📩 Didn’t receive the email? Check your spam or junk folder.");
+      toast.success(
+        "📧 Reset email sent! Follow the instructions in your inbox.",
+      );
+      toast.info(
+        "📩 Didn’t receive the email? Check your spam or junk folder.",
+      );
     } catch (error) {
       console.error("Password reset failed:", error.message);
       toast.error(
-        error.response?.data?.message || "Failed to send password reset email."
+        error.response?.data?.message || "Failed to send password reset email.",
       );
     }
   };

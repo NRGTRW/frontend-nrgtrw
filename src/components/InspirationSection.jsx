@@ -20,8 +20,8 @@ const InspirationSection = () => {
           <h2>OUR INSPIRATION</h2>
           <p>
             At NRG, we draw inspiration from the elegance of nature and the
-            strength of innovation. Each piece is crafted to reflect balance
-            and purpose.
+            strength of innovation. Each piece is crafted to reflect balance and
+            purpose.
           </p>
           <button className="learn-more-button" onClick={handleLearnMore}>
             LEARN MORE
@@ -29,7 +29,6 @@ const InspirationSection = () => {
         </div>
       </div>
     </section>
-
   );
 };
 

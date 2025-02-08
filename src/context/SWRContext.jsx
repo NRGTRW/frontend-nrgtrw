@@ -1,6 +1,6 @@
 import React from "react";
 import { SWRConfig } from "swr";
-import api from "../services/api"; 
+import api from "../services/api";
 
 const fetcher = async (url) => {
   const response = await api.get(url);

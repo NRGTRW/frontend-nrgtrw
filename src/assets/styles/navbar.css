@@ -17,7 +17,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 /* Logo Styling */
 .logo {
   font-family: "Cinzel", serif;
@@ -32,7 +31,9 @@
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   list-style-type: none;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .logo:hover {
@@ -118,7 +119,9 @@
   object-fit: cover;
   cursor: pointer;
   border: 2px solid #000;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .profile-icon:hover {
@@ -187,7 +190,9 @@
   font-weight: 600;
   color: #333;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .menu li:hover {
@@ -233,7 +238,6 @@
   }
 }
 
-
 .badge {
   background-color: #ff3b30; /* Vibrant red */
   color: #fff;
@@ -247,7 +251,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.admin-icon:hover{
+.admin-icon:hover {
   transform: scale(1.1);
   transition: 500ms;
 }

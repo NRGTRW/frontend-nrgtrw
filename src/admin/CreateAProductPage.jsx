@@ -8,7 +8,6 @@ import "../assets/styles/createAProductPage.css";
 import { uploadImageToS3 } from "../services/productService";
 import PublishConfirmationModal from "../components/PublishConfirmationModal";
 
-
 const CreateAProductPage = () => {
   const navigate = useNavigate();
 
@@ -34,6 +33,9 @@ const CreateAProductPage = () => {
     ],
   });
 
+  // Errors state for form validation
+  const [errors, setErrors] = useState({});
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [hoverImagePreview, setHoverImagePreview] = useState(null);
@@ -45,7 +47,8 @@ const CreateAProductPage = () => {
       if (hoverImagePreview) URL.revokeObjectURL(hoverImagePreview);
       productDetails.colors.forEach((color) => {
         if (color.imageUrlPreview) URL.revokeObjectURL(color.imageUrlPreview);
-        if (color.hoverImagePreview) URL.revokeObjectURL(color.hoverImagePreview);
+        if (color.hoverImagePreview)
+          URL.revokeObjectURL(color.hoverImagePreview);
       });
     };
   }, [imagePreview, hoverImagePreview, productDetails.colors]);
@@ -58,7 +61,10 @@ const CreateAProductPage = () => {
         setProductDetails((prevState) => ({
           ...prevState,
           images: [
-            { imageUrl: firstColor.imageUrl, hoverImage: firstColor.hoverImage }
+            {
+              imageUrl: firstColor.imageUrl,
+              hoverImage: firstColor.hoverImage,
+            },
           ],
         }));
       }
@@ -72,6 +78,8 @@ const CreateAProductPage = () => {
       ...prevState,
       [name]: value,
     }));
+    // Clear error on change
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   // Handle size additions and removals
@@ -89,34 +97,39 @@ const CreateAProductPage = () => {
         sizes: prevState.sizes.filter((s) => s !== size),
       }));
     }
+    // Clear size error if sizes exist
+    if (productDetails.sizes.length > 0) {
+      setErrors((prevErrors) => ({ ...prevErrors, sizes: "" }));
+    }
   };
 
   // Handle color input changes (for both text and file inputs)
   const handleColorInputChange = (e, index, field) => {
+    const newColors = [...productDetails.colors];
     if (field === "imageUrl" || field === "hoverImage") {
       const file = e.target.files[0];
       if (file && file instanceof File) {
-        const newColors = [...productDetails.colors];
         const previewURL = URL.createObjectURL(file);
-        newColors[index] = { 
-          ...newColors[index], 
+        newColors[index] = {
+          ...newColors[index],
           [field]: file,
           [`${field}Preview`]: previewURL,
         };
-        setProductDetails((prevState) => ({
-          ...prevState,
-          colors: newColors,
-        }));
       }
     } else {
       const { name, value } = e.target;
-      const newColors = [...productDetails.colors];
       newColors[index] = { ...newColors[index], [name]: value };
-      setProductDetails((prevState) => ({
-        ...prevState,
-        colors: newColors,
-      }));
     }
+    setProductDetails((prevState) => ({
+      ...prevState,
+      colors: newColors,
+    }));
+
+    // Clear any errors for this specific color field
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [`${field === "colorName" ? "colorName" : field}_${index}`]: "",
+    }));
   };
 
   // Handle adding or removing a color option
@@ -151,12 +164,49 @@ const CreateAProductPage = () => {
     setShowConfirmation(false);
   };
 
+  // Validate the form fields and return an object with error messages.
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!productDetails.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    if (!productDetails.description.trim()) {
+      newErrors.description = "Description is required";
+    }
+    if (!productDetails.price || parseFloat(productDetails.price) <= 0) {
+      newErrors.price = "Valid price is required";
+    }
+    if (!productDetails.category.trim()) {
+      newErrors.category = "Category is required";
+    }
+    if (!productDetails.sizes || productDetails.sizes.length === 0) {
+      newErrors.sizes = "At least one size must be selected";
+    }
+    productDetails.colors.forEach((color, index) => {
+      if (!color.colorName || !color.colorName.trim()) {
+        newErrors[`colorName_${index}`] = "Color name is required";
+      }
+      // Check that an image file has been provided for each color option.
+      if (!(color.imageUrl instanceof File) && !color.imageUrl) {
+        newErrors[`colorImage_${index}`] = "Color image is required";
+      }
+      if (!(color.hoverImage instanceof File) && !color.hoverImage) {
+        newErrors[`colorHoverImage_${index}`] =
+          "Color hover image is required";
+      }
+    });
+
+    return newErrors;
+  };
+
   // Confirm and publish product
   const confirmPublish = async () => {
-    // Validate category selection
+    // Validate category selection again (this logic could be merged with validateForm)
     const categoryMap = {
       elegance: 1, // Changed to lowercase
       "pump covers": 2, // Changed to lowercase
+      confidence:3, // Changed to lowercase
     };
     const selectedCategory = productDetails.category.toLowerCase().trim();
     const categoryId = categoryMap[selectedCategory];
@@ -242,10 +292,17 @@ const CreateAProductPage = () => {
     }
   };
 
-    // handlePublish: show the confirmation popup
-    const handlePublish = () => {
-      setShowConfirmation(true); 
-    };
+  // Before showing the confirmation modal, validate required fields.
+  const handlePublish = () => {
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast.error("Please fill in all required fields");
+    } else {
+      setErrors({});
+      setShowConfirmation(true);
+    }
+  };
 
   return (
     <div className="cp-page">
@@ -270,19 +327,37 @@ const CreateAProductPage = () => {
                   name="colorName"
                   placeholder="Color Name"
                   value={color.colorName}
-                  onChange={(e) => handleColorInputChange(e, index, "colorName")}
+                  onChange={(e) =>
+                    handleColorInputChange(e, index, "colorName")
+                  }
                 />
+                {errors[`colorName_${index}`] && (
+                  <span className="cp-page__error">
+                    {errors[`colorName_${index}`]}
+                  </span>
+                )}
                 <input
                   type="file"
                   className="cp-page__file-input"
                   name="imageUrl"
                   accept="image/*"
-                  onChange={(e) => handleColorInputChange(e, index, "imageUrl")}
+                  onChange={(e) =>
+                    handleColorInputChange(e, index, "imageUrl")
+                  }
                 />
+                {errors[`colorImage_${index}`] && (
+                  <span className="cp-page__error">
+                    {errors[`colorImage_${index}`]}
+                  </span>
+                )}
                 {color.imageUrlPreview && (
                   <div className="cp-page__image-wrapper">
                     <div className="cp-page__preview-container">
-                      <img src={color.imageUrlPreview} alt="Color Preview" className="cp-page__preview-image" />
+                      <img
+                        src={color.imageUrlPreview}
+                        alt="Color Preview"
+                        className="cp-page__preview-image"
+                      />
                     </div>
                   </div>
                 )}
@@ -291,22 +366,42 @@ const CreateAProductPage = () => {
                   className="cp-page__file-input"
                   name="hoverImage"
                   accept="image/*"
-                  onChange={(e) => handleColorInputChange(e, index, "hoverImage")}
+                  onChange={(e) =>
+                    handleColorInputChange(e, index, "hoverImage")
+                  }
                 />
+                {errors[`colorHoverImage_${index}`] && (
+                  <span className="cp-page__error">
+                    {errors[`colorHoverImage_${index}`]}
+                  </span>
+                )}
                 {color.hoverImagePreview && (
                   <div className="cp-page__image-wrapper">
                     <div className="cp-page__preview-container">
-                      <img src={color.hoverImagePreview} alt="Hover Color Preview" className="cp-page__preview-image" />
+                      <img
+                        src={color.hoverImagePreview}
+                        alt="Hover Color Preview"
+                        className="cp-page__preview-image"
+                      />
                     </div>
                   </div>
                 )}
               </div>
             ))}
             <div className="cp-page__button-group">
-              <button type="button" className="cp-page__action-btn" onClick={() => handleColorChange("add")}>
+              <button
+                type="button"
+                className="cp-page__action-btn"
+                onClick={() => handleColorChange("add")}
+              >
                 Add Color
               </button>
-              <button type="button" className="cp-page__danger-btn" onClick={() => handleColorChange("remove")} disabled={isRemoveDisabled}>
+              <button
+                type="button"
+                className="cp-page__danger-btn"
+                onClick={() => handleColorChange("remove")}
+                disabled={isRemoveDisabled}
+              >
                 Remove Color
               </button>
             </div>
@@ -316,7 +411,9 @@ const CreateAProductPage = () => {
         <div className="cp-page__details-section">
           <h1>Add New Product</h1>
           <div className="cp-page__input-group">
-            <label>Name <span className="cp-page__required-marker">*</span></label>
+            <label>
+              Name <span className="cp-page__required-marker">*</span>
+            </label>
             <input
               type="text"
               className="cp-page__form-input"
@@ -325,10 +422,15 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter product name"
             />
+            {errors.name && (
+              <span className="cp-page__error">{errors.name}</span>
+            )}
           </div>
 
           <div className="cp-page__input-group">
-            <label>Description <span className="cp-page__required-marker">*</span></label>
+            <label>
+              Description <span className="cp-page__required-marker">*</span>
+            </label>
             <textarea
               className="cp-page__form-textarea"
               name="description"
@@ -336,10 +438,15 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter product description"
             />
+            {errors.description && (
+              <span className="cp-page__error">{errors.description}</span>
+            )}
           </div>
 
           <div className="cp-page__input-group">
-            <label>Price <span className="cp-page__required-marker">*</span></label>
+            <label>
+              Price <span className="cp-page__required-marker">*</span>
+            </label>
             <input
               type="number"
               className="cp-page__form-input"
@@ -348,10 +455,15 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter product price"
             />
+            {errors.price && (
+              <span className="cp-page__error">{errors.price}</span>
+            )}
           </div>
 
           <div className="cp-page__input-group">
-            <label>Category <span className="cp-page__required-marker">*</span></label>
+            <label>
+              Category <span className="cp-page__required-marker">*</span>
+            </label>
             <select
               className="cp-page__form-select"
               name="category"
@@ -362,16 +474,22 @@ const CreateAProductPage = () => {
               <option value="">Select Category</option>
               <option value="elegance">Elegance</option>
               <option value="pump covers">Pump Covers</option>
+              <option value="Confidence">Confidence</option>
             </select>
+            {errors.category && (
+              <span className="cp-page__error">{errors.category}</span>
+            )}
           </div>
 
           <div className="cp-page__input-group">
-            <label>Sizes <span className="cp-page__required-marker">*</span></label>
+            <label>
+              Sizes <span className="cp-page__required-marker">*</span>
+            </label>
             <div className="cp-page__size-manager">
               {["S", "M", "L", "XL"].map((size) => (
-                <button 
-                  key={size} 
-                  type="button" 
+                <button
+                  key={size}
+                  type="button"
                   className="cp-page__size-btn"
                   onClick={() => handleSizeChange("add", size)}
                 >
@@ -381,8 +499,8 @@ const CreateAProductPage = () => {
               {productDetails.sizes.map((size) => (
                 <div key={size} className="cp-page__size-tag">
                   <span>{size}</span>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="cp-page__danger-btn"
                     onClick={() => handleSizeChange("remove", size)}
                   >
@@ -391,9 +509,15 @@ const CreateAProductPage = () => {
                 </div>
               ))}
             </div>
+            {errors.sizes && (
+              <span className="cp-page__error">{errors.sizes}</span>
+            )}
           </div>
 
-          <button className="cp-page__action-btn cp-page__publish-btn" onClick={handlePublish}>
+          <button
+            className="cp-page__action-btn cp-page__publish-btn"
+            onClick={handlePublish}
+          >
             Publish Product
           </button>
         </div>

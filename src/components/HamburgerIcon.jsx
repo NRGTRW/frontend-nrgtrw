@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/styles/hamburgerIcon.css"
+import "../assets/styles/hamburgerIcon.css";
 
 const HamburgerIcon = ({ isOpen, toggleMenu, buttonRef }) => {
   return (

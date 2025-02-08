@@ -12,7 +12,10 @@ const fetchWishlist = async () => {
     console.log("✅ Wishlist API Response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ Failed to fetch wishlist:", error.response?.data || error.message);
+    console.error(
+      "❌ Failed to fetch wishlist:",
+      error.response?.data || error.message,
+    );
     return [];
   }
 };
@@ -60,7 +63,10 @@ const WishlistPage = () => {
 
           // Ensure correct color is displayed
           const selectedColor = item.selectedColor || item.product.imageUrl;
-          console.log(`🎨 Displaying ${item.product.name} with color:`, selectedColor);
+          console.log(
+            `🎨 Displaying ${item.product.name} with color:`,
+            selectedColor,
+          );
 
           return (
             <div className="wishlist-card" key={item.id}>
@@ -82,7 +88,9 @@ const WishlistPage = () => {
                 )}
               </div>
               <div className="wishlist-product-info">
-                <h3 className="wishlist-product-name">{item.product.name || "Unnamed Product"}</h3>
+                <h3 className="wishlist-product-name">
+                  {item.product.name || "Unnamed Product"}
+                </h3>
                 <p className="wishlist-product-price">
                   ${item.product.price ? item.product.price.toFixed(2) : "N/A"}
                 </p>

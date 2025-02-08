@@ -1,25 +1,26 @@
 .go-back-button {
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: inline-block;
-    z-index: 999;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: inline-block;
+  z-index: 999;
+}
+
+.go-back-button:hover {
+  background-color: #000;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  /* On smaller screens, make the button positioned fixed */
+  .go-back-button {
+    margin-top: 80px;
   }
-  
-  .go-back-button:hover {
-    background-color: #000;
-    transform: scale(1.05);
-  }
-  
-  @media(max-width: 768px ) {
-    /* On smaller screens, make the button positioned fixed */
-   .go-back-button {
-      margin-top:80px;
-      
-   }
-  }
+}

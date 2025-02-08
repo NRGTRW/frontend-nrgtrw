@@ -27,7 +27,9 @@ const CartPreview = () => {
                 <div className="cart-preview-item-info">
                   <span className="cart-item-name">{item.name}</span>
                   <span className="cart-item-qty">{item.quantity}x</span>
-                  <span className="cart-item-size">Size: {item.selectedSize}</span>
+                  <span className="cart-item-size">
+                    Size: {item.selectedSize}
+                  </span>
                 </div>
               </li>
             ))}
@@ -36,10 +38,7 @@ const CartPreview = () => {
       ) : (
         <p>Your cart is empty.</p>
       )}
-      <button
-        className="view-cart-button"
-        onClick={() => navigate("/cart")}
-      >
+      <button className="view-cart-button" onClick={() => navigate("/cart")}>
         View Cart
       </button>
     </div>
@@ -47,6 +46,3 @@ const CartPreview = () => {
 };
 
 export default CartPreview;
-
-
-

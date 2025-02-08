@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// Base API URL
 const API_URL = import.meta.env.VITE_API_URL;
+
+
 
 /**
  * Fetch all products (with nested sizes/colors) from backend.
@@ -15,9 +16,8 @@ export const fetchAllProducts = async () => {
     throw new Error("Failed to fetch products.");
   }
 };
-
 /**
- * Fetch single product by ID (with nested sizes/colors).
+ * Fetch single product by ID.
  */
 export const fetchProductById = async (id) => {
   try {
@@ -26,6 +26,28 @@ export const fetchProductById = async (id) => {
   } catch (error) {
     console.error(`Error fetching product by ID (${id}):`, error.message);
     throw new Error("Failed to fetch product.");
+  }
+};
+
+/**
+ * Update an existing product (Admin only).
+ */
+export const updateProduct = async (productId, data) => {
+  try {
+    const token = localStorage.getItem("authToken");
+    const response = await axios.put(`${API_URL}/products/${productId}`, data, {
+      headers: {
+        "Content-Type":
+          typeof data === "object" && data instanceof FormData
+            ? "multipart/form-data"
+            : "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating product ID ${productId}:`, error.message);
+    throw new Error("Failed to update product.");
   }
 };
 
@@ -45,57 +67,38 @@ export const createProduct = async (formData) => {
 };
 
 /**
- * Update an existing product (Admin only).
- */
-export const updateProduct = async (productId, formData) => {
-  try {
-    const response = await axios.put(`${API_URL}/products/${productId}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(`Error updating product ID ${productId}:`, error.message);
-    throw new Error("Failed to update product.");
-  }
-};
-
-/**
- * Delete a product (Admin only).
- */
-/**
  * Delete a product (Admin only).
  */
 export const deleteProduct = async (id) => {
   try {
-    console.log("Sending DELETE request for product ID:", id);
+    const token = localStorage.getItem("authToken");
     const response = await axios.delete(`${API_URL}/products/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("Delete response:", response.data);  // Log the response data for debugging
-    return response.data;  // Return the response to handle it on the frontend
+    return response.data;
   } catch (error) {
     console.error(`Error deleting product ID ${id}:`, error.message);
-    throw new Error('Failed to delete product.');
+    throw new Error("Failed to delete product.");
   }
 };
 
-// Define the function to upload an image to S3
+/**
+ * Upload an image to S3.
+ */
 export const uploadImageToS3 = async (imageFile) => {
   const formData = new FormData();
   formData.append("image", imageFile);
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/upload-image`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    const response = await axios.post(`${API_URL}/upload-image`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
-    console.log("Image uploaded successfully:", response.data);
-    return response.data.imageUrl; // Assuming the response contains the image URL
+    return response.data.imageUrl;
   } catch (error) {
-    console.error("Error uploading image:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error uploading image:",
+      error.response ? error.response.data : error.message
+    );
     throw new Error("Failed to upload image");
   }
 };

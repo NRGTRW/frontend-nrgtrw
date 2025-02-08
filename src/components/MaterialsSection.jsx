@@ -23,10 +23,7 @@ const MaterialsSection = ({ refProp }) => {
             luxurious fabrics to innovative textures, our commitment to
             excellence shines through in every piece we create.
           </p>
-          <button
-            className="discover-more-button"
-            onClick={handleDiscoverMore}
-          >
+          <button className="discover-more-button" onClick={handleDiscoverMore}>
             DISCOVER MORE
           </button>
         </div>

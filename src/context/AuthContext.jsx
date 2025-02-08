@@ -25,18 +25,20 @@ export const AuthProvider = ({ children }) => {
   const token = localStorage.getItem("authToken");
 
   // Use SWR to fetch user data when a token is available.
-  const { data: user, mutate: mutateUser, isValidating } = useSWR(
-    token ? ["user", token] : null,
-    () => fetchUser(token),
-    { revalidateOnFocus: false }
-  );
+  const {
+    data: user,
+    mutate: mutateUser,
+    isValidating,
+  } = useSWR(token ? ["user", token] : null, () => fetchUser(token), {
+    revalidateOnFocus: false,
+  });
 
   const login = useCallback(
     async (credentials) => {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/login`,
-          credentials
+          credentials,
         );
         const { token: newToken, user: initialUserData } = response.data;
         localStorage.setItem("authToken", newToken);
@@ -49,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         throw error;
       }
     },
-    [mutateUser]
+    [mutateUser],
   );
 
   const logOut = useCallback(() => {

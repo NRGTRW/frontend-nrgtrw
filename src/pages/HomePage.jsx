@@ -5,13 +5,12 @@ import StylesSection from "../components/StylesSection";
 import ScrollButton from "../components/ScrollButton";
 
 const HomePage = () => {
-
   return (
     <>
       <HeroSection />
       <InspirationSection />
       <StylesSection />
-      <ScrollButton /> 
+      <ScrollButton />
     </>
   );
 };

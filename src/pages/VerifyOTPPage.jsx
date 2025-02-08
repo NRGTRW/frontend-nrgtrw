@@ -34,7 +34,10 @@ const VerifyOTPPage = () => {
       toast.success("🔓 Verification successful! Welcome aboard.");
       setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
-      toast.error(err.response?.data?.error || "🚫 Incorrect code! Please check and enter the correct verification code.");
+      toast.error(
+        err.response?.data?.error ||
+          "🚫 Incorrect code! Please check and enter the correct verification code.",
+      );
     } finally {
       setIsLoading(false); // Hide loader
     }
@@ -47,7 +50,8 @@ const VerifyOTPPage = () => {
         <div className="otp-container">
           <h2 className="otp-header">Email Verification</h2>
           <p className="otp-description">
-            Enter the 6-digit Verification code sent to your email to verify your account.
+            Enter the 6-digit Verification code sent to your email to verify
+            your account.
           </p>
           <form className="otp-form" onSubmit={handleSubmit}>
             <input

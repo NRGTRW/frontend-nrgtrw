@@ -48,15 +48,16 @@ const Navbar = () => {
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
 
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isTouchDevice =
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
     fetcher,
-    { refreshInterval: getAuthToken() ? 3000 : 0 }
+    { refreshInterval: getAuthToken() ? 3000 : 0 },
   );
 
-  const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'ROOT_ADMIN';
+  const isAdmin = profile?.role === "ADMIN" || profile?.role === "ROOT_ADMIN";
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -69,11 +70,9 @@ const Navbar = () => {
       setMenuOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
-  // For touch devices: close cart preview when tapping outside the cart container
   useEffect(() => {
     if (isTouchDevice && showCartPreview) {
       const handleOutsideTouch = (e) => {
@@ -129,7 +128,7 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="top-bar">
-      <HamburgerIcon
+        <HamburgerIcon
           isOpen={menuOpen}
           toggleMenu={toggleMenu}
           buttonRef={buttonRef}
@@ -144,28 +143,53 @@ const Navbar = () => {
         </li>
 
         <div className="right-container">
-          {/* Admin Icons */}
           {isAdmin && (
             <>
-              <Link to="/clothing" className="admin-icon" aria-label="Admin Dashboard">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                  <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z"/>
+              <Link
+                to="/clothing"
+                className="admin-icon"
+                aria-label="Admin Dashboard"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z" />
                 </svg>
               </Link>
-              <Link to="/admin/create-a-product" className="admin-icon" aria-label="Add Product">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
+              <Link
+                to="/admin/create-a-product"
+                className="admin-icon"
+                aria-label="Add Product"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
                 </svg>
               </Link>
-              <Link to="/admin/dashboard" className="admin-icon" aria-label="Manage Products">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                  <path d="M5 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2zm3-6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0-5h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0-5h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/>
+              <Link
+                to="/admin/dashboard"
+                className="admin-icon"
+                aria-label="Manage Products"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2zm3-6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0-5h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0-5h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z" />
                 </svg>
               </Link>
             </>
           )}
 
-          {/* Wishlist Icon */}
           <div className="wishlist-container" style={{ position: "relative" }}>
             <img
               src={wishlistCount > 0 ? heartFilled : heartOutline}
@@ -182,7 +206,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Cart Icon with Cart Preview */}
           <div
             ref={cartContainerRef}
             className="cart-container"
@@ -216,21 +239,17 @@ const Navbar = () => {
             {showCartPreview && <CartPreview />}
           </div>
 
-          {/* Profile Icon */}
-        {/* Profile Icon with Hovering User Name */}
-{/* Profile Icon with Hovering User Name */}
-<UserRow
-  user={profile}
-  profilePicture={profilePicture}
-  defaultProfilePicture={defaultProfilePicture}
-  handleClick={() => handleAuthenticatedNavigation("/profile", "/login")}
-/>
-
-
+          <UserRow
+            user={profile}
+            profilePicture={profilePicture}
+            defaultProfilePicture={defaultProfilePicture}
+            handleClick={() =>
+              handleAuthenticatedNavigation("/profile", "/login")
+            }
+          />
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <ul ref={menuRef} className={`menu ${menuOpen ? "show" : ""}`}>
         <li onClick={() => handleNavigation("/")}>HOME</li>
         <li onClick={() => handleNavigation("/clothing")}>CLOTHING</li>

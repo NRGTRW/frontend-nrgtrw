@@ -1,34 +1,33 @@
 .general-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-    background: linear-gradient(to bottom, #f7f7f7, #e0e0e0);
-    color: #333;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  .general-page h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  .general-page p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    line-height: 1.6;
-  }
-  
-  .general-page a {
-    color: #000;
-    text-decoration: underline;
-  }
-  
-  .general-page h3 {
-    font-size: 1.5rem;
-    margin-top: 20px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background: linear-gradient(to bottom, #f7f7f7, #e0e0e0);
+  color: #333;
+  font-family: "Poppins", sans-serif;
+}
+
+.general-page h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.general-page p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.general-page a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.general-page h3 {
+  font-size: 1.5rem;
+  margin-top: 20px;
+}

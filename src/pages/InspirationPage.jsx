@@ -6,8 +6,8 @@ import GoBackButton from "../components/GoBackButton";
 const InspirationPage = () => {
   return (
     <div className="inspiration-page">
-        <GoBackButton/>
-        <div className="inspiration-content">
+      <GoBackButton />
+      <div className="inspiration-content">
         <div className="image-section" data-aos="fade-right">
           <img src={inspirationImage} alt="Inspired Design" />
         </div>

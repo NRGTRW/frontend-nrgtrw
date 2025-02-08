@@ -4,20 +4,18 @@ position: relative;
 width: 1440px;
 height: 5631px;
 
-background: #FFFFFF;
-
+background: #ffffff;
 
 /* DALL·E 2024-11-27 15.27.31 - A high-quality rendering of a minimalistic ice cream bar with a bite taken out of the top-right corner. The ice cream bar features a smooth, bright wh */
 
 position: absolute;
 width: 1449px;
 height: 1400px;
-left: calc(50% - 1449px/2 - 1.5px);
+left: calc(50% - 1449px / 2 - 1.5px);
 top: 880px;
 
 background: url(DALL·E 2024-11-27 15.27.31 - A high-quality rendering of a minimalistic ice cream bar with a bite taken out of the top-right corner. The ice cream bar features a smooth, bright wh.png);
 mix-blend-mode: luminosity;
-
 
 /* image */
 
@@ -29,16 +27,15 @@ top: 0px;
 
 background: url(image.png);
 
-
 /* NRG */
 
 position: absolute;
 width: 487px;
 height: 128px;
-left: calc(50% - 487px/2 - 3.5px);
+left: calc(50% - 487px / 2 - 3.5px);
 top: 0px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 700;
 font-size: 128px;
@@ -48,20 +45,19 @@ align-items: center;
 text-align: center;
 letter-spacing: 0.13em;
 
-color: #FFFFFF;
+color: #ffffff;
 
 text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-
 
 /* Elegance in Strength */
 
 position: absolute;
 width: 599px;
 height: 85px;
-left: calc(50% - 599px/2 - 3.5px);
-top: calc(50% - 85px/2 - 2395px);
+left: calc(50% - 599px / 2 - 3.5px);
+top: calc(50% - 85px / 2 - 2395px);
 
-font-family: 'Playfair Display';
+font-family: "Playfair Display";
 font-style: normal;
 font-weight: 500;
 font-size: 64px;
@@ -70,21 +66,20 @@ display: flex;
 align-items: center;
 text-align: center;
 
-color: #FFFFFF;
+color: #ffffff;
 
 text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
-
 
 /* Group 2 */
 
 position: absolute;
 width: 336.37px;
 height: 79px;
-left: calc(50% - 336.37px/2 - 3.82px);
-top: calc(50% - 79px/2 - 2144px);
+left: calc(50% - 336.37px / 2 - 3.82px);
+top: calc(50% - 79px / 2 - 2144px);
 
-filter: drop-shadow(-3px 10px 4px rgba(0, 0, 0, 0.25)) drop-shadow(5px 10px 4px rgba(0, 0, 0, 0.25));
-
+filter: drop-shadow(-3px 10px 4px rgba(0, 0, 0, 0.25))
+  drop-shadow(5px 10px 4px rgba(0, 0, 0, 0.25));
 
 /* Group 4 */
 
@@ -94,29 +89,26 @@ height: 79px;
 left: 548px;
 top: 632px;
 
-
-
 /* Rectangle 1 */
 
 position: absolute;
 width: 336.37px;
 height: 79px;
-left: calc(50% - 336.37px/2 - 3.82px);
+left: calc(50% - 336.37px / 2 - 3.82px);
 top: 632px;
 
-background: #FFFFFF;
+background: #ffffff;
 border-radius: 50px;
-
 
 /* EXPLORE */
 
 position: absolute;
 width: 219px;
 height: 54px;
-left: calc(50% - 219px/2 - 3.5px);
-top: calc(50% - 54px/2 - 2144.5px);
+left: calc(50% - 219px / 2 - 3.5px);
+top: calc(50% - 54px / 2 - 2144.5px);
 
-font-family: 'Poppins';
+font-family: "Poppins";
 font-style: normal;
 font-weight: 600;
 font-size: 36px;
@@ -126,8 +118,6 @@ text-align: center;
 
 color: #000000;
 
-
-
 /* OUR mATERIALS */
 
 position: absolute;
@@ -136,7 +126,7 @@ height: 54px;
 left: 147px;
 top: 1786px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 400;
 font-size: 40px;
@@ -151,17 +141,15 @@ color: #000000;
 
 border: 1px solid #000000;
 
-
 /* Frame 8 */
 
 position: absolute;
 width: 1440px;
 height: 764px;
-left: calc(50% - 1440px/2);
+left: calc(50% - 1440px / 2);
 top: 4867px;
 
 background: #141313;
-
 
 /* image 5 */
 
@@ -174,26 +162,23 @@ top: -31px;
 background: url(image.png);
 opacity: 0.51;
 
-
 /* Group 36 */
 
 position: absolute;
 width: 899px;
 height: 609px;
-left: calc(50% - 899px/2 - 0.5px);
-top: calc(50% - 609px/2 + 0.5px);
-
-
+left: calc(50% - 899px / 2 - 0.5px);
+top: calc(50% - 609px / 2 + 0.5px);
 
 /* NRG */
 
 position: absolute;
 width: 899px;
 height: 404px;
-left: calc(50% - 899px/2 - 0.5px);
+left: calc(50% - 899px / 2 - 0.5px);
 bottom: 77px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 900;
 font-size: 300px;
@@ -203,22 +188,21 @@ align-items: center;
 text-align: center;
 letter-spacing: 0.25em;
 
-color: #FFFFFF;
+color: #ffffff;
 
 mix-blend-mode: difference;
 opacity: 0.81;
 text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-
 
 /* Contact us */
 
 position: absolute;
 width: 239px;
 height: 46px;
-left: calc(50% - 239px/2 - 305.5px);
+left: calc(50% - 239px / 2 - 305.5px);
 top: 214px;
 
-font-family: 'Arial';
+font-family: "Arial";
 font-style: normal;
 font-weight: 400;
 font-size: 40px;
@@ -230,19 +214,17 @@ text-align: center;
 letter-spacing: 0.13em;
 text-decoration-line: underline;
 
-color: #FFFFFF;
-
-
+color: #ffffff;
 
 /* FAQs */
 
 position: absolute;
 width: 116px;
 height: 46px;
-left: calc(50% - 116px/2 + 307px);
+left: calc(50% - 116px / 2 + 307px);
 top: 214px;
 
-font-family: 'Arial';
+font-family: "Arial";
 font-style: normal;
 font-weight: 400;
 font-size: 40px;
@@ -254,19 +236,17 @@ text-align: center;
 letter-spacing: 0.13em;
 text-decoration-line: underline;
 
-color: #FFFFFF;
-
-
+color: #ffffff;
 
 /* My Order */
 
 position: absolute;
 width: 204px;
 height: 46px;
-left: calc(50% - 204px/2 + 8px);
+left: calc(50% - 204px / 2 + 8px);
 top: 214px;
 
-font-family: 'Arial';
+font-family: "Arial";
 font-style: normal;
 font-weight: 400;
 font-size: 40px;
@@ -278,19 +258,17 @@ text-align: center;
 letter-spacing: 0.13em;
 text-decoration-line: underline;
 
-color: #FFFFFF;
-
-
+color: #ffffff;
 
 /* MAY WE HELP YOU? */
 
 position: absolute;
 width: 881px;
 height: 113px;
-left: calc(50% - 881px/2 + 8.5px);
+left: calc(50% - 881px / 2 + 8.5px);
 top: 78px;
 
-font-family: 'Roboto';
+font-family: "Roboto";
 font-style: normal;
 font-weight: 500;
 font-size: 96px;
@@ -300,10 +278,9 @@ display: flex;
 align-items: center;
 text-align: center;
 
-color: #FFFFFF;
+color: #ffffff;
 
 mix-blend-mode: difference;
-
 
 /* Arrow up-circle */
 
@@ -313,8 +290,6 @@ height: 48px;
 left: 1345px;
 top: 30px;
 
-
-
 /* Icon */
 
 position: absolute;
@@ -323,8 +298,7 @@ right: 8.33%;
 top: 8.33%;
 bottom: 8.33%;
 
-border: 4px solid #F5F5F5;
-
+border: 4px solid #f5f5f5;
 
 /* Menu
 
@@ -337,8 +311,6 @@ height: 48px;
 left: 34px;
 top: 20px;
 
-
-
 /* Icon */
 
 position: absolute;
@@ -347,8 +319,7 @@ right: 12.5%;
 top: 25%;
 bottom: 25%;
 
-border: 4px solid #F3F3F3;
-
+border: 4px solid #f3f3f3;
 
 /* GET PICKED, MANUFACTURED, DELIVERED FROM US */
 
@@ -358,7 +329,7 @@ height: 76px;
 left: 1px;
 top: 1881px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 400;
 font-size: 28px;
@@ -370,8 +341,6 @@ letter-spacing: 0.1em;
 
 color: #000000;
 
-
-
 /* READ MORE */
 
 position: absolute;
@@ -380,7 +349,7 @@ height: 32px;
 left: 259px;
 top: 1977px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 600;
 font-size: 24px;
@@ -394,19 +363,16 @@ text-transform: lowercase;
 
 color: #000000;
 
-
-
 /* DALL·E 2024-11-27 15.12.50 - A high-quality black and white rendering of a minimalistic ice cream bar with a bite taken out of the top-right corner. The bar has a smooth, dark app */
 
 position: absolute;
 width: 1439px;
 height: 1318px;
-left: calc(50% - 1439px/2 + 0.5px);
+left: calc(50% - 1439px / 2 + 0.5px);
 top: 2280px;
 
 background: url(DALL·E 2024-11-27 15.12.50 - A high-quality black and white rendering of a minimalistic ice cream bar with a bite taken out of the top-right corner. The bar has a smooth, dark app.png);
 mix-blend-mode: luminosity;
-
 
 /* IS THE NEVER ENDING FIRE INSIDE US TO BE BETTER */
 
@@ -416,7 +382,7 @@ height: 159px;
 left: 793px;
 top: 3173px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 400;
 font-size: 28px;
@@ -428,8 +394,6 @@ letter-spacing: 0.13em;
 
 color: #000000;
 
-
-
 /* READ MORE */
 
 position: absolute;
@@ -438,7 +402,7 @@ height: 32px;
 left: 1012px;
 top: 3332px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 600;
 font-size: 24px;
@@ -452,18 +416,15 @@ text-transform: lowercase;
 
 color: #000000;
 
-
-
 /* Group 16 */
 
 position: absolute;
 width: 1352.08px;
 height: 553px;
-left: calc(50% - 1352.08px/2 + 0.04px);
-top: calc(50% - 553px/2 + 1615px);
+left: calc(50% - 1352.08px / 2 + 0.04px);
+top: calc(50% - 553px / 2 + 1615px);
 
 filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.25));
-
 
 /* DALL·E 2024-10-24 01.23.02 - A cropped white turtleneck with long sleeves, displayed on a mannequin against a neutral background. The background features soft lighting and subtle  */
 
@@ -478,7 +439,6 @@ filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.25));
 border-radius: 25px;
 transform: matrix(-1, 0, 0, 1, 0, 0);
 
-
 /* DALL·E 2024-10-22 13.41.53 - A full-body view of a slightly more muscular male model wearing a minimalist black wife-beater tank top paired with black samurai-style loose pants. T */
 
 position: absolute;
@@ -490,28 +450,26 @@ top: 4154px;
 background: url(DALL·E 2024-10-22 13.41.53 - A full-body view of a slightly more muscular male model wearing a minimalist black wife-beater tank top paired with black samurai-style loose pants. T.png);
 border-radius: 25px;
 
-
 /* a442e370-614b-425c-945d-5f1274055565 2 */
 
 position: absolute;
 width: 397.73px;
 height: 552px;
-left: calc(50% - 397.73px/2 - 0.11px);
+left: calc(50% - 397.73px / 2 - 0.11px);
 top: 4154px;
 
 background: url(a442e370-614b-425c-945d-5f1274055565.png);
 border-radius: 25px;
-
 
 /* CHOOSE YOUR OWN */
 
 position: absolute;
 width: 1165px;
 height: 258px;
-left: calc(50% - 1165px/2 - 0.5px);
+left: calc(50% - 1165px / 2 - 0.5px);
 top: 3770px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 400;
 font-size: 96px;
@@ -522,8 +480,6 @@ text-align: center;
 letter-spacing: 0.13em;
 
 color: #000000;
-
-
 
 /* ELEGANCE */
 
@@ -533,7 +489,7 @@ height: 65px;
 left: 87px;
 top: 4080px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 600;
 font-size: 48px;
@@ -545,18 +501,16 @@ text-align: center;
 letter-spacing: 0.13em;
 
 color: #000000;
-
-
 
 /* COVERS */
 
 position: absolute;
 width: 255px;
 height: 65px;
-left: calc(50% - 255px/2 - 0.5px);
+left: calc(50% - 255px / 2 - 0.5px);
 top: 4080px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 600;
 font-size: 48px;
@@ -568,8 +522,6 @@ text-align: center;
 letter-spacing: 0.13em;
 
 color: #000000;
-
-
 
 /* CONFIDENCE */
 
@@ -579,7 +531,7 @@ height: 65px;
 left: 995px;
 top: 4080px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 600;
 font-size: 48px;
@@ -592,17 +544,15 @@ letter-spacing: 0.13em;
 
 color: #000000;
 
-
-
 /* STYLES */
 
 position: absolute;
 width: 581px;
 height: 129px;
-left: calc(50% - 581px/2 + 3.5px);
+left: calc(50% - 581px / 2 + 3.5px);
 top: 3632px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 400;
 font-size: 96px;
@@ -614,17 +564,15 @@ letter-spacing: 0.13em;
 
 color: #000000;
 
-
-
 /* OUR INSPIRATION */
 
 position: absolute;
 width: 452px;
 height: 54px;
-left: calc(50% - 452px/2 - 1px);
+left: calc(50% - 452px / 2 - 1px);
 top: 2349px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 400;
 font-size: 40px;
@@ -639,7 +587,6 @@ color: #000000;
 
 border: 1px solid #000000;
 
-
 /* Section 1 */
 
 box-sizing: border-box;
@@ -648,11 +595,10 @@ position: relative;
 width: 358px;
 height: 880px;
 
-background: #FFFFFF;
+background: #ffffff;
 opacity: 0.81;
 border: 1px solid rgba(255, 255, 255, 0.1);
 border-radius: 2px;
-
 
 /* HOME < ELEGANCE < PUMP COVERS < CONFIDENCE < ABOUT US < FAQs < CONTACT US < MY ORDER < SOCIAL MEDIA< */
 
@@ -660,9 +606,9 @@ position: absolute;
 width: 174px;
 height: 510px;
 right: 22px;
-top: calc(50% - 510px/2 + 15px);
+top: calc(50% - 510px / 2 + 15px);
 
-font-family: 'Poppins';
+font-family: "Poppins";
 font-style: normal;
 font-weight: 600;
 font-size: 20px;
@@ -671,8 +617,6 @@ text-align: right;
 letter-spacing: 0.06em;
 
 color: #000000;
-
-
 
 /* Menu
 
@@ -685,8 +629,6 @@ height: 48px;
 left: 34px;
 top: 20px;
 
-
-
 /* Icon */
 
 position: absolute;
@@ -695,18 +637,17 @@ right: 12.5%;
 top: 25%;
 bottom: 25%;
 
-border: 4px solid #1E1E1E;
-
+border: 4px solid #1e1e1e;
 
 /* NRG */
 
 position: absolute;
 width: 154px;
 height: 30px;
-left: calc(50% - 154px/2 + 6px);
+left: calc(50% - 154px / 2 + 6px);
 top: 29px;
 
-font-family: 'Cinzel';
+font-family: "Cinzel";
 font-style: normal;
 font-weight: 700;
 font-size: 48px;
@@ -720,7 +661,6 @@ color: #000000;
 
 text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 
-
 /* Shopping cart
 
 Keywords: ecommerce, cart, purchase, store
@@ -731,8 +671,6 @@ width: 48px;
 height: 48px;
 left: 288px;
 top: 20px;
-
-
 
 /* Icon */
 

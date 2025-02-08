@@ -21,7 +21,7 @@ export const ScrollRestorationProvider = ({ children }) => {
       scrollPositions.current[location.pathname] = window.scrollY;
       sessionStorage.setItem(
         `scrollPosition-${location.pathname}`,
-        window.scrollY
+        window.scrollY,
       );
     };
 
@@ -33,7 +33,7 @@ export const ScrollRestorationProvider = ({ children }) => {
   useEffect(() => {
     if (navigationType === "POP") {
       const savedPosition = sessionStorage.getItem(
-        `scrollPosition-${location.pathname}`
+        `scrollPosition-${location.pathname}`,
       );
       if (savedPosition !== null) {
         // Wait for the next two animation frames to ensure DOM is ready

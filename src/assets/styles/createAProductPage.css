@@ -40,7 +40,7 @@
 }
 
 .cp-page__file-input:hover {
-  border-color: #4CAF50;
+  border-color: #4caf50;
   background-color: #f8fff8;
 }
 
@@ -94,7 +94,7 @@
 .cp-page__form-textarea:focus,
 .cp-page__form-select:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
   background-color: white;
 }
@@ -106,7 +106,7 @@
 
 /* Scoped Button Styles */
 .cp-page__action-btn {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   color: white;
   padding: 0.75rem 1.5rem;
   margin: 0.5rem;

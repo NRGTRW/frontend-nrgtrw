@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap");
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -35,7 +35,7 @@
 }
 
 .profile-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -45,7 +45,7 @@
 }
 
 .profile-header {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
   font-size: 2.8rem;
   color: #1a1a1a;
   margin-bottom: 1.5rem;
@@ -96,7 +96,7 @@
   border-radius: 6px;
   background: #fff;
   transition: all 0.3s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .profile-field input:focus {
@@ -170,7 +170,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   transition: all 0.3s ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -203,6 +203,10 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

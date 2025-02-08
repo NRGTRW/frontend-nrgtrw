@@ -15,7 +15,9 @@ const NotFound = () => {
     >
       <div className="not-found-content">
         <h1>Oops! Page Not Found</h1>
-        <p>Sorry, the page you are looking for doesn’t exist or has been moved.</p>
+        <p>
+          Sorry, the page you are looking for doesn’t exist or has been moved.
+        </p>
         <button onClick={() => navigate("/")} className="back-home-button">
           Back to Home
         </button>

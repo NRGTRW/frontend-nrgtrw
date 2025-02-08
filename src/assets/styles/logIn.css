@@ -16,7 +16,9 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding: 40px 30px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .auth-container:hover {
@@ -51,7 +53,9 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .auth-input:focus {
@@ -69,7 +73,9 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 .auth-button:hover {
@@ -85,7 +91,7 @@
 }
 .redirection-link {
   text-decoration: underline;
-  color: #007BFF; /* Blue color for the link */
+  color: #007bff; /* Blue color for the link */
   cursor: pointer; /* Pointer cursor only for the link */
   transition: color 0.3s ease; /* Smooth hover effect */
 }
@@ -99,12 +105,11 @@
   cursor: default; /* Default cursor for the rest of the text */
 }
 
-
 .auth-footer a {
   color: #333;
   font-weight: bold;
   /* text-decoration: none; */
-  text-decoration: underline; 
+  text-decoration: underline;
   transition: color 0.3s ease;
 }
 
@@ -193,7 +198,9 @@
   font-size: 14px;
   color: #555;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .password-toggle:hover {
@@ -231,6 +238,10 @@
 
 /* Keyframes for the spinner animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

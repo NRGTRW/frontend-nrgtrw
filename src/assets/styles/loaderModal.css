@@ -1,62 +1,61 @@
 /* Fullscreen overlay */
 .loader-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Ensure it appears above everything */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it appears above everything */
+}
+
+/* Loader modal content */
+.loader-modal-content {
+  text-align: center;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Spinning loader */
+.loader-modal-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #333; /* Darker color for spinning */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
+
+/* Message below loader */
+.loader-modal-message {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-  
-  /* Loader modal content */
-  .loader-modal-content {
-    text-align: center;
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.3s ease-in-out;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  /* Spinning loader */
-  .loader-modal-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #333; /* Darker color for spinning */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 10px auto;
+}
+
+/* Spin animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  /* Message below loader */
-  .loader-modal-message {
-    font-size: 16px;
-    font-family: "Poppins", sans-serif;
-    color: #555;
-    margin-top: 10px;
-  }
-  
-  /* Fade-in animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  /* Spin animation */
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
+}

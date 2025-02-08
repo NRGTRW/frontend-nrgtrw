@@ -12,33 +12,40 @@ const AdminDashboard = () => {
     try {
       const token = getToken();
       console.log("🔍 Retrieved Token in Production:", token);
-  
+
       if (!token) {
         toast.error("⚠️ No token found. Please log in again.");
         return;
       }
-  
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-  
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
       console.log("✅ API Response in Production:", response);
-  
+
       if (response.data.success) {
         let sortedUsers = response.data.data.sort((a, b) => a.id - b.id);
-        sortedUsers = sortedUsers.sort((a, b) => (a.role === "ROOT_ADMIN" ? -1 : 1));
+        sortedUsers = sortedUsers.sort((a) =>
+          a.role === "ROOT_ADMIN" ? -1 : 1,
+        );
         setUsers(sortedUsers);
       } else {
         throw new Error(response.data.error);
       }
     } catch (error) {
-      console.error("❌ Fetch Users Error in Production:", error.response?.data || error.message);
+      console.error(
+        "❌ Fetch Users Error in Production:",
+        error.response?.data || error.message,
+      );
       toast.error(`Error: ${error.response?.data?.message || error.message}`);
     } finally {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchUsers();
@@ -57,17 +64,20 @@ const AdminDashboard = () => {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/admin/users/role`,
         { userId, newRole },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       await fetchUsers();
     } catch (error) {
       console.error("❌ Failed to update role:", error);
-      toast.error(`Role update failed: ${error.response?.data?.error || error.message}`);
+      toast.error(
+        `Role update failed: ${error.response?.data?.error || error.message}`,
+      );
     }
   };
 
   const handleDelete = async (userId) => {
-    if (!window.confirm("🛑 Are you sure? This action is irreversible!")) return;
+    if (!window.confirm("🛑 Are you sure? This action is irreversible!"))
+      return;
 
     try {
       const token = getToken();
@@ -80,15 +90,20 @@ const AdminDashboard = () => {
 
       console.log(`🗑️ Attempting to delete user ID: ${userId}`);
 
-      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/admin/users/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       toast.success("✅ User deleted successfully.");
       await fetchUsers();
     } catch (error) {
       console.error("❌ Failed to delete user:", error);
-      toast.error(`User deletion failed: ${error.response?.data?.error || error.message}`);
+      toast.error(
+        `User deletion failed: ${error.response?.data?.error || error.message}`,
+      );
     }
   };
 
@@ -116,17 +131,26 @@ const AdminDashboard = () => {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className={user.role === "ROOT_ADMIN" ? "highlighted-root" : ""}>
+                  <tr
+                    key={user.id}
+                    className={
+                      user.role === "ROOT_ADMIN" ? "highlighted-root" : ""
+                    }
+                  >
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>
                       {user.role === "ROOT_ADMIN" ? (
-                        <span className="root-admin-icon">⚡👑 AURA SUPREME OVERLORD 👑⚡</span>
+                        <span className="root-admin-icon">
+                          ⚡👑 AURA SUPREME OVERLORD 👑⚡
+                        </span>
                       ) : (
                         <select
                           className="admin-input"
                           value={user.role}
-                          onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                          onChange={(e) =>
+                            handleRoleChange(user.id, e.target.value)
+                          }
                         >
                           <option value="USER">User</option>
                           <option value="ADMIN">Admin</option>
@@ -135,7 +159,10 @@ const AdminDashboard = () => {
                     </td>
                     <td>
                       {user.role !== "ROOT_ADMIN" && (
-                        <button className="admin-btn danger" onClick={() => handleDelete(user.id)}>
+                        <button
+                          className="admin-btn danger"
+                          onClick={() => handleDelete(user.id)}
+                        >
                           Delete
                         </button>
                       )}

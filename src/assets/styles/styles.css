@@ -39,7 +39,9 @@
   background-position: center;
   border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.7s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.7s ease,
+    box-shadow 0.3s ease;
 }
 
 .style-card:hover .style-image {

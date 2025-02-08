@@ -6,7 +6,7 @@ import GoBackButton from "../components/GoBackButton";
 const MaterialsPage = () => {
   return (
     <div className="materials-page">
-                <GoBackButton/>
+      <GoBackButton />
 
       <div className="materials-content">
         <div className="text-section">

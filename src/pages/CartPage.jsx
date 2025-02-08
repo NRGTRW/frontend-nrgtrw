@@ -19,7 +19,9 @@ const CartPage = () => {
   // 🚀 Optimistic removal of cart items
   const handleRemove = (product) => {
     if (!product.cartItemId || !product.name) {
-      toast.error(`🗑️ Unable to remove  ${product.name}! Please try again later.`);
+      toast.error(
+        `🗑️ Unable to remove  ${product.name}! Please try again later.`,
+      );
       return;
     }
 
@@ -56,7 +58,9 @@ const CartPage = () => {
           })
             .then(() => removeFromCart(product.cartItemId))
             .catch(() => {
-              toast.error(`Failed to add ${product.name} to wishlist. Please try again.`);
+              toast.error(
+                `Failed to add ${product.name} to wishlist. Please try again.`,
+              );
             });
         }
 
@@ -76,7 +80,9 @@ const CartPage = () => {
     }
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
     setCancelledItems((prev) => new Set([...prev, productKey]));
-    toast.info(`❌ Wishlist update canceled! The ${product.name} remains in your cart.`);
+    toast.info(
+      `❌ Wishlist update canceled! The ${product.name} remains in your cart.`,
+    );
   };
 
   // 🔄 Cleanup timers when the component unmounts
@@ -89,7 +95,10 @@ const CartPage = () => {
 
   // 🛒 Calculate total price
   const calculateTotal = () =>
-    cart.reduce((total, product) => total + product.quantity * product.price, 0);
+    cart.reduce(
+      (total, product) => total + product.quantity * product.price,
+      0,
+    );
 
   if (!cart.length) {
     return (
@@ -110,13 +119,17 @@ const CartPage = () => {
         <AnimatePresence>
           {cart.map((product) => {
             if (!product.cartItemId || !product.name) {
-              console.error("❌ Missing cartItemId or name in cart item:", product);
+              console.error(
+                "❌ Missing cartItemId or name in cart item:",
+                product,
+              );
               return null;
             }
 
             const productKey = `${product.productId}-${product.selectedSize}-${product.selectedColor}`;
             const isAnimating =
-              animatingItems.includes(productKey) && !cancelledItems.has(productKey);
+              animatingItems.includes(productKey) &&
+              !cancelledItems.has(productKey);
 
             return (
               <motion.div
@@ -140,7 +153,11 @@ const CartPage = () => {
                 </div>
                 <div className="cart-item-actions">
                   <motion.img
-                    src={isAnimating ? "/wishlist-filled.png" : "/wishlist-outline.png"}
+                    src={
+                      isAnimating
+                        ? "/wishlist-filled.png"
+                        : "/wishlist-outline.png"
+                    }
                     alt="Wishlist"
                     className={`wishlist-icon ${isAnimating ? "wishlisted" : ""}`}
                     onClick={() => handleWishlistToggle(product)}

@@ -18,10 +18,10 @@ const ClothingPage = () => {
   useEffect(() => {
     if (location.state && location.state.category) {
       const category = location.state.category;
-  
+
       setTimeout(() => {
         let targetElement = null;
-  
+
         if (category === "Elegance" && eleganceRef.current) {
           targetElement = eleganceRef.current;
         } else if (category === "Pump Covers" && pumpCoversRef.current) {
@@ -29,31 +29,33 @@ const ClothingPage = () => {
         } else if (category === "Confidence" && confidenceRef.current) {
           targetElement = confidenceRef.current;
         }
-  
+
         if (targetElement) {
           const yOffset = -80; // Offset by 80px
           const yPosition =
-            targetElement.getBoundingClientRect().top + window.scrollY + yOffset;
-  
+            targetElement.getBoundingClientRect().top +
+            window.scrollY +
+            yOffset;
+
           window.scrollTo({ top: yPosition, behavior: "smooth" });
         }
       }, 100);
     }
   }, [location.state]);
-  
 
   if (error) return <p className="error-message">Failed to load products.</p>;
-  if (!allProducts) return <p className="loading-message">Loading products...</p>;
+  if (!allProducts)
+    return <p className="loading-message">Loading products...</p>;
 
   const eleganceProducts = allProducts.filter(
-    (product) => product.categoryId === 1
+    (product) => product.categoryId === 1,
   );
   const pumpCoversProducts = allProducts.filter(
-    (product) => product.categoryId === 2
+    (product) => product.categoryId === 2,
   );
-  // const confidenceProducts = allProducts.filter(
-  //   (product) => product.categoryId === 3
-  // );
+  const confidenceProducts = allProducts.filter(
+    (product) => product.categoryId === 3
+  );
 
   return (
     <div className="clothing-page">
@@ -67,10 +69,10 @@ const ClothingPage = () => {
         <h2 className="section-title">Pump Covers</h2>
         <ProductCard products={pumpCoversProducts} category="Pump Covers" />
       </section>
-      {/* <section ref={confidenceRef}>
+      <section ref={confidenceRef}>
         <h2 className="section-title">Confidence</h2>
         <ProductCard products={confidenceProducts} category="Confidence" />
-      </section> */}
+      </section>
     </div>
   );
 };

@@ -62,7 +62,9 @@ body {
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .carousel-arrow:hover {
@@ -90,7 +92,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
   opacity: 0.7;
-  transition: transform 0.3s ease, opacity 0.3s ease, border 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    border 0.3s ease;
   border: 3px solid transparent;
 }
 
@@ -137,7 +142,9 @@ body {
   background-color: #fff;
   color: #333;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .size-button:hover {
@@ -168,7 +175,9 @@ body {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,7 +232,9 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
   width: 100%;
 }
 
@@ -243,7 +254,9 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .go-back-button:hover {
@@ -287,10 +300,11 @@ body {
   cursor: pointer;
   z-index: 100; /* Ensure it stays on top of other elements */
   color: red;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .wishlist-button:hover {
   transform: scale(1.1);
 }
-

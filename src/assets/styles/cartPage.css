@@ -85,7 +85,10 @@ h2 {
   width: 30px;
   height: 30px;
   cursor: pointer;
-  transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    color 0.3s ease;
   display: block;
   margin: 5px auto;
   color: #aaa; /* Default color */
@@ -142,7 +145,9 @@ h2 {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .continue-shopping-button:hover {
@@ -158,7 +163,9 @@ h2 {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .checkout-button:hover {
@@ -169,14 +176,18 @@ h2 {
 .cart-item.removing {
   opacity: 0;
   transform: translateX(-100%);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 /* Blurred effect when moving item to wishlist */
 .cart-item.blurred {
   filter: blur(3px);
   opacity: 0.5;
-  transition: filter 0.3s ease, opacity 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* Allow wishlist icon to be clickable even if the parent is blurred */
@@ -186,7 +197,13 @@ h2 {
 
 /* Wishlist Animation */
 @keyframes heartPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

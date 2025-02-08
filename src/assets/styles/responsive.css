@@ -1,24 +1,23 @@
 @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2rem;
-    }
-  
-    .explore-btn {
-      font-size: 0.9rem;
-    }
-  
-    .nav-links ul {
-      flex-direction: column;
-    }
+  .hero-title {
+    font-size: 2rem;
   }
-  
-  @media (max-width: 480px) {
-    .hero-title {
-      font-size: 1.8rem;
-    }
-  
-    .explore-btn {
-      font-size: 0.8rem;
-    }
+
+  .explore-btn {
+    font-size: 0.9rem;
   }
-  
+
+  .nav-links ul {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .explore-btn {
+    font-size: 0.8rem;
+  }
+}

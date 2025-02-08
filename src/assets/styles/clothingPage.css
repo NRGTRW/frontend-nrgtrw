@@ -121,7 +121,9 @@
   border-radius: 50%;
   border: 2px solid #ccc;
   cursor: pointer;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .color-circle:hover {
@@ -145,12 +147,11 @@
 
 /* Add Space Below Top Bar */
 
-
 /* Product Grid */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   padding: 40px;
-  margin-top: 20px; 
+  margin-top: 20px;
 }

@@ -12,8 +12,11 @@
 
 /* Default Light Mode (Black Icon) */
 .hamburger-icon path {
-  stroke: black;  /* Default black */
-  transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out, stroke 0.3s ease-in-out;
+  stroke: black; /* Default black */
+  transition:
+    transform 0.3s ease-in-out,
+    opacity 0.2s ease-in-out,
+    stroke 0.3s ease-in-out;
 }
 
 /* 🔥 Forced Dark Mode (White Icon) */

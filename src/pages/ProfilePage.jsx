@@ -9,7 +9,13 @@ import LoadingPage from "./LoadingPage";
 
 const ProfilePage = () => {
   const [isSaving, setIsSaving] = useState(false);
-  const { profile, loadProfile, saveProfile, changeProfilePicture, reloadProfile } = useProfile();
+  const {
+    profile,
+    loadProfile,
+    saveProfile,
+    changeProfilePicture,
+    reloadProfile,
+  } = useProfile();
   const { authToken, logOut, loadUser } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,10 +28,14 @@ const ProfilePage = () => {
   });
   const [pendingSave, setPendingSave] = useState(false);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
-  const [profilePicturePreview, setProfilePicturePreview] = useState("/default-profile.webp");
+  const [profilePicturePreview, setProfilePicturePreview] = useState(
+    "/default-profile.webp",
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
-  const [showGameButton, setShowGameButton] = useState(location.state?.fromLogin || false);
+  const [showGameButton, setShowGameButton] = useState(
+    location.state?.fromLogin || false,
+  );
 
   // Utility: refresh the page.
   const refreshPage = () => {
@@ -80,7 +90,9 @@ const ProfilePage = () => {
         address: profile.address || "",
         phone: profile.phone || "",
       });
-      setProfilePicturePreview(profile.profilePicture || "/default-profile.webp");
+      setProfilePicturePreview(
+        profile.profilePicture || "/default-profile.webp",
+      );
     }
   }, [profile]);
 
@@ -145,7 +157,11 @@ const ProfilePage = () => {
 
   return (
     <>
-      {showLoader && <LoaderModal message={isSaving ? "Saving changes..." : "Loading profile..."} />}
+      {showLoader && (
+        <LoaderModal
+          message={isSaving ? "Saving changes..." : "Loading profile..."}
+        />
+      )}
       <div className="profile-page">
         <div className="profile-container">
           <h1 className="profile-header">Your Profile</h1>
