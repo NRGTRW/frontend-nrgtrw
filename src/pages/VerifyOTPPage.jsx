@@ -57,7 +57,7 @@ const VerifyOTPPage = () => {
             <input
               type="text"
               className="otp-input"
-              placeholder="Enter OTP"
+              placeholder="Enter Verification Code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               maxLength="6"

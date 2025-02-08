@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api"; // For password reset endpoint
-import { toast } from "react-toastify"; // Toast notifications for feedback
+import api from "../services/api"; 
+import { toast } from "react-toastify"; 
 import "../assets/styles/logIn.css";
-import { useAuth } from "../context/AuthContext"; // Use AuthContext for login
-import { useWishlist } from "../context/WishlistContext"; // For refreshing wishlist
+import { useAuth } from "../context/AuthContext"; 
+import { useWishlist } from "../context/WishlistContext"; 
 
 const LogInPage = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +16,6 @@ const LogInPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Get login function from AuthContext and loadWishlist from WishlistContext
   const { login } = useAuth();
   const { loadWishlist } = useWishlist();
 
@@ -30,9 +29,7 @@ const LogInPage = () => {
     setIsLoading(true);
 
     try {
-      // Use AuthContext's login function to update auth state
       await login(formData);
-      // Explicitly refresh the wishlist after login
       await loadWishlist();
       navigate("/profile", { replace: true });
     } catch (error) {
@@ -51,9 +48,8 @@ const LogInPage = () => {
     }
   };
 
-  // ✅ Fixed Password Reset Function with Spam Warning
   const handlePasswordReset = async () => {
-    const email = formData.email.trim(); // Take email directly from input field
+    const email = formData.email.trim();
 
     if (!email) {
       toast.error(
@@ -91,7 +87,6 @@ const LogInPage = () => {
         <h1 className="auth-header">LOG IN</h1>
         <p className="auth-subtitle">Welcome back! Please log in.</p>
         <form className="auth-form" onSubmit={handleSubmit}>
-          {/* Email Input */}
           <input
             type="email"
             name="email"
@@ -102,7 +97,6 @@ const LogInPage = () => {
             required
           />
 
-          {/* Password Input */}
           <div className="password-field">
             <input
               type={showPassword ? "text" : "password"}
@@ -123,13 +117,11 @@ const LogInPage = () => {
             </button>
           </div>
 
-          {/* Submit Button with Inline Loading Spinner */}
           <button type="submit" className="auth-button" disabled={isLoading}>
             {isLoading ? <span className="spinner"></span> : "Log In"}
           </button>
         </form>
 
-        {/* Forgot Password and Sign Up Links */}
         <div className="auth-footer">
           <button
             type="button"

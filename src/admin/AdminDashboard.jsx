@@ -3,10 +3,14 @@ import axios from "axios";
 import "../assets/styles/AdminDashboard.css";
 import { toast } from "react-toastify";
 import { getToken } from "../context/tokenUtils";
+import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // Store the user object (instead of just the ID) so we can display its name.
+  const [userToDelete, setUserToDelete] = useState(null);
 
   const fetchUsers = async () => {
     try {
@@ -22,7 +26,7 @@ const AdminDashboard = () => {
         `${import.meta.env.VITE_API_URL}/admin/users`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
 
       console.log("✅ API Response in Production:", response);
@@ -30,7 +34,7 @@ const AdminDashboard = () => {
       if (response.data.success) {
         let sortedUsers = response.data.data.sort((a, b) => a.id - b.id);
         sortedUsers = sortedUsers.sort((a) =>
-          a.role === "ROOT_ADMIN" ? -1 : 1,
+          a.role === "ROOT_ADMIN" ? -1 : 1
         );
         setUsers(sortedUsers);
       } else {
@@ -39,7 +43,7 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error(
         "❌ Fetch Users Error in Production:",
-        error.response?.data || error.message,
+        error.response?.data || error.message
       );
       toast.error(`Error: ${error.response?.data?.message || error.message}`);
     } finally {
@@ -64,21 +68,31 @@ const AdminDashboard = () => {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/admin/users/role`,
         { userId, newRole },
-        { headers: { Authorization: `Bearer ${token}` } },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       await fetchUsers();
     } catch (error) {
       console.error("❌ Failed to update role:", error);
       toast.error(
-        `Role update failed: ${error.response?.data?.error || error.message}`,
+        `Role update failed: ${error.response?.data?.error || error.message}`
       );
     }
   };
 
-  const handleDelete = async (userId) => {
-    if (!window.confirm("🛑 Are you sure? This action is irreversible!"))
-      return;
+  // Open the modal by storing the user object for deletion.
+  const openDeleteModal = (user) => {
+    setUserToDelete(user);
+    setShowDeleteModal(true);
+  };
 
+  // Close the modal and clear the selected user.
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setUserToDelete(null);
+  };
+
+  // Confirm deletion after modal confirmation.
+  const confirmDelete = async () => {
     try {
       const token = getToken();
       console.log("🛠 Token being sent:", token);
@@ -88,21 +102,22 @@ const AdminDashboard = () => {
         return;
       }
 
-      console.log(`🗑️ Attempting to delete user ID: ${userId}`);
+      console.log(`🗑️ Attempting to delete user ID: ${userToDelete.id}`);
 
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/admin/users/${userId}`,
+        `${import.meta.env.VITE_API_URL}/admin/users/${userToDelete.id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
 
-      toast.success("✅ User deleted successfully.");
+      toast.success("User deleted successfully.");
+      closeDeleteModal();
       await fetchUsers();
     } catch (error) {
       console.error("❌ Failed to delete user:", error);
       toast.error(
-        `User deletion failed: ${error.response?.data?.error || error.message}`,
+        `User deletion failed: ${error.response?.data?.error || error.message}`
       );
     }
   };
@@ -161,7 +176,7 @@ const AdminDashboard = () => {
                       {user.role !== "ROOT_ADMIN" && (
                         <button
                           className="admin-btn danger"
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => openDeleteModal(user)}
                         >
                           Delete
                         </button>
@@ -174,6 +189,12 @@ const AdminDashboard = () => {
           </div>
         )}
       </div>
+      <DeleteConfirmationModal
+        showModal={showDeleteModal}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        productName={userToDelete ? userToDelete.name : ""}
+      />
     </div>
   );
 };

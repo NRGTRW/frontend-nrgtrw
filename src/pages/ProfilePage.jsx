@@ -37,12 +37,10 @@ const ProfilePage = () => {
     location.state?.fromLogin || false,
   );
 
-  // Utility: refresh the page.
   const refreshPage = () => {
     window.location.reload();
   };
 
-  // Load profile on page load or after login.
   useEffect(() => {
     const initializeProfile = async () => {
       const token = localStorage.getItem("authToken");
@@ -56,14 +54,13 @@ const ProfilePage = () => {
         setShowLoader(true);
         if (location.state?.fromLogin) {
           await Promise.all([loadUser(), loadProfile(token)]);
-          refreshPage(); // Refresh after login.
+          refreshPage();
         } else {
           await loadProfile(token);
         }
       } catch (error) {
         console.error("Failed to load profile:", error.message);
 
-        // Handle 401 errors.
         if (error.response?.status === 401) {
           toast.error("🔄 Session timeout! Refreshing for security.");
           setTimeout(refreshPage, 2000);
@@ -81,7 +78,6 @@ const ProfilePage = () => {
     initializeProfile();
   }, [navigate, location.state, location.pathname, loadUser, loadProfile]);
 
-  // Set form data and profile picture preview when profile is loaded.
   useEffect(() => {
     if (profile) {
       setFormData({
@@ -96,7 +92,6 @@ const ProfilePage = () => {
     }
   }, [profile]);
 
-  // Revoke the object URL when component unmounts or the image changes.
   useEffect(() => {
     return () => {
       if (selectedProfilePicture) {
@@ -132,7 +127,7 @@ const ProfilePage = () => {
         await changeProfilePicture(selectedProfilePicture, authToken);
       }
 
-      await reloadProfile(authToken); // Refresh profile data.
+      await reloadProfile(authToken); 
       toast.success("Changes saved! Your profile has been updated.");
       setPendingSave(false);
     } catch (error) {
@@ -165,14 +160,13 @@ const ProfilePage = () => {
       <div className="profile-page">
         <div className="profile-container">
           <h1 className="profile-header">Your Profile</h1>
-          {/* Profile Picture Section */}
           <div
             className="profile-image-container"
             style={{
               position: "relative",
               width: "150px",
               height: "150px",
-              margin: "0 auto 20px auto", // Center the container and add bottom margin
+              margin: "0 auto 20px auto",
             }}
           >
             <input
@@ -202,14 +196,13 @@ const ProfilePage = () => {
                   width: "100%",
                   height: "100%",
                   borderRadius: "50%",
-                  objectFit: "cover", // Ensure the image covers the container without deformation
+                  objectFit: "cover",
                 }}
                 onError={(e) => {
                   e.target.src = "/default-profile.webp";
                 }}
               />
             </label>
-            {/* Edit Icon Overlay (positioned on top of the profile image) */}
             <div
               className="edit-icon"
               style={{
@@ -222,7 +215,7 @@ const ProfilePage = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                pointerEvents: "none", // Ensures the icon doesn't interfere with clicking the label
+                pointerEvents: "none",
               }}
             >
               <svg
@@ -237,7 +230,6 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          {/* Profile Form */}
           <form className="profile-form" onSubmit={handleSave}>
             <div className="profile-field">
               <label htmlFor="name">Name:</label>

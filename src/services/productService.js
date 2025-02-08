@@ -3,10 +3,6 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 
-
-/**
- * Fetch all products (with nested sizes/colors) from backend.
- */
 export const fetchAllProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}/products`);
@@ -16,9 +12,7 @@ export const fetchAllProducts = async () => {
     throw new Error("Failed to fetch products.");
   }
 };
-/**
- * Fetch single product by ID.
- */
+
 export const fetchProductById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/products/${id}`);
@@ -29,9 +23,6 @@ export const fetchProductById = async (id) => {
   }
 };
 
-/**
- * Update an existing product (Admin only).
- */
 export const updateProduct = async (productId, data) => {
   try {
     const token = localStorage.getItem("authToken");
@@ -51,9 +42,6 @@ export const updateProduct = async (productId, data) => {
   }
 };
 
-/**
- * Create a new product (Admin only).
- */
 export const createProduct = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/products`, formData, {
@@ -66,9 +54,6 @@ export const createProduct = async (formData) => {
   }
 };
 
-/**
- * Delete a product (Admin only).
- */
 export const deleteProduct = async (id) => {
   try {
     const token = localStorage.getItem("authToken");
@@ -82,9 +67,6 @@ export const deleteProduct = async (id) => {
   }
 };
 
-/**
- * Upload an image to S3.
- */
 export const uploadImageToS3 = async (imageFile) => {
   const formData = new FormData();
   formData.append("image", imageFile);

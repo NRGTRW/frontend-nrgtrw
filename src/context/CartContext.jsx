@@ -9,10 +9,8 @@ const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  // Keep the token in state so that changes trigger revalidation.
   const [token, setToken] = useState(getToken());
 
-  // Listen for token changes (e.g. on logout) by polling every second.
   useEffect(() => {
     const interval = setInterval(() => {
       const newToken = getToken();
@@ -41,7 +39,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Use token as part of the SWR key so that when token is null, SWR returns null.
   const { data: cart = [], mutate } = useSWR(token ? `/cart?token=${token}` : null, fetchCart);
 
   const addToCart = async (product) => {
@@ -67,7 +64,7 @@ export const CartProvider = ({ children }) => {
         requestData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      mutate(); // Refresh cart data
+      mutate();
       return response.data;
     } catch (error) {
       console.error("Cart Error:", {
@@ -84,7 +81,6 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = async (cartItemId) => {
-    // Optimistically remove from cart
     mutate(
       (currentCart) =>
         currentCart.filter((item) => item.cartItemId !== cartItemId),

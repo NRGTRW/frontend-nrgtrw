@@ -9,7 +9,6 @@ export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-// Helper function to fetch user data using the token.
 const fetchUser = async (token) => {
   const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -24,7 +23,6 @@ export const AuthProvider = ({ children }) => {
   const { logoutProfile } = useProfile();
   const token = localStorage.getItem("authToken");
 
-  // Use SWR to fetch user data when a token is available.
   const {
     data: user,
     mutate: mutateUser,
@@ -42,7 +40,6 @@ export const AuthProvider = ({ children }) => {
         );
         const { token: newToken, user: initialUserData } = response.data;
         localStorage.setItem("authToken", newToken);
-        // Force SWR to revalidate the user data.
         mutateUser();
         toast.success("🎉 Welcome back! You’re now logged in.");
         return initialUserData;
@@ -56,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = useCallback(() => {
     localStorage.removeItem("authToken");
-    mutateUser(null, false); // Reset user data.
+    mutateUser(null, false);
     logoutProfile();
     toast.info("👋 You have been logged out. See you again soon!");
     navigate("/login", { replace: true });

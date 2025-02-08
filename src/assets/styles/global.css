@@ -24,3 +24,15 @@ img {
 .Toastify__toast-container {
   top: 80px !important;
 }
+
+/* 
+.global-Colors{
+  --toast_default_colors: predefined;
+  --success: #28a745;
+  --danger: #dc3545;
+  --light: #f9f9f9;
+  --dark: #666;
+  --white: #555;
+  --gray: #333;
+  --gray-dark: #000;
+} */

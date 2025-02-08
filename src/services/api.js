@@ -16,9 +16,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-/**
- * ✅ Fetch all users (Admin Only)
- */
+
 export const fetchAllUsers = async () => {
   try {
     const response = await api.get("/admin/users");
@@ -29,9 +27,7 @@ export const fetchAllUsers = async () => {
   }
 };
 
-/**
- * ✅ Update user role (Root Admin Only)
- */
+
 export const updateUserRole = async (userId, role) => {
   try {
     const response = await api.put(`/admin/users/${userId}/role`, { role });

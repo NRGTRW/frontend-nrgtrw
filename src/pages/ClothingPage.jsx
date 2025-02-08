@@ -10,7 +10,6 @@ const ClothingPage = () => {
   const { data: allProducts, error } = useSWR("/products", fetchAllProducts);
   const location = useLocation();
 
-  // Create refs for each section
   const eleganceRef = useRef(null);
   const pumpCoversRef = useRef(null);
   const confidenceRef = useRef(null);
@@ -31,7 +30,7 @@ const ClothingPage = () => {
         }
 
         if (targetElement) {
-          const yOffset = -80; // Offset by 80px
+          const yOffset = -80;
           const yPosition =
             targetElement.getBoundingClientRect().top +
             window.scrollY +

@@ -206,12 +206,12 @@
   display: block;
 }
 
-/* Media Queries */
+
 @media (max-width: 768px) {
   .top-bar {
-    height: auto; /* Allow navbar to expand */
-    flex-wrap: wrap; /* Ensure items can wrap */
-    padding-bottom: 10px; /* Add spacing */
+    height: auto; 
+    flex-wrap: wrap; 
+    padding-bottom: 10px; 
   }
 
   .right-container {
@@ -223,18 +223,17 @@
     width: fit-content;
     height: auto;
     padding: 10px 0px 0px 10px;
-    grid-auto-flow: row dense; /* Force filling from top to bottom */
+    grid-auto-flow: row dense; 
   }
 
   .right-container > * {
-    order: 999; /* Default order for all items */
+    order: 999; 
   }
 
-  /* Move second row items to the top */
   .right-container > *:nth-child(4),
   .right-container > *:nth-child(5),
   .right-container > *:nth-child(6) {
-    order: -1; /* These will now move above the first three items */
+    order: -1;
   }
 }
 

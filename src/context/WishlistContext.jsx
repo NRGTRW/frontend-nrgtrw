@@ -4,23 +4,19 @@ import { toast } from "react-toastify";
 import { useAuth } from "./AuthContext";
 import useSWR from "swr";
 
-// Create the Wishlist context
 const WishlistContext = createContext();
 
-// Custom hook to use the Wishlist context
 export const useWishlist = () => useContext(WishlistContext);
 
 export const WishlistProvider = ({ children }) => {
   const { authToken } = useAuth();
 
-  // Function to fetch the wishlist data using the auth token
   async function fetchWishlist(token) {
     if (!token) {
       console.error("❌ No token provided. Cannot fetch wishlist.");
       return [];
     }
 
-    // VITE_API_URL should include '/api'
     const apiUrl = `${import.meta.env.VITE_API_URL}/wishlist`;
     // console.log(`🔍 Fetching wishlist from: ${apiUrl}`);
     // console.log(`🔑 Using Token: ${token}`);
@@ -30,7 +26,6 @@ export const WishlistProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // console.log("✅ Wishlist fetched:", response.data);
       return response.data;
     } catch (error) {
       console.error("❌ Failed to load wishlist:", error.message);
@@ -42,25 +37,21 @@ export const WishlistProvider = ({ children }) => {
     }
   }
 
-  // SWR hook using the key "/wishlist" (do not prepend '/api')
   const { data: wishlist = [], mutate } = useSWR(
     authToken ? ["/wishlist", authToken] : null,
     () => fetchWishlist(authToken),
   );
 
-  // Function to manually reload the wishlist
   const loadWishlist = async () => {
     await mutate();
   };
 
-  // Automatically re-fetch when the authToken changes
   useEffect(() => {
     if (authToken) {
       loadWishlist();
     }
   }, [authToken]);
 
-  // Function to add an item to the wishlist
   const addToWishlist = async (product) => {
     if (!authToken) {
       toast.error(
@@ -95,7 +86,7 @@ export const WishlistProvider = ({ children }) => {
       );
 
       console.log("✅ Wishlist Item Added!");
-      await mutate(); // Re-fetch wishlist to update UI
+      await mutate(); 
     } catch (error) {
       console.error(
         "❌ Wishlist API Error:",
@@ -108,9 +99,7 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
-  // Function to remove an item from the wishlist
   const removeFromWishlist = async (wishlistId) => {
-    // Find the item (optional – for display purposes)
     const item = wishlist.find((item) => item.id === wishlistId);
     const productName = item?.product?.name || "Item";
 
@@ -126,7 +115,7 @@ export const WishlistProvider = ({ children }) => {
           error: `Failed to remove ${productName} from wishlist.`,
         },
       );
-      await mutate(); // Re-fetch wishlist after removal
+      await mutate();
     } catch (error) {
       console.error(
         "❌ Failed to remove from wishlist:",
