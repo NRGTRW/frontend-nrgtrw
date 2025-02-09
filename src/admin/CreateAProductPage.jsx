@@ -5,22 +5,11 @@ import GoBackButton from "../components/GoBackButton";
 import { motion } from "framer-motion";
 import axios from "axios";
 import "../assets/styles/createAProductPage.css";
+import { uploadImageToS3 } from "../services/productService";
 import PublishConfirmationModal from "../components/PublishConfirmationModal";
-// Import SWR to fetch categories dynamically.
-import useSWR from "swr";
-
-// A simple fetcher function for SWR.
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const CreateAProductPage = () => {
   const navigate = useNavigate();
-
-  // Fetch categories from the API.
-  const { data: categories } = useSWR(
-    `${import.meta.env.VITE_API_URL}/categories`,
-    fetcher,
-    { fallbackData: [] }
-  );
 
   // Default size options
   const defaultSizes = ["S", "M", "L", "XL"];
@@ -30,7 +19,7 @@ const CreateAProductPage = () => {
     name: "",
     description: "",
     price: "",
-    category: "", // This will now store the category id as a string.
+    category: "",
     sizes: [...defaultSizes],
     images: [{ imageUrl: "", hoverImage: "" }],
     colors: [
@@ -188,7 +177,7 @@ const CreateAProductPage = () => {
     if (!productDetails.price || parseFloat(productDetails.price) <= 0) {
       newErrors.price = "Valid price is required";
     }
-    if (!productDetails.category) {
+    if (!productDetails.category.trim()) {
       newErrors.category = "Category is required";
     }
     if (!productDetails.sizes || productDetails.sizes.length === 0) {
@@ -213,8 +202,13 @@ const CreateAProductPage = () => {
 
   // Confirm and publish product
   const confirmPublish = async () => {
-    // Use the selected category id directly from the dropdown.
-    const categoryId = productDetails.category;
+    // Validate category selection again (this logic could be merged with validateForm)
+    const categoryMap = {
+      elegance: 1, // Changed to lowercase
+      "pump covers": 2, // Changed to lowercase
+    };
+    const selectedCategory = productDetails.category.toLowerCase().trim();
+    const categoryId = categoryMap[selectedCategory];
     if (!categoryId) {
       toast.error("Invalid category selected");
       return;
@@ -225,7 +219,7 @@ const CreateAProductPage = () => {
       name: productDetails.name,
       description: productDetails.description,
       price: parseFloat(productDetails.price),
-      categoryId: Number(categoryId),
+      categoryId: categoryId,
       sizes: productDetails.sizes,
       colors: productDetails.colors.map((color) => ({
         colorName: color.colorName,
@@ -477,12 +471,8 @@ const CreateAProductPage = () => {
               required
             >
               <option value="">Select Category</option>
-              {Array.isArray(categories) &&
-                categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
+              <option value="elegance">Elegance</option>
+              <option value="pump covers">Pump Covers</option>
             </select>
             {errors.category && (
               <span className="cp-page__error">{errors.category}</span>
