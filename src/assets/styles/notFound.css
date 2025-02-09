@@ -11,7 +11,7 @@
   padding: 20px;
 
   /* Set the Background Image */
-  background-image: url("../assets/images/404NotFound.webp"); /* Ensure the path is correct */
+  background-image: url("/images/404NotFound.webp"); /* Ensure the path is correct */
   background-size: cover; /* Scale the image to cover the entire page */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Avoid repeating the image */

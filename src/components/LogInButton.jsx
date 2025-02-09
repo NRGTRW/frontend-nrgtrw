@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../assets/styles/logInButton.css";
-import defaultProfileImage from "../assets/images/default-avatar.webp"; // Default image
+import defaultProfileImage from "/images/default-avatar.webp"; // Default image
 
 const LogInButton = ({ user, onLogin, onLogout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

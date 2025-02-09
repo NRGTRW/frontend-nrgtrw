@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import "../assets/styles/hero.css";
-import heroImage from "../assets/images/HeroImage.webp";
+import heroImage from "/images/HeroImage.webp";
 import MaterialsSection from "./MaterialsSection";
 
 const HeroSection = () => {

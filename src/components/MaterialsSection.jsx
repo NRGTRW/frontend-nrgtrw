@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/materials.css";
-import materialsImage from "../assets/images/materials.webp";
+import materialsImage from "/images/materials.webp";
 
 const MaterialsSection = ({ refProp }) => {
   const navigate = useNavigate();

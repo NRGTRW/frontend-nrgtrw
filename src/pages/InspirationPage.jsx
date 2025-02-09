@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/styles/inspirationPage.css";
-import inspirationImage from "../assets/images/inspiration.webp"; // Add your image here
+import inspirationImage from "/images/inspiration.webp"; // Add your image here
 import GoBackButton from "../components/GoBackButton";
 
 const InspirationPage = () => {

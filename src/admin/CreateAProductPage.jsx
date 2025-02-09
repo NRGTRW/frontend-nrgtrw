@@ -5,84 +5,87 @@ import GoBackButton from "../components/GoBackButton";
 import { motion } from "framer-motion";
 import axios from "axios";
 import "../assets/styles/createAProductPage.css";
-import { uploadImageToS3 } from "../services/productService";
 import PublishConfirmationModal from "../components/PublishConfirmationModal";
 
 const CreateAProductPage = () => {
   const navigate = useNavigate();
 
-  // Default size options
+  // Default sizes for the product.
   const defaultSizes = ["S", "M", "L", "XL"];
 
-  // Product form state
+  // State for categories (fetched from the API).
+  const [categories, setCategories] = useState([]);
+
+  // State for product form values.
   const [productDetails, setProductDetails] = useState({
     name: "",
     description: "",
     price: "",
-    category: "",
+    category: "", // will store the chosen category id (as string)
     sizes: [...defaultSizes],
-    images: [{ imageUrl: "", hoverImage: "" }],
+    // For main product image.
+    images: [
+      {
+        imageUrl: null,
+        imageUrlPreview: null,
+      },
+    ],
+    // Colors are handled via local state.
     colors: [
       {
         colorName: "",
-        imageUrl: "",
-        hoverImage: "",
+        imageUrl: null,
+        hoverImage: null,
         imageUrlPreview: null,
         hoverImagePreview: null,
       },
     ],
   });
 
-  // Errors state for form validation
+  // State for form errors.
   const [errors, setErrors] = useState({});
-
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [hoverImagePreview, setHoverImagePreview] = useState(null);
 
-  // Cleanup object URLs to avoid memory leaks
+  // Fetch categories from API when the component mounts.
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/categories`);
+        // Expecting response.data to be an array of category objects.
+        setCategories(response.data || []);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        toast.error("Failed to load categories.");
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Cleanup object URLs when unmounting.
   useEffect(() => {
     return () => {
-      if (imagePreview) URL.revokeObjectURL(imagePreview);
-      if (hoverImagePreview) URL.revokeObjectURL(hoverImagePreview);
+      if (productDetails.images[0]?.imageUrlPreview) {
+        URL.revokeObjectURL(productDetails.images[0].imageUrlPreview);
+      }
       productDetails.colors.forEach((color) => {
         if (color.imageUrlPreview) URL.revokeObjectURL(color.imageUrlPreview);
         if (color.hoverImagePreview)
           URL.revokeObjectURL(color.hoverImagePreview);
       });
     };
-  }, [imagePreview, hoverImagePreview, productDetails.colors]);
+  }, [productDetails]);
 
-  // Set the main image and hover image to the first color's values
-  useEffect(() => {
-    if (productDetails.colors.length > 0) {
-      const firstColor = productDetails.colors[0];
-      if (!productDetails.images[0].imageUrl && firstColor.imageUrl) {
-        setProductDetails((prevState) => ({
-          ...prevState,
-          images: [
-            {
-              imageUrl: firstColor.imageUrl,
-              hoverImage: firstColor.hoverImage,
-            },
-          ],
-        }));
-      }
-    }
-  }, [productDetails.colors]);
-
-  // Handle changes for simple input fields
+  // Handle changes for text input fields.
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductDetails((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    // Clear error on change
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
-  // Handle size additions and removals
+  // Handle adding or removing sizes.
   const handleSizeChange = (action, size) => {
     if (action === "add") {
       if (!productDetails.sizes.includes(size)) {
@@ -97,18 +100,17 @@ const CreateAProductPage = () => {
         sizes: prevState.sizes.filter((s) => s !== size),
       }));
     }
-    // Clear size error if sizes exist
     if (productDetails.sizes.length > 0) {
       setErrors((prevErrors) => ({ ...prevErrors, sizes: "" }));
     }
   };
 
-  // Handle color input changes (for both text and file inputs)
+  // Handle changes for the color options (both text and file inputs).
   const handleColorInputChange = (e, index, field) => {
     const newColors = [...productDetails.colors];
     if (field === "imageUrl" || field === "hoverImage") {
       const file = e.target.files[0];
-      if (file && file instanceof File) {
+      if (file) {
         const previewURL = URL.createObjectURL(file);
         newColors[index] = {
           ...newColors[index],
@@ -124,15 +126,13 @@ const CreateAProductPage = () => {
       ...prevState,
       colors: newColors,
     }));
-
-    // Clear any errors for this specific color field
     setErrors((prevErrors) => ({
       ...prevErrors,
       [`${field === "colorName" ? "colorName" : field}_${index}`]: "",
     }));
   };
 
-  // Handle adding or removing a color option
+  // Add or remove a color option.
   const handleColorChange = (action) => {
     if (action === "add") {
       setProductDetails((prevState) => ({
@@ -149,25 +149,35 @@ const CreateAProductPage = () => {
         ],
       }));
     } else if (action === "remove") {
+      if (productDetails.colors.length > 1) {
+        setProductDetails((prevState) => ({
+          ...prevState,
+          colors: prevState.colors.slice(0, -1),
+        }));
+      }
+    }
+  };
+
+  // Handle changes for the main product image.
+  const handleMainImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const previewURL = URL.createObjectURL(file);
       setProductDetails((prevState) => ({
         ...prevState,
-        colors: prevState.colors.slice(0, -1),
+        images: [
+          {
+            imageUrl: file,
+            imageUrlPreview: previewURL,
+          },
+        ],
       }));
     }
   };
 
-  // Disable the remove color button if there's only one color
-  const isRemoveDisabled = productDetails.colors.length <= 1;
-
-  // Cancel publish action: hide the confirmation popup
-  const cancelPublish = () => {
-    setShowConfirmation(false);
-  };
-
-  // Validate the form fields and return an object with error messages.
+  // Validate the form fields.
   const validateForm = () => {
     const newErrors = {};
-
     if (!productDetails.name.trim()) {
       newErrors.name = "Name is required";
     }
@@ -177,49 +187,45 @@ const CreateAProductPage = () => {
     if (!productDetails.price || parseFloat(productDetails.price) <= 0) {
       newErrors.price = "Valid price is required";
     }
-    if (!productDetails.category.trim()) {
+    if (!productDetails.category) {
       newErrors.category = "Category is required";
     }
     if (!productDetails.sizes || productDetails.sizes.length === 0) {
       newErrors.sizes = "At least one size must be selected";
     }
     productDetails.colors.forEach((color, index) => {
-      if (!color.colorName || !color.colorName.trim()) {
+      if (!color.colorName.trim()) {
         newErrors[`colorName_${index}`] = "Color name is required";
       }
-      // Check that an image file has been provided for each color option.
-      if (!(color.imageUrl instanceof File) && !color.imageUrl) {
+      if (!(color.imageUrl instanceof File)) {
         newErrors[`colorImage_${index}`] = "Color image is required";
       }
-      if (!(color.hoverImage instanceof File) && !color.hoverImage) {
-        newErrors[`colorHoverImage_${index}`] =
-          "Color hover image is required";
+      if (!(color.hoverImage instanceof File)) {
+        newErrors[`colorHoverImage_${index}`] = "Color hover image is required";
       }
     });
-
     return newErrors;
   };
 
-  // Confirm and publish product
+  // Optional: Cancel publish action.
+  const cancelPublish = () => {
+    setShowConfirmation(false);
+  };
+
+  // Confirm and create the product.
   const confirmPublish = async () => {
-    // Validate category selection again (this logic could be merged with validateForm)
-    const categoryMap = {
-      elegance: 1, // Changed to lowercase
-      "pump covers": 2, // Changed to lowercase
-    };
-    const selectedCategory = productDetails.category.toLowerCase().trim();
-    const categoryId = categoryMap[selectedCategory];
-    if (!categoryId) {
-      toast.error("Invalid category selected");
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast.error("Please fill in all required fields");
       return;
     }
 
-    // Prepare product data (without images)
     const productData = {
       name: productDetails.name,
       description: productDetails.description,
       price: parseFloat(productDetails.price),
-      categoryId: categoryId,
+      categoryId: productDetails.category, // This is now a category id from the select.
       sizes: productDetails.sizes,
       colors: productDetails.colors.map((color) => ({
         colorName: color.colorName,
@@ -227,7 +233,7 @@ const CreateAProductPage = () => {
     };
 
     try {
-      // 1. Create product with basic data
+      // Create the product (without image files).
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/products`,
         productData,
@@ -238,40 +244,35 @@ const CreateAProductPage = () => {
           },
         }
       );
-
-      // 2. Upload images separately if creation succeeded
       if (response.data.success) {
-        await handleImageUploads(response.data.productId);
+        const productId = response.data.product.id;
+        // Upload image files (main image and color images).
+        await handleImageUploads(productId);
         toast.success("Product published successfully!");
         navigate("/clothing");
+      } else {
+        toast.error("Failed to publish product");
       }
     } catch (error) {
-      toast.error("Failed to publish product");
       console.error("Error:", error);
+      toast.error("Failed to publish product");
     }
   };
 
+  // Handle image uploads via a separate endpoint.
   const handleImageUploads = async (productId) => {
     const formData = new FormData();
-
-    // Add main image first to ensure order
     if (productDetails.images[0]?.imageUrl instanceof File) {
       formData.append("mainImage", productDetails.images[0].imageUrl);
     }
-    if (productDetails.images[0]?.hoverImage instanceof File) {
-      formData.append("hoverImage", productDetails.images[0].hoverImage);
-    }
-
-    // Maintain color order when appending files
-    productDetails.colors.forEach((color) => {
+    productDetails.colors.forEach((color, index) => {
       if (color.imageUrl instanceof File) {
-        formData.append("colorImages", color.imageUrl);
+        formData.append(`colorImage_${index}`, color.imageUrl);
       }
       if (color.hoverImage instanceof File) {
-        formData.append("colorHoverImages", color.hoverImage);
+        formData.append(`colorHoverImage_${index}`, color.hoverImage);
       }
     });
-
     formData.append("productId", productId);
 
     try {
@@ -291,23 +292,14 @@ const CreateAProductPage = () => {
     }
   };
 
-  // Before showing the confirmation modal, validate required fields.
   const handlePublish = () => {
-    const newErrors = validateForm();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      toast.error("Please fill in all required fields");
-    } else {
-      setErrors({});
-      setShowConfirmation(true);
-    }
+    confirmPublish();
   };
 
   return (
     <div className="cp-page">
       <GoBackButton />
       <div className="cp-page__spacer-bar"></div>
-
       <div className="cp-page__container">
         <motion.div
           className="cp-page__image-section"
@@ -326,9 +318,7 @@ const CreateAProductPage = () => {
                   name="colorName"
                   placeholder="Color Name"
                   value={color.colorName}
-                  onChange={(e) =>
-                    handleColorInputChange(e, index, "colorName")
-                  }
+                  onChange={(e) => handleColorInputChange(e, index, "colorName")}
                 />
                 {errors[`colorName_${index}`] && (
                   <span className="cp-page__error">
@@ -340,9 +330,7 @@ const CreateAProductPage = () => {
                   className="cp-page__file-input"
                   name="imageUrl"
                   accept="image/*"
-                  onChange={(e) =>
-                    handleColorInputChange(e, index, "imageUrl")
-                  }
+                  onChange={(e) => handleColorInputChange(e, index, "imageUrl")}
                 />
                 {errors[`colorImage_${index}`] && (
                   <span className="cp-page__error">
@@ -350,14 +338,12 @@ const CreateAProductPage = () => {
                   </span>
                 )}
                 {color.imageUrlPreview && (
-                  <div className="cp-page__image-wrapper">
-                    <div className="cp-page__preview-container">
-                      <img
-                        src={color.imageUrlPreview}
-                        alt="Color Preview"
-                        className="cp-page__preview-image"
-                      />
-                    </div>
+                  <div className="cp-page__preview-container">
+                    <img
+                      src={color.imageUrlPreview}
+                      alt="Color Preview"
+                      className="cp-page__preview-image"
+                    />
                   </div>
                 )}
                 <input
@@ -365,9 +351,7 @@ const CreateAProductPage = () => {
                   className="cp-page__file-input"
                   name="hoverImage"
                   accept="image/*"
-                  onChange={(e) =>
-                    handleColorInputChange(e, index, "hoverImage")
-                  }
+                  onChange={(e) => handleColorInputChange(e, index, "hoverImage")}
                 />
                 {errors[`colorHoverImage_${index}`] && (
                   <span className="cp-page__error">
@@ -375,14 +359,12 @@ const CreateAProductPage = () => {
                   </span>
                 )}
                 {color.hoverImagePreview && (
-                  <div className="cp-page__image-wrapper">
-                    <div className="cp-page__preview-container">
-                      <img
-                        src={color.hoverImagePreview}
-                        alt="Hover Color Preview"
-                        className="cp-page__preview-image"
-                      />
-                    </div>
+                  <div className="cp-page__preview-container">
+                    <img
+                      src={color.hoverImagePreview}
+                      alt="Hover Color Preview"
+                      className="cp-page__preview-image"
+                    />
                   </div>
                 )}
               </div>
@@ -399,7 +381,7 @@ const CreateAProductPage = () => {
                 type="button"
                 className="cp-page__danger-btn"
                 onClick={() => handleColorChange("remove")}
-                disabled={isRemoveDisabled}
+                disabled={productDetails.colors.length <= 1}
               >
                 Remove Color
               </button>
@@ -436,7 +418,7 @@ const CreateAProductPage = () => {
               value={productDetails.description}
               onChange={handleInputChange}
               placeholder="Enter product description"
-            />
+            ></textarea>
             {errors.description && (
               <span className="cp-page__error">{errors.description}</span>
             )}
@@ -471,8 +453,11 @@ const CreateAProductPage = () => {
               required
             >
               <option value="">Select Category</option>
-              <option value="elegance">Elegance</option>
-              <option value="pump covers">Pump Covers</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
             </select>
             {errors.category && (
               <span className="cp-page__error">{errors.category}</span>
@@ -510,6 +495,17 @@ const CreateAProductPage = () => {
             {errors.sizes && (
               <span className="cp-page__error">{errors.sizes}</span>
             )}
+          </div>
+
+          <div className="cp-page__input-group">
+            <label>Product Image</label>
+            <input
+              type="file"
+              className="cp-page__file-input"
+              name="mainImage"
+              accept="image/*"
+              onChange={handleMainImageChange}
+            />
           </div>
 
           <button

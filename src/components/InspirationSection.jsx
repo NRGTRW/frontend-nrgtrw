@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/inspiration.css";
-import inspirationImage from "../assets/images/inspiration.webp";
+import inspirationImage from "/images/inspiration.webp";
 
 const InspirationSection = () => {
   const navigate = useNavigate();

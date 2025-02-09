@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/styles/materialsPage.css";
-import materialsImage from "../assets/images/materials.webp"; // Add your image here
+import materialsImage from "/images/materials.webp"; 
 import GoBackButton from "../components/GoBackButton";
 
 const MaterialsPage = () => {

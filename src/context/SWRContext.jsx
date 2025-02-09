@@ -12,8 +12,8 @@ const SWRProvider = ({ children }) => {
     <SWRConfig
       value={{
         fetcher,
-        refreshInterval: 1000,
-        revalidateOnFocus: true,
+        refreshInterval: 5000,
+        // revalidateOnFocus: true,
         revalidateOnReconnect: true,
         dedupingInterval: 2000,
         shouldRetryOnError: true,

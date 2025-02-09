@@ -5,7 +5,7 @@ import { useWishlist } from "../context/WishlistContext";
 import useSWR from "swr";
 import api from "../services/api";
 import defaultProfilePicture from "/default-profile.webp";
-import cartImage from "../assets/images/shopping-cart.png";
+import cartImage from "/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
 import heartFilled from "/wishlist-filled.png";
 import "../assets/styles/navbar.css";

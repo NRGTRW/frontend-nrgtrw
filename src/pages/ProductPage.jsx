@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { fetchProductById, updateProduct } from "../services/productService";
+import { fetchProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
@@ -11,12 +11,11 @@ import { motion } from "framer-motion";
 import "../assets/styles/productPage.css";
 import "../assets/styles/createAProductPage.css";
 import { getToken } from "../context/tokenUtils";
+import InsertColorName from "../components/InsertColorName";
 
-// Constants
 const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
 const MAX_QUANTITY = 99;
 
-// A simple fetcher for SWR.
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const ProductPage = () => {
@@ -27,20 +26,18 @@ const ProductPage = () => {
   const { addToWishlist } = useWishlist();
   const { user } = useAuth();
 
-  // ------------------ Fetch Product Data ------------------
+  // Fetch product & categories using SWR.
   const { data: product, error, mutate } = useSWR(
     productId ? `${import.meta.env.VITE_API_URL}/products/${productId}` : null,
     () => fetchProductById(productId)
   );
-
-  // ------------------ Fetch Categories from DB ------------------
   const { data: categories } = useSWR(
     `${import.meta.env.VITE_API_URL}/categories`,
     fetcher,
     { fallbackData: [] }
   );
 
-  // ------------------ Viewing Mode State ------------------
+  // Viewing mode state.
   const initialColorIndex = product?.colors
     ? product.colors.findIndex(
         (color) =>
@@ -56,43 +53,28 @@ const ProductPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  // Sort sizes (if available)
-  const sortedSizes = product?.sizes
-    ? [...product.sizes].sort(
-        (a, b) => SIZE_ORDER.indexOf(a.size) - SIZE_ORDER.indexOf(b.size)
-      )
-    : [];
-
-  // Define the current color and images array.
-  const currentColor = product?.colors?.[selectedColorIndex] || {};
-  const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
-
-  // ------------------ Admin Edit Mode State ------------------
+  // Admin edit mode state.
+  const [editing, setEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     name: "",
     description: "",
     price: "",
-    category: "", // Set to the product's current category id
+    category: "", // current category id
   });
   const [editColors, setEditColors] = useState([]);
-  const [editing, setEditing] = useState(false);
 
-  // Initialize admin edit state only once when editing becomes true.
+  // New: State to control the new color prompt modal.
+  const [showNewColorModal, setShowNewColorModal] = useState(false);
+
+  // When editing starts, load product data into the edit state.
   useEffect(() => {
-    if (
-      editing &&
-      product &&
-      user &&
-      (user.role === "ADMIN" || user.role === "ROOT_ADMIN") &&
-      editColors.length === 0
-    ) {
+    if (editing && product && product.colors) {
       setEditForm({
         name: product.name,
         description: product.description,
         price: product.price,
-        category: product.categoryId, // Use the current category id from product
+        category: product.categoryId,
       });
-      // Make a copy of product.colors.
       setEditColors(
         product.colors.map((color) => ({
           id: color.id,
@@ -104,9 +86,13 @@ const ProductPage = () => {
         }))
       );
     }
-  }, [editing, product, user, editColors.length]);
+  }, [product, editing]);
 
-  // ------------------ Effects & Handlers ------------------
+  const sortedSizes = product?.sizes
+    ? [...product.sizes].sort(
+        (a, b) => SIZE_ORDER.indexOf(a.size) - SIZE_ORDER.indexOf(b.size)
+      )
+    : [];
   useEffect(() => {
     if (sortedSizes.length && !selectedSize) {
       setSelectedSize(sortedSizes[0].size);
@@ -122,27 +108,23 @@ const ProductPage = () => {
   };
 
   const increaseQuantity = () => {
-    quantity < MAX_QUANTITY
-      ? setQuantity((prev) => prev + 1)
-      : setMaxQuantityMessage(true);
+    if (quantity < MAX_QUANTITY) setQuantity(quantity + 1);
+    else setMaxQuantityMessage(true);
   };
 
   const decreaseQuantity = () => {
-    setQuantity((prev) => Math.max(prev - 1, 1));
+    setQuantity(Math.max(quantity - 1, 1));
     setMaxQuantityMessage(false);
   };
 
   const handleAddToCart = () => {
-    if (!product || !product.id || !product.name || !product.price) {
-      toast.error("Error: Incomplete product data");
+    if (!product) {
+      toast.error("Product data is incomplete");
       return;
     }
     const selectedColor = product.colors?.[selectedColorIndex] || {};
-    const missingFields = [];
-    if (product.sizes?.length > 0 && !selectedSize) missingFields.push("size");
-    if (!selectedColor.imageUrl) missingFields.push("color");
-    if (missingFields.length > 0) {
-      toast.error(`Missing required: ${missingFields.join(", ")}`);
+    if (!selectedSize || !selectedColor.imageUrl) {
+      toast.error("Please select size and color");
       return;
     }
     const existingItem = cart.find(
@@ -161,16 +143,16 @@ const ProductPage = () => {
       productId: product.id,
       name: product.name,
       price: product.price,
-      selectedSize: selectedSize,
+      selectedSize,
       selectedColor: selectedColor.imageUrl,
-      quantity: quantity,
+      quantity,
       imageUrl: selectedColor.imageUrl,
     });
     if (getToken()) {
       toast.success(
         existingItem
-          ? `🛒 Added ${quantity} more (Total: ${newQuantity})`
-          : `🛒 Added ${quantity} ${product.name} to cart!`
+          ? `Added ${quantity} more (Total: ${newQuantity})`
+          : `Added ${quantity} ${product.name} to cart!`
       );
     }
   };
@@ -196,7 +178,8 @@ const ProductPage = () => {
       .catch(() => toast.error(`Failed to add ${product.name} to wishlist.`));
   };
 
-  // ------------------ Admin Edit Handlers ------------------
+  // --- Admin Edit Handlers ---
+
   const handleEditColorNameChange = (e, index) => {
     const updated = [...editColors];
     updated[index].colorName = e.target.value;
@@ -222,56 +205,66 @@ const ProductPage = () => {
     setEditColors(updated);
   };
 
+  // New: Replace native prompt with a modal.
+  // When "Add Color" is pressed, show the custom modal.
   const handleAddColor = () => {
-    setEditColors((prev) => [
-      ...prev,
-      {
-        id: null,
-        colorName: "",
-        imageUrl: "",
-        hoverImage: "",
-        newImageFile: null,
-        newHoverImageFile: null,
-      },
-    ]);
+    setShowNewColorModal(true);
   };
 
-  // Save changes in admin edit mode.
+  // When the modal is confirmed, send a PUT request to add the new color.
+  const handleConfirmNewColor = async (newColorName) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/products/${product.id}/add-color`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify({ colorName: newColorName }),
+        }
+      );
+      const result = await response.json();
+      if (result.success) {
+        // Append the new color to editColors.
+        setEditColors((prev) => [...prev, result.color]);
+        toast.success("Color added successfully");
+      } else {
+        toast.error("Failed to add color");
+      }
+    } catch (error) {
+      console.error("Add color error:", error);
+      toast.error("Failed to add color");
+    }
+    setShowNewColorModal(false);
+  };
+
+  const handleCancelNewColor = () => {
+    setShowNewColorModal(false);
+  };
+
+  // When "Save" is pressed, send a PUT request with edited data.
   const handleSave = async () => {
     try {
-      const payload = {
-        name: editForm.name,
-        description: editForm.description,
-        price: parseFloat(editForm.price),
-        categoryId: editForm.category, // Should be a valid category id from the DB.
-        colors: editColors.map((color) => ({
-          id: color.id, // if null, backend will create a new record
-          colorName: color.colorName,
-        })),
-      };
-
-      // Call the updateProduct service (which sends a PUT request to /api/products/:id).
-      const updateResponse = await updateProduct(product.id, payload);
-      if (!updateResponse.success) {
-        toast.error("Product update failed");
-        return;
-      }
-
-      // Merge updated product colors with our file selections.
-      const updatedProduct = updateResponse.updatedProduct;
-      const mergedColors = updatedProduct.colors.map((color) => {
-        const local = editColors.find((c) => c.id === color.id) || {};
-        return {
-          ...color,
-          newImageFile: local.newImageFile || null,
-          newHoverImageFile: local.newHoverImageFile || null,
-        };
-      });
-
-      // Build FormData for image updates.
+      // Build FormData for text fields and file uploads.
       const formData = new FormData();
-      formData.append("productId", product.id);
-      mergedColors.forEach((color) => {
+      formData.append("name", editForm.name);
+      formData.append("description", editForm.description);
+      formData.append("price", editForm.price);
+      formData.append("categoryId", editForm.category);
+      formData.append(
+        "colors",
+        JSON.stringify(
+          editColors.map((color) => ({
+            id: color.id,
+            colorName: color.colorName,
+          }))
+        )
+      );
+      // Append file uploads for colors.
+      editColors.forEach((color) => {
+        // Ensure color.id exists (for new colors, it should have been set by handleAddColor).
         if (color.newImageFile) {
           formData.append(`colorImage_${color.id}`, color.newImageFile);
         }
@@ -279,30 +272,27 @@ const ProductPage = () => {
           formData.append(`colorHoverImage_${color.id}`, color.newHoverImageFile);
         }
       });
-
-      if ([...formData.entries()].length > 1) {
-        const uploadResponse = await fetch(
-          `${import.meta.env.VITE_API_URL}/products/upload-images`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
-            body: formData,
-          }
-        );
-        const uploadResult = await uploadResponse.json();
-        if (!uploadResult.success) {
-          toast.error("Image update failed");
-          return;
+      // Send a PUT request to update the product.
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/products/${product.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          body: formData,
         }
+      );
+      const result = await response.json();
+      if (result.success) {
+        toast.success("Product updated successfully");
+        setEditing(false);
+        mutate();
+      } else {
+        toast.error("Product update failed");
       }
-
-      toast.success("Product updated successfully");
-      setEditing(false);
-      mutate(); // Revalidate product data instantly.
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("Error saving product:", error);
       toast.error("Failed to update product.");
     }
   };
@@ -310,12 +300,14 @@ const ProductPage = () => {
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
+  const currentColor = product?.colors?.[selectedColorIndex] || {};
+  const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
+
   return (
     <div className="product-page">
       <GoBackButton />
       <div className="spacer-bar2"></div>
       {editing ? (
-        // ------------------ Admin Edit Mode ------------------
         <div className="cp-page">
           <div className="cp-page__container">
             <div className="cp-page__details-section">
@@ -472,9 +464,14 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
+          {/* Render the NewColorPromptModal for adding a new color */}
+          <InsertColorName
+            show={showNewColorModal}
+            onConfirm={handleConfirmNewColor}
+            onCancel={handleCancelNewColor}
+          />
         </div>
       ) : (
-        // ------------------ Viewing Mode ------------------
         <div className="product-container">
           <motion.img
             src={isWishlisted ? "/wishlist-filled.png" : "/wishlist-outline.png"}

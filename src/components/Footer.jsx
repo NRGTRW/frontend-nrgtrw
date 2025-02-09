@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/footer.css";
-import instagramIcon from "../assets/images/instagram-icon.png";
-import tiktokIcon from "../assets/images/tiktok-icon.png";
+import instagramIcon from "/images/instagram-icon.png";
+import tiktokIcon from "/images/tiktok-icon.png";
 
 const Footer = () => {
   const handleNavigation = (path) => {
