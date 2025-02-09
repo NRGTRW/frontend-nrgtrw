@@ -23,13 +23,6 @@ const CreateAProductPage = () => {
     price: "",
     category: "", // will store the chosen category id (as string)
     sizes: [...defaultSizes],
-    // For main product image.
-    images: [
-      {
-        imageUrl: null,
-        imageUrlPreview: null,
-      },
-    ],
     // Colors are handled via local state.
     colors: [
       {
@@ -50,7 +43,9 @@ const CreateAProductPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/categories`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/categories`
+        );
         // Expecting response.data to be an array of category objects.
         setCategories(response.data || []);
       } catch (error) {
@@ -64,11 +59,9 @@ const CreateAProductPage = () => {
   // Cleanup object URLs when unmounting.
   useEffect(() => {
     return () => {
-      if (productDetails.images[0]?.imageUrlPreview) {
-        URL.revokeObjectURL(productDetails.images[0].imageUrlPreview);
-      }
       productDetails.colors.forEach((color) => {
-        if (color.imageUrlPreview) URL.revokeObjectURL(color.imageUrlPreview);
+        if (color.imageUrlPreview)
+          URL.revokeObjectURL(color.imageUrlPreview);
         if (color.hoverImagePreview)
           URL.revokeObjectURL(color.hoverImagePreview);
       });
@@ -158,22 +151,8 @@ const CreateAProductPage = () => {
     }
   };
 
-  // Handle changes for the main product image.
-  const handleMainImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const previewURL = URL.createObjectURL(file);
-      setProductDetails((prevState) => ({
-        ...prevState,
-        images: [
-          {
-            imageUrl: file,
-            imageUrlPreview: previewURL,
-          },
-        ],
-      }));
-    }
-  };
+  // Removed the main image input and corresponding handler.
+  // The main image will be copied from the first color's image.
 
   // Validate the form fields.
   const validateForm = () => {
@@ -246,7 +225,7 @@ const CreateAProductPage = () => {
       );
       if (response.data.success) {
         const productId = response.data.product.id;
-        // Upload image files (main image and color images).
+        // Upload image files.
         await handleImageUploads(productId);
         toast.success("Product published successfully!");
         navigate("/clothing");
@@ -260,10 +239,12 @@ const CreateAProductPage = () => {
   };
 
   // Handle image uploads via a separate endpoint.
+  // Instead of a separate main image, copy the first color's image.
   const handleImageUploads = async (productId) => {
     const formData = new FormData();
-    if (productDetails.images[0]?.imageUrl instanceof File) {
-      formData.append("mainImage", productDetails.images[0].imageUrl);
+    // Copy the first color's image as the main image.
+    if (productDetails.colors[0]?.imageUrl instanceof File) {
+      formData.append("mainImage", productDetails.colors[0].imageUrl);
     }
     productDetails.colors.forEach((color, index) => {
       if (color.imageUrl instanceof File) {
@@ -497,16 +478,8 @@ const CreateAProductPage = () => {
             )}
           </div>
 
-          <div className="cp-page__input-group">
-            <label>Product Image</label>
-            <input
-              type="file"
-              className="cp-page__file-input"
-              name="mainImage"
-              accept="image/*"
-              onChange={handleMainImageChange}
-            />
-          </div>
+          {/* Main image input has been removed.
+              The main product image is now automatically set from the first color's image. */}
 
           <button
             className="cp-page__action-btn cp-page__publish-btn"

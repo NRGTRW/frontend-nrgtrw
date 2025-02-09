@@ -70,7 +70,7 @@ const Products = ({ products }) => {
         const wishlistItem = wishlist.find(
           (item) =>
             item.productId === product.id &&
-            item.selectedColor === currentColor?.imageUrl,
+            item.selectedColor === currentColor?.imageUrl
         );
         const isInWishlist = !!wishlistItem;
 
@@ -154,7 +154,10 @@ const Products = ({ products }) => {
                     className={`color-circle ${
                       index === selectedColorIndex ? "selected" : ""
                     }`}
-                    style={{ backgroundImage: `url(${color.imageUrl})` }}
+                    style={{
+                      // Wrap the URL in quotes to ensure proper formatting.
+                      backgroundImage: `url('${color.imageUrl}')`,
+                    }}
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedColors((prev) => ({
