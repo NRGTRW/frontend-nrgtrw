@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useEffect, useState } from "react";
 import {
   Routes,
@@ -37,6 +38,12 @@ import MyOrder from "./pages/MyOrderPage";
 import AdminDashboard from "./admin/AdminDashboard";
 import CreateAProductPage from "./admin/CreateAProductPage";
 
+// New Checkout page imports
+import CheckoutPage from "./pages/CheckoutPage";
+import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
+import CheckoutCancelledPage from "./pages/CheckoutCancelledPage";
+
+// ------------------ AdminRoute ------------------
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -57,9 +64,11 @@ const AdminRoute = ({ children }) => {
   return <div>Verifying permissions...</div>;
 };
 
+// ------------------ App Component ------------------
 const App = () => {
   const location = useLocation();
 
+  // Define all routes including the new checkout routes.
   const routes = [
     { path: "/", component: HomePage },
     { path: "/product/:productId", component: ProductPage },
@@ -77,10 +86,14 @@ const App = () => {
     { path: "/contact-us", component: ContactUs },
     { path: "/faqs", component: FAQPage },
     { path: "/my-order", component: MyOrder },
+    // New Checkout Routes:
+    { path: "/checkout", component: CheckoutPage },
+    { path: "/checkout-success", component: CheckoutSuccessPage },
+    { path: "/checkout-cancelled", component: CheckoutCancelledPage },
   ];
 
   const isValidRoute = routes.some((route) =>
-    matchPath({ path: route.path, end: true }, location.pathname),
+    matchPath({ path: route.path, end: true }, location.pathname)
   );
 
   return (
@@ -97,7 +110,6 @@ const App = () => {
         style={{
           top: "120px", // Shifts the toasts lower so they appear under the navbar
           zIndex: 9999,
-          // width: "100%",
         }}
         toastStyle={{
           background: "#f9f9f9", // Light background for a light theme
@@ -110,10 +122,7 @@ const App = () => {
         }}
       />
       {isValidRoute && <ContentBellowNavbar />}
-      {/* 
-        Smoother animation on route transitions:
-        The container fades in and slides upward over 0.5 seconds.
-      */}
+      {/* Smoother animation on route transitions */}
       <motion.div
         key={location.pathname}
         initial={{ opacity: 0, y: 20 }}
@@ -135,6 +144,7 @@ const App = () => {
               }
             />
           ))}
+          {/* Redundant Profile route if needed */}
           <Route path="/profile" element={<ProfilePage />} />
           {/* Admin Routes */}
           <Route
@@ -153,6 +163,7 @@ const App = () => {
               </AdminRoute>
             }
           />
+          {/* Catch-all for undefined routes */}
           <Route
             path="*"
             element={

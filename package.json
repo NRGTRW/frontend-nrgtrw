@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "@stripe/stripe-js": "^5.6.0",
     "aos": "^2.3.4",
     "aws": "^0.0.3-2",
     "axios": "^1.7.9",

@@ -13,10 +13,10 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
-
+// ----------------- Admin Endpoints -----------------
 export const fetchAllUsers = async () => {
   try {
     const response = await api.get("/admin/users");
@@ -27,7 +27,6 @@ export const fetchAllUsers = async () => {
   }
 };
 
-
 export const updateUserRole = async (userId, role) => {
   try {
     const response = await api.put(`/admin/users/${userId}/role`, { role });
@@ -35,6 +34,23 @@ export const updateUserRole = async (userId, role) => {
   } catch (error) {
     console.error(`Error updating role for user ${userId}:`, error.message);
     throw new Error("Failed to update user role.");
+  }
+};
+
+// ----------------- Checkout Endpoints -----------------
+/**
+ * Creates a Stripe Checkout session.
+ * @param {Object} payload - Should include:
+ *   - userId: Number (or retrieve from auth context)
+ *   - items: Array of objects, e.g. [{ productId, quantity }]
+ */
+export const createCheckoutSession = async (payload) => {
+  try {
+    const response = await api.post("/checkout/create-checkout-session", payload);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating checkout session:", error.message);
+    throw new Error("Failed to create checkout session.");
   }
 };
 
