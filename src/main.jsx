@@ -9,6 +9,8 @@ import { WishlistProvider } from "./context/WishlistContext";
 import { ProfileProvider } from "./context/ProfileContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
+import ProductionWarning from "./components/ProductionWarning";
+
 
 // If you have an ApiProvider (for API calls) you can import and include it here as well:
 // import { ApiProvider } from "./context/ApiContext";
@@ -22,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <WishlistProvider>
               <CartProvider>
                 <SWRProvider>
-                  {/* If using an ApiProvider, wrap <App /> with it here */}
+                <ProductionWarning />
                   <App />
                 </SWRProvider>
               </CartProvider>
