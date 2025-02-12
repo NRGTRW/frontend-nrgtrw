@@ -82,7 +82,7 @@ const CheckoutPage = () => {
                       ? (item.price * item.quantity).toFixed(2)
                       : "0.00"}
                   </p>
-                  {item.selectedColor && (
+                  {/* {item.selectedColor && (
                     <div className="color-swatch">
                       <span>Color:</span>
                       <div
@@ -90,7 +90,7 @@ const CheckoutPage = () => {
                         style={{ backgroundColor: item.selectedColor }}
                       ></div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </li>
             ))}
