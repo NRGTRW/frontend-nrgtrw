@@ -35,7 +35,7 @@ const ProductionWarning = () => {
 
   // Touch event handlers for mobile devices
   const handleTouchStart = (e) => {
-    e.preventDefault();
+    e.preventDefault(false);
     setDragging(true);
     const touch = e.touches[0];
     const rect = containerRef.current.getBoundingClientRect();
