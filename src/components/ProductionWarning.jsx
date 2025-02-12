@@ -112,8 +112,11 @@ const ProductionWarning = () => {
       </button>
       <h1 className="toast-heading">⚠️ Important Notice ⚠️</h1>
       <div className="toast-message">
-        <p>The products are currently
-        <h4>unavailable</h4></p>
+        <top-separation>
+        <p>The products are currently:</p>
+        <h4>unavailable</h4>
+        <p></p>
+        </top-separation>
         <h3>
           Any payments made will be considered as donations or shall be returned!
         </h3>
