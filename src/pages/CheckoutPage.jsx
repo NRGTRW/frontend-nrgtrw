@@ -4,7 +4,7 @@ import { createCheckoutSession } from "../services/api";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
-import "../assets/styles/CheckoutPage.css"; // External CSS file
+import "../assets/styles/CheckoutPage.css";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
