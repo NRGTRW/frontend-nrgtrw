@@ -563,10 +563,13 @@ const ProductPage = () => {
               </div>
             </div>
             {maxQuantityMessage && (
-              <p className="max-quantity-message">
-                Maximum quantity reached!
-              </p>
-            )}
+  <p className="max-quantity-message">
+    Maximum quantity reached! For bulk orders, please{" "}
+    <a href="/contact-us" className="contact-link">
+      contact us
+    </a>.
+  </p>
+)}
             <button
               className="add-to-cart-button"
               onClick={handleAddToCart}

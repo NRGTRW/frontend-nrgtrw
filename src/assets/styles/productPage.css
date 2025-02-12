@@ -308,3 +308,19 @@ body {
 .wishlist-button:hover {
   transform: scale(1.1);
 }
+
+.max-quantity-message {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.contact-link {
+  color: #007bff; /* Bootstrap primary blue */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
