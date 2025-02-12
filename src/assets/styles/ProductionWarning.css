@@ -1,64 +1,58 @@
-/* Base styling for the toast container */
 .toast-container {
-    position: fixed;
-    top: 60px;
-    left: 20px;
-    background-color: rgba(249, 249, 249, 0.8);
-    border: 2px solid #000;
-    border-radius: 8px;
-    padding: 1rem 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    max-width: 400px;
-    font-family: Arial, sans-serif;
-    cursor: move;
-    user-select: none;
-  }
-  
-  
-  /* Styling for the close button */
-  .toast-close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #000;
-    cursor: pointer;
-  }
-  
-  /* Heading and message styles */
-  .toast-heading {
-    margin: 0;
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .toast-message {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  /* Mobile-first responsive styling */
-  @media (max-width: 600px) {
-    .toast-container {
-      width: 90%;
-      left: 5%;
-      top: 120px; /* a little further down on small screens */
-      padding: 0.75rem 1rem;
-    }
-  
-    .toast-heading {
-      font-size: 1.1rem;
-    }
-  
-    .toast-message {
-      font-size: 0.9rem;
-    }
-  }
-  
+  position: fixed;
+  background-color: rgba(249, 249, 249, 0.8);
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  font-family: Arial, sans-serif;
+  cursor: move;
+  user-select: none;
+  will-change: top, left;
+  text-align: center;  /* Add this line to center all text */
+}
+
+
+.toast-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+}
+
+.toast-heading {
+  margin: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.toast-message {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.toast-message h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  border-left: 4px solid #ff7a00;
+  padding-left: 8px;
+}
+
+.toast-message h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  border-left: 4px solid #ff0000;
+  padding-left: 8px;
+}
