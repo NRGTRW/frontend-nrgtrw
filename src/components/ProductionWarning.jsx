@@ -3,7 +3,7 @@ import '../assets/styles/ProductionWarning.css';
 
 const ProductionWarning = () => {
   const [visible, setVisible] = useState(true);
-  const [position, setPosition] = useState({ top: 60, left: 20 });
+  const [position, setPosition] = useState({ top: 120, left: 20 });
   const [dragging, setDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
