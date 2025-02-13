@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import useSWR from "swr";
+import { useTranslation } from "react-i18next";
 import api from "../services/api";
 import defaultProfilePicture from "/default-profile.webp";
 import cartImage from "/images/shopping-cart.png";
@@ -12,6 +13,7 @@ import "../assets/styles/navbar.css";
 import CartPreview from "./CartPreview";
 import HamburgerIcon from "./HamburgerIcon";
 import UserRow from "./UserRow";
+import LanguageSwitcher from "./LanguageSwitcher"; // Import the language switcher
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -43,6 +45,7 @@ const Navbar = () => {
   const buttonRef = useRef(null);
   const cartContainerRef = useRef(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { getTotalQuantity } = useCart();
   const { wishlist } = useWishlist();
@@ -54,10 +57,11 @@ const Navbar = () => {
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
     fetcher,
-    { refreshInterval: getAuthToken() ? 3000 : 0 },
+    { refreshInterval: getAuthToken() ? 3000 : 0 }
   );
 
-  const isAdmin = profile?.role === "ADMIN" || profile?.role === "ROOT_ADMIN";
+  const isAdmin =
+    profile?.role === "ADMIN" || profile?.role === "ROOT_ADMIN";
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -70,7 +74,8 @@ const Navbar = () => {
       setMenuOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   useEffect(() => {
@@ -84,9 +89,8 @@ const Navbar = () => {
         }
       };
       document.addEventListener("touchstart", handleOutsideTouch);
-      return () => {
+      return () =>
         document.removeEventListener("touchstart", handleOutsideTouch);
-      };
     }
   }, [isTouchDevice, showCartPreview]);
 
@@ -137,7 +141,7 @@ const Navbar = () => {
           className="logo"
           onClick={() => handleNavigation("/")}
           tabIndex={0}
-          aria-label="Navigate to home"
+          aria-label={t("navbar.home", "Navigate to home")}
         >
           NRG
         </li>
@@ -148,7 +152,7 @@ const Navbar = () => {
               <Link
                 to="/clothing"
                 className="admin-icon"
-                aria-label="Admin Dashboard"
+                aria-label={t("navbar.adminDashboard", "Admin Dashboard")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +166,7 @@ const Navbar = () => {
               <Link
                 to="/admin/create-a-product"
                 className="admin-icon"
-                aria-label="Add Product"
+                aria-label={t("navbar.addProduct", "Add Product")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -176,7 +180,7 @@ const Navbar = () => {
               <Link
                 to="/admin/dashboard"
                 className="admin-icon"
-                aria-label="Manage Products"
+                aria-label={t("navbar.manageProducts", "Manage Products")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,13 +197,13 @@ const Navbar = () => {
           <div className="wishlist-container" style={{ position: "relative" }}>
             <img
               src={wishlistCount > 0 ? heartFilled : heartOutline}
-              alt="Wishlist"
+              alt={t("navbar.wishlistAlt", "Wishlist")}
               className="wishlist-icon"
               onClick={() =>
                 handleAuthenticatedNavigation("/wishlist", "/login")
               }
               tabIndex={0}
-              aria-label="Navigate to wishlist"
+              aria-label={t("navbar.navigateToWishlist", "Navigate to wishlist")}
             />
             {wishlistCount > 0 && (
               <span className="badge">{wishlistCount}</span>
@@ -216,7 +220,7 @@ const Navbar = () => {
           >
             <img
               src={cartImage}
-              alt="Shopping Cart"
+              alt={t("navbar.cartAlt", "Shopping Cart")}
               className="cart-icon"
               onClick={() => {
                 if (!isTouchDevice) {
@@ -224,13 +228,13 @@ const Navbar = () => {
                 }
               }}
               tabIndex={0}
-              aria-label="View cart"
+              aria-label={t("navbar.viewCart", "View cart")}
             />
             {getTotalQuantity() > 0 && (
               <div className="cart-bubble-container">
                 <span
                   className="cart-bubble"
-                  aria-label={`${getTotalQuantity()} items in cart`}
+                  aria-label={`${getTotalQuantity()} ${t("navbar.itemsInCart", "items in cart")}`}
                 >
                   {getTotalQuantity()}
                 </span>
@@ -250,11 +254,25 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Side menu */}
       <ul ref={menuRef} className={`menu ${menuOpen ? "show" : ""}`}>
-        <li onClick={() => handleNavigation("/")}>HOME</li>
-        <li onClick={() => handleNavigation("/clothing")}>CLOTHING</li>
-        <li onClick={() => handleNavigation("/materials")}>MATERIALS</li>
-        <li onClick={() => handleNavigation("/inspiration")}>INSPIRATION</li>
+        <li onClick={() => handleNavigation("/")}>
+          {t("navbar.menu.home", "HOME")}
+        </li>
+        <li onClick={() => handleNavigation("/clothing")}>
+          {t("navbar.menu.clothing", "CLOTHING")}
+        </li>
+        <li onClick={() => handleNavigation("/materials")}>
+          {t("navbar.menu.materials", "MATERIALS")}
+        </li>
+        <li onClick={() => handleNavigation("/inspiration")}>
+          {t("navbar.menu.inspiration", "INSPIRATION")}
+        </li>
+
+        {/* Language switcher added at the bottom of the side menu */}
+        <li style={{ paddingTop: "16px" }}>
+          <LanguageSwitcher />
+        </li>
       </ul>
     </header>
   );

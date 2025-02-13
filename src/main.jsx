@@ -1,4 +1,3 @@
-// src/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -10,10 +9,7 @@ import { ProfileProvider } from "./context/ProfileContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
 import ProductionWarning from "./components/ProductionWarning";
-
-
-// If you have an ApiProvider (for API calls) you can import and include it here as well:
-// import { ApiProvider } from "./context/ApiContext";
+import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -24,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <WishlistProvider>
               <CartProvider>
                 <SWRProvider>
-                <ProductionWarning />
+                  <ProductionWarning />
                   <App />
                 </SWRProvider>
               </CartProvider>
