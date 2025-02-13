@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useProfile } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../assets/styles/profilePage.css";
 import { toast } from "react-toastify";
 import LoaderModal from "../components/LoaderModal";
 import LoadingPage from "./LoadingPage";
 
 const ProfilePage = () => {
+  const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const {
     profile,
@@ -29,22 +31,14 @@ const ProfilePage = () => {
   const [pendingSave, setPendingSave] = useState(false);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState(
-    "/default-profile.webp",
+    "/default-profile.webp"
   );
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
-  const [showGameButton, setShowGameButton] = useState(
-    location.state?.fromLogin || false,
-  );
-
-  const refreshPage = () => {
-    window.location.reload();
-  };
 
   useEffect(() => {
     const initializeProfile = async () => {
       const token = localStorage.getItem("authToken");
-
       if (!token) {
         navigate("/login", { replace: true });
         return;
@@ -54,29 +48,21 @@ const ProfilePage = () => {
         setShowLoader(true);
         if (location.state?.fromLogin) {
           await Promise.all([loadUser(), loadProfile(token)]);
-          refreshPage();
+          window.location.reload();
         } else {
           await loadProfile(token);
         }
       } catch (error) {
-        console.error("Failed to load profile:", error.message);
-
-        if (error.response?.status === 401) {
-          toast.error("🔄 Session timeout! Refreshing for security.");
-          setTimeout(refreshPage, 2000);
-        } else {
-          toast.error("Failed to load profile. Redirecting to login...");
-          navigate("/login", { replace: true });
-        }
+        toast.error(t("profile.errorLoading"));
+        navigate("/login", { replace: true });
       } finally {
-        toast.info("🛠️ Edit mode activated! You can now update your details.");
         setIsLoading(false);
         setShowLoader(false);
       }
     };
 
     initializeProfile();
-  }, [navigate, location.state, location.pathname, loadUser, loadProfile]);
+  }, [navigate, location.state, loadUser, loadProfile, t]);
 
   useEffect(() => {
     if (profile) {
@@ -86,9 +72,7 @@ const ProfilePage = () => {
         address: profile.address || "",
         phone: profile.phone || "",
       });
-      setProfilePicturePreview(
-        profile.profilePicture || "/default-profile.webp",
-      );
+      setProfilePicturePreview(profile.profilePicture || "/default-profile.webp");
     }
   }, [profile]);
 
@@ -122,29 +106,22 @@ const ProfilePage = () => {
 
     try {
       await saveProfile(formData, authToken);
-
       if (selectedProfilePicture) {
         await changeProfilePicture(selectedProfilePicture, authToken);
       }
-
-      await reloadProfile(authToken); 
-      toast.success("Changes saved! Your profile has been updated.");
+      await reloadProfile(authToken);
+      toast.success(t("profile.changesSaved"));
       setPendingSave(false);
     } catch (error) {
-      console.error("Save error:", error);
-
-      if (error.response?.status === 401) {
-        toast.error("Session expired. Refreshing...");
-        setTimeout(() => window.location.reload(), 2000);
-      } else {
-        toast.error(error.message || "Failed to save profile");
-      }
+      toast.error(t("profile.errorSaving"));
     } finally {
       setIsSaving(false);
       setShowLoader(false);
-      navigate("/");
     }
-  };
+    
+      navigate("/");
+  
+    };
 
   if (isLoading) {
     return <LoadingPage />;
@@ -154,12 +131,13 @@ const ProfilePage = () => {
     <>
       {showLoader && (
         <LoaderModal
-          message={isSaving ? "Saving changes..." : "Loading profile..."}
+          message={isSaving ? t("profile.savingChanges") : t("profile.loadingProfile")}
         />
       )}
       <div className="profile-page">
         <div className="profile-container">
-          <h1 className="profile-header">Your Profile</h1>
+          <h1 className="profile-header">{t("profile.yourProfile")}</h1>
+
           <div
             className="profile-image-container"
             style={{
@@ -176,21 +154,10 @@ const ProfilePage = () => {
               className="visually-hidden"
               onChange={(e) => handleProfilePictureUpload(e.target.files?.[0])}
             />
-            <label
-              htmlFor="profile-image-upload"
-              className="profile-image-label"
-              role="button"
-              tabIndex={0}
-              style={{
-                display: "block",
-                width: "100%",
-                height: "100%",
-                cursor: "pointer",
-              }}
-            >
+            <label htmlFor="profile-image-upload" className="profile-image-label">
               <img
                 src={profilePicturePreview}
-                alt="User profile"
+                alt={t("profile.profilePictureAlt")}
                 className="profile-image"
                 style={{
                   width: "100%",
@@ -198,9 +165,7 @@ const ProfilePage = () => {
                   borderRadius: "50%",
                   objectFit: "cover",
                 }}
-                onError={(e) => {
-                  e.target.src = "/default-profile.webp";
-                }}
+                onError={(e) => (e.target.src = "/default-profile.webp")}
               />
             </label>
             <div
@@ -215,16 +180,9 @@ const ProfilePage = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                pointerEvents: "none",
               }}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="white"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
                 <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0L15.13 4.87l3.75 3.75 1.83-1.83z" />
               </svg>
             </div>
@@ -232,7 +190,7 @@ const ProfilePage = () => {
 
           <form className="profile-form" onSubmit={handleSave}>
             <div className="profile-field">
-              <label htmlFor="name">Name:</label>
+              <label htmlFor="name">{t("profile.name")}:</label>
               <input
                 id="name"
                 type="text"
@@ -241,40 +199,36 @@ const ProfilePage = () => {
                 onChange={handleFormChange}
               />
             </div>
-
             <div className="profile-field">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">{t("profile.email")}:</label>
               <input
                 id="email"
                 type="email"
                 name="email"
                 value={formData.email}
                 readOnly
-                aria-readonly="true"
               />
             </div>
-
             <div className="profile-field">
-              <label htmlFor="address">Address:</label>
+              <label htmlFor="address">{t("profile.address")}:</label>
               <input
                 id="address"
                 type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleFormChange}
-                placeholder="Optional"
+                placeholder={t("profile.optional")}
               />
             </div>
-
             <div className="profile-field">
-              <label htmlFor="phone">Phone:</label>
+              <label htmlFor="phone">{t("profile.phone")}:</label>
               <input
                 id="phone"
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleFormChange}
-                placeholder="Optional"
+                placeholder={t("profile.optional")}
               />
             </div>
 
@@ -283,18 +237,11 @@ const ProfilePage = () => {
                 className={`save-button ${pendingSave ? "active" : ""}`}
                 type="submit"
                 disabled={!pendingSave}
-                aria-busy={isSaving}
               >
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? t("profile.saving") : t("profile.saveChanges")}
               </button>
-
-              <button
-                className="logout-button"
-                type="button"
-                onClick={logOut}
-                aria-label="Log out of account"
-              >
-                Log Out
+              <button className="logout-button" type="button" onClick={logOut}>
+                {t("profile.logOut")}
               </button>
             </div>
           </form>

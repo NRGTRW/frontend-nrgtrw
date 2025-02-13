@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../assets/styles/goBackButton.css";
 
-const GoBackButton = ({ text = "Go Back" }) => {
+const GoBackButton = () => {
   const navigate = useNavigate();
 
   return (
     <button className="go-back-button" onClick={() => navigate(-1)}>
-      {text}
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M10 19L3 12l7-7v4h11v6H10v4z" />
+      </svg>
     </button>
   );
 };

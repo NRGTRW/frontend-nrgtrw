@@ -74,6 +74,78 @@
       "title": "Our Materials",
       "content": "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create.",
       "imageAlt": "Premium Materials"
-    }
+    },
+    "clothingPage": {
+        "sectionTitles": {
+          "elegance": "Elegance",
+          "pumpCovers": "Pump Covers",
+          "confidence": "Confidence"
+        },
+        "loadingMessage": "Loading products...",
+        "errorMessage": "Failed to load products."
+      },
+      "cartPage": {
+  "emptyCartMessage": "Your cart is currently empty. Explore our catalog and add products you love!",
+  "returnButton": "Return to Previous Page",
+  "yourCart": "Your Cart",
+  "unnamedProduct": "Unnamed Product",
+  "size": "Size",
+  "quantity": "Quantity",
+  "price": "Price",
+  "total": "Total",
+  "continueShopping": "Continue Shopping",
+  "checkout": "Checkout",
+  "wishlistPending": "will be moved to your wishlist.",
+  "wishlistCancel": "Wishlist update canceled! The product remains in your cart.",
+  "wishlistError": "Failed to add to wishlist. Please try again.",
+  "removePending": "Removing...",
+  "removeSuccess": "removed from your cart!",
+  "removeError": "Failed to remove from cart.",
+  "removeItemButton": "Remove"
+},
+
+    "wishlistPage": {
+      "emptyMessage": "Your wishlist is empty. Start adding your favorites!",
+      "browseButton": "Browse Products",
+      "title": "Your Wishlist",
+      "productNotFound": "⚠️ Product not found",
+      "hoverAlt": "Hover Image",
+      "price": "Price",
+      "size": "Size",
+      "removeButton": "Remove",
+      "browseMore": "Browse more products"
+    },
+    "wishlistItem": {
+      "unnamedProduct": "Unnamed Product",
+      "fallbackImageAlt": "Fallback Image"
+    },
+    
+        "productionWarning": {
+          "title": "⚠️ Important Notice ⚠️",
+          "currentStatus": "The products are currently:",
+          "unavailable": "unavailable",
+          "paymentNotice": "Any payments made will be considered as donations or shall be returned!"
+        },
+        
+            "profile": {
+              "yourProfile": "Your Profile",
+              "profilePictureAlt": "User profile picture",
+              "name": "Name",
+              "email": "Email",
+              "address": "Address",
+              "phone": "Phone",
+              "optional": "Optional",
+              "saving": "Saving...",
+              "saveChanges": "Save Changes",
+              "logOut": "Log Out",
+              "loadingProfile": "Loading profile...",
+              "savingChanges": "Saving changes...",
+              "errorLoading": "Failed to load profile. Redirecting to login...",
+              "errorSaving": "Failed to save profile.",
+              "changesSaved": "Changes saved! Your profile has been updated."
+            }
+                    
+             
+
   }
   
