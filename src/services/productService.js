@@ -1,7 +1,5 @@
 import axios from "axios";
-
 const API_URL = import.meta.env.VITE_API_URL;
-
 
 export const fetchAllProducts = async () => {
   try {
@@ -29,9 +27,7 @@ export const updateProduct = async (productId, data) => {
     const response = await axios.put(`${API_URL}/products/${productId}`, data, {
       headers: {
         "Content-Type":
-          typeof data === "object" && data instanceof FormData
-            ? "multipart/form-data"
-            : "application/json",
+          data instanceof FormData ? "multipart/form-data" : "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -70,7 +66,6 @@ export const deleteProduct = async (id) => {
 export const uploadImageToS3 = async (imageFile) => {
   const formData = new FormData();
   formData.append("image", imageFile);
-
   try {
     const response = await axios.post(`${API_URL}/upload-image`, formData, {
       headers: { "Content-Type": "multipart/form-data" },

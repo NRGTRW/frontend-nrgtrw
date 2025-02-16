@@ -13,7 +13,7 @@ import "../assets/styles/navbar.css";
 import CartPreview from "./CartPreview";
 import HamburgerIcon from "./HamburgerIcon";
 import UserRow from "./UserRow";
-import LanguageSwitcher from "./LanguageSwitcher"; // Import the language switcher
+import LanguageSwitcher from "./LanguageSwitcher"; // Updated LanguageSwitcher import
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -51,9 +51,6 @@ const Navbar = () => {
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
 
-  const isTouchDevice =
-    "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
     fetcher,
@@ -78,22 +75,6 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
-  useEffect(() => {
-    if (isTouchDevice && showCartPreview) {
-      const handleOutsideTouch = (e) => {
-        if (
-          cartContainerRef.current &&
-          !cartContainerRef.current.contains(e.target)
-        ) {
-          setShowCartPreview(false);
-        }
-      };
-      document.addEventListener("touchstart", handleOutsideTouch);
-      return () =>
-        document.removeEventListener("touchstart", handleOutsideTouch);
-    }
-  }, [isTouchDevice, showCartPreview]);
-
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
     setMenuOpen(false);
@@ -112,31 +93,22 @@ const Navbar = () => {
       : `${import.meta.env.VITE_IMAGE_BASE_URL}/${profile.profilePicture}`
     : defaultProfilePicture;
 
-  const handleCartMouseEnter = () => {
-    if (!isTouchDevice) {
-      setShowCartPreview(true);
-    }
-  };
-  const handleCartMouseLeave = () => {
-    if (!isTouchDevice) {
-      setShowCartPreview(false);
-    }
-  };
-
-  const handleCartClick = () => {
-    if (isTouchDevice) {
-      setShowCartPreview((prev) => !prev);
-    }
-  };
+  const handleCartMouseEnter = () => setShowCartPreview(true);
+  const handleCartMouseLeave = () => setShowCartPreview(false);
+  const handleCartClick = () => setShowCartPreview((prev) => !prev);
 
   return (
     <header className="navbar">
       <div className="top-bar">
-        <HamburgerIcon
-          isOpen={menuOpen}
-          toggleMenu={toggleMenu}
-          buttonRef={buttonRef}
-        />
+        <div className="left-section" style={{ display: "flex", alignItems: "center" }}>
+          <HamburgerIcon
+            isOpen={menuOpen}
+            toggleMenu={toggleMenu}
+            buttonRef={buttonRef}
+          />
+          {/* Place the LanguageSwitcher dropdown next to the hamburger */}
+          <LanguageSwitcher />
+        </div>
         <li
           className="logo"
           onClick={() => handleNavigation("/")}
@@ -145,7 +117,6 @@ const Navbar = () => {
         >
           NRG
         </li>
-
         <div className="right-container">
           {isAdmin && (
             <>
@@ -213,20 +184,16 @@ const Navbar = () => {
           <div
             ref={cartContainerRef}
             className="cart-container"
-            onMouseEnter={handleCartMouseEnter}
-            onMouseLeave={handleCartMouseLeave}
-            onClick={handleCartClick}
+            onMouseEnter={() => setShowCartPreview(true)}
+            onMouseLeave={() => setShowCartPreview(false)}
+            onClick={() => setShowCartPreview((prev) => !prev)}
             style={{ position: "relative" }}
           >
             <img
               src={cartImage}
               alt={t("navbar.cartAlt", "Shopping Cart")}
               className="cart-icon"
-              onClick={() => {
-                if (!isTouchDevice) {
-                  handleNavigation("/cart");
-                }
-              }}
+              onClick={() => navigate("/cart")}
               tabIndex={0}
               aria-label={t("navbar.viewCart", "View cart")}
             />
@@ -234,7 +201,10 @@ const Navbar = () => {
               <div className="cart-bubble-container">
                 <span
                   className="cart-bubble"
-                  aria-label={`${getTotalQuantity()} ${t("navbar.itemsInCart", "items in cart")}`}
+                  aria-label={`${getTotalQuantity()} ${t(
+                    "navbar.itemsInCart",
+                    "items in cart"
+                  )}`}
                 >
                   {getTotalQuantity()}
                 </span>
@@ -267,11 +237,6 @@ const Navbar = () => {
         </li>
         <li onClick={() => handleNavigation("/inspiration")}>
           {t("navbar.menu.inspiration", "INSPIRATION")}
-        </li>
-
-        {/* Language switcher added at the bottom of the side menu */}
-        <li style={{ paddingTop: "16px" }}>
-          <LanguageSwitcher />
         </li>
       </ul>
     </header>

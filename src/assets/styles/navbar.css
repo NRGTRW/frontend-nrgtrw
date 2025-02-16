@@ -208,6 +208,10 @@
 
 
 @media (max-width: 768px) {
+  .logo{
+    font-size: 30px;
+  }
+
   .top-bar {
     height: auto; 
     flex-wrap: wrap; 

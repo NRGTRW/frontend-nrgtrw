@@ -1,6 +1,7 @@
 // src/components/LanguageSwitcher.jsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import "../assets/styles/languageSwitcher.css";
 
 // Import flag images (adjust the paths based on your project structure)
 import enFlag from '../assets/flags/en.png';
@@ -24,13 +25,13 @@ const LanguageSwitcher = () => {
 
   return (
     <div className="language-switcher" style={{ marginTop: '16px' }}>
-      <img
+      <img  className="flag"
         src={enFlag}
         alt="English"
         onClick={() => changeLanguage('en')}
         style={flagStyle}
       />
-      <img
+      <img  className="flag"
         src={bgFlag}
         alt="Español"
         onClick={() => changeLanguage('bg')}

@@ -7,8 +7,9 @@ import "../assets/styles/productCard.css";
 import wishlistOutline from "/wishlist-outline.png";
 import wishlistFilled from "/wishlist-filled.png";
 import { toast } from "react-toastify";
-import { deleteProduct } from "../services/productService"; // Import the deleteProduct function
-import DeleteConfirmationModal from "./DeleteConfirmationModal"; // Import the modal component
+import { deleteProduct } from "../services/productService";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { useTranslation } from "react-i18next";
 
 const Products = ({ products }) => {
   const navigate = useNavigate();
@@ -18,9 +19,9 @@ const Products = ({ products }) => {
   const [selectedColors, setSelectedColors] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const { i18n, t } = useTranslation();
 
   const handleDeleteProduct = async (productId) => {
-    // Show the custom confirmation modal instead of window.confirm
     setProductToDelete(productId);
     setShowModal(true);
   };
@@ -28,13 +29,10 @@ const Products = ({ products }) => {
   const confirmDelete = async () => {
     if (productToDelete) {
       try {
-        console.log("Deleting product with ID:", productToDelete);
         const response = await deleteProduct(productToDelete);
-        console.log("Delete response:", response);
-
         if (response.success) {
           toast.success("Product deleted successfully!");
-          mutate(); // Refresh the products list to reflect the deletion
+          mutate();
         } else {
           toast.error("Failed to delete product.");
         }
@@ -46,8 +44,10 @@ const Products = ({ products }) => {
     }
   };
 
-  const handleEditProduct = (productId) => {
-    navigate(`/product/${productId}`);
+  const handleProductClick = (product, currentColor) => {
+    navigate(`/product/${product.id}`, {
+      state: { selectedColor: currentColor },
+    });
   };
 
   if (!products || products.length === 0) {
@@ -57,15 +57,19 @@ const Products = ({ products }) => {
   return (
     <div className="product-grid">
       {products.map((product) => {
+        // Use i18next to get the translated product name.
+        const currentLanguage = i18n.language;
+        const translation =
+          product.translations && product.translations.length > 0
+            ? product.translations.find(
+                (tr) => tr.language === currentLanguage
+              ) || product.translations[0]
+            : null;
+        const displayName = translation ? translation.name : product.name;
+
         const selectedColorIndex = selectedColors[product.id] ?? 0;
         const currentColor =
           product.colors?.[selectedColorIndex] || product.colors?.[0];
-
-        const handleProductClick = () => {
-          navigate(`/product/${product.id}`, {
-            state: { selectedColor: currentColor },
-          });
-        };
 
         const wishlistItem = wishlist.find(
           (item) =>
@@ -80,19 +84,18 @@ const Products = ({ products }) => {
             toast.info("You need to log in to manage your wishlist.");
             return;
           }
-
           try {
             if (isInWishlist) {
               await removeFromWishlist(wishlistItem.id);
             } else {
               await addToWishlist({
                 id: product.id,
-                name: product.name,
+                name: displayName,
                 price: product.price,
                 selectedSize: null,
                 selectedColor: currentColor?.imageUrl,
               });
-              toast.success(`${product.name} added to your wishlist!`);
+              toast.success(`${displayName} added to your wishlist!`);
             }
             mutate();
           } catch (error) {
@@ -104,15 +107,14 @@ const Products = ({ products }) => {
           <div
             key={product.id}
             className="product-card"
-            onClick={handleProductClick}
+            onClick={() => handleProductClick(product, currentColor)}
           >
-            {/* Admin Delete Button */}
             {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
               <div
                 className="delete-product"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDeleteProduct(product.id); // Trigger deleteProduct on click
+                  handleDeleteProduct(product.id);
                 }}
               >
                 ×
@@ -122,12 +124,12 @@ const Products = ({ products }) => {
             <div className="image-container">
               <img
                 src={currentColor?.imageUrl || product.imageUrl}
-                alt={product.name}
+                alt={displayName}
                 className="product-image"
               />
               <img
                 src={currentColor?.hoverImage || product.imageUrl}
-                alt={`${product.name} hover`}
+                alt={`${displayName} hover`}
                 className="hover-image"
               />
             </div>
@@ -143,7 +145,7 @@ const Products = ({ products }) => {
               </div>
 
               <div className="product-info">
-                <h3>{product.name}</h3>
+                <h3>{displayName}</h3>
                 <p>${product.price.toFixed(2)}</p>
               </div>
 
@@ -155,7 +157,6 @@ const Products = ({ products }) => {
                       index === selectedColorIndex ? "selected" : ""
                     }`}
                     style={{
-                      // Wrap the URL in quotes to ensure proper formatting.
                       backgroundImage: `url('${color.imageUrl}')`,
                     }}
                     onClick={(e) => {
@@ -169,18 +170,23 @@ const Products = ({ products }) => {
                   ></div>
                 ))}
               </div>
+              {/*
+                If you want to add an "Add to Cart" button here, you could include:
+                <button onClick={(e) => { e.stopPropagation(); /* add your addToCart logic *\/ }}>
+                  {t("cartPage.addToCart", "Add to Cart")}
+                </button>
+              */}
             </div>
           </div>
         );
       })}
 
-      {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         showModal={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={confirmDelete}
         productName={
-          products.find((product) => product.id === productToDelete)?.name
+          products.find((p) => p.id === productToDelete)?.name
         }
       />
     </div>
