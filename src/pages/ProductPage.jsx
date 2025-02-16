@@ -44,8 +44,7 @@ const ProductPage = () => {
     console.log("Fetched product:", product);
   }, [product]);
 
-  // --- Translation helper ---
-  // Use the current language from i18next so that the component re-renders on language change.
+  // --- Translation helper for viewing mode ---
   let translation = {};
   let displayName = "";
   let displayDescription = "";
@@ -80,10 +79,13 @@ const ProductPage = () => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   // Admin edit mode state.
+  // Now we store separate fields for English and Bulgarian translations.
   const [editing, setEditing] = useState(false);
   const [editForm, setEditForm] = useState({
-    name: "",
-    description: "",
+    enName: "",
+    enDescription: "",
+    bgName: "",
+    bgDescription: "",
     price: "",
     category: "",
   });
@@ -93,14 +95,17 @@ const ProductPage = () => {
   // Load product data into edit state when editing.
   useEffect(() => {
     if (editing && product && product.colors) {
-      const currentLanguage = i18n.language;
-      const currentTranslation =
-        product.translations?.find((tr) => tr.language === currentLanguage) ||
-        product.translations?.[0] ||
-        {};
+      // Get English and Bulgarian translations separately.
+      const enTranslation =
+        product.translations?.find((tr) => tr.language === "en") || {};
+      const bgTranslation =
+        product.translations?.find((tr) => tr.language === "bg") || {};
+
       setEditForm({
-        name: currentTranslation.name || "",
-        description: currentTranslation.description || "",
+        enName: enTranslation.name || "",
+        enDescription: enTranslation.description || "",
+        bgName: bgTranslation.name || "",
+        bgDescription: bgTranslation.description || "",
         price: product.price,
         category: product.categoryId,
       });
@@ -273,8 +278,11 @@ const ProductPage = () => {
   const handleSave = async () => {
     try {
       const formData = new FormData();
-      formData.append("name", editForm.name);
-      formData.append("description", editForm.description);
+      // Append separate translation fields
+      formData.append("enName", editForm.enName);
+      formData.append("enDescription", editForm.enDescription);
+      formData.append("bgName", editForm.bgName);
+      formData.append("bgDescription", editForm.bgDescription);
       formData.append("price", editForm.price);
       formData.append("categoryId", editForm.category);
       formData.append(
@@ -333,31 +341,62 @@ const ProductPage = () => {
           <div className="cp-page__container">
             <div className="cp-page__details-section">
               <h2>Edit Product</h2>
+              {/* English Translation */}
+              <h3>English Translation</h3>
               <div className="cp-page__input-group">
                 <label className="cp-page__input-label">
-                  Name <span className="cp-page__required-marker">*</span>
+                  English Name <span className="cp-page__required-marker">*</span>
                 </label>
                 <input
                   type="text"
                   className="cp-page__form-input"
-                  value={editForm.name}
+                  value={editForm.enName}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, name: e.target.value })
+                    setEditForm({ ...editForm, enName: e.target.value })
                   }
-                  placeholder="Enter product name"
+                  placeholder="Enter English product name"
                 />
               </div>
               <div className="cp-page__input-group">
                 <label className="cp-page__input-label">
-                  Description <span className="cp-page__required-marker">*</span>
+                  English Description <span className="cp-page__required-marker">*</span>
                 </label>
                 <textarea
                   className="cp-page__form-textarea"
-                  value={editForm.description}
+                  value={editForm.enDescription}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, description: e.target.value })
+                    setEditForm({ ...editForm, enDescription: e.target.value })
                   }
-                  placeholder="Enter product description"
+                  placeholder="Enter English product description"
+                ></textarea>
+              </div>
+              {/* Bulgarian Translation */}
+              <h3>Bulgarian Translation</h3>
+              <div className="cp-page__input-group">
+                <label className="cp-page__input-label">
+                  Bulgarian Name <span className="cp-page__required-marker">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="cp-page__form-input"
+                  value={editForm.bgName}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, bgName: e.target.value })
+                  }
+                  placeholder="Enter Bulgarian product name"
+                />
+              </div>
+              <div className="cp-page__input-group">
+                <label className="cp-page__input-label">
+                  Bulgarian Description <span className="cp-page__required-marker">*</span>
+                </label>
+                <textarea
+                  className="cp-page__form-textarea"
+                  value={editForm.bgDescription}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, bgDescription: e.target.value })
+                  }
+                  placeholder="Enter Bulgarian product description"
                 ></textarea>
               </div>
               <div className="cp-page__input-group">
