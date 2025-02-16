@@ -17,13 +17,15 @@ const CreateAProductPage = () => {
   const [categories, setCategories] = useState([]);
 
   // State for product form values.
+  // Separate fields for English and Bulgarian translations.
   const [productDetails, setProductDetails] = useState({
-    name: "",
-    description: "",
+    enName: "",
+    enDescription: "",
+    bgName: "",
+    bgDescription: "",
     price: "",
-    category: "", // will store the chosen category id (as string)
+    category: "", // category id as string
     sizes: [...defaultSizes],
-    // Colors are handled via local state.
     colors: [
       {
         colorName: "",
@@ -39,14 +41,13 @@ const CreateAProductPage = () => {
   const [errors, setErrors] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // Fetch categories from API when the component mounts.
+  // Fetch categories when component mounts.
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/categories`
         );
-        // Expecting response.data to be an array of category objects.
         setCategories(response.data || []);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -56,49 +57,47 @@ const CreateAProductPage = () => {
     fetchCategories();
   }, []);
 
-  // Cleanup object URLs when unmounting.
+  // Cleanup any generated object URLs.
   useEffect(() => {
     return () => {
       productDetails.colors.forEach((color) => {
-        if (color.imageUrlPreview)
-          URL.revokeObjectURL(color.imageUrlPreview);
-        if (color.hoverImagePreview)
-          URL.revokeObjectURL(color.hoverImagePreview);
+        if (color.imageUrlPreview) URL.revokeObjectURL(color.imageUrlPreview);
+        if (color.hoverImagePreview) URL.revokeObjectURL(color.hoverImagePreview);
       });
     };
   }, [productDetails]);
 
-  // Handle changes for text input fields.
+  // Handle changes for text inputs.
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProductDetails((prevState) => ({
-      ...prevState,
+    setProductDetails((prev) => ({
+      ...prev,
       [name]: value,
     }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  // Handle adding or removing sizes.
+  // Handle size changes.
   const handleSizeChange = (action, size) => {
     if (action === "add") {
       if (!productDetails.sizes.includes(size)) {
-        setProductDetails((prevState) => ({
-          ...prevState,
-          sizes: [...prevState.sizes, size],
+        setProductDetails((prev) => ({
+          ...prev,
+          sizes: [...prev.sizes, size],
         }));
       }
     } else if (action === "remove") {
-      setProductDetails((prevState) => ({
-        ...prevState,
-        sizes: prevState.sizes.filter((s) => s !== size),
+      setProductDetails((prev) => ({
+        ...prev,
+        sizes: prev.sizes.filter((s) => s !== size),
       }));
     }
     if (productDetails.sizes.length > 0) {
-      setErrors((prevErrors) => ({ ...prevErrors, sizes: "" }));
+      setErrors((prev) => ({ ...prev, sizes: "" }));
     }
   };
 
-  // Handle changes for the color options (both text and file inputs).
+  // Handle color input changes.
   const handleColorInputChange = (e, index, field) => {
     const newColors = [...productDetails.colors];
     if (field === "imageUrl" || field === "hoverImage") {
@@ -115,12 +114,12 @@ const CreateAProductPage = () => {
       const { name, value } = e.target;
       newColors[index] = { ...newColors[index], [name]: value };
     }
-    setProductDetails((prevState) => ({
-      ...prevState,
+    setProductDetails((prev) => ({
+      ...prev,
       colors: newColors,
     }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
+    setErrors((prev) => ({
+      ...prev,
       [`${field === "colorName" ? "colorName" : field}_${index}`]: "",
     }));
   };
@@ -128,10 +127,10 @@ const CreateAProductPage = () => {
   // Add or remove a color option.
   const handleColorChange = (action) => {
     if (action === "add") {
-      setProductDetails((prevState) => ({
-        ...prevState,
+      setProductDetails((prev) => ({
+        ...prev,
         colors: [
-          ...prevState.colors,
+          ...prev.colors,
           {
             colorName: "",
             imageUrl: null,
@@ -143,50 +142,33 @@ const CreateAProductPage = () => {
       }));
     } else if (action === "remove") {
       if (productDetails.colors.length > 1) {
-        setProductDetails((prevState) => ({
-          ...prevState,
-          colors: prevState.colors.slice(0, -1),
+        setProductDetails((prev) => ({
+          ...prev,
+          colors: prev.colors.slice(0, -1),
         }));
       }
     }
   };
 
-  // Removed the main image input and corresponding handler.
-  // The main image will be copied from the first color's image.
-
-  // Validate the form fields.
+  // Validate form fields.
   const validateForm = () => {
     const newErrors = {};
-    if (!productDetails.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-    if (!productDetails.description.trim()) {
-      newErrors.description = "Description is required";
-    }
-    if (!productDetails.price || parseFloat(productDetails.price) <= 0) {
-      newErrors.price = "Valid price is required";
-    }
-    if (!productDetails.category) {
-      newErrors.category = "Category is required";
-    }
-    if (!productDetails.sizes || productDetails.sizes.length === 0) {
-      newErrors.sizes = "At least one size must be selected";
-    }
+    if (!productDetails.enName.trim()) newErrors.enName = "English Name is required";
+    if (!productDetails.enDescription.trim()) newErrors.enDescription = "English Description is required";
+    if (!productDetails.bgName.trim()) newErrors.bgName = "Bulgarian Name is required";
+    if (!productDetails.bgDescription.trim()) newErrors.bgDescription = "Bulgarian Description is required";
+    if (!productDetails.price || parseFloat(productDetails.price) <= 0) newErrors.price = "Valid price is required";
+    if (!productDetails.category) newErrors.category = "Category is required";
+    if (!productDetails.sizes || productDetails.sizes.length === 0) newErrors.sizes = "At least one size must be selected";
     productDetails.colors.forEach((color, index) => {
-      if (!color.colorName.trim()) {
-        newErrors[`colorName_${index}`] = "Color name is required";
-      }
-      if (!(color.imageUrl instanceof File)) {
-        newErrors[`colorImage_${index}`] = "Color image is required";
-      }
-      if (!(color.hoverImage instanceof File)) {
-        newErrors[`colorHoverImage_${index}`] = "Color hover image is required";
-      }
+      if (!color.colorName.trim()) newErrors[`colorName_${index}`] = "Color name is required";
+      if (!(color.imageUrl instanceof File)) newErrors[`colorImage_${index}`] = "Color image is required";
+      if (!(color.hoverImage instanceof File)) newErrors[`colorHoverImage_${index}`] = "Color hover image is required";
     });
     return newErrors;
   };
 
-  // Optional: Cancel publish action.
+  // Cancel publish.
   const cancelPublish = () => {
     setShowConfirmation(false);
   };
@@ -200,19 +182,46 @@ const CreateAProductPage = () => {
       return;
     }
 
+    // Ensure translation fields are defined (default to empty strings).
+    const enName = productDetails.enName || "";
+    const enDescription = productDetails.enDescription || "";
+    const bgName = productDetails.bgName || "";
+    const bgDescription = productDetails.bgDescription || "";
+
+    // Build payload for product creation.
+    // (Notice that the translation fields are included at the top level)
     const productData = {
-      name: productDetails.name,
-      description: productDetails.description,
+      enName,
+      enDescription,
+      bgName,
+      bgDescription,
       price: parseFloat(productDetails.price),
-      categoryId: productDetails.category, // This is now a category id from the select.
+      categoryId: productDetails.category,
       sizes: productDetails.sizes,
       colors: productDetails.colors.map((color) => ({
         colorName: color.colorName,
       })),
+      translations: {
+        create: [
+          {
+            language: "en",
+            name: enName,
+            description: enDescription,
+            imageUrl: "temp-main-image",
+          },
+          {
+            language: "bg",
+            name: bgName,
+            description: bgDescription,
+            imageUrl: "temp-main-image",
+          },
+        ],
+      },
     };
 
+    console.log("Payload:", productData); // Debug
+
     try {
-      // Create the product (without image files).
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/products`,
         productData,
@@ -225,7 +234,6 @@ const CreateAProductPage = () => {
       );
       if (response.data.success) {
         const productId = response.data.product.id;
-        // Upload image files.
         await handleImageUploads(productId);
         toast.success("Product published successfully!");
         navigate("/clothing");
@@ -238,11 +246,9 @@ const CreateAProductPage = () => {
     }
   };
 
-  // Handle image uploads via a separate endpoint.
-  // Instead of a separate main image, copy the first color's image.
+  // Handle image uploads (separate endpoint).
   const handleImageUploads = async (productId) => {
     const formData = new FormData();
-    // Copy the first color's image as the main image.
     if (productDetails.colors[0]?.imageUrl instanceof File) {
       formData.append("mainImage", productDetails.colors[0].imageUrl);
     }
@@ -302,9 +308,7 @@ const CreateAProductPage = () => {
                   onChange={(e) => handleColorInputChange(e, index, "colorName")}
                 />
                 {errors[`colorName_${index}`] && (
-                  <span className="cp-page__error">
-                    {errors[`colorName_${index}`]}
-                  </span>
+                  <span className="cp-page__error">{errors[`colorName_${index}`]}</span>
                 )}
                 <input
                   type="file"
@@ -314,9 +318,7 @@ const CreateAProductPage = () => {
                   onChange={(e) => handleColorInputChange(e, index, "imageUrl")}
                 />
                 {errors[`colorImage_${index}`] && (
-                  <span className="cp-page__error">
-                    {errors[`colorImage_${index}`]}
-                  </span>
+                  <span className="cp-page__error">{errors[`colorImage_${index}`]}</span>
                 )}
                 {color.imageUrlPreview && (
                   <div className="cp-page__preview-container">
@@ -335,9 +337,7 @@ const CreateAProductPage = () => {
                   onChange={(e) => handleColorInputChange(e, index, "hoverImage")}
                 />
                 {errors[`colorHoverImage_${index}`] && (
-                  <span className="cp-page__error">
-                    {errors[`colorHoverImage_${index}`]}
-                  </span>
+                  <span className="cp-page__error">{errors[`colorHoverImage_${index}`]}</span>
                 )}
                 {color.hoverImagePreview && (
                   <div className="cp-page__preview-container">
@@ -372,39 +372,64 @@ const CreateAProductPage = () => {
 
         <div className="cp-page__details-section">
           <h1>Add New Product</h1>
+          {/* English Translation Fields */}
           <div className="cp-page__input-group">
             <label>
-              Name <span className="cp-page__required-marker">*</span>
+              English Name <span className="cp-page__required-marker">*</span>
             </label>
             <input
               type="text"
               className="cp-page__form-input"
-              name="name"
-              value={productDetails.name}
+              name="enName"
+              value={productDetails.enName}
               onChange={handleInputChange}
-              placeholder="Enter product name"
+              placeholder="Enter English product name"
             />
-            {errors.name && (
-              <span className="cp-page__error">{errors.name}</span>
-            )}
+            {errors.enName && <span className="cp-page__error">{errors.enName}</span>}
           </div>
-
           <div className="cp-page__input-group">
             <label>
-              Description <span className="cp-page__required-marker">*</span>
+              English Description <span className="cp-page__required-marker">*</span>
             </label>
             <textarea
               className="cp-page__form-textarea"
-              name="description"
-              value={productDetails.description}
+              name="enDescription"
+              value={productDetails.enDescription}
               onChange={handleInputChange}
-              placeholder="Enter product description"
+              placeholder="Enter English product description"
             ></textarea>
-            {errors.description && (
-              <span className="cp-page__error">{errors.description}</span>
-            )}
+            {errors.enDescription && <span className="cp-page__error">{errors.enDescription}</span>}
+          </div>
+          {/* Bulgarian Translation Fields */}
+          <div className="cp-page__input-group">
+            <label>
+              Bulgarian Name <span className="cp-page__required-marker">*</span>
+            </label>
+            <input
+              type="text"
+              className="cp-page__form-input"
+              name="bgName"
+              value={productDetails.bgName}
+              onChange={handleInputChange}
+              placeholder="Enter Bulgarian product name"
+            />
+            {errors.bgName && <span className="cp-page__error">{errors.bgName}</span>}
+          </div>
+          <div className="cp-page__input-group">
+            <label>
+              Bulgarian Description <span className="cp-page__required-marker">*</span>
+            </label>
+            <textarea
+              className="cp-page__form-textarea"
+              name="bgDescription"
+              value={productDetails.bgDescription}
+              onChange={handleInputChange}
+              placeholder="Enter Bulgarian product description"
+            ></textarea>
+            {errors.bgDescription && <span className="cp-page__error">{errors.bgDescription}</span>}
           </div>
 
+          {/* Other product details */}
           <div className="cp-page__input-group">
             <label>
               Price <span className="cp-page__required-marker">*</span>
@@ -417,9 +442,7 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter product price"
             />
-            {errors.price && (
-              <span className="cp-page__error">{errors.price}</span>
-            )}
+            {errors.price && <span className="cp-page__error">{errors.price}</span>}
           </div>
 
           <div className="cp-page__input-group">
@@ -440,9 +463,7 @@ const CreateAProductPage = () => {
                 </option>
               ))}
             </select>
-            {errors.category && (
-              <span className="cp-page__error">{errors.category}</span>
-            )}
+            {errors.category && <span className="cp-page__error">{errors.category}</span>}
           </div>
 
           <div className="cp-page__input-group">
@@ -473,13 +494,8 @@ const CreateAProductPage = () => {
                 </div>
               ))}
             </div>
-            {errors.sizes && (
-              <span className="cp-page__error">{errors.sizes}</span>
-            )}
+            {errors.sizes && <span className="cp-page__error">{errors.sizes}</span>}
           </div>
-
-          {/* Main image input has been removed.
-              The main product image is now automatically set from the first color's image. */}
 
           <button
             className="cp-page__action-btn cp-page__publish-btn"
