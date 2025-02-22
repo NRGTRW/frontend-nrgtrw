@@ -9,6 +9,7 @@ import { ProfileProvider } from "./context/ProfileContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
 import ProductionWarning from "./components/ProductionWarning";
+import TermsAndConditions from "./components/TermsAndConditions";
 import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <WishlistProvider>
               <CartProvider>
                 <SWRProvider>
+                  <TermsAndConditions />
                   <ProductionWarning />
                   <App />
                 </SWRProvider>

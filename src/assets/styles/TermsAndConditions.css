@@ -1,0 +1,51 @@
+/* Full-screen dimmed overlay */
+.terms-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Main popup container */
+  .terms-popup {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 6px;
+    max-width: 600px;
+    width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 2px 3px #666;
+  }
+  
+  /* Button row for Accept/Decline */
+  .button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  /* Button styling */
+  .terms-button {
+    background-color: #333;
+    color: #f9f9f9;
+    border: 1px solid #555;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 3px #666;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+  }
+  
+  /* Hover effect (darken background, slight downward "push") */
+  .terms-button:hover {
+    background-color: #000000;
+    transform: translateY(-2px);
+  }
+  
