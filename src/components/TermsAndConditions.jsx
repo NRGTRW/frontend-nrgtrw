@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../assets/styles/TermsAndConditions.css";
 
 const TermsAndConditions = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Check localStorage when component mounts
+  useEffect(() => {
+    const acceptedTerms = localStorage.getItem('acceptedTerms');
+    if (!acceptedTerms) {
+      setIsOpen(true);
+    }
+  }, []);
 
   const handleAccept = () => {
-    // When accepted, close the modal (or perform any other action)
+    // Store acceptance in localStorage
+    localStorage.setItem('acceptedTerms', 'true');
     setIsOpen(false);
   };
 
   if (!isOpen) return null;
+
 
   return (
     <div className="terms-modal-overlay">

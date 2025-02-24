@@ -17,8 +17,21 @@ const fetchWishlist = async () => {
   }
 };
 
+const getProductName = (translations, currentLanguage, t) => {
+  if (!translations || translations.length === 0) return null;
+  // Try exact match first
+  let translation = translations.find(tr => tr.language === currentLanguage);
+  // If not found, try matching the base language (e.g., "en" from "en-US")
+  if (!translation && currentLanguage.includes("-")) {
+    const baseLang = currentLanguage.split("-")[0];
+    translation = translations.find(tr => tr.language === baseLang);
+  }
+  // Fallback: use the first translation if available
+  return translation ? translation.name : null;
+};
+
 const WishlistPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { removeFromWishlist } = useWishlist();
   const navigate = useNavigate();
 
@@ -57,7 +70,15 @@ const WishlistPage = () => {
             );
           }
 
-          const selectedColor = item.selectedColor || item.product.imageUrl;
+          const productName =
+            getProductName(item.product.translations, i18n.language, t) ||
+            t("wishlistItem.unnamedProduct");
+
+          // Use the imageUrl from the translation if available
+          const selectedColor =
+            item.selectedColor ||
+            (item.product.translations && item.product.translations[0].imageUrl) ||
+            item.product.imageUrl;
 
           return (
             <div className="wishlist-card" key={item.id}>
@@ -67,25 +88,28 @@ const WishlistPage = () => {
               >
                 <img
                   src={selectedColor || "/fallback-image.jpg"}
-                  alt={item.product.name || t("wishlistItem.unnamedProduct")}
+                  alt={productName}
                   className="wishlist-product-image"
                 />
                 {item.product.hoverImage && (
                   <img
                     src={item.product.hoverImage}
-                    alt={`${t("wishlistItem.hoverAlt")} - ${item.product.name}`}
+                    alt={`${t("wishlistItem.hoverAlt")} - ${productName}`}
                     className="wishlist-hover-image"
                   />
                 )}
               </div>
               <div className="wishlist-product-info">
-                <h3 className="wishlist-product-name">
-                  {item.product.name || t("wishlistItem.unnamedProduct")}
-                </h3>
+                <h3 className="wishlist-product-name">{productName}</h3>
                 <p className="wishlist-product-price">
-                  {t("wishlistPage.price")}: ${item.product.price ? item.product.price.toFixed(2) : "N/A"}
+                  {t("wishlistPage.price")}: $
+                  {item.product.price ? item.product.price.toFixed(2) : "N/A"}
                 </p>
-                {item.selectedSize && <p>{t("wishlistPage.size")}: {item.selectedSize}</p>}
+                {item.selectedSize && (
+                  <p>
+                    {t("wishlistPage.size")}: {item.selectedSize}
+                  </p>
+                )}
               </div>
               <div className="wishlist-action-buttons">
                 <button
