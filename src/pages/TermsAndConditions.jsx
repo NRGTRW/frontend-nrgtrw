@@ -1,30 +1,11 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+import React from 'react';
 import "../assets/styles/TermsAndConditions.css";
 
-const TermsAndConditions = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Check localStorage when component mounts
-  useEffect(() => {
-    const acceptedTerms = localStorage.getItem('acceptedTerms');
-    if (!acceptedTerms) {
-      setIsOpen(true);
-    }
-  }, []);
-
-  const handleAccept = () => {
-    // Store acceptance in localStorage
-    localStorage.setItem('acceptedTerms', 'true');
-    setIsOpen(false);
-  };
-
-  if (!isOpen) return null;
-
-
+const TermsPage = () => {
   return (
     <div className="terms-modal-overlay">
       <div className="terms-modal-container">
-        {/* Header Section */}
         <div className="terms-modal-header">
           <h1 id="top">TERMS AND CONDITIONS</h1>
           <p><em>Last updated February 22, 2025</em></p>
@@ -373,11 +354,9 @@ const TermsAndConditions = () => {
             Email: <a href="mailto:nrgtrwsales@gmail.com">nrgtrwsales@gmail.com</a>
           </p>
         </div>
-
-        <button className="terms-modal-button" onClick={handleAccept}>I Accept</button>
       </div>
     </div>
   );
 };
 
-export default TermsAndConditions;
+export default TermsPage;

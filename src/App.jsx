@@ -37,6 +37,7 @@ import FAQPage from "./pages/FAQPage";
 import MyOrder from "./pages/MyOrderPage";
 import AdminDashboard from "./admin/AdminDashboard";
 import CreateAProductPage from "./admin/CreateAProductPage";
+import TermsPage from "./pages/TermsAndConditions";
 
 // New Checkout page imports
 import CheckoutPage from "./pages/CheckoutPage";
@@ -90,6 +91,7 @@ const App = () => {
     { path: "/checkout", component: CheckoutPage },
     { path: "/checkout-success", component: CheckoutSuccessPage },
     { path: "/checkout-cancelled", component: CheckoutCancelledPage },
+    { path: "/terms", component: TermsPage },
   ];
 
   const isValidRoute = routes.some((route) =>

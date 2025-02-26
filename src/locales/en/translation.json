@@ -1,4 +1,10 @@
 {
+  "termsPopup": {
+    "welcome": "Welcome to our website! Please confirm that you have read and agree to our",
+    "termsLink": "Terms and Conditions",
+    "checkboxLabel": "I have read and agree to the Terms and Conditions.",
+    "submit": "Submit"
+  },
     "materials": {
       "title": "OUR MATERIALS",
       "description": "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create.",
@@ -25,7 +31,8 @@
         "home": "HOME",
         "clothing": "CLOTHING",
         "materials": "MATERIALS",
-        "inspiration": "INSPIRATION"
+        "inspiration": "INSPIRATION",
+        "termsAndConditions": "TERMS AND CONDITIONS"
       }
     },
     "brand": {

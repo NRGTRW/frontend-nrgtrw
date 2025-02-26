@@ -9,7 +9,7 @@ import { ProfileProvider } from "./context/ProfileContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
 import ProductionWarning from "./components/ProductionWarning";
-import TermsAndConditions from "./components/TermsAndConditions";
+import TermsAndConditions from "./components/TermsPopUp";
 import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

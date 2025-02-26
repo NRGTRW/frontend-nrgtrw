@@ -238,6 +238,9 @@ const Navbar = () => {
         <li onClick={() => handleNavigation("/inspiration")}>
           {t("navbar.menu.inspiration", "INSPIRATION")}
         </li>
+        <li onClick={() => handleNavigation("/terms")}>
+          {t("navbar.menu.termsAndConditions", "TERMS AND CONDITIONS")}
+        </li>
       </ul>
     </header>
   );
