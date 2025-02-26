@@ -1,18 +1,27 @@
+// TermsPopup.js
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import "../assets/styles/TermsPopup.css";
+import { useLocation } from 'react-router-dom';
+import "../assets/styles/TermsPopup.css"; // Uncomment and adjust path as needed
 
 const TermsPopup = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
+    // If the current path is /terms, do not show the popup
+    if (location.pathname === '/terms') {
+      setIsOpen(false);
+      return;
+    }
+    // Otherwise, check if the user has already accepted the terms
     const acceptedTerms = localStorage.getItem('acceptedTerms');
     if (!acceptedTerms) {
       setIsOpen(true);
     }
-  }, []);
+  }, [location.pathname]);
 
   const handleSubmit = () => {
     if (isChecked) {
