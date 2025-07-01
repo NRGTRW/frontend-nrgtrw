@@ -27,7 +27,7 @@ import MaterialsPage from "./pages/MaterialsPage/MaterialsPage";
 import InspirationPage from "./pages/InspirationPage/InspirationPage";
 import LogInPage from "./pages/AuthPages/LogInPage";
 import SignUpPage from "./pages/AuthPages/SignUpPage";
-import WishlistPage from "./pages/WishlistPage/WishlistPage";
+import WishlistPage from "./pages/WishlistPagejh/WishlistPage";
 import ContentBellowNavbar from "./components/ContentBellowNavbar/ContentBellowNavbar";
 import ResetPasswordPage from "./pages/AuthPages/ResetPasswordPage";
 import VerifyOTPPage from "./pages/AuthPages/VerifyOTPPage";
