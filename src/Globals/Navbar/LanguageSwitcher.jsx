@@ -1,11 +1,11 @@
 // src/components/LanguageSwitcher.jsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import "../assets/styles/languageSwitcher.css";
+import "./languageSwitcher.css";
 
 // Import flag images (adjust the paths based on your project structure)
-import enFlag from '../assets/flags/en.png';
-import bgFlag from '../assets/flags/bg.png';
+import enFlag from '../../assets/flags/en.png';
+import bgFlag from '../../assets/flags/bg.png';
 // Optionally, add more flags as needed:
 // import frFlag from '../assets/flags/fr.png';
 // import deFlag from '../assets/flags/de.png';

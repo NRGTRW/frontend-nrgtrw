@@ -37,7 +37,7 @@ import FAQPage from "./pages/FooterReferals/FAQPage";
 import MyOrder from "./pages/FooterReferals/MyOrderPage";
 import AdminDashboard from "./admin/AdminDashboard";
 import CreateAProductPage from "./admin/CreateAProductPage";
-import TermsPage from "./pages/TermsAndConditions";
+import TermsPage from "./pages/TermsAndConditions/TermsAndConditions";
 
 // New Checkout page imports
 import CheckoutPage from "./pages/CheckOutPage/CheckoutPage";

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import "../assets/styles/TermsPopup.css"; // Uncomment and adjust path as needed
+import "./TermsPopup.css"; // Uncomment and adjust path as needed
 
 const TermsPopup = () => {
   const { t } = useTranslation();

@@ -13,7 +13,7 @@ import ProductionWarning from "./components/ProductionWarning/ProductionWarning"
 
 // If you have an ApiProvider (for API calls) you can import and include it here as well:
 // import { ApiProvider } from "./context/ApiContext";
-import TermsAndConditions from "./components/TermsPopup";
+import TermsAndConditions from "./components/TermsPopup/TermsPopup";
 import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

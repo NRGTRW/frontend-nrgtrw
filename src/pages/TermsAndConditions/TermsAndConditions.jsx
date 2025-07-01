@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import "../assets/styles/TermsAndConditions.css";
+import "./TermsAndConditions.css";
 
 const TermsPage = () => {
   return (
