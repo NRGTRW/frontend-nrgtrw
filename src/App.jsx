@@ -22,7 +22,7 @@ import ProductPage from "./pages/ProductPage/ProductPage";
 import CartPage from "./pages/CartPage/CartPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
-import ClothingPage from "./pages/ClothingPage/ClothingPage";
+import ClothingPage from "./pages/ClothingPage/ClothingPage"; 
 import MaterialsPage from "./pages/MaterialsPage/MaterialsPage";
 import InspirationPage from "./pages/InspirationPage/InspirationPage";
 import LogInPage from "./pages/AuthPages/LogInPage";
