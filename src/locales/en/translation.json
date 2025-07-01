@@ -1,0 +1,158 @@
+{
+  "termsPopup": {
+    "welcome": "Welcome to our website! Please confirm that you have read and agree to our",
+    "termsLink": "Terms and Conditions",
+    "checkboxLabel": "I have read and agree to the Terms and Conditions.",
+    "submit": "Submit"
+  },
+    "materials": {
+      "title": "OUR MATERIALS",
+      "description": "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create.",
+      "button": "DISCOVER MORE",
+      "imageAlt": "Our Materials"
+    },
+    "inspiration": {
+      "title": "OUR INSPIRATION",
+      "description": "At NRG, we draw inspiration from the elegance of nature and the strength of innovation. Each piece is crafted to reflect balance and purpose.",
+      "button": "LEARN MORE",
+      "imageAlt": "Our Inspiration"
+    },
+    "navbar": {
+      "home": "Navigate to home",
+      "adminDashboard": "Admin Dashboard",
+      "addProduct": "Add Product",
+      "manageProducts": "Manage Products",
+      "wishlistAlt": "Wishlist",
+      "navigateToWishlist": "Navigate to wishlist",
+      "cartAlt": "Shopping Cart",
+      "viewCart": "View cart",
+      "itemsInCart": "items in cart",
+      "menu": {
+        "home": "HOME",
+        "clothing": "CLOTHING",
+        "materials": "MATERIALS",
+        "inspiration": "INSPIRATION",
+        "termsAndConditions": "TERMS AND CONDITIONS"
+      }
+    },
+    "brand": {
+      "overviewTitle": "NRG Brand Overview",
+      "storyTitle": "Story & Vision",
+      "storyContent": "NRG isn’t just a clothing brand—it’s a lifestyle and a community for ambitious, like-minded individuals on their journey of self-improvement and growth. Founded by Nikolay Rumenov Goranov, NRG was born from a personal journey of focused work, resilience, and the relentless pursuit of progress. This brand represents more than just fashion; it’s a symbol of connection and shared ambition. When you see someone wearing NRG, you know they’re part of that same journey—grinding, building, and striving for something bigger.",
+      "blend": "NRG blends luxury and streetwear, creating timeless, minimalistic pieces that radiate confidence without being loud. It’s not about flashy trends—it’s about elevated essentials that grow with you on your path to success.",
+      "goalTitle": "Brand Goal",
+      "goalContent": "To create a community-driven clothing brand that connects and empowers individuals striving for personal growth and excellence. Our goal is to provide high-quality, thoughtfully designed pieces that act as a visual signal—a way for wearers to identify and network with others who share their ambition and vision.",
+      "inspirationTitle": "Inspiration",
+      "inspirationContent": "NRG draws inspiration from the intersection of elegance and raw authenticity. Key influences include personal growth journeys—the grind, the hustle, and the breakthroughs; urban landscapes representing movement and progress; classic literary design for a refined, timeless aesthetic; and gym and street culture where strength, persistence, and style collide.",
+      "materialsTitle": "Materials & Design Philosophy",
+      "materialsContent": "Quality First: Every piece is crafted with high-end fabrics and meticulous attention to detail. Minimalistic yet Bold: Clean lines, sleek cuts, and subtle detailing define our identity. Monochrome Palette: Our color scheme revolves around black, white, and earthy neutrals, reflecting simplicity and versatility. Symbolism in Design: We incorporate subtle elements like runes and monograms (NRG) to represent energy, wealth, and growth.",
+      "tone": "Tone & Style",
+      "toneDetails": "Confident, aspirational, and authentic. Direct and personal, speaking to an audience that values individuality and ambition. Minimalistic and clear—no excess, just powerfully simple statements. Empowering language focused on growth, networking, and shared journeys.",
+      "hero": "NRG is more than a brand—it’s a signal. A symbol for those who hustle, build, and grow. Climb Higher.",
+      "about": "We are a community of self-starters, creators, and relentless builders. Every piece we create reflects our journey—timeless, minimalistic, and bold. Wear NRG and connect with those who share your drive.",
+      "productDescription": "Crafted for movement, built for ambition. NRG pieces combine street style with luxury-grade fabrics, giving you confidence wherever your journey takes you."
+    },
+    "styles": {
+      "header": "CHOOSE YOUR STYLE",
+      "elegance": "ELEGANCE",
+      "pumpCovers": "PUMP COVERS",
+      "confidence": "CONFIDENCE"
+    },
+    "hero": {
+      "title": "Elegance in Strength",
+      "button": "EXPLORE"
+    },
+    "footer": {
+      "logoAria": "Navigate to home",
+      "aboutUs": "About Us",
+      "contactUs": "Contact Us",
+      "faqs": "FAQs",
+      "myOrder": "My Order",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "rights": "All rights reserved."
+    },
+    "inspirationPage": {
+      "title": "Our Inspiration",
+      "content": "At NRG, inspiration flows from the elegance of nature and the strength of innovation. We draw ideas from the dynamic balance between functionality and artistry, crafting every collection to tell a unique story. Whether it's the bold lines of modern architecture or the calming hues of the natural world, our designs are rooted in purpose and creativity.",
+      "imageAlt": "Inspired Design"
+    },
+    "materialsPage": {
+      "title": "Our Materials",
+      "content": "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create.",
+      "imageAlt": "Premium Materials"
+    },
+    "clothingPage": {
+        "sectionTitles": {
+          "elegance": "Elegance",
+          "pumpCovers": "Pump Covers",
+          "confidence": "Confidence"
+        },
+        "loadingMessage": "Loading products...",
+        "errorMessage": "Failed to load products."
+      },
+        "cartPage": {
+          "addToCart": "Add to Cart",
+          "emptyCartMessage": "Your cart is currently empty. Explore our catalog and add products you love!",
+          "returnButton": "Return to Previous Page",
+          "yourCart": "Your Cart",
+          "size": "Size",
+          "quantity": "Quantity",
+          "price": "Price",
+          "total": "Total",
+          "continueShopping": "Continue Shopping",
+          "checkout": "Checkout",
+          "wishlistPending": "will be moved to your wishlist.",
+          "wishlistCancel": "Wishlist update canceled! The product remains in your cart.",
+          "wishlistError": "Failed to add to wishlist. Please try again.",
+          "removePending": "Removing...",
+          "removeSuccess": "removed from your cart!",
+          "removeError": "Failed to remove from cart.",
+          "removeItemButton": "Remove"
+        },      
+
+    "wishlistPage": {
+      "emptyMessage": "Your wishlist is empty. Start adding your favorites!",
+      "browseButton": "Browse Products",
+      "title": "Your Wishlist",
+      "productNotFound": "⚠️ Product not found",
+      "hoverAlt": "Hover Image",
+      "price": "Price",
+      "size": "Size",
+      "removeButton": "Remove",
+      "browseMore": "Browse more products"
+    },
+    "wishlistItem": {
+      "unnamedProduct": "Unnamed Product",
+      "fallbackImageAlt": "Fallback Image"
+    },
+    
+        "productionWarning": {
+          "title": "⚠️ Important Notice ⚠️",
+          "currentStatus": "The products are currently:",
+          "unavailable": "unavailable",
+          "paymentNotice": "Any payments made will be considered as donations or shall be returned!"
+        },
+        
+            "profile": {
+              "yourProfile": "Your Profile",
+              "profilePictureAlt": "User profile picture",
+              "name": "Name",
+              "email": "Email",
+              "address": "Address",
+              "phone": "Phone",
+              "optional": "Optional",
+              "saving": "Saving...",
+              "saveChanges": "Save Changes",
+              "logOut": "Log Out",
+              "loadingProfile": "Loading profile...",
+              "savingChanges": "Saving changes...",
+              "errorLoading": "Failed to load profile. Redirecting to login...",
+              "errorSaving": "Failed to save profile.",
+              "changesSaved": "Changes saved! Your profile has been updated."
+            }
+                    
+             
+
+  }
+  

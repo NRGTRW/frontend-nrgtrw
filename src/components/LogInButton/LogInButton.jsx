@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../logInButton.css";
+import "./logInButton.css";
 import defaultProfileImage from "/images/default-avatar.webp"; // Default image
 
 const LogInButton = ({ user, onLogin, onLogout }) => {

@@ -9,7 +9,7 @@ import "./CheckoutPage.css";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutPage = () => {
-  const { cart, getTotalQuantity } = useCart();
+  const { cart } = useCart();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const CheckoutPage = () => {
     try {
       // Use the authenticated user's ID if available; fallback to 1 for testing
       const userId = user?.id || 1;
-      // Prepare the items array for the backend. (Adjust if your API expects additional data.)
+      // Prepare the items array for the backend.
       const items = cart.map((item) => ({
         productId: item.productId || item.id,
         quantity: item.quantity,
@@ -82,15 +82,6 @@ const CheckoutPage = () => {
                       ? (item.price * item.quantity).toFixed(2)
                       : "0.00"}
                   </p>
-                  {/* {item.selectedColor && (
-                    <div className="color-swatch">
-                      <span>Color:</span>
-                      <div
-                        className="color-box"
-                        style={{ backgroundColor: item.selectedColor }}
-                      ></div>
-                    </div>
-                  )} */}
                 </div>
               </li>
             ))}

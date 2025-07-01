@@ -4,42 +4,51 @@ import { useNavigate } from "react-router-dom";
 import useSWR from "swr"; // Auto-refresh mechanism
 import api from "../../services/api"; // Fetch wishlist data
 import "./wishlistPage.css";
+import { useTranslation } from "react-i18next";
 
-// Fetch wishlist function with proper error handling
 const fetchWishlist = async () => {
   try {
     const response = await api.get("/wishlist");
     console.log("✅ Wishlist API Response:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
-      "❌ Failed to fetch wishlist:",
-      error.response?.data || error.message,
-    );
+    console.error("❌ Failed to fetch wishlist:", error.response?.data || error.message);
     return [];
   }
 };
 
+const getProductName = (translations, currentLanguage, t) => {
+  if (!translations || translations.length === 0) return null;
+  // Try exact match first
+  let translation = translations.find(tr => tr.language === currentLanguage);
+  // If not found, try matching the base language (e.g., "en" from "en-US")
+  if (!translation && currentLanguage.includes("-")) {
+    const baseLang = currentLanguage.split("-")[0];
+    translation = translations.find(tr => tr.language === baseLang);
+  }
+  // Fallback: use the first translation if available
+  return translation ? translation.name : null;
+};
+
 const WishlistPage = () => {
+  const { t, i18n } = useTranslation();
   const { removeFromWishlist } = useWishlist();
   const navigate = useNavigate();
 
-  // Automatically refetch the wishlist every 3 seconds
   const { data: wishlist = [], mutate } = useSWR("/wishlist", fetchWishlist, {
     refreshInterval: 3000,
   });
 
-  // If wishlist is empty, show a centered message with a "Browse Products" button
   if (!wishlist.length) {
     return (
       <div className="wishlist-page empty">
-        <h2>Your wishlist is empty. Start adding your favorites!</h2>
+        <h2>{t("wishlistPage.emptyMessage")}</h2>
         <div className="browse-button-container">
           <button
             className="browse-products-button"
             onClick={() => navigate("/clothing")}
           >
-            Browse Products
+            {t("wishlistPage.browseButton")}
           </button>
         </div>
       </div>
@@ -49,24 +58,27 @@ const WishlistPage = () => {
   return (
     <div className="wishlist-page">
       <div className="spacer-bar"></div>
-      <h2>Your Wishlist</h2>
+      <h2>{t("wishlistPage.title")}</h2>
       <div className="wishlist-grid">
         {wishlist.map((item) => {
           if (!item.product) {
             console.warn("⚠️ Missing product data for item:", item);
             return (
               <div className="wishlist-card" key={item.id}>
-                <p>⚠️ Product not found</p>
+                <p>{t("wishlistPage.productNotFound")}</p>
               </div>
             );
           }
 
-          // Ensure correct color is displayed
-          const selectedColor = item.selectedColor || item.product.imageUrl;
-          console.log(
-            `🎨 Displaying ${item.product.name} with color:`,
-            selectedColor,
-          );
+          const productName =
+            getProductName(item.product.translations, i18n.language, t) ||
+            t("wishlistItem.unnamedProduct");
+
+          // Use the imageUrl from the translation if available
+          const selectedColor =
+            item.selectedColor ||
+            (item.product.translations && item.product.translations[0].imageUrl) ||
+            item.product.imageUrl;
 
           return (
             <div className="wishlist-card" key={item.id}>
@@ -75,37 +87,40 @@ const WishlistPage = () => {
                 onClick={() => navigate(`/product/${item.productId}`)}
               >
                 <img
-                  src={selectedColor || "/fallback-image.jpg"} // ✅ Uses `selectedColor` correctly
-                  alt={item.product.name || "Unnamed Product"}
+                  src={selectedColor || "/fallback-image.jpg"}
+                  alt={productName}
                   className="wishlist-product-image"
                 />
                 {item.product.hoverImage && (
                   <img
                     src={item.product.hoverImage}
-                    alt={`Hover - ${item.product.name}`}
+                    alt={`${t("wishlistItem.hoverAlt")} - ${productName}`}
                     className="wishlist-hover-image"
                   />
                 )}
               </div>
               <div className="wishlist-product-info">
-                <h3 className="wishlist-product-name">
-                  {item.product.name || "Unnamed Product"}
-                </h3>
+                <h3 className="wishlist-product-name">{productName}</h3>
                 <p className="wishlist-product-price">
-                  ${item.product.price ? item.product.price.toFixed(2) : "N/A"}
+                  {t("wishlistPage.price")}: $
+                  {item.product.price ? item.product.price.toFixed(2) : "N/A"}
                 </p>
-                {item.selectedSize && <p>Size: {item.selectedSize}</p>}
+                {item.selectedSize && (
+                  <p>
+                    {t("wishlistPage.size")}: {item.selectedSize}
+                  </p>
+                )}
               </div>
               <div className="wishlist-action-buttons">
                 <button
                   className="wishlist-action-button remove-from-wishlist-button"
                   onClick={async (e) => {
-                    e.stopPropagation(); // Prevent accidental navigation
-                    await removeFromWishlist(item.id); // Use wishlist ID instead of productId
-                    mutate(); // Update UI immediately after removing
+                    e.stopPropagation();
+                    await removeFromWishlist(item.id);
+                    mutate();
                   }}
                 >
-                  Remove
+                  {t("wishlistPage.removeButton")}
                 </button>
               </div>
             </div>
@@ -117,7 +132,7 @@ const WishlistPage = () => {
           className="browse-products-button"
           onClick={() => navigate("/clothing")}
         >
-          Browse Products
+          {t("wishlistPage.browseMore")}
         </button>
       </div>
     </div>

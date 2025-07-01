@@ -12,6 +12,7 @@ import "./productPage.css";
 import "../../admin/createAProductPage.css";
 import { getToken } from "../../context/tokenUtils";
 import InsertColorName from "../../components/InsertColorName/InsertColorName";
+import { useTranslation } from "react-i18next";
 
 const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
 const MAX_QUANTITY = 99;
@@ -25,6 +26,7 @@ const ProductPage = () => {
   const { addToCart, cart } = useCart();
   const { addToWishlist } = useWishlist();
   const { user } = useAuth();
+  const { t, i18n } = useTranslation();
 
   // Fetch product & categories using SWR.
   const { data: product, error, mutate } = useSWR(
@@ -36,6 +38,29 @@ const ProductPage = () => {
     fetcher,
     { fallbackData: [] }
   );
+
+  // Debug: log the fetched product.
+  useEffect(() => {
+    console.log("Fetched product:", product);
+  }, [product]);
+
+  // --- Translation helper for viewing mode ---
+  let translation = {};
+  let displayName = "";
+  let displayDescription = "";
+  if (product) {
+    const currentLanguage = i18n.language;
+    if (product.translations && product.translations.length > 0) {
+      translation =
+        product.translations.find((tr) => tr.language === currentLanguage) ||
+        product.translations[0];
+    }
+    displayName = translation.name || product.name || "Unnamed Product";
+    displayDescription =
+      translation.description ||
+      product.description ||
+      "No description available.";
+  }
 
   // Viewing mode state.
   const initialColorIndex = product?.colors
@@ -54,24 +79,33 @@ const ProductPage = () => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   // Admin edit mode state.
+  // Now we store separate fields for English and Bulgarian translations.
   const [editing, setEditing] = useState(false);
   const [editForm, setEditForm] = useState({
-    name: "",
-    description: "",
+    enName: "",
+    enDescription: "",
+    bgName: "",
+    bgDescription: "",
     price: "",
-    category: "", // current category id
+    category: "",
   });
   const [editColors, setEditColors] = useState([]);
-
-  // New: State to control the new color prompt modal.
   const [showNewColorModal, setShowNewColorModal] = useState(false);
 
-  // When editing starts, load product data into the edit state.
+  // Load product data into edit state when editing.
   useEffect(() => {
     if (editing && product && product.colors) {
+      // Get English and Bulgarian translations separately.
+      const enTranslation =
+        product.translations?.find((tr) => tr.language === "en") || {};
+      const bgTranslation =
+        product.translations?.find((tr) => tr.language === "bg") || {};
+
       setEditForm({
-        name: product.name,
-        description: product.description,
+        enName: enTranslation.name || "",
+        enDescription: enTranslation.description || "",
+        bgName: bgTranslation.name || "",
+        bgDescription: bgTranslation.description || "",
         price: product.price,
         category: product.categoryId,
       });
@@ -86,7 +120,7 @@ const ProductPage = () => {
         }))
       );
     }
-  }, [product, editing]);
+  }, [product, editing, i18n.language]);
 
   const sortedSizes = product?.sizes
     ? [...product.sizes].sort(
@@ -141,7 +175,7 @@ const ProductPage = () => {
     }
     addToCart({
       productId: product.id,
-      name: product.name,
+      name: displayName,
       price: product.price,
       selectedSize,
       selectedColor: selectedColor.imageUrl,
@@ -152,7 +186,7 @@ const ProductPage = () => {
       toast.success(
         existingItem
           ? `Added ${quantity} more (Total: ${newQuantity})`
-          : `Added ${quantity} ${product.name} to cart!`
+          : `Added ${quantity} ${displayName} to cart!`
       );
     }
   };
@@ -165,21 +199,22 @@ const ProductPage = () => {
     const selectedColor = product.colors?.[selectedColorIndex] || {};
     addToWishlist({
       id: product.id,
-      name: product.name,
+      name: displayName,
       price: product.price,
       selectedSize,
       selectedColor: selectedColor.imageUrl,
     })
       .then(() => {
         setIsWishlisted(true);
-        toast.success(`Added ${product.name} to wishlist!`);
+        toast.success(`Added ${displayName} to wishlist!`);
         setTimeout(() => setIsWishlisted(false), 2500);
       })
-      .catch(() => toast.error(`Failed to add ${product.name} to wishlist.`));
+      .catch(() =>
+        toast.error(`Failed to add ${displayName} to wishlist.`)
+      );
   };
 
   // --- Admin Edit Handlers ---
-
   const handleEditColorNameChange = (e, index) => {
     const updated = [...editColors];
     updated[index].colorName = e.target.value;
@@ -205,13 +240,10 @@ const ProductPage = () => {
     setEditColors(updated);
   };
 
-  // New: Replace native prompt with a modal.
-  // When "Add Color" is pressed, show the custom modal.
   const handleAddColor = () => {
     setShowNewColorModal(true);
   };
 
-  // When the modal is confirmed, send a PUT request to add the new color.
   const handleConfirmNewColor = async (newColorName) => {
     try {
       const response = await fetch(
@@ -227,7 +259,6 @@ const ProductPage = () => {
       );
       const result = await response.json();
       if (result.success) {
-        // Append the new color to editColors.
         setEditColors((prev) => [...prev, result.color]);
         toast.success("Color added successfully");
       } else {
@@ -244,13 +275,14 @@ const ProductPage = () => {
     setShowNewColorModal(false);
   };
 
-  // When "Save" is pressed, send a PUT request with edited data.
   const handleSave = async () => {
     try {
-      // Build FormData for text fields and file uploads.
       const formData = new FormData();
-      formData.append("name", editForm.name);
-      formData.append("description", editForm.description);
+      // Append separate translation fields
+      formData.append("enName", editForm.enName);
+      formData.append("enDescription", editForm.enDescription);
+      formData.append("bgName", editForm.bgName);
+      formData.append("bgDescription", editForm.bgDescription);
       formData.append("price", editForm.price);
       formData.append("categoryId", editForm.category);
       formData.append(
@@ -262,9 +294,7 @@ const ProductPage = () => {
           }))
         )
       );
-      // Append file uploads for colors.
       editColors.forEach((color) => {
-        // Ensure color.id exists (for new colors, it should have been set by handleAddColor).
         if (color.newImageFile) {
           formData.append(`colorImage_${color.id}`, color.newImageFile);
         }
@@ -272,7 +302,6 @@ const ProductPage = () => {
           formData.append(`colorHoverImage_${color.id}`, color.newHoverImageFile);
         }
       });
-      // Send a PUT request to update the product.
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/products/${product.id}`,
         {
@@ -312,31 +341,62 @@ const ProductPage = () => {
           <div className="cp-page__container">
             <div className="cp-page__details-section">
               <h2>Edit Product</h2>
+              {/* English Translation */}
+              <h3>English Translation</h3>
               <div className="cp-page__input-group">
                 <label className="cp-page__input-label">
-                  Name <span className="cp-page__required-marker">*</span>
+                  English Name <span className="cp-page__required-marker">*</span>
                 </label>
                 <input
                   type="text"
                   className="cp-page__form-input"
-                  value={editForm.name}
+                  value={editForm.enName}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, name: e.target.value })
+                    setEditForm({ ...editForm, enName: e.target.value })
                   }
-                  placeholder="Enter product name"
+                  placeholder="Enter English product name"
                 />
               </div>
               <div className="cp-page__input-group">
                 <label className="cp-page__input-label">
-                  Description <span className="cp-page__required-marker">*</span>
+                  English Description <span className="cp-page__required-marker">*</span>
                 </label>
                 <textarea
                   className="cp-page__form-textarea"
-                  value={editForm.description}
+                  value={editForm.enDescription}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, description: e.target.value })
+                    setEditForm({ ...editForm, enDescription: e.target.value })
                   }
-                  placeholder="Enter product description"
+                  placeholder="Enter English product description"
+                ></textarea>
+              </div>
+              {/* Bulgarian Translation */}
+              <h3>Bulgarian Translation</h3>
+              <div className="cp-page__input-group">
+                <label className="cp-page__input-label">
+                  Bulgarian Name <span className="cp-page__required-marker">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="cp-page__form-input"
+                  value={editForm.bgName}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, bgName: e.target.value })
+                  }
+                  placeholder="Enter Bulgarian product name"
+                />
+              </div>
+              <div className="cp-page__input-group">
+                <label className="cp-page__input-label">
+                  Bulgarian Description <span className="cp-page__required-marker">*</span>
+                </label>
+                <textarea
+                  className="cp-page__form-textarea"
+                  value={editForm.bgDescription}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, bgDescription: e.target.value })
+                  }
+                  placeholder="Enter Bulgarian product description"
                 ></textarea>
               </div>
               <div className="cp-page__input-group">
@@ -464,7 +524,6 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
-          {/* Render the NewColorPromptModal for adding a new color */}
           <InsertColorName
             show={showNewColorModal}
             onConfirm={handleConfirmNewColor}
@@ -495,7 +554,7 @@ const ProductPage = () => {
               </button>
               <img
                 src={images[currentImageIndex] || product.imageUrl}
-                alt={`${product.name} - ${
+                alt={`${displayName} - ${
                   product.colors?.[selectedColorIndex]?.colorName || "default"
                 }`}
                 className="main-image"
@@ -516,23 +575,27 @@ const ProductPage = () => {
                 <img
                   key={color.id}
                   src={color.imageUrl}
-                  alt={`${product.name} - ${color.colorName}`}
-                  className={`thumbnail ${selectedColorIndex === index ? "selected" : ""}`}
+                  alt={`${displayName} - ${color.colorName}`}
+                  className={`thumbnail ${
+                    selectedColorIndex === index ? "selected" : ""
+                  }`}
                   onClick={() => setSelectedColorIndex(index)}
                 />
               ))}
             </div>
           </div>
           <div className="product-details">
-            <h1>{product.name}</h1>
+            <h1>{displayName}</h1>
             <p className="product-price">${product.price.toFixed(2)}</p>
-            <p className="product-description">{product.description}</p>
+            <p className="product-description">{displayDescription}</p>
             <div className="size-quantity-row">
               <div className="size-selector">
                 {sortedSizes.map((size) => (
                   <button
                     key={size.id}
-                    className={`size-button ${selectedSize === size.size ? "selected" : ""}`}
+                    className={`size-button ${
+                      selectedSize === size.size ? "selected" : ""
+                    }`}
                     onClick={() => setSelectedSize(size.size)}
                   >
                     {size.size}
@@ -563,19 +626,19 @@ const ProductPage = () => {
               </div>
             </div>
             {maxQuantityMessage && (
-  <p className="max-quantity-message">
-    Maximum quantity reached! For bulk orders, please{" "}
-    <a href="/contact-us" className="contact-link">
-      contact us
-    </a>.
-  </p>
-)}
+              <p className="max-quantity-message">
+                Maximum quantity reached! For bulk orders, please{" "}
+                <a href="/contact-us" className="contact-link">
+                  contact us
+                </a>.
+              </p>
+            )}
             <button
               className="add-to-cart-button"
               onClick={handleAddToCart}
               disabled={!selectedSize || !quantity}
             >
-              Add to Cart
+              {t("cartPage.addToCart", "Add to Cart")}
             </button>
             {user &&
               (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (

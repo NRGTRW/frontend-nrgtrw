@@ -1,26 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
+import { useTranslation } from "react-i18next";
 import eleganceImage from "/images/style-elegance.png";
 import coversImage from "/images/style-covers.webp";
 import confidenceImage from "/images/ShowOff.webp";
 
 const StylesSection = () => {
+  const { t } = useTranslation();
+
   const stylesData = [
     {
-      title: "ELEGANCE",
+      title: t("styles.elegance", "ELEGANCE"),
       image: eleganceImage,
       link: "/clothing",
       category: "Elegance",
     },
     {
-      title: "PUMP COVERS",
+      title: t("styles.pumpCovers", "PUMP COVERS"),
       image: coversImage,
       link: "/clothing",
       category: "Pump Covers",
     },
     {
-      title: "CONFIDENCE",
+      title: t("styles.confidence", "CONFIDENCE"),
       image: confidenceImage,
       link: "/clothing",
       category: "Confidence",
@@ -29,7 +32,7 @@ const StylesSection = () => {
 
   return (
     <section className="styles-section">
-      <h2>CHOOSE YOUR STYLE</h2>
+      <h2>{t("styles.header", "CHOOSE YOUR STYLE")}</h2>
       <div className="styles-grid">
         {stylesData.map((style, index) => (
           <Link

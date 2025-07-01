@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import "./cartPage.css";
 
 const CartPage = () => {
+  const { t } = useTranslation();
   const { cart, removeFromCart } = useCart();
   const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
@@ -16,35 +18,26 @@ const CartPage = () => {
   const [cancelledItems, setCancelledItems] = useState(new Set());
   const timersRef = useRef({}); 
 
-  // 🚀 Optimistic removal of cart items
   const handleRemove = (product) => {
     if (!product.cartItemId || !product.name) {
-      toast.error(
-        `🗑️ Unable to remove  ${product.name}! Please try again later.`,
-      );
+      toast.error(t("cartPage.removeError", { productName: product.name }));
       return;
     }
 
     toast.promise(removeFromCart(product.cartItemId), {
-      pending: `Removing ${product.name}...`,
-      success: `${product.name}(s) removed from your cart!`,
-      error: `Failed to remove ${product.name} from cart.`,
+      pending: t("cartPage.removePending", { productName: product.name }),
+      success: t("cartPage.removeSuccess", { productName: product.name }),
+      error: t("cartPage.removeError", { productName: product.name }),
     });
   };
 
-  // ❤️ Wishlist toggle with animation delay
   const handleWishlistToggle = (product) => {
-    if (!product.name) {
-      toast.error(`Error: Unable to add ${product.name} to wishlist.`);
-      return;
-    }
-
     const productKey = `${product.productId}-${product.selectedSize}-${product.selectedColor}`;
 
     if (animatingItems.includes(productKey)) {
       cancelWishlistMove(productKey);
     } else {
-      toast.info(`${product.name} will be moved to your wishlist.`);
+      toast.info(t("cartPage.wishlistPending", { productName: product.name }));
       setAnimatingItems((prev) => [...prev, productKey]);
 
       const timer = setTimeout(() => {
@@ -57,35 +50,26 @@ const CartPage = () => {
             selectedColor: product.selectedColor,
           })
             .then(() => removeFromCart(product.cartItemId))
-            .catch(() => {
-              toast.error(
-                `Failed to add ${product.name} to wishlist. Please try again.`,
-              );
-            });
+            .catch(() => toast.error(t("cartPage.wishlistError", { productName: product.name })));
         }
-
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
-        delete timersRef.current[productKey]; // Cleanup timer reference
+        delete timersRef.current[productKey];
       }, 2500);
 
       timersRef.current[productKey] = timer;
     }
   };
 
-  // ❌ Cancel wishlist move
-  const cancelWishlistMove = (productKey, product) => {
+  const cancelWishlistMove = (productKey) => {
     if (timersRef.current[productKey]) {
       clearTimeout(timersRef.current[productKey]);
       delete timersRef.current[productKey];
     }
     setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
     setCancelledItems((prev) => new Set([...prev, productKey]));
-    toast.info(
-      `❌ Wishlist update canceled! The ${product.name} remains in your cart.`,
-    );
+    toast.info(t("cartPage.wishlistCancel"));
   };
 
-  // 🔄 Cleanup timers when the component unmounts
   useEffect(() => {
     return () => {
       Object.values(timersRef.current).forEach(clearTimeout);
@@ -93,43 +77,26 @@ const CartPage = () => {
     };
   }, []);
 
-  // 🛒 Calculate total price
   const calculateTotal = () =>
-    cart.reduce(
-      (total, product) => total + product.quantity * product.price,
-      0,
-    );
+    cart.reduce((total, product) => total + product.quantity * product.price, 0);
 
   if (!cart.length) {
     return (
       <div className="cart-page empty">
-        <h2>
-          Your cart is currently empty. Explore our catalog and add products you
-          love!
-        </h2>
-        <GoBackButton text="Return to Previous Page" />
+        <h2>{t("cartPage.emptyCartMessage")}</h2>
+        <GoBackButton text={t("cartPage.returnButton")} />
       </div>
     );
   }
 
   return (
     <div className="cart-page">
-      <h2>Your Cart</h2>
+      <h2>{t("cartPage.yourCart")}</h2>
       <div className="cart-items">
         <AnimatePresence>
           {cart.map((product) => {
-            if (!product.cartItemId || !product.name) {
-              console.error(
-                "❌ Missing cartItemId or name in cart item:",
-                product,
-              );
-              return null;
-            }
-
             const productKey = `${product.productId}-${product.selectedSize}-${product.selectedColor}`;
-            const isAnimating =
-              animatingItems.includes(productKey) &&
-              !cancelledItems.has(productKey);
+            const isAnimating = animatingItems.includes(productKey) && !cancelledItems.has(productKey);
 
             return (
               <motion.div
@@ -146,18 +113,14 @@ const CartPage = () => {
                   onClick={() => navigate(`/product/${product.productId}`)}
                 />
                 <div className="cart-item-details">
-                  <h3>{product.name || "Unnamed Product"}</h3>
-                  <p>Size: {product.selectedSize}</p>
-                  <p>Quantity: {product.quantity}</p>
-                  <p>Price: ${Number(product.price).toFixed(2)}</p>
+                  <h3>{product.name || t("cartPage.unnamedProduct")}</h3>
+                  <p>{t("cartPage.size")}: {product.selectedSize}</p>
+                  <p>{t("cartPage.quantity")}: {product.quantity}</p>
+                  <p>{t("cartPage.price")}: ${product.price.toFixed(2)}</p>
                 </div>
                 <div className="cart-item-actions">
                   <motion.img
-                    src={
-                      isAnimating
-                        ? "/wishlist-filled.png"
-                        : "/wishlist-outline.png"
-                    }
+                    src={isAnimating ? "/wishlist-filled.png" : "/wishlist-outline.png"}
                     alt="Wishlist"
                     className={`wishlist-icon ${isAnimating ? "wishlisted" : ""}`}
                     onClick={() => handleWishlistToggle(product)}
@@ -170,7 +133,7 @@ const CartPage = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    Remove
+                    {t("cartPage.removeItemButton")}
                   </motion.button>
                 </div>
               </motion.div>
@@ -178,9 +141,9 @@ const CartPage = () => {
           })}
         </AnimatePresence>
       </div>
-
-      <h3>Total: ${calculateTotal().toFixed(2)}</h3>
-
+      <h3>
+        {t("cartPage.total")}: ${calculateTotal().toFixed(2)}
+      </h3>
       <div className="cart-actions">
         <motion.button
           className="continue-shopping-button"
@@ -188,7 +151,7 @@ const CartPage = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Continue Shopping
+          {t("cartPage.continueShopping")}
         </motion.button>
         <motion.button
           className="checkout-button"
@@ -196,10 +159,9 @@ const CartPage = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Checkout
+          {t("cartPage.checkout")}
         </motion.button>
       </div>
-
       <GoBackButton />
     </div>
   );
