@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../assets/styles/AdminDashboard.css";
+import "./AdminDashboard.css";
 import { toast } from "react-toastify";
 import { getToken } from "../context/tokenUtils";
-import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import DeleteConfirmationModal from "../components/Modals/DeleteConfirmationModal";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // Store the user object (instead of just the ID) so we can display its name.
+
   const [userToDelete, setUserToDelete] = useState(null);
 
   const fetchUsers = async () => {
@@ -79,19 +79,16 @@ const AdminDashboard = () => {
     }
   };
 
-  // Open the modal by storing the user object for deletion.
   const openDeleteModal = (user) => {
     setUserToDelete(user);
     setShowDeleteModal(true);
   };
 
-  // Close the modal and clear the selected user.
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
     setUserToDelete(null);
   };
 
-  // Confirm deletion after modal confirmation.
   const confirmDelete = async () => {
     try {
       const token = getToken();

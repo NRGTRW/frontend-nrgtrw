@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import GoBackButton from "../components/GoBackButton";
+import GoBackButton from "../components/GoBackButton/GoBackButton";
 import { motion } from "framer-motion";
 import axios from "axios";
-import "../assets/styles/createAProductPage.css";
-import PublishConfirmationModal from "../components/PublishConfirmationModal";
+import "./createAProductPage.css";
+import PublishConfirmationModal from "../components/Modals/PublishConfirmationModal";
 
 const CreateAProductPage = () => {
   const navigate = useNavigate();

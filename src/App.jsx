@@ -8,40 +8,40 @@ import {
   Navigate,
 } from "react-router-dom";
 import { motion } from "framer-motion";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import ScrollToTop from "./components/ScrollToTop";
+import Navbar from "./Globals/Navbar/Navbar";
+import Footer from "./Globals/Footer/Footer";
+import ScrollToTop from "./Globals/ScrollToTop";
 import { useAuth } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import "./assets/styles/global.css";
+import "./Globals/global.css";
 
 import HomePage from "./pages/HomePage";
-import ProductPage from "./pages/ProductPage";
-import CartPage from "./pages/CartPage";
-import ProfilePage from "./pages/ProfilePage";
-import NotFoundPage from "./pages/NotFoundPage";
-import ClothingPage from "./pages/ClothingPage";
-import MaterialsPage from "./pages/MaterialsPage";
-import InspirationPage from "./pages/InspirationPage";
-import LogInPage from "./pages/LogInPage";
-import SignUpPage from "./pages/SignUpPage";
-import WishlistPage from "./pages/WishlistPage";
-import ContentBellowNavbar from "./components/ContentBellowNavbar";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import VerifyOTPPage from "./pages/VerifyOTPPage";
-import AboutUs from "./pages/AboutUsPage";
-import ContactUs from "./pages/ContactUsPage";
-import FAQPage from "./pages/FAQPage";
-import MyOrder from "./pages/MyOrderPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
+import CartPage from "./pages/CartPage/CartPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import ClothingPage from "./pages/ClothingPage/ClothingPage";
+import MaterialsPage from "./pages/MaterialsPage/MaterialsPage";
+import InspirationPage from "./pages/InspirationPage/InspirationPage";
+import LogInPage from "./pages/AuthPages/LogInPage";
+import SignUpPage from "./pages/AuthPages/SignUpPage";
+import WishlistPage from "./pages/WishlistPage/WishlistPage";
+import ContentBellowNavbar from "./components/ContentBellowNavbar/ContentBellowNavbar";
+import ResetPasswordPage from "./pages/AuthPages/ResetPasswordPage";
+import VerifyOTPPage from "./pages/AuthPages/VerifyOTPPage";
+import AboutUs from "./pages/FooterReferals/AboutUsPage";
+import ContactUs from "./pages/FooterReferals/ContactUsPage";
+import FAQPage from "./pages/FooterReferals/FAQPage";
+import MyOrder from "./pages/FooterReferals/MyOrderPage";
 import AdminDashboard from "./admin/AdminDashboard";
 import CreateAProductPage from "./admin/CreateAProductPage";
 
 // New Checkout page imports
-import CheckoutPage from "./pages/CheckoutPage";
-import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
-import CheckoutCancelledPage from "./pages/CheckoutCancelledPage";
+import CheckoutPage from "./pages/CheckOutPage/CheckoutPage";
+import CheckoutSuccessPage from "./pages/CheckOutPage/CheckoutSuccessPage";
+import CheckoutCancelledPage from "./pages/CheckOutPage/CheckoutCancelledPage";
 
 // ------------------ AdminRoute ------------------
 const AdminRoute = ({ children }) => {
@@ -68,7 +68,6 @@ const AdminRoute = ({ children }) => {
 const App = () => {
   const location = useLocation();
 
-  // Define all routes including the new checkout routes.
   const routes = [
     { path: "/", component: HomePage },
     { path: "/product/:productId", component: ProductPage },
@@ -86,7 +85,7 @@ const App = () => {
     { path: "/contact-us", component: ContactUs },
     { path: "/faqs", component: FAQPage },
     { path: "/my-order", component: MyOrder },
-    // New Checkout Routes:
+    // Checkout Routes:
     { path: "/checkout", component: CheckoutPage },
     { path: "/checkout-success", component: CheckoutSuccessPage },
     { path: "/checkout-cancelled", component: CheckoutCancelledPage },

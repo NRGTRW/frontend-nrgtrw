@@ -9,7 +9,7 @@ import { WishlistProvider } from "./context/WishlistContext";
 import { ProfileProvider } from "./context/ProfileContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
-import ProductionWarning from "./components/ProductionWarning";
+import ProductionWarning from "./components/ProductionWarning/ProductionWarning";
 
 
 // If you have an ApiProvider (for API calls) you can import and include it here as well:
