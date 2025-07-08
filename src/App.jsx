@@ -38,6 +38,8 @@ import MyOrder from "./pages/FooterReferals/MyOrderPage";
 import AdminDashboard from "./admin/AdminDashboard";
 import CreateAProductPage from "./admin/CreateAProductPage";
 import TermsPage from "./pages/TermsAndConditions/TermsAndConditions";
+import NRGLandingPage from "./pages/NRGLandingPage/NRGLandingPage";
+import Fitness from "./pages/Fitness/Fitness";
 
 // New Checkout page imports
 import CheckoutPage from "./pages/CheckOutPage/CheckoutPage";
@@ -86,6 +88,10 @@ const App = () => {
     { path: "/contact-us", component: ContactUs },
     { path: "/faqs", component: FAQPage },
     { path: "/my-order", component: MyOrder },
+    { path: "/NRGLandingPage", component: NRGLandingPage },
+    { path: "/Fitness", component: Fitness },
+
+    
     // Checkout Routes:
     { path: "/checkout", component: CheckoutPage },
     { path: "/checkout-success", component: CheckoutSuccessPage },

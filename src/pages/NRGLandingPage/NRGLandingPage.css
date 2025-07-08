@@ -1,0 +1,185 @@
+.nrg-landing-page {
+  background: linear-gradient(to bottom, #0d0d0d, #111);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  padding-top: var(--navbar-height);
+}
+
+/* HERO SECTION */
+.nrg-hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.nrg-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.nrg-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+}
+
+.nrg-slogan {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.nrg-slogan span {
+  color: #f5c518;
+}
+
+.nrg-sub {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #bbb;
+  min-height: 4rem;
+  white-space: pre-wrap;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.typing-text {
+  border-right: 2px solid #f5c518;
+  animation: blink 0.8s step-end infinite;
+}
+
+.typing-text.done {
+  border-right: none;
+  animation: none;
+}
+
+@keyframes blink {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #f5c518;
+  }
+}
+
+.nrg-actions {
+  margin-top: 2.5rem;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 1rem 2.2rem;
+  margin: 0 1rem;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.primary-btn {
+  background: #f5c518;
+  color: #000;
+  transition: background 0.3s;
+}
+
+.primary-btn:hover {
+  background: #ffe067;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 2px solid #f5c518;
+  color: #f5c518;
+  transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background: #f5c518;
+  color: #000;
+}
+
+/* CATEGORY TILES */
+.nrg-sections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+}
+
+.nrg-tile {
+  position: relative;
+  width: 260px;
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.nrg-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.nrg-tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.nrg-tile-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.35);
+  transition: background 0.3s;
+}
+
+.nrg-tile:hover .nrg-tile-overlay {
+  background: rgba(129, 129, 129, 0.062);
+}
+
+.vision-tile:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), 0 0 30px rgba(255, 165, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .nrg-slogan {
+    font-size: 2rem;
+  }
+
+  .nrg-tile {
+    width: 90%;
+    height: 140px;
+  }
+}

@@ -13,7 +13,8 @@ import "./navbar.css";
 import CartPreview from "../../pages/CartPage/CartPreview";
 import HamburgerIcon from "../../components/HamburgerIcon/HamburgerIcon";
 import UserRow from "./UserRow";
-import LanguageSwitcher from "./LanguageSwitcher"; // Updated LanguageSwitcher import
+import LanguageSwitcher from "./LanguageSwitcher";
+import NRGLandingPage from "../../pages/NRGLandingPage/NRGLandingPage";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -241,6 +242,9 @@ const Navbar = () => {
         <li onClick={() => handleNavigation("/terms")}>
           {t("navbar.menu.termsAndConditions", "TERMS AND CONDITIONS")}
         </li>
+        {/* <li onClick={() => handleNavigation("/NRGLandingPage")}>
+          {t("navbar.menu.services", "SERVICES")}
+        </li> */}
       </ul>
     </header>
   );

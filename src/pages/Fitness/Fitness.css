@@ -1,0 +1,79 @@
+.fitness-page {
+  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  padding-bottom: 80px;
+}
+
+.fitness-video-placeholder {
+  background-color: #111;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #333;
+}
+
+.video-container {
+  width: 80%;
+  height: 70%;
+  border: 2px dashed #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-text {
+  color: #888;
+  font-size: 1.5rem;
+}
+
+.program-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+  padding: 0 20px;
+}
+
+.program-card {
+  background-color: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 320px;
+  transition: transform 0.3s ease;
+}
+
+.program-card:hover {
+  transform: scale(1.05);
+}
+
+.program-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.program-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.program-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #0ff;
+  color: #0ff;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.program-btn:hover {
+  background: #0ff;
+  color: #000;
+}
