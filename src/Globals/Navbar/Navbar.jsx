@@ -133,8 +133,7 @@ const Navbar = () => {
             toggleMenu={toggleMenu}
             buttonRef={buttonRef}
           />
-          {/* Google Translate Widget */}
-          <div id="google_translate_element" style={{ marginLeft: 12 }}></div>
+          {/* No Google Translate widget here */}
         </div>
         <li
           className="logo"
