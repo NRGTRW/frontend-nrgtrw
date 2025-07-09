@@ -96,56 +96,9 @@ function getUserLanguage() {
 // ------------------ App Component ------------------
 const App = () => {
   const location = useLocation();
-  const [showTranslateModal, setShowTranslateModal] = useState(() => {
-    return localStorage.getItem("hideGoogleTranslateModal") !== "true";
-  });
-  const userLangCode = getUserLanguage();
-  const userLangName = LANGUAGE_NAMES[userLangCode] || userLangCode.charAt(0).toUpperCase() + userLangCode.slice(1);
+  // All translation-related state and modals removed. English only.
 
-  useEffect(() => {
-    if (!showTranslateModal) return;
-
-    // Only load the script and initialize ONCE
-    if (!window.__googleTranslateInitialized) {
-      // Remove any previous widget
-      const widgetContainer = document.getElementById('google_translate_element_modal');
-      if (widgetContainer) widgetContainer.innerHTML = '';
-
-      window.googleTranslateElementInit = function() {
-        if (!window.__googleTranslateInitialized) {
-          new window.google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: '',
-            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element_modal');
-          window.__googleTranslateInitialized = true;
-        }
-      };
-
-      const script = document.createElement('script');
-      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, [showTranslateModal]);
-
-  const handleCloseTranslateModal = () => {
-    setShowTranslateModal(false);
-    localStorage.setItem("hideGoogleTranslateModal", "true");
-  };
-
-  const handleTranslate = () => {
-    // Google Translate uses a select element with class goog-te-combo
-    // We simulate selecting the user's language
-    const select = document.querySelector('.goog-te-combo');
-    if (select) {
-      select.value = userLangCode;
-      select.dispatchEvent(new Event('change'));
-    }
-    handleCloseTranslateModal();
-  };
-
+  // Restore routes and isValidRoute logic
   const routes = [
     { path: "/", component: HomePage },
     { path: "/product/:productId", component: ProductPage },
@@ -165,8 +118,6 @@ const App = () => {
     { path: "/my-order", component: MyOrder },
     { path: "/NRGLandingPage", component: NRGLandingPage },
     { path: "/Fitness", component: Fitness },
-
-    
     // Checkout Routes:
     { path: "/checkout", component: CheckoutPage },
     { path: "/checkout-success", component: CheckoutSuccessPage },
@@ -180,12 +131,6 @@ const App = () => {
 
   return (
     <>
-      <GoogleTranslateModal
-        show={showTranslateModal}
-        onClose={handleCloseTranslateModal}
-        onTranslate={handleTranslate}
-        languageName={userLangName}
-      />
       <ToastContainer
         position="top-center"
         autoClose={2500}
