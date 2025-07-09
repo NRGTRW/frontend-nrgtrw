@@ -14,8 +14,6 @@ import ScrollToTop from "./Globals/ScrollToTop";
 import { useAuth } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 
-import GoogleTranslateModal from "./components/Modals/GoogleTranslateModal.jsx";
-
 import "react-toastify/dist/ReactToastify.css";
 import "./Globals/global.css";
 
