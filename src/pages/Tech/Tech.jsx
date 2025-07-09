@@ -42,6 +42,11 @@ const Tech = () => {
 
   return (
     <div className="tech-page">
+      <section className="tech-video-placeholder">
+        <div className="video-container">
+          <div className="video-text">🎥 Tech Intro Video Coming Soon</div>
+        </div>
+      </section>
       <section className="tech-cards">
         {techProjects.map((project) => (
           <div key={project.id} className="tech-card">

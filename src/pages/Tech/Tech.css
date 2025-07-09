@@ -109,6 +109,35 @@
   display: inline-block;
 }
 
+.tech-video-placeholder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.video-container {
+  background: linear-gradient(120deg, #101622 60%, #1a2a3a 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(30, 180, 255, 0.08), 0 2px 8px rgba(0,0,0,0.10);
+  padding: 2.5rem 3.5rem;
+  min-width: 340px;
+  max-width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-text {
+  color: #19fff5;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-shadow: 0 2px 12px #0a1016;
+}
+
 @media (max-width: 900px) {
   .tech-cards {
     flex-direction: column;
