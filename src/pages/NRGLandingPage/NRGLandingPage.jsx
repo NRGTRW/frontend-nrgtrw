@@ -45,7 +45,7 @@ const NRGLandingPage = () => {
       <div className="nrg-hero-overlay" />
       <div className="nrg-hero-content">
         <h1 className="nrg-slogan">
-          IF YOU'RE READY TO <span>PAY</span>/<span>PLAY</span>,<br />I'LL FIND A WAY.
+          IF YOU'RE READY TO <span>PAY</span>,<br />I'LL FIND A<span>WAY</span>.
         </h1>
 
         <p className={`nrg-sub typing-text ${isDoneTyping ? "done" : ""}`}>

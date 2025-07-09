@@ -51,6 +51,112 @@
   scale: 1.1;
 }
 
+.hero-services-button {
+  margin-top: 20px;
+  padding: 12px 38px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #e0faff;
+  background: #101622;
+  border: none;
+  border-radius: 36px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  z-index: 1;
+  box-shadow: none;
+  transition: color 0.3s, background 0.3s, transform 0.2s;
+}
+
+.hero-services-button::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -40%; width: 180%; height: 100%;
+  background: repeating-linear-gradient(
+    120deg,
+    rgba(60,120,180,0.18) 0%,
+    rgba(80,180,255,0.22) 10%,
+    rgba(40,80,120,0.16) 20%,
+    rgba(60,120,180,0.18) 30%,
+    rgba(40,80,120,0.16) 40%,
+    rgba(80,180,255,0.22) 50%,
+    rgba(40,80,120,0.16) 60%,
+    rgba(60,120,180,0.18) 70%,
+    rgba(40,80,120,0.16) 80%,
+    rgba(80,180,255,0.22) 90%,
+    rgba(40,80,120,0.16) 100%
+  );
+  filter: blur(2px);
+  opacity: 0.95;
+  z-index: 0;
+  pointer-events: none;
+  animation: cosmic-wave 4.5s linear infinite;
+}
+
+@keyframes cosmic-wave {
+  0% { left: -40%; }
+  100% { left: 0%; }
+}
+
+.hero-services-button:hover, .hero-services-button:focus {
+  color: #fff;
+  background: #18243a;
+  transform: scale(1.03);
+}
+
+.hero-explore-button {
+  margin-top: 20px;
+  padding: 12px 38px;
+  font-size: 24px;
+  font-weight: 600;
+  /* Keep original color and background */
+  color: #fff;
+  background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+  border: none;
+  border-radius: 36px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  z-index: 1;
+  box-shadow: none;
+  transition: color 0.3s, background 0.3s, transform 0.2s;
+}
+
+.hero-explore-button::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -40%; width: 180%; height: 100%;
+  background: repeating-linear-gradient(
+    120deg,
+    rgba(255,255,255,0.08) 0%,
+    rgba(255,255,255,0.13) 10%,
+    rgba(255,255,255,0.06) 20%,
+    rgba(255,255,255,0.08) 30%,
+    rgba(255,255,255,0.06) 40%,
+    rgba(255,255,255,0.13) 50%,
+    rgba(255,255,255,0.06) 60%,
+    rgba(255,255,255,0.08) 70%,
+    rgba(255,255,255,0.06) 80%,
+    rgba(255,255,255,0.13) 90%,
+    rgba(255,255,255,0.06) 100%
+  );
+  filter: blur(2px);
+  opacity: 0.7;
+  z-index: 0;
+  pointer-events: none;
+  animation: cosmic-wave 4.5s linear infinite;
+}
+
+.hero-explore-button:hover, .hero-explore-button:focus {
+  color: #fffbe6;
+  background: linear-gradient(90deg, #feb47b 0%, #ff7e5f 100%);
+  transform: scale(1.03);
+}
+
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;

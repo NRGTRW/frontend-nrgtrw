@@ -16,6 +16,7 @@ import { ToastContainer, Slide } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Globals/global.css";
+import GoBackButton from "./components/GoBackButton/GoBackButton";
 
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
@@ -40,6 +41,7 @@ import CreateAProductPage from "./admin/CreateAProductPage";
 import TermsPage from "./pages/TermsAndConditions/TermsAndConditions";
 import NRGLandingPage from "./pages/NRGLandingPage/NRGLandingPage";
 import Fitness from "./pages/Fitness/Fitness";
+import Tech from "./pages/Tech/Tech";
 
 // New Checkout page imports
 import CheckoutPage from "./pages/CheckOutPage/CheckoutPage";
@@ -68,28 +70,28 @@ const AdminRoute = ({ children }) => {
 };
 
 // Language code to name mapping (partial, add more as needed)
-const LANGUAGE_NAMES = {
-  en: "English",
-  bg: "Bulgarian",
-  fr: "French",
-  de: "German",
-  es: "Spanish",
-  it: "Italian",
-  ru: "Russian",
-  zh: "Chinese",
-  ja: "Japanese",
-  ko: "Korean",
-  tr: "Turkish",
-  ar: "Arabic",
-  pt: "Portuguese",
-  // ... add more as needed
-};
+// const LANGUAGE_NAMES = {
+//   en: "English",
+//   bg: "Bulgarian",
+//   fr: "French",
+//   de: "German",
+//   es: "Spanish",
+//   it: "Italian",
+//   ru: "Russian",
+//   zh: "Chinese",
+//   ja: "Japanese",
+//   ko: "Korean",
+//   tr: "Turkish",
+//   ar: "Arabic",
+//   pt: "Portuguese",
+//   // ... add more as needed
+// };
 
-function getUserLanguage() {
-  const lang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
-  const code = lang.split('-')[0];
-  return code;
-}
+// function getUserLanguage() {
+//   const lang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+//   const code = lang.split('-')[0];
+//   return code;
+// }
 
 // ------------------ App Component ------------------
 const App = () => {
@@ -116,6 +118,7 @@ const App = () => {
     { path: "/my-order", component: MyOrder },
     { path: "/NRGLandingPage", component: NRGLandingPage },
     { path: "/Fitness", component: Fitness },
+    { path: "/tech", component: Tech },
     // Checkout Routes:
     { path: "/checkout", component: CheckoutPage },
     { path: "/checkout-success", component: CheckoutSuccessPage },
@@ -126,6 +129,9 @@ const App = () => {
   const isValidRoute = routes.some((route) =>
     matchPath({ path: route.path, end: true }, location.pathname)
   );
+
+  // Helper to determine if current route is main page
+  const isMainPage = location.pathname === "/";
 
   return (
     <>
@@ -169,6 +175,7 @@ const App = () => {
                 <main>
                   {path !== "*" && <Navbar />}
                   <ScrollToTop />
+                  {!isMainPage && <GoBackButton />}
                   <Component />
                   {path !== "*" && <Footer />}
                 </main>

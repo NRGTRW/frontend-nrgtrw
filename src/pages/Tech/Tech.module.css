@@ -1,0 +1,39 @@
+.techProjectBtn {
+  margin-top: 18px;
+  padding: 12px 32px;
+  background: linear-gradient(90deg, #101622 0%, #1a2a3a 100%);
+  color: #7eeeff;
+  border: none;
+  border-radius: 32px;
+  font-size: 1.08rem;
+  font-family: 'Poppins', 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 16px rgba(30, 180, 255, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s;
+  outline: none;
+  appearance: none;
+  min-width: 180px;
+  display: inline-block;
+}
+
+.techProjectBtn:hover, .techProjectBtn:focus {
+  background: linear-gradient(90deg, #19fff5 0%, #1a2a3a 100%);
+  color: #101622;
+  box-shadow: 0 4px 24px rgba(30, 180, 255, 0.18), 0 2px 8px rgba(0,0,0,0.08);
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (prefers-color-scheme: dark) {
+  .techProjectBtn {
+    background: linear-gradient(90deg, #101622 0%, #1a2a3a 100%);
+    color: #19fff5;
+    box-shadow: 0 2px 16px rgba(30, 180, 255, 0.10), 0 1.5px 6px rgba(0,0,0,0.12);
+  }
+  .techProjectBtn:hover, .techProjectBtn:focus {
+    background: linear-gradient(90deg, #19fff5 0%, #1a2a3a 100%);
+    color: #101622;
+    box-shadow: 0 4px 24px rgba(30, 180, 255, 0.22), 0 2px 8px rgba(0,0,0,0.16);
+  }
+} 

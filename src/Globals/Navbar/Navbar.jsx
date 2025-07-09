@@ -84,24 +84,6 @@ const Navbar = () => {
     return () => match.removeEventListener('change', setTheme);
   }, []);
 
-  useEffect(() => {
-    // Google Translate widget loader
-    if (!window.google || !window.google.translate) {
-      const script = document.createElement('script');
-      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.async = true;
-      document.body.appendChild(script);
-      window.googleTranslateElementInit = function() {
-        new window.google.translate.TranslateElement({
-          pageLanguage: 'en',
-          includedLanguages: '', // empty means all languages
-          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false
-        }, 'google_translate_element');
-      };
-    }
-  }, []);
-
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
     setMenuOpen(false);
@@ -262,9 +244,9 @@ const Navbar = () => {
         <li onClick={() => handleNavigation("/terms")}>
           TERMS AND CONDITIONS
         </li>
-        {/* <li onClick={() => handleNavigation("/NRGLandingPage")}>
-          {t("navbar.menu.services", "SERVICES")}
-        </li> */}
+        <li onClick={() => handleNavigation("/NRGLandingPage")}>
+          SERVICES
+        </li>
       </ul>
     </header>
   );

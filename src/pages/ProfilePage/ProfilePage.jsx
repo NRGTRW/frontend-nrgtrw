@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import LoaderModal from "../../components/Modals/LoaderModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
@@ -135,6 +136,7 @@ const ProfilePage = () => {
         />
       )}
       <div className="profile-page">
+        <GoBackButton />
         <div className="profile-container">
           <h1 className="profile-header">{t("profile.yourProfile")}</h1>
 

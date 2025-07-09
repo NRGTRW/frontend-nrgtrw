@@ -130,11 +130,44 @@
   border: 2px solid var(--nrg-slogan-accent);
   color: var(--nrg-slogan-accent);
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.secondary-btn:hover {
-  background: var(--nrg-slogan-accent);
-  color: #000;
+.secondary-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -40%; width: 180%; height: 100%;
+  background: repeating-linear-gradient(
+    120deg,
+    rgba(245,197,24,0.08) 0%,
+    rgba(245,197,24,0.13) 10%,
+    rgba(245,197,24,0.06) 20%,
+    rgba(245,197,24,0.08) 30%,
+    rgba(245,197,24,0.06) 40%,
+    rgba(245,197,24,0.13) 50%,
+    rgba(245,197,24,0.06) 60%,
+    rgba(245,197,24,0.08) 70%,
+    rgba(245,197,24,0.06) 80%,
+    rgba(245,197,24,0.13) 90%,
+    rgba(245,197,24,0.06) 100%
+  );
+  filter: blur(2px);
+  opacity: 0.7;
+  z-index: 0;
+  pointer-events: none;
+  animation: cosmic-wave 4.5s linear infinite;
+  transition: opacity 0.3s;
+}
+
+.secondary-btn:hover::before, .secondary-btn:focus::before {
+  opacity: 1;
+}
+
+@keyframes cosmic-wave {
+  0% { left: -40%; }
+  100% { left: 0%; }
 }
 
 /* CATEGORY TILES */
