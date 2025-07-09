@@ -1,17 +1,1 @@
-.language-switcher{
-    padding-left:3vh ;
-}
 
-.flag{
-    transition: transform 0.3s ease;
-}
-.flag:hover{
-    transform: scale(1.2);
-}
-
-@media
-    (max-width: 600px) {
-   .language-switcher {
-        padding-left: 10px;
-    }
-}

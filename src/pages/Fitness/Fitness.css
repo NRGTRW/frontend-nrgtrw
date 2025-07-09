@@ -1,6 +1,28 @@
+:root {
+  --fitness-bg: #fff;
+  --fitness-text: #000;
+  --fitness-card-bg: #f7f7f7;
+  --fitness-card-border: #ddd;
+  --fitness-btn: #0ff;
+  --fitness-btn-hover-bg: #0ff;
+  --fitness-btn-hover-text: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+    --fitness-text: #fff;
+    --fitness-card-bg: #1c1c1c;
+    --fitness-card-border: #333;
+    --fitness-btn: #0ff;
+    --fitness-btn-hover-bg: #0ff;
+    --fitness-btn-hover-text: #000;
+  }
+}
+
 .fitness-page {
-  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-  color: #fff;
+  background: var(--fitness-bg);
+  color: var(--fitness-text);
   font-family: "Poppins", sans-serif;
   padding-bottom: 80px;
 }
@@ -38,12 +60,14 @@
 }
 
 .program-card {
-  background-color: #1c1c1c;
-  border: 1px solid #333;
+  background-color: var(--fitness-card-bg);
+  border: 1px solid var(--fitness-card-border);
   border-radius: 12px;
   overflow: hidden;
   width: 320px;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .program-card:hover {
@@ -59,21 +83,34 @@
 .program-info {
   padding: 20px;
   text-align: center;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.program-info h3 {
+  margin-bottom: 10px;
+}
+
+.program-info p {
+  flex: 1 1 auto;
+  margin-bottom: 0;
 }
 
 .program-btn {
   margin-top: 15px;
   padding: 10px 20px;
   background: transparent;
-  border: 1px solid #0ff;
-  color: #0ff;
+  border: 1px solid var(--fitness-btn);
+  color: var(--fitness-btn);
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease;
+  align-self: center;
 }
 
 .program-btn:hover {
-  background: #0ff;
-  color: #000;
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
 }

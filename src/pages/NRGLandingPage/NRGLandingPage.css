@@ -1,6 +1,30 @@
+:root {
+  --nrg-bg: #fff;
+  --nrg-text: #000;
+  --nrg-hero-overlay: rgba(0,0,0,0.7);
+  --nrg-slogan: #222;
+  --nrg-slogan-accent: #f5c518;
+  --nrg-sub: #444;
+  --nrg-tile-overlay: rgba(0,0,0,0.35);
+  --nrg-tile-overlay-hover: rgba(129,129,129,0.062);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nrg-bg: linear-gradient(to bottom, #0d0d0d, #111);
+    --nrg-text: #fff;
+    --nrg-hero-overlay: rgba(0,0,0,0.7);
+    --nrg-slogan: #fff;
+    --nrg-slogan-accent: #f5c518;
+    --nrg-sub: #bbb;
+    --nrg-tile-overlay: rgba(0,0,0,0.35);
+    --nrg-tile-overlay-hover: rgba(129,129,129,0.062);
+  }
+}
+
 .nrg-landing-page {
-  background: linear-gradient(to bottom, #0d0d0d, #111);
-  color: #fff;
+  background: var(--nrg-bg);
+  color: var(--nrg-text);
   font-family: 'Poppins', sans-serif;
   padding-top: var(--navbar-height);
 }
@@ -22,7 +46,7 @@
 .nrg-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--nrg-hero-overlay);
 }
 
 .nrg-hero-content {
@@ -34,20 +58,20 @@
 .nrg-slogan {
   font-size: 3rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--nrg-slogan);
   line-height: 1.3;
   letter-spacing: 0.02em;
   text-align: center;
 }
 
 .nrg-slogan span {
-  color: #f5c518;
+  color: var(--nrg-slogan-accent);
 }
 
 .nrg-sub {
   margin-top: 1.5rem;
   font-size: 1.2rem;
-  color: #bbb;
+  color: var(--nrg-sub);
   min-height: 4rem;
   white-space: pre-wrap;
   max-width: 720px;
@@ -57,7 +81,7 @@
 }
 
 .typing-text {
-  border-right: 2px solid #f5c518;
+  border-right: 2px solid var(--nrg-slogan-accent);
   animation: blink 0.8s step-end infinite;
 }
 
@@ -71,7 +95,7 @@
     border-color: transparent;
   }
   50% {
-    border-color: #f5c518;
+    border-color: var(--nrg-slogan-accent);
   }
 }
 
@@ -92,7 +116,7 @@
 }
 
 .primary-btn {
-  background: #f5c518;
+  background: var(--nrg-slogan-accent);
   color: #000;
   transition: background 0.3s;
 }
@@ -103,13 +127,13 @@
 
 .secondary-btn {
   background: transparent;
-  border: 2px solid #f5c518;
-  color: #f5c518;
+  border: 2px solid var(--nrg-slogan-accent);
+  color: var(--nrg-slogan-accent);
   transition: all 0.3s ease;
 }
 
 .secondary-btn:hover {
-  background: #f5c518;
+  background: var(--nrg-slogan-accent);
   color: #000;
 }
 
@@ -161,12 +185,12 @@
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
   letter-spacing: 1px;
   text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--nrg-tile-overlay);
   transition: background 0.3s;
 }
 
 .nrg-tile:hover .nrg-tile-overlay {
-  background: rgba(129, 129, 129, 0.062);
+  background: var(--nrg-tile-overlay-hover);
 }
 
 .vision-tile:hover {

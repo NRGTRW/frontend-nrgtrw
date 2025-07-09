@@ -20,6 +20,7 @@ const NRGLandingPage = () => {
   const [isDoneTyping, setIsDoneTyping] = useState(false);
 
   useEffect(() => {
+    console.log("NRGLandingPage loaded at", window.location.pathname);
     let index = 0;
     const interval = setInterval(() => {
       if (index >= typingText.length) {

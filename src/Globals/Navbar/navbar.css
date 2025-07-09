@@ -1,5 +1,24 @@
 :root {
   --navbar-height: 60px; /* Default navbar height */
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-text: #222;
+  --navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --navbar-menu-bg: rgba(255, 255, 255, 0.95);
+  --navbar-menu-text: #333;
+  --navbar-icon-border: #222;
+  --navbar-accent: #f5c518;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --navbar-bg: linear-gradient(90deg, #18140a 0%, #23211a 100%);
+    --navbar-text: #f5c518;
+    --navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    --navbar-menu-bg: #23211a;
+    --navbar-menu-text: #f5c518;
+    --navbar-icon-border: #f5c518;
+    --navbar-accent: #ffe067;
+  }
 }
 
 .top-bar {
@@ -8,13 +27,13 @@
   left: 0;
   width: 100%;
   height: var(--navbar-height);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--navbar-bg);
   z-index: 9998;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--navbar-shadow);
 }
 
 /* Logo Styling */
@@ -22,7 +41,7 @@
   font-family: "Cinzel", serif;
   font-size: 40px;
   font-weight: 700;
-  color: #000;
+  color: var(--navbar-text);
   text-align: center;
   position: absolute;
   left: 50%;
@@ -72,6 +91,8 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  color: var(--navbar-text);
+  transition: color 0.3s;
 }
 
 .wishlist-icon:hover {
@@ -88,6 +109,8 @@
   height: 35px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  color: var(--navbar-text);
+  transition: color 0.3s;
 }
 
 .cart-icon:hover {
@@ -118,7 +141,7 @@
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
-  border: 2px solid #000;
+  border: 2px solid var(--navbar-icon-border);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -145,7 +168,7 @@
   display: block;
   width: 30px;
   height: 4px;
-  background-color: #000;
+  background-color: var(--navbar-text);
   transition: all 0.5s ease;
   border-radius: 3px;
 }
@@ -169,7 +192,7 @@
   left: -100%;
   width: 280px;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--navbar-menu-bg);
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 1001;
   display: flex;
@@ -188,7 +211,7 @@
   font-family: "Poppins", sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: var(--navbar-menu-text);
   cursor: pointer;
   transition:
     color 0.3s ease,
@@ -257,4 +280,11 @@
 .admin-icon:hover {
   transform: scale(1.1);
   transition: 500ms;
+}
+
+@media (hover: hover) {
+  .wishlist-icon:hover,
+  .cart-icon:hover {
+    color: var(--navbar-accent);
+  }
 }

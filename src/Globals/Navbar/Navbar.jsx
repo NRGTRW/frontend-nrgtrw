@@ -4,7 +4,6 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import useSWR from "swr";
 import api from "../../services/api";
-import { useTranslation } from "react-i18next";
 import defaultProfilePicture from "/default-profile.webp";
 import cartImage from "/images/shopping-cart.png";
 import heartOutline from "/wishlist-outline.png";
@@ -13,7 +12,6 @@ import "./navbar.css";
 import CartPreview from "../../pages/CartPage/CartPreview";
 import HamburgerIcon from "../../components/HamburgerIcon/HamburgerIcon";
 import UserRow from "./UserRow";
-import LanguageSwitcher from "./LanguageSwitcher";
 import NRGLandingPage from "../../pages/NRGLandingPage/NRGLandingPage";
 
 const getAuthToken = () => localStorage.getItem("authToken");
@@ -46,7 +44,6 @@ const Navbar = () => {
   const buttonRef = useRef(null);
   const cartContainerRef = useRef(null);
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   const { getTotalQuantity } = useCart();
   const { wishlist } = useWishlist();
@@ -75,6 +72,35 @@ const Navbar = () => {
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
+
+  useEffect(() => {
+    // Set a data-theme attribute for future JS-based theme switching if needed
+    const match = window.matchMedia('(prefers-color-scheme: dark)');
+    const setTheme = () => {
+      document.documentElement.setAttribute('data-theme', match.matches ? 'dark' : 'light');
+    };
+    setTheme();
+    match.addEventListener('change', setTheme);
+    return () => match.removeEventListener('change', setTheme);
+  }, []);
+
+  useEffect(() => {
+    // Google Translate widget loader
+    if (!window.google || !window.google.translate) {
+      const script = document.createElement('script');
+      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      document.body.appendChild(script);
+      window.googleTranslateElementInit = function() {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: '', // empty means all languages
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'google_translate_element');
+      };
+    }
+  }, []);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
@@ -107,14 +133,14 @@ const Navbar = () => {
             toggleMenu={toggleMenu}
             buttonRef={buttonRef}
           />
-          {/* Place the LanguageSwitcher dropdown next to the hamburger */}
-          <LanguageSwitcher />
+          {/* Google Translate Widget */}
+          <div id="google_translate_element" style={{ marginLeft: 12 }}></div>
         </div>
         <li
           className="logo"
           onClick={() => handleNavigation("/")}
           tabIndex={0}
-          aria-label={t("navbar.home", "Navigate to home")}
+          aria-label="Navigate to home"
         >
           NRG
         </li>
@@ -124,7 +150,7 @@ const Navbar = () => {
               <Link
                 to="/clothing"
                 className="admin-icon"
-                aria-label={t("navbar.adminDashboard", "Admin Dashboard")}
+                aria-label="Admin Dashboard"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +164,7 @@ const Navbar = () => {
               <Link
                 to="/admin/create-a-product"
                 className="admin-icon"
-                aria-label={t("navbar.addProduct", "Add Product")}
+                aria-label="Add Product"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +178,7 @@ const Navbar = () => {
               <Link
                 to="/admin/dashboard"
                 className="admin-icon"
-                aria-label={t("navbar.manageProducts", "Manage Products")}
+                aria-label="Manage Products"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -169,13 +195,11 @@ const Navbar = () => {
           <div className="wishlist-container" style={{ position: "relative" }}>
             <img
               src={wishlistCount > 0 ? heartFilled : heartOutline}
-              alt={t("navbar.wishlistAlt", "Wishlist")}
+              alt="Wishlist"
               className="wishlist-icon"
-              onClick={() =>
-                handleAuthenticatedNavigation("/wishlist", "/login")
-              }
+              onClick={() => handleAuthenticatedNavigation("/wishlist", "/login")}
               tabIndex={0}
-              aria-label={t("navbar.navigateToWishlist", "Navigate to wishlist")}
+              aria-label="Navigate to wishlist"
             />
             {wishlistCount > 0 && (
               <span className="badge">{wishlistCount}</span>
@@ -192,20 +216,17 @@ const Navbar = () => {
           >
             <img
               src={cartImage}
-              alt={t("navbar.cartAlt", "Shopping Cart")}
+              alt="Shopping Cart"
               className="cart-icon"
               onClick={() => navigate("/cart")}
               tabIndex={0}
-              aria-label={t("navbar.viewCart", "View cart")}
+              aria-label="View cart"
             />
             {getTotalQuantity() > 0 && (
               <div className="cart-bubble-container">
                 <span
                   className="cart-bubble"
-                  aria-label={`${getTotalQuantity()} ${t(
-                    "navbar.itemsInCart",
-                    "items in cart"
-                  )}`}
+                  aria-label={`${getTotalQuantity()} items in cart`}
                 >
                   {getTotalQuantity()}
                 </span>
@@ -228,19 +249,19 @@ const Navbar = () => {
       {/* Side menu */}
       <ul ref={menuRef} className={`menu ${menuOpen ? "show" : ""}`}>
         <li onClick={() => handleNavigation("/")}>
-          {t("navbar.menu.home", "HOME")}
+          HOME
         </li>
         <li onClick={() => handleNavigation("/clothing")}>
-          {t("navbar.menu.clothing", "CLOTHING")}
+          CLOTHING
         </li>
         <li onClick={() => handleNavigation("/materials")}>
-          {t("navbar.menu.materials", "MATERIALS")}
+          MATERIALS
         </li>
         <li onClick={() => handleNavigation("/inspiration")}>
-          {t("navbar.menu.inspiration", "INSPIRATION")}
+          INSPIRATION
         </li>
         <li onClick={() => handleNavigation("/terms")}>
-          {t("navbar.menu.termsAndConditions", "TERMS AND CONDITIONS")}
+          TERMS AND CONDITIONS
         </li>
         {/* <li onClick={() => handleNavigation("/NRGLandingPage")}>
           {t("navbar.menu.services", "SERVICES")}

@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import "./Fitness.css";
+import styles from "./Fitness.module.css";
 
 const programs = [
   {
     id: 1,
     title: "Shredded in 6 Weeks",
     description: "Hypertrophy-focused fat loss program with cardio & nutrition add-ons.",
-    image: "/assets/programs/shred6.jpg",
+    image: "/shred6.jpg",
   },
   {
     id: 2,
-    title: "Lean Bulk Protocol",
-    description: "Add size without unnecessary fat. Perfect for offseason training.",
-    image: "/assets/programs/leanbulk.jpg",
+    title: "Precision Growth",
+    description: "Gain with control. Maintain leanness while adding clean muscle.",    
+    image: "/precisiongrowth.jpg",
   },
   {
     id: 3,
     title: "Aesthetic Push/Pull/Legs",
     description: "Balance, symmetry, and density. Advanced 6-day split.",
-    image: "/assets/programs/ppl.jpg",
+    image: "/ppl.jpg",
   },
 ];
 
@@ -40,7 +41,7 @@ const Fitness = () => {
             <div className="program-info">
               <h3>{program.title}</h3>
               <p>{program.description}</p>
-              <button className="program-btn" onClick={() => setActiveProgram(program)}>
+              <button className={styles.fitnessProgramBtn} onClick={() => setActiveProgram(program)}>
                 Program Overview
               </button>
             </div>

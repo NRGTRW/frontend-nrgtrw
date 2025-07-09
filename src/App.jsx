@@ -14,6 +14,8 @@ import ScrollToTop from "./Globals/ScrollToTop";
 import { useAuth } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 
+import GoogleTranslateModal from "./components/Modals/GoogleTranslateModal.jsx";
+
 import "react-toastify/dist/ReactToastify.css";
 import "./Globals/global.css";
 
@@ -67,9 +69,82 @@ const AdminRoute = ({ children }) => {
   return <div>Verifying permissions...</div>;
 };
 
+// Language code to name mapping (partial, add more as needed)
+const LANGUAGE_NAMES = {
+  en: "English",
+  bg: "Bulgarian",
+  fr: "French",
+  de: "German",
+  es: "Spanish",
+  it: "Italian",
+  ru: "Russian",
+  zh: "Chinese",
+  ja: "Japanese",
+  ko: "Korean",
+  tr: "Turkish",
+  ar: "Arabic",
+  pt: "Portuguese",
+  // ... add more as needed
+};
+
+function getUserLanguage() {
+  const lang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+  const code = lang.split('-')[0];
+  return code;
+}
+
 // ------------------ App Component ------------------
 const App = () => {
   const location = useLocation();
+  const [showTranslateModal, setShowTranslateModal] = useState(() => {
+    return localStorage.getItem("hideGoogleTranslateModal") !== "true";
+  });
+  const userLangCode = getUserLanguage();
+  const userLangName = LANGUAGE_NAMES[userLangCode] || userLangCode.charAt(0).toUpperCase() + userLangCode.slice(1);
+
+  useEffect(() => {
+    if (!showTranslateModal) return;
+
+    // Only load the script and initialize ONCE
+    if (!window.__googleTranslateInitialized) {
+      // Remove any previous widget
+      const widgetContainer = document.getElementById('google_translate_element_modal');
+      if (widgetContainer) widgetContainer.innerHTML = '';
+
+      window.googleTranslateElementInit = function() {
+        if (!window.__googleTranslateInitialized) {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: '',
+            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element_modal');
+          window.__googleTranslateInitialized = true;
+        }
+      };
+
+      const script = document.createElement('script');
+      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, [showTranslateModal]);
+
+  const handleCloseTranslateModal = () => {
+    setShowTranslateModal(false);
+    localStorage.setItem("hideGoogleTranslateModal", "true");
+  };
+
+  const handleTranslate = () => {
+    // Google Translate uses a select element with class goog-te-combo
+    // We simulate selecting the user's language
+    const select = document.querySelector('.goog-te-combo');
+    if (select) {
+      select.value = userLangCode;
+      select.dispatchEvent(new Event('change'));
+    }
+    handleCloseTranslateModal();
+  };
 
   const routes = [
     { path: "/", component: HomePage },
@@ -105,6 +180,12 @@ const App = () => {
 
   return (
     <>
+      <GoogleTranslateModal
+        show={showTranslateModal}
+        onClose={handleCloseTranslateModal}
+        onTranslate={handleTranslate}
+        languageName={userLangName}
+      />
       <ToastContainer
         position="top-center"
         autoClose={2500}
