@@ -1,23 +1,23 @@
 :root {
   --navbar-height: 60px; /* Default navbar height */
-  --navbar-bg: rgba(255, 255, 255, 0.95);
-  --navbar-text: #222;
+  --navbar-bg: #fff;
+  --navbar-text: #18140a;
   --navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --navbar-menu-bg: rgba(255, 255, 255, 0.95);
-  --navbar-menu-text: #333;
-  --navbar-icon-border: #222;
-  --navbar-accent: #f5c518;
+  --navbar-menu-bg: #f8f8f8;
+  --navbar-menu-text: #18140a;
+  --navbar-icon-border: #18140a;
+  --navbar-accent: #e6b800;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --navbar-bg: linear-gradient(90deg, #18140a 0%, #23211a 100%);
-    --navbar-text: #f5c518;
-    --navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    --navbar-menu-bg: #23211a;
-    --navbar-menu-text: #f5c518;
-    --navbar-icon-border: #f5c518;
-    --navbar-accent: #ffe067;
+    --navbar-bg: linear-gradient(90deg, #2E2824 0%, #12100E 50%, #2E2824 100%);
+    --navbar-text: #CAC6C0;
+    --navbar-shadow: 0 2px 8px rgba(46, 40, 36, 0.7);
+    --navbar-menu-bg: linear-gradient(120deg, #2E2824 60%, #12100E 100%);
+    --navbar-menu-text: #CAC6C0;
+    --navbar-icon-border: #CAC6C0;
+    --navbar-accent: #5E452A;
   }
 }
 
@@ -192,18 +192,42 @@
   left: -100%;
   width: 280px;
   height: 100vh;
-  background-color: var(--navbar-menu-bg);
+  background: var(--navbar-menu-bg);
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 1001;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 100px 30px;
-  transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.4s;
+  opacity: 1;
 }
 
 .menu.show {
   left: 0;
+  opacity: 1;
+}
+
+/* Collapsible submenu for Clothing Details */
+.menu .collapsible {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.3s;
+  padding-left: 18px;
+}
+.menu .collapsible.open {
+  max-height: 300px; /* enough for 3 items */
+  opacity: 1;
+}
+
+.menu .arrow {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+.menu .arrow.open {
+  transform: rotate(180deg);
 }
 
 .menu li {

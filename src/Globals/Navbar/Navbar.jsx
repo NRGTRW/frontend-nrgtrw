@@ -58,6 +58,9 @@ const Navbar = () => {
   const isAdmin =
     profile?.role === "ADMIN" || profile?.role === "ROOT_ADMIN";
 
+  // Collapsible state for sidebar
+  const [clothingDetailsOpen, setClothingDetailsOpen] = useState(false);
+
   useEffect(() => {
     if (!menuOpen) return;
     function handleClickOutside(e) {
@@ -229,24 +232,18 @@ const Navbar = () => {
 
       {/* Side menu */}
       <ul ref={menuRef} className={`menu ${menuOpen ? "show" : ""}`}>
-        <li onClick={() => handleNavigation("/")}>
-          HOME
+         <li onClick={() => setClothingDetailsOpen((open) => !open)} style={{ cursor: 'pointer', userSelect: 'none' }}>
+          Clothing Details
+          <span className={`arrow${clothingDetailsOpen ? ' open' : ''}`}>▼</span>
         </li>
-        <li onClick={() => handleNavigation("/clothing")}>
-          CLOTHING
-        </li>
-        <li onClick={() => handleNavigation("/materials")}>
-          MATERIALS
-        </li>
-        <li onClick={() => handleNavigation("/inspiration")}>
-          INSPIRATION
-        </li>
-        <li onClick={() => handleNavigation("/terms")}>
-          TERMS AND CONDITIONS
-        </li>
-        <li onClick={() => handleNavigation("/NRGLandingPage")}>
-          SERVICES
-        </li>
+        <ul className={`collapsible${clothingDetailsOpen ? ' open' : ''}`}>
+        <li onClick={() => handleNavigation("/clothing-details")}>Home</li>
+          <li onClick={() => handleNavigation("/clothing")}>Clothing</li>
+          <li onClick={() => handleNavigation("/materials")}>Materials</li>
+          <li onClick={() => handleNavigation("/inspiration")}>Inspiration</li>
+        </ul>
+        <li onClick={() => handleNavigation("/terms")}>Terms and Conditions</li>
+        <li onClick={() => handleNavigation("/NRGLandingPage")}>Services</li>
       </ul>
     </header>
   );

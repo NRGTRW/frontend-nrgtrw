@@ -18,7 +18,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Globals/global.css";
 import GoBackButton from "./components/GoBackButton/GoBackButton";
 
-import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import CartPage from "./pages/CartPage/CartPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
@@ -42,6 +41,9 @@ import TermsPage from "./pages/TermsAndConditions/TermsAndConditions";
 import NRGLandingPage from "./pages/NRGLandingPage/NRGLandingPage";
 import Fitness from "./pages/Fitness/Fitness";
 import Tech from "./pages/Tech/Tech";
+import ClothingDetailsPage from "./pages/ClothingDetailsPage";
+import DesignPage from "./pages/DesignPage";
+import VisionPage from "./pages/VisionPage";
 
 // New Checkout page imports
 import CheckoutPage from "./pages/CheckOutPage/CheckoutPage";
@@ -49,6 +51,7 @@ import CheckoutSuccessPage from "./pages/CheckOutPage/CheckoutSuccessPage";
 import CheckoutCancelledPage from "./pages/CheckOutPage/CheckoutCancelledPage";
 
 // ------------------ AdminRoute ------------------
+import PropTypes from "prop-types";
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -67,6 +70,10 @@ const AdminRoute = ({ children }) => {
   if (isAuthorized) return children;
 
   return <div>Verifying permissions...</div>;
+};
+
+AdminRoute.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 // Language code to name mapping (partial, add more as needed)
@@ -100,12 +107,15 @@ const App = () => {
 
   // Restore routes and isValidRoute logic
   const routes = [
-    { path: "/", component: HomePage },
+    { path: "/", component: NRGLandingPage },
+    { path: "/clothing-details", component: ClothingDetailsPage },
     { path: "/product/:productId", component: ProductPage },
     { path: "/cart", component: CartPage },
     { path: "/clothing", component: ClothingPage },
     { path: "/materials", component: MaterialsPage },
     { path: "/inspiration", component: InspirationPage },
+    { path: "/designs", component: DesignPage },
+    { path: "/vision", component: VisionPage },
     { path: "/wishlist", component: WishlistPage },
     { path: "/login", component: LogInPage },
     { path: "/signup", component: SignUpPage },

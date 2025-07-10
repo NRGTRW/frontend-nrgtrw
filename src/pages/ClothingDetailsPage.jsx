@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import HeroSection from "../components/HomePageSections/HeroSection";
 import InspirationSection from "../components/HomePageSections/InspirationSection";
 import StylesSection from "../components/HomePageSections/StylesSection";
 import ScrollButton from "../Globals/ScrollButton";
 
-const HomePage = () => {
+const ClothingDetailsPage = () => {
   return (
     <>
       <HeroSection />
@@ -15,4 +15,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ClothingDetailsPage; 

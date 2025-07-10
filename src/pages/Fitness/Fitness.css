@@ -36,18 +36,43 @@
   border-bottom: 2px solid #333;
 }
 
-.video-container {
+.fitness-video-container {
   width: 80%;
   height: 70%;
-  border: 2px dashed #555;
+  background: linear-gradient(90deg, #fffbe6 0%, #f5e9c8 100%);
+  border-radius: 32px;
+  box-shadow: 0 4px 32px rgba(245, 197, 24, 0.10), 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.video-text {
-  color: #888;
+@media (prefers-color-scheme: dark) {
+  .fitness-video-placeholder {
+    background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+    border-bottom: 2px solid #333;
+  }
+  .fitness-video-container {
+    background: linear-gradient(90deg, #23211a 0%, #3a2f1a 100%);
+    box-shadow: 0 4px 32px rgba(245, 197, 24, 0.10), 0 2px 8px rgba(0,0,0,0.18);
+  }
+}
+
+.fitness-video-text {
+  color: #7a5c15;
   font-size: 1.5rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-shadow: 0 2px 12px #fffbe6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fitness-video-text {
+    color: #ffe067;
+    text-shadow: 0 2px 12px #23211a;
+  }
 }
 
 .program-cards {

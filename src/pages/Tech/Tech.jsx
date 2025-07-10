@@ -43,7 +43,7 @@ const Tech = () => {
   return (
     <div className="tech-page">
       <section className="tech-video-placeholder">
-        <div className="video-container">
+        <div className="tech-video-container">
           <div className="video-text">🎥 Tech Intro Video Coming Soon</div>
         </div>
       </section>

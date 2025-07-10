@@ -1,0 +1,109 @@
+.design-page {
+  background: linear-gradient(120deg, #f3eaff 0%, #cac6e0 100%);
+  color: #2e2824;
+  font-family: 'Cinzel', serif;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.design-hero {
+  background: linear-gradient(90deg, #cac6e0 0%, #f3eaff 100%);
+  padding: 80px 0 40px 0;
+  text-align: center;
+}
+
+.design-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #7f5fff;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+  text-shadow: 0 4px 24px #a084e833;
+}
+
+.design-subtitle {
+  font-size: 1.35rem;
+  color: #7e7399;
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: 500;
+}
+
+.design-showcase {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 60px 0 40px 0;
+  flex-wrap: wrap;
+}
+
+.design-card {
+  background: linear-gradient(120deg, #f3eaff 60%, #a084e8 100%);
+  border-radius: 22px;
+  box-shadow: 0 6px 32px #a084e822, 0 2px 8px #7f5fff22;
+  padding: 32px 24px 24px 24px;
+  width: 320px;
+  text-align: center;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.design-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 48px #a084e844, 0 4px 16px #7f5fff33;
+}
+
+.design-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 12px #cac6e055;
+}
+
+.design-card h2 {
+  color: #7f5fff;
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.design-card p {
+  color: #7e7399;
+  font-size: 1.05rem;
+}
+
+.design-philosophy {
+  background: #f3eaffcc;
+  border-radius: 18px;
+  margin: 0 auto;
+  max-width: 700px;
+  padding: 40px 32px 32px 32px;
+  box-shadow: 0 2px 16px #a084e822;
+  text-align: center;
+}
+
+.design-philosophy h2 {
+  color: #7f5fff;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.design-philosophy p {
+  color: #2e2824;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .design-showcase {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+  .design-card {
+    width: 95vw;
+    max-width: 370px;
+  }
+} 

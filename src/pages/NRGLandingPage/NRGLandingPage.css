@@ -2,9 +2,9 @@
   --nrg-bg: #fff;
   --nrg-text: #000;
   --nrg-hero-overlay: rgba(0,0,0,0.7);
-  --nrg-slogan: #222;
+  --nrg-slogan: #ffffff;
   --nrg-slogan-accent: #f5c518;
-  --nrg-sub: #444;
+  --nrg-sub: #ebebeba0;
   --nrg-tile-overlay: rgba(0,0,0,0.35);
   --nrg-tile-overlay-hover: rgba(129,129,129,0.062);
 }
@@ -228,6 +228,54 @@
 
 .vision-tile:hover {
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), 0 0 30px rgba(255, 165, 0, 0.15);
+}
+
+.nrg-tile.fitness-glow {
+  box-shadow: 0 0 0 0 rgba(245,197,24,0.18), 0 0 0 0 rgba(255,224,103,0.12);
+  transition: box-shadow 0.3s, filter 0.3s;
+}
+.nrg-tile.fitness-glow:hover {
+  box-shadow:
+    0 0 18px 4px #fffbe6cc,
+    0 0 32px 8px #f5e9c8cc,
+    0 0 24px 6px #f5c51899;
+  filter: brightness(1.04);
+}
+
+.nrg-tile.tech-glow {
+  box-shadow: 0 0 0 0 #00fff799;
+  transition: box-shadow 0.3s, filter 0.3s;
+}
+.nrg-tile.tech-glow:hover {
+  box-shadow: 0 0 18px 4px #00fff7bb, 0 0 32px 8px #19fff599;
+  filter: brightness(1.04);
+}
+
+.nrg-tile.clothing-glow {
+  box-shadow: 0 0 0 0 #fff;
+  transition: box-shadow 0.3s, filter 0.3s;
+}
+.nrg-tile.clothing-glow:hover {
+  box-shadow: 0 0 18px 4px #fff, 0 0 32px 8px #fffbe6cc;
+  filter: brightness(1.04);
+}
+
+.nrg-tile.designs-glow {
+  box-shadow: 0 0 0 0 #e040fb55;
+  transition: box-shadow 0.3s, filter 0.3s;
+}
+.nrg-tile.designs-glow:hover {
+  box-shadow: 0 0 18px 4px #e040fbcc, 0 0 32px 8px #ff99ff99, 0 0 24px 6px #ff00cc66;
+  filter: brightness(1.04);
+}
+
+.nrg-tile.vision-glow {
+  box-shadow: 0 0 0 0 #7f00ff55;
+  transition: box-shadow 0.3s, filter 0.3s;
+}
+.nrg-tile.vision-glow:hover {
+  box-shadow: 0 0 18px 4px #00fff7bb, 0 0 32px 8px #7f00ff99;
+  filter: brightness(1.04);
 }
 
 @media (max-width: 768px) {

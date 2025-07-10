@@ -29,8 +29,8 @@ const Fitness = () => {
   return (
     <div className="fitness-page">
       <section className="fitness-video-placeholder">
-        <div className="video-container">
-          <div className="video-text">🎥 Intro Video Coming Soon</div>
+        <div className="fitness-video-container">
+          <div className="fitness-video-text">🎥 Intro Video Coming Soon</div>
         </div>
       </section>
 

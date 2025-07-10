@@ -4,11 +4,11 @@ import "./NRGLandingPage.css";
 import landingPageMobileFirst from "/landingPageMobileFirst.png";
 
 const categories = [
-  { title: "Fitness", image: "/Fitness.jpg", path: "/fitness" },
-  { title: "Tech", image: "/Tech.webp", path: "/tech" },
-  { title: "Clothing", image: "/Clothing.jpg", path: "/clothing" },
-  { title: "Designs", image: "/BlackCroppedTurtuleneckHover.webp", path: "/designs" },
-  { title: "Vision", image: "/vision.png", path: "/vision" },
+  { title: "Fitness", image: "/Fitness.jpg", path: "/fitness", glow: "fitness-glow" },
+  { title: "Tech", image: "/Tech.webp", path: "/tech", glow: "tech-glow" },
+  { title: "Clothing", image: "/Clothing.jpg", path: "/clothing", glow: "clothing-glow" },
+  { title: "Designs", image: "/BlackCroppedTurtuleneckHover.webp", path: "/designs", glow: "designs-glow" },
+  { title: "Vision", image: "/vision.png", path: "/vision", glow: "vision-glow" },
 ];
 
 const typingText =
@@ -45,7 +45,7 @@ const NRGLandingPage = () => {
       <div className="nrg-hero-overlay" />
       <div className="nrg-hero-content">
         <h1 className="nrg-slogan">
-          IF YOU'RE READY TO <span>PAY</span>,<br />I'LL FIND A<span>WAY</span>.
+          IF YOU&apos;RE READY TO <span>PAY</span>,<br />I&apos;LL FIND A <span>WAY</span>.
         </h1>
 
         <p className={`nrg-sub typing-text ${isDoneTyping ? "done" : ""}`}>
@@ -60,7 +60,7 @@ const NRGLandingPage = () => {
           {categories.map((cat) => (
             <div
               key={cat.title}
-              className={`nrg-tile ${cat.title === "Vision" ? "vision-tile" : ""}`}
+              className={`nrg-tile ${cat.glow}`}
               style={{ backgroundImage: `url(${cat.image})` }}
               onClick={() => navigate(cat.path)}
             >
