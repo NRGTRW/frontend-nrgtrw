@@ -11,6 +11,12 @@ import { deleteProduct } from "../../services/productService"; // Import the del
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal"; // Import the modal component
 import { useTranslation } from "react-i18next";
 
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+function getS3Url(path) {
+  if (!path) return undefined;
+  return path.startsWith('http') ? path : S3_BASE + (path.startsWith('/') ? path.slice(1) : path);
+}
+
 const Products = ({ products }) => {
   const navigate = useNavigate();
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
@@ -123,12 +129,12 @@ const Products = ({ products }) => {
 
             <div className="image-container">
               <img
-                src={currentColor?.imageUrl || product.imageUrl}
+                src={getS3Url(currentColor?.imageUrl) || getS3Url(product.imageUrl)}
                 alt={displayName}
                 className="product-image"
               />
               <img
-                src={currentColor?.hoverImage || product.imageUrl}
+                src={getS3Url(currentColor?.hoverImage) || getS3Url(product.imageUrl)}
                 alt={`${displayName} hover`}
                 className="hover-image"
               />

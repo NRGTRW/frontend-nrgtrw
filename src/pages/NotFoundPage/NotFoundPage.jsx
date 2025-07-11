@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./notFound.css";
-import notFoundImage from "/images/404NotFound.webp";
+
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+const notFoundImage = S3_BASE + "images/404NotFound.webp";
 
 const NotFound = () => {
   const navigate = useNavigate();

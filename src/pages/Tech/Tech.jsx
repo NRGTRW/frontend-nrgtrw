@@ -2,20 +2,21 @@ import React, { useState } from "react";
 import "./Tech.css";
 import styles from "./Tech.module.css";
 
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 const techProjects = [
   {
     id: 1,
     title: "Main Site",
     description: "Return to the main NRG site.",
-    image: "/Tech.webp",
+    image: S3_BASE + "Tech.webp",
     type: "redirect",
-    url: "/"
+    url: "/clothing-details"
   },
   {
     id: 2,
     title: "Legacy Project 1",
     description: "Preview one of my previous tech projects.",
-    image: "/Tech.webp",
+    image: S3_BASE + "Tech.webp",
     type: "iframe",
     url: "https://example.com/project1" // Replace with actual URL later
   },
@@ -23,7 +24,7 @@ const techProjects = [
     id: 3,
     title: "Legacy Project 2",
     description: "Preview another previous tech project.",
-    image: "/Tech.webp",
+    image: S3_BASE + "Tech.webp",
     type: "iframe",
     url: "https://example.com/project2" // Replace with actual URL later
   }

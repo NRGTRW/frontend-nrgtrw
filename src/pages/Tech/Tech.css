@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.tech-cards {
+.tech-page .tech-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -15,7 +15,7 @@
   margin-top: 2.5rem;
 }
 
-.tech-card {
+.tech-page .tech-card {
   background: linear-gradient(120deg, #101622 60%, #1a2a3a 100%);
   border-radius: 18px;
   box-shadow: 0 4px 32px rgba(30, 180, 255, 0.08), 0 2px 8px rgba(0,0,0,0.10);
@@ -28,12 +28,12 @@
   cursor: pointer;
 }
 
-.tech-card:hover {
+.tech-page .tech-card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 8px 40px rgba(30, 180, 255, 0.18), 0 4px 16px rgba(0,0,0,0.16);
 }
 
-.tech-card img {
+.tech-page .tech-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -42,20 +42,20 @@
   background: #111;
 }
 
-.tech-info {
+.tech-page .tech-info {
   padding: 1.5rem 1.2rem 1.2rem 1.2rem;
   text-align: center;
   color: #e0faff;
 }
 
-.tech-info h3 {
+.tech-page .tech-info h3 {
   font-size: 1.35rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: #19fff5;
 }
 
-.tech-info p {
+.tech-page .tech-info p {
   font-size: 1.05rem;
   color: #b6faff;
   margin-bottom: 1.1rem;
@@ -71,7 +71,7 @@
   justify-content: center;
 }
 
-.modal-content {
+.tech-modal .modal-content {
   background: #101622;
   border-radius: 18px;
   padding: 2.5rem 2.2rem 2rem 2.2rem;
@@ -84,12 +84,12 @@
   text-align: center;
 }
 
-.modal-content h2 {
+.tech-modal .modal-content h2 {
   color: #19fff5;
   margin-bottom: 1.2rem;
 }
 
-.modal-content button {
+.tech-modal .modal-content button {
   margin-top: 1.5rem;
   padding: 10px 32px;
   background: linear-gradient(90deg, #19fff5 0%, #1a2a3a 100%);
@@ -109,7 +109,7 @@
   display: inline-block;
 }
 
-.tech-video-placeholder {
+.tech-page .tech-video-placeholder {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -117,7 +117,7 @@
   margin-bottom: 2.5rem;
 }
 
-.tech-video-container {
+.tech-page .tech-video-container {
   background: linear-gradient(120deg, #101622 60%, #1a2a3a 100%);
   border-radius: 18px;
   box-shadow: 0 4px 32px rgba(30, 180, 255, 0.08), 0 2px 8px rgba(0,0,0,0.10);
@@ -129,7 +129,7 @@
   justify-content: center;
 }
 
-.video-text {
+.tech-page .video-text {
   color: #19fff5;
   font-size: 1.45rem;
   font-weight: 700;
@@ -139,12 +139,12 @@
 }
 
 @media (max-width: 900px) {
-  .tech-cards {
+  .tech-page .tech-cards {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
   }
-  .tech-card {
+  .tech-page .tech-card {
     width: 95vw;
     max-width: 370px;
   }

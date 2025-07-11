@@ -1,8 +1,10 @@
 import React from "react";
 import "./inspirationPage.css";
 import { useTranslation } from "react-i18next";
-import inspirationImage from "/images/inspiration.webp"; // Add your image here
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
+
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+const inspirationImage = S3_BASE + "images/inspiration.webp";
 
 const InspirationPage = () => {
   const { t } = useTranslation();

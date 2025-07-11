@@ -8,13 +8,12 @@ import { WishlistProvider } from "./context/WishlistContext";
 import { ProfileProvider } from "./context/ProfileContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
-import ProductionWarning from "./components/ProductionWarning/ProductionWarning";
+import TermsAndConditions from "./components/TermsPopup/TermsPopup";
+import "./i18n";
 
 
 // If you have an ApiProvider (for API calls) you can import and include it here as well:
 // import { ApiProvider } from "./context/ApiContext";
-import TermsAndConditions from "./components/TermsPopup/TermsPopup";
-import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -26,7 +25,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <CartProvider>
                 <SWRProvider>
                   <TermsAndConditions />
-                  <ProductionWarning />
                   <App />
                 </SWRProvider>
               </CartProvider>

@@ -9,22 +9,23 @@ import confidenceImage from "/images/ShowOff.webp";
 const StylesSection = () => {
   const { t } = useTranslation();
 
+  const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
   const stylesData = [
     {
       title: t("styles.elegance", "ELEGANCE"),
-      image: eleganceImage,
+      image: S3_BASE + "images/style-elegance.png",
       link: "/clothing",
       category: "Elegance",
     },
     {
       title: t("styles.pumpCovers", "PUMP COVERS"),
-      image: coversImage,
+      image: S3_BASE + "images/style-covers.webp",
       link: "/clothing",
       category: "Pump Covers",
     },
     {
       title: t("styles.confidence", "CONFIDENCE"),
-      image: confidenceImage,
+      image: S3_BASE + "images/ShowOff.webp",
       link: "/clothing",
       category: "Confidence",
     },

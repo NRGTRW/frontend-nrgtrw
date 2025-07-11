@@ -3,7 +3,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./materials.css";
 import { useTranslation } from "react-i18next";
-import materialsImage from "/images/materials.webp";
+
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+const materialsImage = S3_BASE + "images/materials.webp";
 
 const MaterialsSection = ({ refProp }) => {
   const navigate = useNavigate();

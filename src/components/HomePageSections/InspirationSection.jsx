@@ -2,7 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./inspiration.css";
 import { useTranslation } from "react-i18next";
-import inspirationImage from "/images/inspiration.webp";
+
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+const inspirationImage = S3_BASE + "images/inspiration.webp";
 
 const InspirationSection = () => {
   const navigate = useNavigate();

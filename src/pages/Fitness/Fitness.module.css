@@ -1,15 +1,15 @@
 .fitnessProgramBtn {
   margin-top: 18px;
   padding: 12px 32px;
-  background: linear-gradient(90deg, #fffbe6 0%, #f5e9c8 100%);
-  color: #7a5c15;
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
   border: none;
   border-radius: 32px;
   font-size: 1.08rem;
   font-family: 'Cinzel', serif;
   font-weight: 600;
   letter-spacing: 0.04em;
-  box-shadow: 0 2px 16px rgba(245, 197, 24, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.04);
   cursor: pointer;
   transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s;
   outline: none;
@@ -19,21 +19,21 @@
 }
 
 .fitnessProgramBtn:hover, .fitnessProgramBtn:focus {
-  background: linear-gradient(90deg, #f5c518 0%, #ffe067 100%);
-  color: #222;
-  box-shadow: 0 4px 24px rgba(245, 197, 24, 0.18), 0 2px 8px rgba(0,0,0,0.08);
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  box-shadow: 0 4px 24px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.08);
   transform: translateY(-2px) scale(1.03);
 }
 
 @media (prefers-color-scheme: dark) {
   .fitnessProgramBtn {
-    background: linear-gradient(90deg, #23211a 0%, #3a2f1a 100%);
-    color: #f5c518;
-    box-shadow: 0 2px 16px rgba(245, 197, 24, 0.10), 0 1.5px 6px rgba(0,0,0,0.12);
+    background: var(--fitness-btn-hover-bg);
+    color: var(--fitness-btn-hover-text);
+    box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.12);
   }
   .fitnessProgramBtn:hover, .fitnessProgramBtn:focus {
-    background: linear-gradient(90deg, #f5c518 0%, #ffe067 100%);
-    color: #23211a;
-    box-shadow: 0 4px 24px rgba(245, 197, 24, 0.22), 0 2px 8px rgba(0,0,0,0.16);
+    background: var(--fitness-btn);
+    color: var(--fitness-text);
+    box-shadow: 0 4px 24px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.16);
   }
 } 

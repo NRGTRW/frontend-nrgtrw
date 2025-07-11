@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./NRGLandingPage.css";
 import landingPageMobileFirst from "/landingPageMobileFirst.png";
 
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 const categories = [
-  { title: "Fitness", image: "/Fitness.jpg", path: "/fitness", glow: "fitness-glow" },
-  { title: "Tech", image: "/Tech.webp", path: "/tech", glow: "tech-glow" },
-  { title: "Clothing", image: "/Clothing.jpg", path: "/clothing", glow: "clothing-glow" },
-  { title: "Designs", image: "/BlackCroppedTurtuleneckHover.webp", path: "/designs", glow: "designs-glow" },
-  { title: "Vision", image: "/vision.png", path: "/vision", glow: "vision-glow" },
+  { title: "Fitness", image: S3_BASE + "Fitness.jpg", path: "/fitness", glow: "fitness-glow" },
+  { title: "Tech", image: S3_BASE + "Tech.webp", path: "/tech", glow: "tech-glow" },
+  { title: "Clothing", image: S3_BASE + "Clothing.jpg", path: "/clothing", glow: "clothing-glow" },
+  { title: "Designs", image: S3_BASE + "BlackCroppedTurtuleneckHover.webp", path: "/designs", glow: "designs-glow" },
+  { title: "Vision", image: S3_BASE + "vision.png", path: "/vision", glow: "vision-glow" },
 ];
 
 const typingText =
   "I don’t just build — I master. Everything I do is forged with purpose, edge, and soul. This is growth at its rawest. Vision at its sharpest.";
 
 const NRGLandingPage = () => {
-  const navigate = useNavigate();
   const [typedText, setTypedText] = useState("");
   const [isDoneTyping, setIsDoneTyping] = useState(false);
 
@@ -58,16 +58,16 @@ const NRGLandingPage = () => {
 
         <section className="nrg-sections">
           {categories.map((cat) => (
-            <div
+            <Link
               key={cat.title}
+              to={cat.path}
               className={`nrg-tile ${cat.glow}`}
               style={{ backgroundImage: `url(${cat.image})` }}
-              onClick={() => navigate(cat.path)}
             >
               <div className="nrg-tile-overlay">
                 <h3>{cat.title}</h3>
               </div>
-            </div>
+            </Link>
           ))}
         </section>
       </div>

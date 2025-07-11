@@ -52,6 +52,7 @@ import CheckoutCancelledPage from "./pages/CheckOutPage/CheckoutCancelledPage";
 
 // ------------------ AdminRoute ------------------
 import PropTypes from "prop-types";
+import ProductionWarning from "./components/ProductionWarning/ProductionWarning";
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -104,6 +105,19 @@ AdminRoute.propTypes = {
 const App = () => {
   const location = useLocation();
   // All translation-related state and modals removed. English only.
+
+  // Clothing-related route matcher
+  const clothingRelated = [
+    "/clothing",
+    "/clothing-details",
+    "/materials",
+    "/inspiration",
+    "/wishlist"
+  ];
+  // Also match /product/:productId
+  const isClothingPage =
+    clothingRelated.some((p) => location.pathname.startsWith(p)) ||
+    /^\/product\//.test(location.pathname);
 
   // Restore routes and isValidRoute logic
   const routes = [
@@ -168,6 +182,7 @@ const App = () => {
           boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)", // Soft shadow
         }}
       />
+      {isClothingPage && <ProductionWarning />}
       {isValidRoute && <ContentBellowNavbar />}
       {/* Smoother animation on route transitions */}
       <motion.div

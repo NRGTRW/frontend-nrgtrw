@@ -19,6 +19,12 @@ const MAX_QUANTITY = 99;
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+function getS3Url(path) {
+  if (!path) return undefined;
+  return path.startsWith('http') ? path : S3_BASE + (path.startsWith('/') ? path.slice(1) : path);
+}
+
 const ProductPage = () => {
   const { productId } = useParams();
   const location = useLocation();
@@ -330,7 +336,7 @@ const ProductPage = () => {
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
   const currentColor = product?.colors?.[selectedColorIndex] || {};
-  const images = [currentColor.imageUrl, currentColor.hoverImage].filter(Boolean);
+  const images = [getS3Url(currentColor.imageUrl), getS3Url(currentColor.hoverImage)].filter(Boolean);
 
   return (
     <div className="product-page">
@@ -553,7 +559,7 @@ const ProductPage = () => {
                 ❮
               </button>
               <img
-                src={images[currentImageIndex] || product.imageUrl}
+                src={images[currentImageIndex] || getS3Url(product.imageUrl)}
                 alt={`${displayName} - ${
                   product.colors?.[selectedColorIndex]?.colorName || "default"
                 }`}
@@ -574,7 +580,7 @@ const ProductPage = () => {
               {product.colors?.map((color, index) => (
                 <img
                   key={color.id}
-                  src={color.imageUrl}
+                  src={getS3Url(color.imageUrl)}
                   alt={`${displayName} - ${color.colorName}`}
                   className={`thumbnail ${
                     selectedColorIndex === index ? "selected" : ""

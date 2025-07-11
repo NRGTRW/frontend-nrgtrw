@@ -1,11 +1,13 @@
 import React from "react";
 import "./materialsPage.css";
 import { useTranslation } from "react-i18next";
-import materialsImage from "/images/materials.webp"; 
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 const MaterialsPage = () => {
   const { t } = useTranslation();
+
+  const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+  const materialsImage = S3_BASE + "images/materials.webp";
 
   return (
     <div className="materials-page">

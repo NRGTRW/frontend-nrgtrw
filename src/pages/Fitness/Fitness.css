@@ -3,9 +3,9 @@
   --fitness-text: #000;
   --fitness-card-bg: #f7f7f7;
   --fitness-card-border: #ddd;
-  --fitness-btn: #0ff;
-  --fitness-btn-hover-bg: #0ff;
-  --fitness-btn-hover-text: #000;
+  --fitness-btn: #f5c518;
+  --fitness-btn-hover-bg: #fffbe6;
+  --fitness-btn-hover-text: #7a5c15;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,9 +14,9 @@
     --fitness-text: #fff;
     --fitness-card-bg: #1c1c1c;
     --fitness-card-border: #333;
-    --fitness-btn: #0ff;
-    --fitness-btn-hover-bg: #0ff;
-    --fitness-btn-hover-text: #000;
+    --fitness-btn: #ffe067;
+    --fitness-btn-hover-bg: #23211a;
+    --fitness-btn-hover-text: #ffe067;
   }
 }
 
@@ -138,4 +138,152 @@
 .program-btn:hover {
   background: var(--fitness-btn-hover-bg);
   color: var(--fitness-btn-hover-text);
+}
+
+.program-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--fitness-card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.program-preview-video {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: 0 2px 12px var(--fitness-btn);
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+  background: #000;
+  margin: 0 auto;
+  display: block;
+}
+.program-preview-video:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 4px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.18);
+}
+
+.program-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+
+.modal-content {
+  background: var(--fitness-card-bg);
+  color: var(--fitness-text);
+  border-radius: 24px;
+  padding: 32px 24px 24px 24px;
+  max-width: 320px;
+  width: 95vw;
+  box-shadow: 0 8px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.18);
+  position: relative;
+  text-align: center;
+  animation: popIn 0.22s cubic-bezier(.4,1.6,.6,1);
+  /* Remove border for a clean look */
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-content h2 {
+  color: var(--fitness-btn);
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  margin-bottom: 0.5em;
+}
+
+.modal-content video {
+  width: 202px;
+  height: 360px;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  border-radius: 18px;
+  /* Remove border for a clean look */
+  border: none;
+  background: var(--fitness-card-bg);
+  margin: 18px 0 18px 0;
+  display: block;
+}
+
+.modal-content button {
+  margin-top: 1.5rem;
+  padding: 10px 32px;
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+  border: none;
+  border-radius: 32px;
+  font-size: 1.08rem;
+  font-family: 'Poppins', 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s;
+  outline: none;
+  appearance: none;
+  min-width: 140px;
+  display: inline-block;
+}
+
+.modal-content button:hover, .modal-content button:focus {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.fitness-modal-close-btn {
+  margin-top: 1.5rem;
+  padding: 10px 32px;
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+  border: none;
+  border-radius: 32px;
+  font-size: 1.08rem;
+  font-family: 'Poppins', 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, transform 0.18s;
+  outline: none;
+  appearance: none;
+  min-width: 140px;
+  display: inline-block;
+}
+
+.fitness-modal-close-btn:hover, .fitness-modal-close-btn:focus {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    background: var(--fitness-card-bg);
+    color: var(--fitness-text);
+    box-shadow: 0 8px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.22);
+  }
+  .modal-content h2 {
+    color: var(--fitness-btn);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0.7; }
+  to { transform: scale(1); opacity: 1; }
 }

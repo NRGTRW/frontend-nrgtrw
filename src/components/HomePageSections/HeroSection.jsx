@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./hero.css";
-import heroImage from "/images/HeroImage.webp";
 import MaterialsSection from "./MaterialsSection";
 
 const HeroSection = () => {
@@ -13,6 +12,9 @@ const HeroSection = () => {
   const scrollToInspiration = () => {
     inspirationRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+  const heroImage = S3_BASE + "images/HeroImage.webp";
 
   return (
     <>
