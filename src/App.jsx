@@ -37,6 +37,8 @@ import FAQPage from "./pages/FooterReferals/FAQPage";
 import MyOrder from "./pages/FooterReferals/MyOrderPage";
 import AdminDashboard from "./admin/AdminDashboard";
 import CreateAProductPage from "./admin/CreateAProductPage";
+import FitnessAdmin from "./admin/FitnessAdmin";
+import FitnessAnalytics from "./admin/FitnessAnalytics";
 import TermsPage from "./pages/TermsAndConditions/TermsAndConditions";
 import NRGLandingPage from "./pages/NRGLandingPage/NRGLandingPage";
 import Fitness from "./pages/Fitness/Fitness";
@@ -209,7 +211,7 @@ const App = () => {
           ))}
           {/* Redundant Profile route if needed */}
           <Route path="/profile" element={<ProfilePage />} />
-          {/* Admin Routes */}
+                    {/* Admin Routes */}
           <Route
             path="/admin/*"
             element={
@@ -217,10 +219,9 @@ const App = () => {
                 <Navbar />
                 <Routes>
                   <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route
-                    path="create-a-product"
-                    element={<CreateAProductPage />}
-                  />
+                  <Route path="create-product" element={<CreateAProductPage />} />
+                  <Route path="fitness" element={<FitnessAdmin />} />
+                  <Route path="fitness-analytics" element={<FitnessAnalytics />} />
                 </Routes>
                 <Footer />
               </AdminRoute>

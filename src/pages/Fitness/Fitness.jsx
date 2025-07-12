@@ -1,57 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Fitness.css";
 import styles from "./Fitness.module.css";
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession } from "../../services/api";
+import { createCheckoutSession, fetchFitnessPrograms, checkUserAccess, recordFitnessPurchase, recordFitnessSubscription } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
-const programs = [
-  {
-    id: 1,
-    title: "Shredded in 6 Weeks",
-    description: "Hypertrophy-focused fat loss program with cardio & nutrition add-ons.",
-    image: S3_BASE + "shred6.jpg",
-    video: S3_BASE + "shred6.mp4", // Placeholder video
-    priceId: "price_xxx_shred6", // TODO: Replace with real Stripe price ID
-    pdfUrl: S3_BASE + "pdfs/shred6.pdf", // TODO: Replace with real PDF URL
-    price: 50,
-  },
-  {
-    id: 2,
-    title: "Precision Growth",
-    description: "Gain with control. Maintain leanness while adding clean muscle.",    
-    image: S3_BASE + "precisiongrowth.jpg",
-    video: S3_BASE + "precisiongrowth.mp4", // Placeholder video
-    priceId: "price_xxx_precision", // TODO: Replace with real Stripe price ID
-    pdfUrl: S3_BASE + "pdfs/precisiongrowth.pdf", // TODO: Replace with real PDF URL
-    price: 50,
-  },
-  {
-    id: 3,
-    title: "Aesthetic Push/Pull/Legs",
-    description: "Balance, symmetry, and density. Advanced 6-day split.",
-    image: S3_BASE + "ppl.jpg",
-    video:S3_BASE + "ppl.mp4", 
-    priceId: "price_xxx_ppl", // TODO: Replace with real Stripe price ID
-    pdfUrl: S3_BASE + "pdfs/ppl.pdf", // TODO: Replace with real PDF URL
-    price: 50,
-  },
-];
-
-const subscriptionPriceId = "price_xxx_subscription"; // TODO: Replace with your Stripe subscription price ID
 
 const Fitness = () => {
+  const [programs, setPrograms] = useState([]);
+  const [userAccess, setUserAccess] = useState({});
+  const [loading, setLoading] = useState(true);
   const [activeProgram, setActiveProgram] = useState(null);
   const [hoveredProgramId, setHoveredProgramId] = useState(null);
   const [showOverview, setShowOverview] = useState(false);
   const { user } = useAuth();
 
-  // Placeholder: Replace with real user access logic
-  const userHasAccess = (programId) => false; // TODO: Implement real access check
+  // Fetch programs and user access on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [programsData, accessData] = await Promise.all([
+          fetchFitnessPrograms(),
+          user ? checkUserAccess() : { accessMap: {}, hasSubscription: false }
+        ]);
+        
+        setPrograms(programsData);
+        setUserAccess(accessData);
+      } catch (error) {
+        console.error("Error fetching fitness data:", error);
+        toast.error("Failed to load fitness programs");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [user]);
+
+  // Check if user has access to a specific program
+  const userHasAccess = (programId) => {
+    return userAccess.accessMap?.[programId] || false;
+  };
 
   // Stripe checkout for one-time purchase
   const handleStripeCheckout = async (program) => {
@@ -61,23 +54,31 @@ const Fitness = () => {
     }
     try {
       const stripe = await stripePromise;
-      // Pass image and title to backend for Stripe product data
       const data = await createCheckoutSession({
         userId: user.id,
         items: [{
           productId: program.id,
           quantity: 1,
-          priceId: program.priceId,
-          image: program.image, // Pass image
-          name: program.title,  // Pass name
-          description: program.description, // Pass description
-          price: program.price, // Pass price for backend
+          priceId: program.stripePriceId,
+          image: program.image,
+          name: program.title,
+          description: program.description,
+          price: program.price,
         }],
         type: "fitness_one_time"
       });
+      
+      // Record the purchase attempt
+      await recordFitnessPurchase({
+        programId: program.id,
+        stripeSessionId: data.sessionId,
+        amount: program.price
+      });
+      
       const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
       if (error) toast.error("Failed to redirect to payment.");
     } catch (err) {
+      console.error("Checkout error:", err);
       toast.error("Checkout failed. Please try again later.");
     }
   };
@@ -92,20 +93,41 @@ const Fitness = () => {
       const stripe = await stripePromise;
       const data = await createCheckoutSession({
         userId: user.id,
-        items: [{ priceId: subscriptionPriceId, quantity: 1 }],
+        items: [{ priceId: "price_1Rk0FK1pwFxLkUZdl4bnSirE", quantity: 1 }],
         type: "fitness_subscription"
       });
+      
+      // Record the subscription attempt
+      await recordFitnessSubscription({
+        stripeSessionId: data.sessionId,
+        stripePriceId: "price_1Rk0FK1pwFxLkUZdl4bnSirE"
+      });
+      
       const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
       if (error) toast.error("Failed to redirect to payment.");
     } catch (err) {
+      console.error("Subscription error:", err);
       toast.error("Subscription failed. Please try again later.");
     }
   };
 
   const handleDownloadPDF = (program) => {
-    // Implement download logic (e.g., fetch PDF from backend)
-    window.open(program.pdfUrl, "_blank");
+    if (program.pdfUrl) {
+      window.open(program.pdfUrl, "_blank");
+    } else {
+      toast.error("PDF not available for this program.");
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="fitness-page">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          Loading fitness programs...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fitness-page">
@@ -129,7 +151,7 @@ const Fitness = () => {
                 alt={program.title}
                 style={{ display: hoveredProgramId === program.id ? 'none' : 'block', width: '100%' }}
               />
-              {hoveredProgramId === program.id && (
+              {hoveredProgramId === program.id && program.video && (
                 <video
                   src={program.video}
                   autoPlay
@@ -196,12 +218,14 @@ const Fitness = () => {
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <h2>{activeProgram.title}</h2>
             <p>{activeProgram.description}</p>
-            <video
-              src={activeProgram.video}
-              controls
-              autoPlay
-              style={{ width: '100%', maxWidth: 480, borderRadius: 12, margin: '20px 0' }}
-            />
+            {activeProgram.video && (
+              <video
+                src={activeProgram.video}
+                controls
+                autoPlay
+                style={{ width: '100%', maxWidth: 480, borderRadius: 12, margin: '20px 0' }}
+              />
+            )}
             <button onClick={() => setActiveProgram(null)} className="fitness-modal-close-btn">Close</button>
           </div>
         </div>

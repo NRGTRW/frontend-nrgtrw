@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./NRGLandingPage.css";
-import landingPageMobileFirst from "/landingPageMobileFirst.png";
 
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+const landingPageMobileFirst = S3_BASE + "landingPageMobileFirst.png";
 const categories = [
   { title: "Fitness", image: S3_BASE + "Fitness.jpg", path: "/fitness", glow: "fitness-glow" },
   { title: "Tech", image: S3_BASE + "Tech.webp", path: "/tech", glow: "tech-glow" },
