@@ -261,7 +261,7 @@ const Navbar = () => {
           <li onClick={() => setClothingDetailsOpen((open) => !open)} style={{ cursor: 'pointer', userSelect: 'none' }}>
             Clothing Details
             <span className={`arrow${clothingDetailsOpen ? ' open' : ''}`}>▼</span>
-          </li>
+        </li>
           <ul className={`collapsible${clothingDetailsOpen ? ' open' : ''}`}>
             <li onClick={() => handleNavigation("/clothing-details")}>Home</li>
             <li onClick={() => handleNavigation("/clothing")}>Clothing</li>
