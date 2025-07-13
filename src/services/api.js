@@ -227,4 +227,78 @@ export const exportFitnessSubscriptions = async () => {
   }
 };
 
+// ----------------- Waitlist Endpoints -----------------
+export const joinWaitlist = async (waitlistData) => {
+  try {
+    const response = await api.post("/waitlist/join", waitlistData);
+    return response.data;
+  } catch (error) {
+    console.error("Error joining waitlist:", error.message);
+    throw new Error("Failed to join waitlist.");
+  }
+};
+
+export const checkWaitlistStatus = async (email, programId = null) => {
+  try {
+    const params = new URLSearchParams({ email });
+    if (programId) params.append('programId', programId);
+    const response = await api.get(`/waitlist/check?${params}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error checking waitlist status:", error.message);
+    throw new Error("Failed to check waitlist status.");
+  }
+};
+
+export const getUserWaitlistStatus = async () => {
+  try {
+    const response = await api.get("/waitlist/status");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user waitlist status:", error.message);
+    throw new Error("Failed to fetch waitlist status.");
+  }
+};
+
+// ----------------- Waitlist Admin Endpoints -----------------
+export const fetchWaitlistEntries = async (params = {}) => {
+  try {
+    const response = await api.get(`/waitlist/admin?${new URLSearchParams(params)}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching waitlist entries:", error.message);
+    throw new Error("Failed to fetch waitlist entries.");
+  }
+};
+
+export const updateWaitlistEntry = async (entryId, updateData) => {
+  try {
+    const response = await api.patch(`/waitlist/admin/${entryId}`, updateData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating waitlist entry:", error.message);
+    throw new Error("Failed to update waitlist entry.");
+  }
+};
+
+export const deleteWaitlistEntry = async (entryId) => {
+  try {
+    const response = await api.delete(`/waitlist/admin/${entryId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting waitlist entry:", error.message);
+    throw new Error("Failed to delete waitlist entry.");
+  }
+};
+
+export const fetchWaitlistStats = async () => {
+  try {
+    const response = await api.get("/waitlist/admin/stats");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching waitlist stats:", error.message);
+    throw new Error("Failed to fetch waitlist statistics.");
+  }
+};
+
 export default api;

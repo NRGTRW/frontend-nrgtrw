@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchFitnessPrograms, checkUserAccess } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import WaitlistModal from "../../components/WaitlistModal/WaitlistModal";
 import "./ProgramsPage.css";
 
 const ProgramsPage = () => {
@@ -14,7 +15,9 @@ const ProgramsPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
   const contentRefs = useRef({});
+  const [waitlistMode, setWaitlistMode] = useState(true); // Set to true to enable waitlist mode
 
   useEffect(() => {
     const fetchData = async () => {
@@ -191,6 +194,14 @@ const ProgramsPage = () => {
     }
   };
 
+  const handleJoinWaitlist = () => {
+    setShowWaitlistModal(true);
+  };
+
+  const handleCloseWaitlistModal = () => {
+    setShowWaitlistModal(false);
+  };
+
   if (loading) {
     return (
       <div className="programs-page">
@@ -365,12 +376,12 @@ const ProgramsPage = () => {
                     <div className="lock-message">
                       <div className="lock-icon">🔒</div>
                       <h4>Program Locked</h4>
-                      <p>Purchase this program or subscribe to unlock all content</p>
+                      <p>Join the waitlist to get early access when this program launches</p>
                       <button 
                         onClick={() => setShowAccessModal(true)}
                         className="unlock-button"
                       >
-                        Unlock Program
+                        Join Waitlist
                       </button>
                     </div>
                   </div>
@@ -413,12 +424,12 @@ const ProgramsPage = () => {
                     <div className="lock-message">
                       <div className="lock-icon">🔒</div>
                       <h4>Program Locked</h4>
-                      <p>Purchase this program or subscribe to unlock all content</p>
+                      <p>Join the waitlist to get early access when this program launches</p>
                       <button 
                         onClick={() => setShowAccessModal(true)}
                         className="unlock-button"
                       >
-                        Unlock Program
+                        Join Waitlist
                       </button>
                     </div>
                   </div>
@@ -449,12 +460,12 @@ const ProgramsPage = () => {
                     <div className="lock-message">
                       <div className="lock-icon">🔒</div>
                       <h4>Program Locked</h4>
-                      <p>Purchase this program or subscribe to unlock all content</p>
+                      <p>Join the waitlist to get early access when this program launches</p>
                       <button 
                         onClick={() => setShowAccessModal(true)}
                         className="unlock-button"
                       >
-                        Unlock Program
+                        Join Waitlist
                       </button>
                     </div>
                   </div>
@@ -491,12 +502,12 @@ const ProgramsPage = () => {
                     <div className="lock-message">
                       <div className="lock-icon">🔒</div>
                       <h4>Program Locked</h4>
-                      <p>Purchase this program or subscribe to unlock all content</p>
+                      <p>Join the waitlist to get early access when this program launches</p>
                       <button 
                         onClick={() => setShowAccessModal(true)}
                         className="unlock-button"
                       >
-                        Unlock Program
+                        Join Waitlist
                       </button>
                     </div>
                   </div>
@@ -513,7 +524,7 @@ const ProgramsPage = () => {
           <div className="access-modal" onClick={(e) => e.stopPropagation()}>
             <div className="access-modal-content">
               <div className="modal-header">
-                <h2>🔒 Unlock Full Access</h2>
+                <h2>🔒 Program Currently in Waitlist Mode</h2>
                 <button 
                   className="modal-close"
                   onClick={() => setShowAccessModal(false)}
@@ -522,26 +533,31 @@ const ProgramsPage = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <p>To access the full program content, you need to either:</p>
+                <p>This program is currently in waitlist mode. Join our exclusive waitlist to get early access when it becomes available!</p>
                 <div className="access-options">
                   <div className="access-option">
-                    <h4>💳 Purchase This Program</h4>
-                    <p>One-time payment of ${program.price.toFixed(2)}</p>
+                    <h4>📋 Join Waitlist</h4>
+                    <p>Be the first to know when this program launches</p>
                     <button 
-                      onClick={handlePurchase}
-                      className="purchase-button"
+                      onClick={() => {
+                        setShowAccessModal(false);
+                        handleJoinWaitlist();
+                      }}
+                      className="waitlist-button"
+                      style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        border: 'none',
+                        padding: '12px 24px',
+                        borderRadius: '8px',
+                        fontSize: '1rem',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        width: '100%'
+                      }}
                     >
-                      {user ? "Purchase Now" : "Login to Purchase"}
-                    </button>
-                  </div>
-                  <div className="access-option">
-                    <h4>⭐ Subscribe for All Access</h4>
-                    <p>Get access to all programs and future content</p>
-                    <button 
-                      onClick={handleSubscribe}
-                      className="subscribe-button"
-                    >
-                      {user ? "Subscribe Now" : "Login to Subscribe"}
+                      Join Waitlist
                     </button>
                   </div>
                 </div>
@@ -550,6 +566,13 @@ const ProgramsPage = () => {
           </div>
         </div>
       )}
+
+      {/* Waitlist Modal */}
+      <WaitlistModal
+        isOpen={showWaitlistModal}
+        onClose={handleCloseWaitlistModal}
+        program={program}
+      />
 
       {/* Back Button */}
       <div className="back-section">

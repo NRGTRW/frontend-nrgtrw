@@ -6,6 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { createCheckoutSession, fetchFitnessPrograms, checkUserAccess } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import WaitlistModal from "../../components/WaitlistModal/WaitlistModal";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
@@ -18,6 +19,9 @@ const Fitness = () => {
   const [activeProgram, setActiveProgram] = useState(null);
   const [hoveredProgramId, setHoveredProgramId] = useState(null);
   const [showOverview, setShowOverview] = useState(false);
+  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
+  const [selectedProgramForWaitlist, setSelectedProgramForWaitlist] = useState(null);
+  const [waitlistMode, setWaitlistMode] = useState(true); // Set to true to enable waitlist mode
   const { user } = useAuth();
 
   // Fetch programs and user access on component mount
@@ -144,6 +148,16 @@ const Fitness = () => {
     }
   };
 
+  const handleJoinWaitlist = (program) => {
+    setSelectedProgramForWaitlist(program);
+    setShowWaitlistModal(true);
+  };
+
+  const handleCloseWaitlistModal = () => {
+    setShowWaitlistModal(false);
+    setSelectedProgramForWaitlist(null);
+  };
+
   if (loading) {
     return (
       <div className="fitness-page">
@@ -155,12 +169,41 @@ const Fitness = () => {
   }
 
   return (
-    <div className="fitness-page">
+    <div className="fitness-page dark-fitness-bg">
       <section className="fitness-video-placeholder">
         <div className="fitness-video-container">
           <div className="fitness-video-text">🎥 Intro Video Coming Soon</div>
         </div>
       </section>
+
+      {/* Custom Offer Card */}
+      <div className="custom-offer-card" style={{ marginTop: '32px' }}>
+        <div className="custom-offer-overlay"></div>
+        <div className="custom-offer-content">
+          <div className="custom-offer-badge">
+            <span style={{ color: '#e0c88f', fontFamily: 'Playfair Display, Georgia, serif' }}>Premium Service</span>
+          </div>
+          <h2 className="custom-offer-title">1:1 Call</h2>
+          <ul className="custom-offer-bullets">
+            <li><strong>Real conversation</strong> — direct, focused, and honest</li>
+            <li><strong>Plan built for your</strong> — goals, routine, lifestyle</li>
+          </ul>
+          <button 
+            className="custom-offer-button"
+            onClick={() => {
+              window.open('mailto:nrgoranov@gmail.com?subject=Coaching Call Inquiry', '_blank');
+            }}
+          >
+            {/* <span className="button-icon" aria-label="Phone">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.654 2.328a2.291 2.291 0 0 1 3.104-.196l1.2.96c.7.56.86 1.57.36 2.28l-.7.98a.75.75 0 0 0 .09.97l2.1 2.1a.75.75 0 0 0 .97.09l.98-.7c.71-.5 1.72-.34 2.28.36l.96 1.2a2.291 2.291 0 0 1-.196 3.104l-1.02.85c-.82.68-2.04.62-2.8-.14l-4.1-4.1c-.76-.76-.82-1.98-.14-2.8l.85-1.02Z" stroke="#e0c88f" strokeWidth="1.5" fill="none"/>
+              </svg>
+            </span> */}
+            <span className="button-text">Book Your Call</span>
+            <span className="button-arrow">→</span>
+          </button>
+        </div>
+      </div>
 
       <section className="program-cards">
         {programs.map((program) => (
@@ -192,10 +235,12 @@ const Fitness = () => {
             <div className="program-info">
               <h3>{program.title}</h3>
               <p>{program.description}</p>
-              {/* Subtle price display */}
-              <div style={{ fontSize: '1.05rem', color: 'var(--fitness-btn)', opacity: 0.82, margin: '6px 0 0 0', fontWeight: 500, letterSpacing: '0.01em' }}>
-                ${program.price.toFixed(2)}
-              </div>
+              {/* Only show price when not in waitlist mode */}
+              {!waitlistMode && (
+                <div style={{ fontSize: '1.05rem', color: 'var(--fitness-btn)', opacity: 0.82, margin: '6px 0 0 0', fontWeight: 500, letterSpacing: '0.01em' }}>
+                  ${program.price.toFixed(2)}
+                </div>
+              )}
               <button className={styles.fitnessProgramBtn} onClick={() => { setActiveProgram(program); setShowOverview(true); }}>
                 Program Overview
               </button>
@@ -205,6 +250,63 @@ const Fitness = () => {
               >
                 View Full Program
               </button>
+              {waitlistMode ? (
+                <button 
+                  className="waitlist-btn"
+                  onClick={() => handleJoinWaitlist(program)}
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 16px',
+                    borderRadius: '6px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    marginTop: '8px',
+                    width: '100%'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-1px)';
+                    e.target.style.boxShadow = '0 4px 8px rgba(102, 126, 234, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = 'none';
+                  }}
+                >
+                  📋 Join Waitlist
+                </button>
+              ) : (
+                <button 
+                  className="view-full-program-btn"
+                  onClick={() => navigate(`/programs/${program.id}`)}
+                  style={{
+                    background: 'linear-gradient(135deg, #e6b800 0%, #d4a017 100%)',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 16px',
+                    borderRadius: '6px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    marginTop: '8px',
+                    width: '100%'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-1px)';
+                    e.target.style.boxShadow = '0 4px 8px rgba(230, 184, 0, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = 'none';
+                  }}
+                >
+                  View Full Program
+                </button>
+              )}
             </div>
           </div>
         ))}
@@ -243,12 +345,42 @@ const Fitness = () => {
               </>
             ) : (
               <>
-                <button className="fitness-modal-close-btn" onClick={() => handleStripeCheckout(activeProgram)}>
-                  Unlock Full Program
-                </button>
-                <button className="fitness-modal-close-btn" onClick={handleStripeSubscription}>
-                  Subscribe for All Access
-                </button>
+                {waitlistMode ? (
+                  <>
+                    <div style={{ 
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                      color: 'white', 
+                      padding: '12px 16px', 
+                      borderRadius: '8px', 
+                      marginBottom: '16px',
+                      textAlign: 'center',
+                      fontSize: '0.95rem',
+                      fontWeight: '600'
+                    }}>
+                      🔒 Program Currently in Waitlist Mode
+                    </div>
+                    <button 
+                      className="fitness-modal-close-btn" 
+                      onClick={() => handleJoinWaitlist(activeProgram)}
+                      style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        border: 'none'
+                      }}
+                    >
+                      📋 Join Waitlist for Early Access
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button className="fitness-modal-close-btn" onClick={() => handleStripeCheckout(activeProgram)}>
+                      Unlock Full Program
+                    </button>
+                    <button className="fitness-modal-close-btn" onClick={handleStripeSubscription}>
+                      Subscribe for All Access
+                    </button>
+                  </>
+                )}
               </>
             )}
             <button className="fitness-modal-close-btn" style={{ marginTop: 24 }} onClick={() => { setActiveProgram(null); setShowOverview(false); }}>
@@ -276,6 +408,13 @@ const Fitness = () => {
           </div>
         </div>
       )}
+
+      {/* Waitlist Modal */}
+      <WaitlistModal
+        isOpen={showWaitlistModal}
+        onClose={handleCloseWaitlistModal}
+        program={selectedProgramForWaitlist}
+      />
     </div>
   );
 };

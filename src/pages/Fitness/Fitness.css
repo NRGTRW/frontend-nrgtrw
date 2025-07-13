@@ -1,23 +1,25 @@
-:root {
-  --fitness-bg: #fff;
-  --fitness-text: #000;
-  --fitness-card-bg: #f7f7f7;
-  --fitness-card-border: #ddd;
-  --fitness-btn: #f5c518;
-  --fitness-btn-hover-bg: #fffbe6;
-  --fitness-btn-hover-text: #7a5c15;
+/* Force dark theme for fitness pages regardless of browser/OS settings */
+html, body {
+  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a) !important;
+  color: #fff !important;
+  color-scheme: dark;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-    --fitness-text: #fff;
-    --fitness-card-bg: #1c1c1c;
-    --fitness-card-border: #333;
-    --fitness-btn: #ffe067;
-    --fitness-btn-hover-bg: #23211a;
-    --fitness-btn-hover-text: #ffe067;
-  }
+.dark-fitness-bg {
+  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a) !important;
+  color: #fff !important;
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100vw;
+  box-sizing: border-box;
+}
+:root {
+  --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+  --fitness-text: #fff;
+  --fitness-card-bg: #1c1c1c;
+  --fitness-card-border: #333;
+  --fitness-btn: #ffe067;
+  --fitness-btn-hover-bg: #23211a;
+  --fitness-btn-hover-text: #ffe067;
 }
 
 .fitness-page {
@@ -28,33 +30,42 @@
 }
 
 .fitness-video-placeholder {
-  background-color: #111;
-  height: 500px;
+  background: linear-gradient(120deg, rgba(36,36,36,0.82) 60%, rgba(191,161,74,0.12) 100%);
+  height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 2px solid #333;
+  border-radius: 32px;
+  box-shadow: 0 8px 40px 0 rgba(44, 62, 80, 0.18), 0 2px 8px rgba(191,161,74,0.10);
+  margin: 32px auto 0 auto;
+  padding: 0 32px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(6px) saturate(1.1);
 }
-
 .fitness-video-container {
   width: 80%;
   height: 70%;
-  background: linear-gradient(90deg, #fffbe6 0%, #f5e9c8 100%);
+  background: transparent;
   border-radius: 32px;
-  box-shadow: 0 4px 32px rgba(245, 197, 24, 0.10), 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .fitness-video-text {
-  color: #7a5c15;
-  font-size: 1.5rem;
-  font-family: 'Cinzel', serif;
+  color: #ffe067;
+  font-size: 1.7rem;
+  font-family: 'Playfair Display', serif;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-align: center;
-  text-shadow: 0 2px 12px #fffbe6;
+  text-shadow: 0 2px 12px #23211a;
+  opacity: 0.82;
+  background: linear-gradient(90deg, #ffe067 0%, #fffbe6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .program-cards {
@@ -67,15 +78,101 @@
 }
 
 .program-card {
-  background-color: var(--fitness-card-bg);
-  border: 1px solid var(--fitness-card-border);
-  border-radius: 12px;
+  background: #23211a !important;
+  border: 1.5px solid #bfa14a !important;
+  border-radius: 16px !important;
   overflow: hidden;
   width: 320px !important;
   min-height: 400px !important;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 24px 0 rgba(191,161,74,0.10), 0 0.5px 0.5px 0 #23211a;
+}
+.program-info {
+  background: transparent !important;
+  color: #fff !important;
+  padding: 20px;
+  text-align: center;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.program-card h3 {
+  color: #ffe067 !important;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.program-card p {
+  color: #e0e0c0 !important;
+  opacity: 0.85;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+.program-btn, .fitnessProgramBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1.5px solid #ffe067 !important;
+  color: #ffe067 !important;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  align-self: center;
+  border-radius: 32px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  box-shadow: 0 0 16px 2px #ffe06780;
+}
+.program-btn:hover, .fitnessProgramBtn:hover {
+  background: #ffe067 !important;
+  color: #23211a !important;
+  box-shadow: 0 0 32px 6px #ffe067cc;
+}
+.view-full-program-btn {
+  margin-top: 8px;
+  padding: 12px 24px;
+  background: #232f3e !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+.view-full-program-btn:hover {
+  background: #34495e !important;
+  color: #ffe067 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 184, 0, 0.18);
+}
+.waitlist-btn {
+  background: linear-gradient(90deg, #ffe067 0%, #bfa14a 100%) !important;
+  color: #23211a !important;
+  border: none !important;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px;
+  width: 100%;
+  box-shadow: 0 2px 12px 0 #ffe06740;
+  letter-spacing: 0.02em;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+.waitlist-btn:hover {
+  filter: brightness(1.08) saturate(1.15);
+  box-shadow: 0 4px 24px 0 #ffe06780;
 }
 
 .program-card:hover {
@@ -89,14 +186,6 @@
   display: block !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-}
-
-.program-info {
-  padding: 20px;
-  text-align: center;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
 }
 
 .program-info h3 {
@@ -294,75 +383,6 @@
   transform: translateY(-2px) scale(1.03);
 }
 
-@media (prefers-color-scheme: dark) {
-  .fitness-page {
-    background: #181a1b;
-    color: #f5f7fa;
-  }
-  .program-card {
-    background: #23272a;
-    border: 1px solid #333;
-    color: #f5f7fa;
-  }
-  .program-info {
-    color: #f5f7fa;
-  }
-  .fitness-modal-close-btn {
-    background: #23272a;
-    color: #ffe067;
-    border: 1px solid #ffe067;
-  }
-  .view-full-program-btn {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    color: #ffe067;
-    box-shadow: 0 4px 15px rgba(255, 224, 103, 0.1);
-  }
-  .view-full-program-btn:hover {
-    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-    color: #ffffff;
-    box-shadow: 0 6px 20px rgba(255, 224, 103, 0.2);
-  }
-  .program-modal, .modal-content, .fitness-overview-modal {
-    background: #23272a !important;
-    color: #f5f7fa !important;
-    border: 1px solid #333 !important;
-  }
-  .program-preview-video, .program-header-image {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  }
-  .fitnessProgramBtn {
-    background: #23272a;
-    color: #ffe067;
-    border: 1px solid #ffe067;
-  }
-  .fitnessProgramBtn:hover, .fitnessProgramBtn:focus {
-    background: #ffe067;
-    color: #23272a;
-  }
-  .fitness-video-container {
-    background: linear-gradient(90deg, #23211a 0%, #3a2f1a 100%);
-  }
-  .fitness-video-text {
-    color: #ffe067;
-    text-shadow: 0 2px 12px #23211a;
-  }
-  .overview-card, .instructions-tab, .content-tab, .video-tab, .pdf-tab {
-    background: #23272a;
-    color: #f5f7fa;
-    border-color: #333;
-  }
-  .no-content {
-    color: #ffe067;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .fitness-video-text {
-    color: #ffe067;
-    text-shadow: 0 2px 12px #23211a;
-  }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -371,4 +391,650 @@
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* Luxurious Coaching Offer Section */
+.coaching-offer-section {
+  margin: 80px 20px 40px 20px;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.coaching-offer-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.coaching-offer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.coaching-offer-content {
+  text-align: center;
+}
+
+.coaching-offer-header {
+  margin-bottom: 50px;
+}
+
+.coaching-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.coaching-icon {
+  font-size: 1.1rem;
+}
+
+.coaching-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.coaching-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.coaching-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin: 50px 0;
+}
+
+.coaching-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.coaching-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.feature-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.feature-content p {
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.coaching-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.coaching-price {
+  text-align: center;
+}
+
+.price-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.price-amount {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.price-note {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.coaching-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  color: #ffffff;
+  border: none;
+  padding: 18px 32px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(26, 26, 26, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.coaching-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.coaching-button:hover::before {
+  left: 100%;
+}
+
+.coaching-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(26, 26, 26, 0.4);
+  background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+.button-arrow {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.coaching-button:hover .button-arrow {
+  transform: translateX(4px);
+}
+
+/* Dark mode styles for coaching offer */
+@media (prefers-color-scheme: dark) {
+  .coaching-offer-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .coaching-offer-section::before {
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 60%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+  }
+
+  .coaching-title {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .coaching-subtitle {
+    color: #ccc;
+  }
+
+  .coaching-feature {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+  }
+
+  .coaching-feature:hover {
+    background: rgba(26, 26, 26, 0.95);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+  }
+
+  .feature-content h4 {
+    color: #ffffff;
+  }
+
+  .feature-content p {
+    color: #ccc;
+  }
+
+  .price-amount {
+    color: #ffffff;
+  }
+
+  .price-label,
+  .price-note {
+    color: #ccc;
+  }
+
+  .coaching-button {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    color: #1a1a1a;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+  }
+
+  .coaching-button:hover {
+    background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Responsive design for coaching offer */
+@media (max-width: 768px) {
+  .coaching-offer-section {
+    margin: 60px 10px 30px 10px;
+    padding: 40px 0;
+  }
+
+  .coaching-offer-container {
+    padding: 0 20px;
+  }
+
+  .coaching-title {
+    font-size: 2.2rem;
+  }
+
+  .coaching-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .coaching-features {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .coaching-feature {
+    padding: 20px;
+  }
+
+  .coaching-cta {
+    gap: 20px;
+  }
+
+  .price-amount {
+    font-size: 2rem;
+  }
+
+  .coaching-button {
+    padding: 16px 24px;
+    font-size: 1rem;
+  }
+}
+
+/* Unified Coaching Offer Styles */
+.unified-offer {
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  border-radius: 24px;
+  margin: 48px auto 48px auto;
+  box-shadow: 0 8px 32px rgba(26,26,26,0.25);
+  padding: 0;
+  max-width: 900px;
+  position: relative;
+}
+.unified-offer-content {
+  padding: 48px 40px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.unified-offer-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.unified-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 215, 0, 0.08);
+  color: #ffe067;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  padding: 6px 18px;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
+}
+.unified-title {
+  font-size: 2.5rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+}
+.unified-subtitle {
+  color: #ffe067;
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+.unified-cta {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.unified-price-label {
+  color: #ffe067;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.unified-price-amount {
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.unified-price-note {
+  color: #ffe067;
+  font-size: 1rem;
+  font-style: italic;
+}
+.unified-button {
+  background: linear-gradient(135deg, #ffe067 0%, #fffbe6 100%);
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.15rem;
+  border-radius: 10px;
+  padding: 18px 38px;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.18);
+  border: none;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.unified-button:hover {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe067 100%);
+  color: #7a5c15;
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.28);
+  transform: translateY(-2px);
+}
+@media (prefers-color-scheme: dark) {
+  .unified-offer {
+    background: linear-gradient(135deg, #fffbe6 0%, #ffe067 100%);
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.12);
+  }
+  .unified-title {
+    color: #1a1a1a;
+  }
+  .unified-subtitle {
+    color: #7a5c15;
+  }
+  .unified-price-label, .unified-price-note {
+    color: #7a5c15;
+  }
+  .unified-price-amount {
+    color: #1a1a1a;
+  }
+  .unified-button {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: #ffe067;
+    box-shadow: 0 8px 25px rgba(26, 26, 26, 0.18);
+  }
+  .unified-button:hover {
+    background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+    color: #fffbe6;
+    box-shadow: 0 12px 35px rgba(26, 26, 26, 0.28);
+  }
+}
+
+/* White Gradient Unified Coaching Offer Styles */
+.white-offer {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+}
+.white-offer .unified-title,
+.white-offer .unified-badge,
+.white-offer .unified-price-label,
+.white-offer .unified-price-amount,
+.white-offer .unified-price-note,
+.white-offer .coaching-label {
+  color: #1a1a1a !important;
+}
+.white-offer .unified-badge {
+  background: #fffbe6;
+  color: #1a1a1a !important;
+}
+.white-offer .unified-subtitle {
+  color: #333 !important;
+}
+.white-offer .offer-bullets {
+  list-style: disc inside;
+  margin: 24px 0 0 0;
+  padding: 0 0 0 0;
+  color: #1a1a1a;
+  font-size: 1.18rem;
+  font-weight: 500;
+  line-height: 1.7;
+  text-align: left;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.white-offer .offer-bullets li {
+  margin-bottom: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.white-offer .unified-button {
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 25px rgba(44,62,80,0.10);
+}
+.white-offer .unified-button:hover {
+  background: linear-gradient(135deg, #333 0%, #1a1a1a 100%) !important;
+  color: #ffe067 !important;
+}
+@media (prefers-color-scheme: dark) {
+  .white-offer {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    color: #1a1a1a !important;
+  }
+  .white-offer .unified-title,
+  .white-offer .unified-badge,
+  .white-offer .unified-price-label,
+  .white-offer .unified-price-amount,
+  .white-offer .unified-price-note,
+  .white-offer .coaching-label {
+    color: #1a1a1a !important;
+  }
+  .white-offer .unified-badge {
+    background: #fffbe6;
+    color: #1a1a1a !important;
+  }
+  .white-offer .offer-bullets {
+    color: #1a1a1a;
+  }
+  .white-offer .unified-button {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%) !important;
+    color: #fff !important;
+  }
+  .white-offer .unified-button:hover {
+    background: linear-gradient(135deg, #333 0%, #1a1a1a 100%) !important;
+    color: #ffe067 !important;
+  }
+}
+
+/* Custom Offer Card with Background */
+.custom-offer-card {
+  background: url('https://nrgtrw-images.s3.eu-central-1.amazonaws.com/CustomOfferBackground.jpg') center center/cover no-repeat;
+  position: relative;
+  width: 320px;
+  min-height: 400px;
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 48px 8px rgba(44, 62, 80, 0.22),
+    0 0 96px 24px rgba(44, 62, 80, 0.10);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 40px auto;
+  transition: box-shadow 0.3s;
+  animation: offerGlowPulse 2.8s ease-in-out infinite alternate;
+}
+@media (prefers-color-scheme: dark) {
+  .custom-offer-card {
+    box-shadow:
+      0 0 56px 12px rgba(255,255,255,0.22),
+      0 0 120px 32px rgba(255,255,255,0.10);
+    animation: offerGlowPulseDark 2.8s ease-in-out infinite alternate;
+  }
+}
+@keyframes offerGlowPulse {
+  0% {
+    box-shadow:
+      0 0 48px 8px rgba(44, 62, 80, 0.22),
+      0 0 96px 24px rgba(44, 62, 80, 0.10);
+  }
+  100% {
+    box-shadow:
+      0 0 64px 16px rgba(44, 62, 80, 0.28),
+      0 0 128px 36px rgba(44, 62, 80, 0.13);
+  }
+}
+@keyframes offerGlowPulseDark {
+  0% {
+    box-shadow:
+      0 0 56px 12px rgba(255,255,255,0.22),
+      0 0 120px 32px rgba(255,255,255,0.10);
+  }
+  100% {
+    box-shadow:
+      0 0 80px 24px rgba(255,255,255,0.28),
+      0 0 160px 48px rgba(255,255,255,0.13);
+  }
+}
+.custom-offer-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24, 24, 24, 0.62); /* slightly lighter for marble */
+  z-index: 1;
+}
+.custom-offer-content {
+  position: relative;
+  z-index: 2;
+  padding: 38px 22px 34px 22px;
+  width: 100%;
+  text-align: center;
+  color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+.custom-offer-badge {
+  background: rgba(224, 200, 143, 0.13);
+  color: #e0c88f;
+  font-weight: 700;
+  font-size: 1.08rem;
+  border-radius: 7px;
+  padding: 7px 18px;
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: 0.03em;
+}
+.custom-offer-title {
+  font-size: 1.45rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  color: #f4f4f4;
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.custom-offer-bullets {
+  color: #f4f4f4;
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin: 0 0 18px 0;
+  padding: 0;
+  text-align: left;
+  max-width: 260px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+.custom-offer-bullets li {
+  margin-bottom: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.custom-offer-button {
+  background: linear-gradient(135deg, #ffe067 0%, #fffbe6 100%);
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.08rem;
+  border-radius: 8px;
+  padding: 14px 26px;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.13);
+  border: none;
+  margin-top: 18px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.custom-offer-button:hover {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe067 100%);
+  color: #7a5c15;
 }

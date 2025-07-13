@@ -185,6 +185,7 @@
   pointer-events: auto;
 }
 
+/* Make mist overlay more opaque */
 .mist-overlay {
   position: absolute;
   top: 0;
@@ -193,27 +194,33 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.6) 25%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0.6) 75%,
-    rgba(255, 255, 255, 0.3) 100%
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.92) 25%,
+    rgba(255, 255, 255, 0.98) 50%,
+    rgba(255, 255, 255, 0.92) 75%,
+    rgba(255, 255, 255, 0.7) 100%
   );
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  animation: mistFloat 4s ease-in-out infinite;
-  pointer-events: none;
+  z-index: 11;
+  pointer-events: auto;
 }
 
+/* Blur the content underneath the overlay */
+.content-wrapper:has(.content-overlay) > *:not(.content-overlay) {
+  filter: blur(8px) grayscale(0.7) brightness(1.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* For dark mode */
 @media (prefers-color-scheme: dark) {
   .mist-overlay {
     background: linear-gradient(
       135deg,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0.6) 25%,
-      rgba(0, 0, 0, 0.8) 50%,
-      rgba(0, 0, 0, 0.6) 75%,
-      rgba(0, 0, 0, 0.3) 100%
+      rgba(30, 30, 30, 0.85) 0%,
+      rgba(30, 30, 30, 0.97) 25%,
+      rgba(30, 30, 30, 0.99) 50%,
+      rgba(30, 30, 30, 0.97) 75%,
+      rgba(30, 30, 30, 0.85) 100%
     );
   }
 }

@@ -128,25 +128,55 @@ const Navbar = () => {
           NRG
         </li>
         <div className="right-container">
+          {/* Admin Dashboard Button - Prominent Position */}
+          {isAdmin && (
+            <Link
+              to="/admin/dashboard"
+              className="admin-dashboard-btn"
+              aria-label="Admin Dashboard"
+              title="Admin Dashboard"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px 16px',
+                backgroundColor: 'var(--navbar-accent)',
+                color: '#fff',
+                borderRadius: '6px',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: '600',
+                marginRight: '12px',
+                transition: 'all 0.3s ease',
+                border: '1px solid transparent'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#d4a017';
+                e.target.style.transform = 'translateY(-1px)';
+                e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'var(--navbar-accent)';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                style={{ marginRight: '6px' }}
+              >
+                <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z" />
+              </svg>
+              Dashboard
+            </Link>
+          )}
+          
+          {/* Other Admin Icons */}
           {isAdmin && (
             <>
-              <Link
-                to="/admin/dashboard"
-                className="admin-icon"
-                aria-label="Admin Dashboard"
-                title="Dashboard"
-                style={{ marginRight: '8px' }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z" />
-                </svg>
-              </Link>
               <Link
                 to="/admin/create-product"
                 className="admin-icon"
