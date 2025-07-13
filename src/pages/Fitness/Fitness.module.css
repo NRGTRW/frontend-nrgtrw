@@ -27,13 +27,12 @@
 
 @media (prefers-color-scheme: dark) {
   .fitnessProgramBtn {
-    background: var(--fitness-btn-hover-bg);
-    color: var(--fitness-btn-hover-text);
-    box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.12);
+    background: #23272a;
+    color: #ffe067;
+    border: 1px solid #ffe067;
   }
   .fitnessProgramBtn:hover, .fitnessProgramBtn:focus {
-    background: var(--fitness-btn);
-    color: var(--fitness-text);
-    box-shadow: 0 4px 24px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.16);
+    background: #ffe067;
+    color: #23272a;
   }
 } 

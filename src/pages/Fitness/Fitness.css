@@ -47,17 +47,6 @@
   justify-content: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  .fitness-video-placeholder {
-    background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-    border-bottom: 2px solid #333;
-  }
-  .fitness-video-container {
-    background: linear-gradient(90deg, #23211a 0%, #3a2f1a 100%);
-    box-shadow: 0 4px 32px rgba(245, 197, 24, 0.10), 0 2px 8px rgba(0,0,0,0.18);
-  }
-}
-
 .fitness-video-text {
   color: #7a5c15;
   font-size: 1.5rem;
@@ -66,13 +55,6 @@
   letter-spacing: 0.04em;
   text-align: center;
   text-shadow: 0 2px 12px #fffbe6;
-}
-
-@media (prefers-color-scheme: dark) {
-  .fitness-video-text {
-    color: #ffe067;
-    text-shadow: 0 2px 12px #23211a;
-  }
 }
 
 .program-cards {
@@ -89,7 +71,8 @@
   border: 1px solid var(--fitness-card-border);
   border-radius: 12px;
   overflow: hidden;
-  width: 320px;
+  width: 320px !important;
+  min-height: 400px !important;
   transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -100,9 +83,12 @@
 }
 
 .program-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .program-info {
@@ -115,11 +101,16 @@
 
 .program-info h3 {
   margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .program-info p {
   flex: 1 1 auto;
   margin-bottom: 0;
+  line-height: 1.5;
+  color: var(--fitness-text);
+  opacity: 0.8;
 }
 
 .program-btn {
@@ -140,10 +131,56 @@
   color: var(--fitness-btn-hover-text);
 }
 
+/* Luxurious View Full Program Button */
+.view-full-program-btn {
+  margin-top: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: #ecf0f1;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.view-full-program-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.view-full-program-btn:hover::before {
+  left: 100%;
+}
+
+.view-full-program-btn:hover {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(44, 62, 80, 0.3);
+}
+
+.view-full-program-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(44, 62, 80, 0.2);
+}
+
 .program-image-container {
   position: relative;
-  width: 100%;
-  height: 200px;
+  width: 100% !important;
+  height: 200px !important;
   overflow: hidden;
   background: var(--fitness-card-bg);
   display: flex;
@@ -152,18 +189,16 @@
 }
 
 .program-preview-video {
-  width: 100%;
-  height: 200px;
+  width: 100% !important;
+  height: 200px !important;
   object-fit: cover;
   border-radius: 0;
   box-shadow: 0 2px 12px var(--fitness-btn);
   border: none;
   cursor: pointer;
-  transition: filter 0.2s, box-shadow 0.2s;
-  background: #000;
-  margin: 0 auto;
-  display: block;
+  transition: all 0.3s ease;
 }
+
 .program-preview-video:hover {
   filter: brightness(1.08);
   box-shadow: 0 4px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.18);
@@ -171,13 +206,16 @@
 
 .program-modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.65);
-  z-index: 2000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.2s;
+  animation: fadeIn 0.3s ease;
 }
 
 .modal-content {
@@ -190,27 +228,21 @@
   box-shadow: 0 8px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.18);
   position: relative;
   text-align: center;
-  animation: popIn 0.22s cubic-bezier(.4,1.6,.6,1);
-  /* Remove border for a clean look */
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  animation: popIn 0.3s ease;
 }
 
 .modal-content h2 {
   color: var(--fitness-btn);
   font-family: 'Cinzel', serif;
   font-size: 1.3rem;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.2rem;
 }
 
 .modal-content video {
-  width: 202px;
-  height: 360px;
-  aspect-ratio: 9/16;
-  object-fit: cover;
-  border-radius: 18px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
   /* Remove border for a clean look */
   border: none;
   background: var(--fitness-card-bg);
@@ -225,16 +257,13 @@
   color: var(--fitness-btn-hover-text);
   border: none;
   border-radius: 32px;
-  font-size: 1.08rem;
-  font-family: 'Poppins', 'Cinzel', serif;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s;
-  outline: none;
-  appearance: none;
-  min-width: 140px;
-  display: inline-block;
+  transition: all 0.3s ease;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.04);
 }
 
 .modal-content button:hover, .modal-content button:focus {
@@ -250,16 +279,13 @@
   color: var(--fitness-btn-hover-text);
   border: none;
   border-radius: 32px;
-  font-size: 1.08rem;
-  font-family: 'Poppins', 'Cinzel', serif;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background 0.25s, color 0.25s, transform 0.18s;
-  outline: none;
-  appearance: none;
-  min-width: 140px;
-  display: inline-block;
+  transition: all 0.3s ease;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.04);
 }
 
 .fitness-modal-close-btn:hover, .fitness-modal-close-btn:focus {
@@ -269,13 +295,71 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .modal-content {
-    background: var(--fitness-card-bg);
-    color: var(--fitness-text);
-    box-shadow: 0 8px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.22);
+  .fitness-page {
+    background: #181a1b;
+    color: #f5f7fa;
   }
-  .modal-content h2 {
-    color: var(--fitness-btn);
+  .program-card {
+    background: #23272a;
+    border: 1px solid #333;
+    color: #f5f7fa;
+  }
+  .program-info {
+    color: #f5f7fa;
+  }
+  .fitness-modal-close-btn {
+    background: #23272a;
+    color: #ffe067;
+    border: 1px solid #ffe067;
+  }
+  .view-full-program-btn {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #ffe067;
+    box-shadow: 0 4px 15px rgba(255, 224, 103, 0.1);
+  }
+  .view-full-program-btn:hover {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(255, 224, 103, 0.2);
+  }
+  .program-modal, .modal-content, .fitness-overview-modal {
+    background: #23272a !important;
+    color: #f5f7fa !important;
+    border: 1px solid #333 !important;
+  }
+  .program-preview-video, .program-header-image {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  .fitnessProgramBtn {
+    background: #23272a;
+    color: #ffe067;
+    border: 1px solid #ffe067;
+  }
+  .fitnessProgramBtn:hover, .fitnessProgramBtn:focus {
+    background: #ffe067;
+    color: #23272a;
+  }
+  .fitness-video-container {
+    background: linear-gradient(90deg, #23211a 0%, #3a2f1a 100%);
+  }
+  .fitness-video-text {
+    color: #ffe067;
+    text-shadow: 0 2px 12px #23211a;
+  }
+  .overview-card, .instructions-tab, .content-tab, .video-tab, .pdf-tab {
+    background: #23272a;
+    color: #f5f7fa;
+    border-color: #333;
+  }
+  .no-content {
+    color: #ffe067;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .fitness-video-text {
+    color: #ffe067;
+    text-shadow: 0 2px 12px #23211a;
   }
 }
 
@@ -283,7 +367,8 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
 @keyframes popIn {
-  from { transform: scale(0.92); opacity: 0.7; }
+  from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }

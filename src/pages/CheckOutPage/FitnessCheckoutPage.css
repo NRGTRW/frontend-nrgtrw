@@ -1,0 +1,259 @@
+/* Fitness Checkout Page Styles */
+.fitness-checkout-container {
+  min-height: 100vh;
+  background: var(--fitness-bg, #fff);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  color: var(--fitness-text, #000);
+}
+
+.checkout-heading {
+  color: var(--fitness-text, #000);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.loading-message {
+  color: var(--fitness-text, #000);
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+/* Main Content Card */
+.order-summary {
+  background: var(--fitness-card-bg, #f7f7f7);
+  border: 1px solid var(--fitness-card-border, #ddd);
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 8px 32px rgba(245, 197, 24, 0.1);
+  max-width: 700px;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Program/Subscription Item */
+.program-item,
+.subscription-item {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding: 2.5rem;
+  background: var(--fitness-bg, #fff);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--fitness-card-border, #ddd);
+}
+
+.program-details,
+.subscription-details {
+  flex: 1;
+  min-width: 0; /* Allow text to wrap */
+}
+
+.program-name,
+.subscription-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--fitness-text, #000);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.program-price,
+.subscription-price {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--fitness-btn, #f5c518);
+  margin-bottom: 1.5rem;
+}
+
+.program-description,
+.subscription-description {
+  font-size: 1.1rem;
+  color: var(--fitness-text, #000);
+  line-height: 1.6;
+  margin-bottom: 0;
+  opacity: 0.8;
+}
+
+/* Image and Icon Containers */
+.program-image-container {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+}
+
+.program-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-icon {
+  font-size: 5rem;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fitness-btn, #f5c518);
+  border-radius: 12px;
+  color: var(--fitness-text, #000);
+  box-shadow: 0 4px 16px rgba(245, 197, 24, 0.3);
+}
+
+/* Order Total */
+.order-total {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--fitness-text, #000);
+  padding: 2rem;
+  background: var(--fitness-btn, #f5c518);
+  color: var(--fitness-text, #000);
+  border-radius: 12px;
+  margin-top: 1.5rem;
+}
+
+/* Checkout Actions */
+.checkout-actions {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  max-width: 700px;
+  width: 100%;
+}
+
+.back-button {
+  flex: 1;
+  padding: 1.5rem 2.5rem;
+  font-size: 1.2rem;
+  background: transparent;
+  color: var(--fitness-text, #000);
+  border: 2px solid var(--fitness-btn, #f5c518);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  max-width: 200px;
+}
+
+.back-button:hover:not(:disabled) {
+  background: var(--fitness-btn-hover-bg, #fffbe6);
+  color: var(--fitness-btn-hover-text, #7a5c15);
+  transform: translateY(-2px);
+}
+
+.back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkout-button {
+  flex: 2;
+  padding: 1.5rem 2.5rem;
+  font-size: 1.2rem;
+  background: var(--fitness-btn, #f5c518);
+  color: var(--fitness-text, #000);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  max-width: 300px;
+}
+
+.checkout-button:hover:not(:disabled) {
+  background: var(--fitness-btn-hover-bg, #fffbe6);
+  color: var(--fitness-btn-hover-text, #7a5c15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(245, 197, 24, 0.3);
+}
+
+.checkout-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .fitness-checkout-container {
+    background: var(--fitness-bg, linear-gradient(to bottom, #0d0d0d, #1a1a1a));
+    color: var(--fitness-text, #fff);
+  }
+  
+  .order-summary {
+    background: var(--fitness-card-bg, #1c1c1c);
+    border-color: var(--fitness-card-border, #333);
+  }
+  
+  .program-item,
+  .subscription-item {
+    background: var(--fitness-bg, #0d0d0d);
+    border-color: var(--fitness-card-border, #333);
+  }
+  
+  .subscription-icon {
+    background: var(--fitness-btn, #ffe067);
+    color: var(--fitness-text, #000);
+  }
+  
+  .order-total {
+    background: var(--fitness-btn, #ffe067);
+    color: var(--fitness-text, #000);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fitness-checkout-container {
+    padding: 1rem;
+  }
+  
+  .checkout-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .order-summary {
+    padding: 2rem;
+  }
+  
+  .program-item,
+  .subscription-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  .program-image-container,
+  .subscription-icon {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .subscription-icon {
+    font-size: 4rem;
+  }
+  
+  .checkout-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .back-button,
+  .checkout-button {
+    max-width: 100%;
+    width: 100%;
+  }
+} 

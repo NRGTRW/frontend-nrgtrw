@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Fitness.css";
 import styles from "./Fitness.module.css";
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession, fetchFitnessPrograms, checkUserAccess, recordFitnessPurchase, recordFitnessSubscription } from "../../services/api";
+import { createCheckoutSession, fetchFitnessPrograms, checkUserAccess } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
@@ -10,6 +11,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 
 const Fitness = () => {
+  const navigate = useNavigate();
   const [programs, setPrograms] = useState([]);
   const [userAccess, setUserAccess] = useState({});
   const [loading, setLoading] = useState(true);
@@ -43,40 +45,50 @@ const Fitness = () => {
 
   // Check if user has access to a specific program
   const userHasAccess = (programId) => {
-    return userAccess.accessMap?.[programId] || false;
+    // Admin users have access to everything
+    if (user?.role && ['ADMIN', 'ROOT_ADMIN'].includes(user.role.trim().toUpperCase())) {
+      return true;
+    }
+    return userAccess.accessMap?.[programId] || userAccess.hasSubscription;
   };
 
   // Stripe checkout for one-time purchase
   const handleStripeCheckout = async (program) => {
     if (!user) {
-      toast.error("Please log in to purchase this program.");
+      // Redirect to login page
+      navigate("/login", { 
+        state: { 
+          redirectTo: "/fitness",
+          message: "Please log in to purchase this program"
+        }
+      });
       return;
     }
+    
+    // Send directly to Stripe checkout
     try {
-      const stripe = await stripePromise;
       const data = await createCheckoutSession({
         userId: user.id,
+        type: "fitness_one_time",
         items: [{
-          productId: program.id,
-          quantity: 1,
-          priceId: program.stripePriceId,
-          image: program.image,
+          id: program.id,
           name: program.title,
           description: program.description,
+          image: program.image,
           price: program.price,
-        }],
-        type: "fitness_one_time"
+          quantity: 1
+        }]
       });
       
-      // Record the purchase attempt
-      await recordFitnessPurchase({
-        programId: program.id,
-        stripeSessionId: data.sessionId,
-        amount: program.price
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
       });
       
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
-      if (error) toast.error("Failed to redirect to payment.");
+      if (error) {
+        console.error("Stripe redirect error:", error);
+        toast.error("Failed to redirect to payment.");
+      }
     } catch (err) {
       console.error("Checkout error:", err);
       toast.error("Checkout failed. Please try again later.");
@@ -86,28 +98,41 @@ const Fitness = () => {
   // Stripe checkout for subscription
   const handleStripeSubscription = async () => {
     if (!user) {
-      toast.error("Please log in to subscribe.");
+      // Redirect to login page
+      navigate("/login", { 
+        state: { 
+          redirectTo: "/fitness",
+          message: "Please log in to subscribe"
+        }
+      });
       return;
     }
+    
+    // Send directly to Stripe checkout
     try {
-      const stripe = await stripePromise;
       const data = await createCheckoutSession({
         userId: user.id,
-        items: [{ priceId: "price_1Rk0FK1pwFxLkUZdl4bnSirE", quantity: 1 }],
-        type: "fitness_subscription"
+        type: "fitness_subscription",
+        subscription: {
+          name: "All Access Fitness Subscription",
+          description: "Access to all fitness programs and future content",
+          price: 100, // Monthly subscription price
+          interval: "month"
+        }
       });
       
-      // Record the subscription attempt
-      await recordFitnessSubscription({
-        stripeSessionId: data.sessionId,
-        stripePriceId: "price_1Rk0FK1pwFxLkUZdl4bnSirE"
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
       });
       
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
-      if (error) toast.error("Failed to redirect to payment.");
+      if (error) {
+        console.error("Stripe redirect error:", error);
+        toast.error("Failed to redirect to payment.");
+      }
     } catch (err) {
-      console.error("Subscription error:", err);
-      toast.error("Subscription failed. Please try again later.");
+      console.error("Checkout error:", err);
+      toast.error("Checkout failed. Please try again later.");
     }
   };
 
@@ -174,6 +199,12 @@ const Fitness = () => {
               <button className={styles.fitnessProgramBtn} onClick={() => { setActiveProgram(program); setShowOverview(true); }}>
                 Program Overview
               </button>
+              <button 
+                className="view-full-program-btn"
+                onClick={() => navigate(`/programs/${program.id}`)}
+              >
+                View Full Program
+              </button>
             </div>
           </div>
         ))}
@@ -188,6 +219,21 @@ const Fitness = () => {
             {/* Access logic */}
             {userHasAccess(activeProgram.id) ? (
               <>
+                {/* Admin Access Indicator */}
+                {user?.role && ['ADMIN', 'ROOT_ADMIN'].includes(user.role.trim().toUpperCase()) && (
+                  <div style={{ 
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                    color: 'white', 
+                    padding: '8px 16px', 
+                    borderRadius: '6px', 
+                    marginBottom: '16px',
+                    textAlign: 'center',
+                    fontSize: '0.9rem',
+                    fontWeight: '600'
+                  }}>
+                    👑 Admin Access - Full Program Available
+                  </div>
+                )}
                 <button className="fitness-modal-close-btn" onClick={() => handleDownloadPDF(activeProgram)}>
                   Download/View PDF
                 </button>

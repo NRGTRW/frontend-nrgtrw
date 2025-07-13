@@ -46,11 +46,13 @@ import Tech from "./pages/Tech/Tech";
 import ClothingDetailsPage from "./pages/ClothingDetailsPage";
 import DesignPage from "./pages/DesignPage";
 import VisionPage from "./pages/VisionPage";
+import ProgramsPage from "./pages/ProgramsPage/ProgramsPage";
 
 // New Checkout page imports
 import CheckoutPage from "./pages/CheckOutPage/CheckoutPage";
 import CheckoutSuccessPage from "./pages/CheckOutPage/CheckoutSuccessPage";
 import CheckoutCancelledPage from "./pages/CheckOutPage/CheckoutCancelledPage";
+import FitnessCheckoutPage from "./pages/CheckOutPage/FitnessCheckoutPage";
 
 // ------------------ AdminRoute ------------------
 import PropTypes from "prop-types";
@@ -132,6 +134,7 @@ const App = () => {
     { path: "/inspiration", component: InspirationPage },
     { path: "/designs", component: DesignPage },
     { path: "/vision", component: VisionPage },
+    { path: "/programs/:programId", component: ProgramsPage },
     { path: "/wishlist", component: WishlistPage },
     { path: "/login", component: LogInPage },
     { path: "/signup", component: SignUpPage },
@@ -147,6 +150,7 @@ const App = () => {
     { path: "/tech", component: Tech },
     // Checkout Routes:
     { path: "/checkout", component: CheckoutPage },
+    { path: "/fitness-checkout", component: FitnessCheckoutPage },
     { path: "/checkout-success", component: CheckoutSuccessPage },
     { path: "/checkout-cancelled", component: CheckoutCancelledPage },
     { path: "/terms", component: TermsPage },

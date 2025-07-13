@@ -1,0 +1,823 @@
+/* ProgramsPage.css - Using fitness color scheme */
+:root {
+  --fitness-bg: #fff;
+  --fitness-text: #000;
+  --fitness-card-bg: #f7f7f7;
+  --fitness-card-border: #ddd;
+  --fitness-btn: #f5c518;
+  --fitness-btn-hover-bg: #fffbe6;
+  --fitness-btn-hover-text: #7a5c15;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+    --fitness-text: #fff;
+    --fitness-card-bg: #1c1c1c;
+    --fitness-card-border: #333;
+    --fitness-btn: #ffe067;
+    --fitness-btn-hover-bg: #23211a;
+    --fitness-btn-hover-text: #ffe067;
+  }
+}
+
+.programs-page {
+  min-height: 100vh;
+  background: var(--fitness-bg);
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: var(--fitness-text);
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--fitness-btn);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Program Header */
+.program-header {
+  background: var(--fitness-card-bg);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  color: var(--fitness-text);
+}
+
+.program-header-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+.program-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--fitness-text);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.program-description {
+  font-size: 1.1rem;
+  color: var(--fitness-text);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.program-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.meta-item {
+  background: var(--fitness-bg);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--fitness-text);
+  border: 1px solid var(--fitness-card-border);
+}
+
+.program-header-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Program Content */
+.program-content {
+  background: var(--fitness-card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  color: var(--fitness-text);
+}
+
+/* Tabs */
+.program-tabs {
+  display: flex;
+  background: var(--fitness-bg);
+  border-bottom: 1px solid var(--fitness-card-border);
+  overflow-x: auto;
+}
+
+.tab-button {
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--fitness-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  opacity: 0.7;
+}
+
+.tab-button:hover {
+  color: var(--fitness-text);
+  background: var(--fitness-card-bg);
+  opacity: 1;
+}
+
+.tab-button.active {
+  color: var(--fitness-btn);
+  background: var(--fitness-card-bg);
+  border-bottom-color: var(--fitness-btn);
+  opacity: 1;
+}
+
+/* Tab Content */
+.tab-content {
+  padding: 40px;
+}
+
+.tab-content h3 {
+  font-size: 1.8rem;
+  color: var(--fitness-text);
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+/* Content Wrapper for Overlay System */
+.content-wrapper {
+  position: relative;
+  min-height: 200px;
+}
+
+/* Mist Overlay System */
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.mist-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.6) 25%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.6) 75%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: mistFloat 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mist-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.6) 25%,
+      rgba(0, 0, 0, 0.8) 50%,
+      rgba(0, 0, 0, 0.6) 75%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  }
+}
+
+@keyframes mistFloat {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.9; }
+}
+
+/* Lock Message */
+.lock-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid var(--fitness-btn);
+  pointer-events: auto;
+  max-width: 300px;
+  width: 90%;
+  z-index: 20;
+}
+
+@media (prefers-color-scheme: dark) {
+  .lock-message {
+    background: rgba(28, 28, 28, 0.95);
+    border-color: var(--fitness-btn);
+  }
+}
+
+.lock-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  animation: lockPulse 2s ease-in-out infinite;
+}
+
+@keyframes lockPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.lock-message h4 {
+  color: var(--fitness-text);
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.lock-message p {
+  color: var(--fitness-text);
+  opacity: 0.8;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.unlock-button {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  pointer-events: auto;
+  z-index: 25;
+  position: relative;
+}
+
+.unlock-button:hover {
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+  transform: translateY(-2px);
+}
+
+/* Access Modal */
+.access-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.access-modal {
+  background: var(--fitness-card-bg);
+  border-radius: 20px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.access-modal-content {
+  padding: 0;
+}
+
+.modal-header {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  padding: 24px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--fitness-text);
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.modal-body > p {
+  text-align: center;
+  margin-bottom: 24px;
+  color: var(--fitness-text);
+  font-size: 1.1rem;
+}
+
+.access-options {
+  display: grid;
+  gap: 20px;
+}
+
+.access-option {
+  background: var(--fitness-bg);
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid var(--fitness-card-border);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.access-option:hover {
+  border-color: var(--fitness-btn);
+  transform: translateY(-2px);
+}
+
+.access-option h4 {
+  color: var(--fitness-text);
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.access-option p {
+  color: var(--fitness-text);
+  opacity: 0.8;
+  margin-bottom: 16px;
+}
+
+.access-option .purchase-button,
+.access-option .subscribe-button {
+  width: 100%;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.access-option .purchase-button {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+}
+
+.access-option .purchase-button:hover {
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+}
+
+.access-option .subscribe-button {
+  background: #3498db;
+  color: white;
+}
+
+.access-option .subscribe-button:hover {
+  background: #2980b9;
+}
+
+/* Content Protection Styles */
+.content-wrapper {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.content-wrapper * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Allow selection only for users with access */
+.content-wrapper:has(.content-overlay) {
+  pointer-events: none;
+}
+
+.content-wrapper:has(.content-overlay) * {
+  pointer-events: none;
+}
+
+/* Ensure unlock button and lock message are clickable */
+.content-wrapper:has(.content-overlay) .content-overlay {
+  pointer-events: auto;
+}
+
+.content-wrapper:has(.content-overlay) .lock-message,
+.content-wrapper:has(.content-overlay) .unlock-button {
+  pointer-events: auto;
+  user-select: auto;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+}
+
+/* Overview Grid */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.overview-card {
+  background: var(--fitness-bg);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--fitness-card-border);
+}
+
+.overview-card h4 {
+  color: var(--fitness-btn);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.overview-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.overview-card li {
+  padding: 8px 0;
+  color: var(--fitness-text);
+  position: relative;
+  padding-left: 20px;
+}
+
+.overview-card li:before {
+  content: "•";
+  color: var(--fitness-btn);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.overview-card p {
+  color: var(--fitness-text);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.instructions-content {
+  line-height: 1.8;
+}
+
+.instructions-content p {
+  margin-bottom: 16px;
+  color: var(--fitness-text);
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.explanation-video {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.program-text-content {
+  line-height: 1.8;
+}
+
+.program-text-content p {
+  margin-bottom: 16px;
+  color: var(--fitness-text);
+}
+
+.pdf-container {
+  text-align: center;
+  margin: 24px 0;
+}
+
+.download-pdf-button {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.download-pdf-button:hover {
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+  transform: translateY(-2px);
+}
+
+.pdf-note {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: var(--fitness-text);
+  opacity: 0.7;
+}
+
+.no-content {
+  text-align: center;
+  padding: 40px;
+  color: var(--fitness-text);
+  opacity: 0.7;
+}
+
+.no-content p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.admin-access-indicator {
+  margin-bottom: 20px;
+}
+
+.admin-badge {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(245, 197, 24, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 197, 24, 0);
+  }
+}
+
+.back-section {
+  margin-bottom: 30px;
+}
+
+.back-button {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.back-button:hover {
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .programs-page {
+    padding: 15px;
+  }
+
+  .program-header {
+    padding: 30px 20px;
+  }
+
+  .program-header-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .program-title {
+    font-size: 2rem;
+  }
+
+  .program-meta {
+    gap: 15px;
+  }
+
+  .program-tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab-button {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .tab-content {
+    padding: 20px;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .access-options {
+    grid-template-columns: 1fr;
+  }
+
+  .lock-message {
+    padding: 20px;
+    max-width: 280px;
+  }
+
+  .modal-header {
+    padding: 20px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .program-title {
+    font-size: 1.8rem;
+  }
+
+  .tab-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .program-header-image {
+    height: 200px;
+  }
+
+  .lock-message {
+    padding: 16px;
+    max-width: 260px;
+  }
+
+  .lock-icon {
+    font-size: 2.5rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .programs-page {
+    background: var(--fitness-bg);
+    color: var(--fitness-text);
+  }
+  
+  .program-header,
+  .program-content {
+    background: var(--fitness-card-bg);
+    color: var(--fitness-text);
+    border: 1px solid var(--fitness-card-border);
+  }
+  
+  .program-title,
+  .tab-content h3 {
+    color: var(--fitness-text);
+  }
+  
+  .program-description,
+  .meta-item {
+    color: var(--fitness-text);
+    opacity: 0.8;
+  }
+  
+  .meta-item {
+    background: var(--fitness-bg);
+    border: 1px solid var(--fitness-card-border);
+  }
+  
+  .tab-button {
+    color: var(--fitness-text);
+    opacity: 0.7;
+  }
+  
+  .tab-button.active {
+    color: var(--fitness-btn);
+    background: var(--fitness-card-bg);
+    border-bottom-color: var(--fitness-btn);
+    opacity: 1;
+  }
+  
+  .admin-badge {
+    background: var(--fitness-btn);
+    color: var(--fitness-text);
+  }
+  
+  .download-pdf-button {
+    background: var(--fitness-btn);
+    color: var(--fitness-text);
+  }
+  
+  .download-pdf-button:hover {
+    background: var(--fitness-btn-hover-bg);
+    color: var(--fitness-btn-hover-text);
+  }
+  
+  .pdf-note {
+    color: var(--fitness-text);
+    opacity: 0.7;
+  }
+  
+  .back-button {
+    background: var(--fitness-btn);
+    color: var(--fitness-text);
+  }
+  
+  .back-button:hover {
+    background: var(--fitness-btn-hover-bg);
+    color: var(--fitness-btn-hover-text);
+  }
+  
+  .no-content {
+    color: var(--fitness-text);
+    opacity: 0.7;
+  }
+  
+  .meta-item {
+    background: var(--fitness-bg);
+    color: var(--fitness-text);
+    border: 1px solid var(--fitness-card-border);
+  }
+  
+  .overview-card li:before {
+    color: var(--fitness-btn);
+  }
+} 
