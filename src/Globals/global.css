@@ -12,6 +12,13 @@ body {
   line-height: 1.6;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(90deg, #2E2824 0%, #12100E 50%, #2E2824 100%) !important;
+    color: #fff;
+  }
+}
+
 a {
   text-decoration: none;
 }
