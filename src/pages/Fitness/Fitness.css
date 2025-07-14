@@ -1,9 +1,9 @@
 /* Force dark theme for fitness pages regardless of browser/OS settings */
-html, body {
+/* html, body {
   background: linear-gradient(to bottom, #0d0d0d, #1a1a1a) !important;
   color: #fff !important;
   color-scheme: dark;
-}
+} */
 .dark-fitness-bg {
   background: linear-gradient(to bottom, #0d0d0d, #1a1a1a) !important;
   color: #fff !important;
@@ -12,14 +12,14 @@ html, body {
   width: 100vw;
   box-sizing: border-box;
 }
-:root {
-  --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-  --fitness-text: #fff;
-  --fitness-card-bg: #1c1c1c;
-  --fitness-card-border: #333;
-  --fitness-btn: #ffe067;
-  --fitness-btn-hover-bg: #23211a;
-  --fitness-btn-hover-text: #ffe067;
+  :root {
+    --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+    --fitness-text: #fff;
+    --fitness-card-bg: #1c1c1c;
+    --fitness-card-border: #333;
+    --fitness-btn: #ffe067;
+    --fitness-btn-hover-bg: #23211a;
+    --fitness-btn-hover-text: #ffe067;
 }
 
 .fitness-page {
@@ -60,7 +60,7 @@ html, body {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-align: center;
-  text-shadow: 0 2px 12px #23211a;
+    text-shadow: 0 2px 12px #23211a;
   opacity: 0.82;
   background: linear-gradient(90deg, #ffe067 0%, #fffbe6 100%);
   -webkit-background-clip: text;

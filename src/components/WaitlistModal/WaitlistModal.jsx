@@ -14,6 +14,7 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
+  const [waitlistInfo, setWaitlistInfo] = useState({ position: null, total: 0 });
 
   useEffect(() => {
     if (user) {
@@ -35,35 +36,33 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!formData.name.trim() || !formData.email.trim()) {
       toast.error('Name and email are required');
       return;
     }
-
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error('Please enter a valid email address');
       return;
     }
-
     setIsSubmitting(true);
-    
     try {
       const waitlistData = {
-        ...formData,
-        programId: program?.id || null
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message
       };
-
       await joinWaitlist(waitlistData);
-      
-      toast.success('Successfully joined the waitlist! We\'ll notify you when the program is available.');
+      // Fetch position and total after joining
+      const status = await checkWaitlistStatus(formData.email);
+      setWaitlistInfo({ position: status.position, total: status.total });
+      toast.success('Successfully joined the waitlist! You will be notified for all fitness programs.');
       setFormData({ name: '', email: '', phone: '', message: '' });
-      onClose();
+      // Don't close modal immediately, show position/progress
     } catch (error) {
-      if (error.message.includes('already on the waitlist')) {
-        toast.warning('You are already on the waitlist for this program!');
+      if (error.message && error.message.includes('already on the waitlist')) {
+        toast.warning('You are already on the waitlist for all programs!');
       } else {
         toast.error('Failed to join waitlist. Please try again.');
       }
@@ -77,16 +76,14 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
       toast.error('Please enter your email first');
       return;
     }
-
     setIsChecking(true);
-    
     try {
-      const result = await checkWaitlistStatus(formData.email, program?.id || null);
-      
+      const result = await checkWaitlistStatus(formData.email);
+      setWaitlistInfo({ position: result.position, total: result.total });
       if (result.isOnWaitlist) {
-        toast.info('You are already on the waitlist for this program!');
+        toast.info('You are already on the waitlist for all programs!');
       } else {
-        toast.info('You are not currently on the waitlist for this program.');
+        toast.info('You are not currently on the waitlist.');
       }
     } catch (error) {
       toast.error('Failed to check waitlist status');
@@ -97,6 +94,10 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
 
   if (!isOpen) return null;
 
+  // Progress bar calculation
+  const { position, total } = waitlistInfo;
+  const progressPercent = position && total ? Math.round((position / total) * 100) : 0;
+
   return (
     <div className="waitlist-modal-overlay" onClick={onClose}>
       <div className="waitlist-modal" onClick={(e) => e.stopPropagation()}>
@@ -106,7 +107,6 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
             ×
           </button>
         </div>
-
         <div className="waitlist-modal-content">
           {program && (
             <div className="program-info">
@@ -114,7 +114,6 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
               <p>{program.description}</p>
             </div>
           )}
-
           <div className="waitlist-description">
             <p>
               🎯 <strong>Be the first to know!</strong> Join our exclusive waitlist and get early access 
@@ -125,6 +124,21 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
               priority access before the general public.
             </p>
           </div>
+
+          {/* Show progress bar and position if available */}
+          {position && total ? (
+            <div className="waitlist-progress-section">
+              <div className="waitlist-progress-label">
+                <span>🎉 Your Position: <strong>{position}</strong> / {total}</span>
+              </div>
+              <div className="waitlist-progress-bar-bg">
+                <div className="waitlist-progress-bar" style={{ width: `${progressPercent}%` }}></div>
+              </div>
+              <div className="waitlist-progress-text">
+                {progressPercent === 1 ? 'You are first in line!' : `You're in the top ${progressPercent}% of the waitlist!`}
+              </div>
+            </div>
+          ) : null}
 
           <form onSubmit={handleSubmit} className="waitlist-form">
             <div className="form-group">

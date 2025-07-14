@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Fitness.css";
 import styles from "./Fitness.module.css";
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession, fetchFitnessPrograms, checkUserAccess } from "../../services/api";
+import { createCheckoutSession, fetchFitnessPrograms, checkWaitlistStatus } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import WaitlistModal from "../../components/WaitlistModal/WaitlistModal";
@@ -22,6 +22,7 @@ const Fitness = () => {
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
   const [selectedProgramForWaitlist, setSelectedProgramForWaitlist] = useState(null);
   const [waitlistMode, setWaitlistMode] = useState(true); // Set to true to enable waitlist mode
+  const [isOnGlobalWaitlist, setIsOnGlobalWaitlist] = useState(false); // New state for global waitlist status
   const { user } = useAuth();
 
   // Fetch programs and user access on component mount
@@ -148,6 +149,7 @@ const Fitness = () => {
     }
   };
 
+  // Replace handleJoinWaitlist with a simple modal open
   const handleJoinWaitlist = (program) => {
     setSelectedProgramForWaitlist(program);
     setShowWaitlistModal(true);
@@ -157,6 +159,23 @@ const Fitness = () => {
     setShowWaitlistModal(false);
     setSelectedProgramForWaitlist(null);
   };
+
+  // Fetch global waitlist status on component mount
+  useEffect(() => {
+    const checkGlobalWaitlistStatus = async () => {
+      if (user && user.email) {
+        try {
+          const response = await checkWaitlistStatus(user.email);
+          setIsOnGlobalWaitlist(!!response.isOnWaitlist);
+        } catch (error) {
+          console.error("Error checking global waitlist status:", error);
+          toast.error("Failed to check global waitlist status.");
+        }
+      }
+    };
+
+    checkGlobalWaitlistStatus();
+  }, [user]);
 
   if (loading) {
     return (
@@ -251,33 +270,39 @@ const Fitness = () => {
                 View Full Program
               </button>
               {waitlistMode ? (
-                <button 
-                  className="waitlist-btn"
-                  onClick={() => handleJoinWaitlist(program)}
-                  style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 16px',
-                    borderRadius: '6px',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    marginTop: '8px',
-                    width: '100%'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-1px)';
-                    e.target.style.boxShadow = '0 4px 8px rgba(102, 126, 234, 0.3)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                >
-                  📋 Join Waitlist
-                </button>
+                isOnGlobalWaitlist ? (
+                  <div className="waitlist-info-message" style={{ color: '#ffe067', fontWeight: 600, marginTop: 12, textAlign: 'center' }}>
+                    You're on the waitlist. You'll be notified when a program comes out.
+                  </div>
+                ) : (
+                  <button 
+                    className="waitlist-btn"
+                    onClick={() => handleJoinWaitlist(program)}
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '10px 16px',
+                      borderRadius: '6px',
+                      fontSize: '0.9rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      marginTop: '8px',
+                      width: '100%'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-1px)';
+                      e.target.style.boxShadow = '0 4px 8px rgba(102, 126, 234, 0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  >
+                    📋 Join Waitlist
+                  </button>
+                )
               ) : (
                 <button 
                   className="view-full-program-btn"

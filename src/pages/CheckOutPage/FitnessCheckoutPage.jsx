@@ -101,7 +101,10 @@ const FitnessCheckoutPage = () => {
           <div className="program-item">
             <div className="program-details">
               <h3 className="program-name">{checkoutData.program.name}</h3>
-              <p className="program-price">${checkoutData.program.price.toFixed(2)}</p>
+              {/* Only show price if not in waitlist mode */}
+              {!waitlistMode && (
+                <p className="program-price">${checkoutData.program.price.toFixed(2)}</p>
+              )}
               <p className="program-description">{checkoutData.program.description}</p>
             </div>
             <div className="program-image-container">

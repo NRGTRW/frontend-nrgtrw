@@ -243,14 +243,13 @@ const ProgramsPage = () => {
                   <strong>Duration:</strong> {program.duration}
                 </span>
               )}
-              {program.difficulty && (
+              {/* Removed difficulty level display */}
+              {/* Only show price if not in waitlist mode */}
+              {!waitlistMode && (
                 <span className="meta-item">
-                  <strong>Difficulty:</strong> {program.difficulty}
+                  <strong>Price:</strong> ${program.price.toFixed(2)}
                 </span>
               )}
-              <span className="meta-item">
-                <strong>Price:</strong> ${program.price.toFixed(2)}
-              </span>
             </div>
           </div>
           <div className="program-header-right">
@@ -347,7 +346,7 @@ const ProgramsPage = () => {
                 <div className="overview-card">
                   <h4>📅 Program Structure</h4>
                   <p><strong>Duration:</strong> {program.duration || "To be determined"}</p>
-                  <p><strong>Difficulty:</strong> {program.difficulty || "To be determined"}</p>
+                  {/* Removed difficulty level display */}
                   <p><strong>Type:</strong> Fitness Program</p>
                 </div>
               </div>

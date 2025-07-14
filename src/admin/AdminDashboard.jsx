@@ -187,71 +187,71 @@ const AdminDashboard = () => {
 
       {/* User Management Tab */}
       {activeTab === 'users' && (
-        <div className="admin-card">
-          <div className="admin-header">
-            <h2 className="admin-title">User Management</h2>
-          </div>
-
-          {loading ? (
-            <div className="admin-loading-container">
-              <div className="admin-loading"></div>
-            </div>
-          ) : (
-            <div className="admin-table-container">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr
-                      key={user.id}
-                      className={
-                        user.role === "ROOT_ADMIN" ? "highlighted-root" : ""
-                      }
-                    >
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>
-                        {user.role === "ROOT_ADMIN" ? (
-                          <span className="root-admin-icon">
-                            ⚡👑 AURA SUPREME OVERLORD 👑⚡
-                          </span>
-                        ) : (
-                          <select
-                            className="admin-input"
-                            value={user.role}
-                            onChange={(e) =>
-                              handleRoleChange(user.id, e.target.value)
-                            }
-                          >
-                            <option value="USER">User</option>
-                            <option value="ADMIN">Admin</option>
-                          </select>
-                        )}
-                      </td>
-                      <td>
-                        {user.role !== "ROOT_ADMIN" && (
-                          <button
-                            className="admin-btn danger"
-                            onClick={() => openDeleteModal(user)}
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+      <div className="admin-card">
+        <div className="admin-header">
+          <h2 className="admin-title">User Management</h2>
         </div>
+
+        {loading ? (
+          <div className="admin-loading-container">
+            <div className="admin-loading"></div>
+          </div>
+        ) : (
+          <div className="admin-table-container">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr
+                    key={user.id}
+                    className={
+                      user.role === "ROOT_ADMIN" ? "highlighted-root" : ""
+                    }
+                  >
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      {user.role === "ROOT_ADMIN" ? (
+                        <span className="root-admin-icon">
+                          ⚡👑 AURA SUPREME OVERLORD 👑⚡
+                        </span>
+                      ) : (
+                        <select
+                          className="admin-input"
+                          value={user.role}
+                          onChange={(e) =>
+                            handleRoleChange(user.id, e.target.value)
+                          }
+                        >
+                          <option value="USER">User</option>
+                          <option value="ADMIN">Admin</option>
+                        </select>
+                      )}
+                    </td>
+                    <td>
+                      {user.role !== "ROOT_ADMIN" && (
+                        <button
+                          className="admin-btn danger"
+                          onClick={() => openDeleteModal(user)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
       )}
 
       {/* Waitlist Management Tab */}

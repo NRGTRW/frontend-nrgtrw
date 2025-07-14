@@ -130,10 +130,10 @@ const Navbar = () => {
         <div className="right-container">
           {/* Admin Dashboard Button - Prominent Position */}
           {isAdmin && (
-            <Link
-              to="/admin/dashboard"
+              <Link
+                to="/admin/dashboard"
               className="admin-dashboard-btn"
-              aria-label="Admin Dashboard"
+                aria-label="Admin Dashboard"
               title="Admin Dashboard"
               style={{
                 display: 'flex',
@@ -159,19 +159,19 @@ const Navbar = () => {
                 e.target.style.transform = 'translateY(0)';
                 e.target.style.boxShadow = 'none';
               }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
                 style={{ marginRight: '6px' }}
-              >
-                <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z" />
-              </svg>
+                >
+                  <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z" />
+                </svg>
               Dashboard
-            </Link>
+              </Link>
           )}
           
           {/* Other Admin Icons */}
