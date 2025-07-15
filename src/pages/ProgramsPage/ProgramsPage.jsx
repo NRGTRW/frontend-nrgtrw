@@ -287,7 +287,7 @@ const ProgramsPage = () => {
             className={`tab-button ${activeTab === "instructions" ? "active" : ""}`}
             onClick={() => handleTabSwitch("instructions")}
           >
-            Instructions {!userHasAccess() && "🔒"}
+            Key Principles {!userHasAccess() && "🔒"}
           </button>
           <button 
             className={`tab-button ${activeTab === "video" ? "active" : ""}`}
@@ -355,7 +355,7 @@ const ProgramsPage = () => {
 
           {activeTab === "instructions" && (
             <div className="instructions-tab">
-              <h3>📋 Program Instructions</h3>
+              <h3>📋 Key Principles</h3>
               <div className="content-wrapper" ref={el => contentRefs.current.instructions = el}>
                 {program.instructions ? (
                   <div className="instructions-content">

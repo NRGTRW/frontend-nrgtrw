@@ -11,16 +11,17 @@
 
 /* Default Light Mode (Black Icon) */
 .hamburger-icon path {
-  stroke: black; /* Default black */
+  stroke: black;
   transition:
     transform 0.3s ease-in-out,
     opacity 0.2s ease-in-out,
     stroke 0.3s ease-in-out;
 }
 
-/* 🔥 Forced Dark Mode (White Icon) */
-body.dark-mode .hamburger-icon path {
-  stroke: white; /* Change to white only if dark mode is forced */
+@media (prefers-color-scheme: dark) {
+  .hamburger-icon path {
+    stroke: white;
+  }
 }
 
 /* 🔥 Correct Cross Alignment */
