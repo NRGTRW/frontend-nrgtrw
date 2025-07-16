@@ -1,0 +1,281 @@
+/* ProductVoteModal.module.css */
+:local(.productVoteModalOverlay) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+:local(.productVoteModal) {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 75vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+  color: var(--text-primary);
+}
+
+:local(.productVoteModalHeader) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 0 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 16px;
+}
+
+:local(.productVoteModalHeader) h2 {
+  color: var(--accent-primary);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+:local(.productVoteModalClose) {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+:local(.productVoteModalClose):hover {
+  background: rgba(191, 161, 74, 0.1);
+  color: var(--accent-primary);
+}
+
+:local(.productVoteModalContent) {
+  padding: 0 20px 20px 20px;
+}
+
+:local(.productInfo) {
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 12px;
+}
+
+:local(.productInfo) h3 {
+  color: var(--accent-primary);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  margin: 0 0 8px 0;
+}
+
+:local(.productInfo) p {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+:local(.voteDescription) {
+  margin-bottom: 20px;
+}
+
+:local(.voteDescription) p {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+}
+
+:local(.voteProgressSection) {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(191, 161, 74, 0.05);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+:local(.voteProgressLabel) {
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+:local(.voteProgressBarBg) {
+  background: #333;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 16px;
+  margin-bottom: 6px;
+}
+
+:local(.voteProgressBar) {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  transition: width 0.4s ease;
+}
+
+:local(.voteProgressText) {
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+:local(.voteForm) {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+:local(.formGroup) {
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.formGroup) label {
+  display: block;
+  color: var(--accent-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+:local(.formGroup) input,
+:local(.formGroup) select,
+:local(.formGroup) textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-weight: 500;
+  text-shadow: none;
+}
+
+:local(.formGroup) input:focus,
+:local(.formGroup) select:focus,
+:local(.formGroup) textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(255, 224, 103, 0.2);
+}
+
+:local(.formGroup) input::placeholder,
+:local(.formGroup) textarea::placeholder {
+  color: var(--text-primary);
+  opacity: 0.6;
+}
+
+:local(.emailInputGroup) {
+  display: flex;
+  gap: 8px;
+}
+
+:local(.emailInputGroup) input {
+  flex: 1;
+}
+
+:local(.checkStatusBtn) {
+  padding: 10px 14px;
+  background: rgba(191, 161, 74, 0.1);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+:local(.checkStatusBtn):hover:not(:disabled) {
+  background: rgba(191, 161, 74, 0.2);
+  color: var(--accent-primary);
+}
+
+:local(.voteBenefits) {
+  background: rgba(191, 161, 74, 0.05);
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+}
+
+:local(.voteBenefits) h4 {
+  color: var(--accent-primary);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+}
+
+:local(.voteBenefits) ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+:local(.voteBenefits) li {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  padding-left: 0;
+  font-weight: 400;
+}
+
+:local(.modalButtons) {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+:local(.modalButtons) button {
+  flex: 1;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+:local(.cancelBtn) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:local(.cancelBtn):hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+:local(.voteBtn) {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: var(--bg-primary);
+}
+
+:local(.voteBtn):hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(255, 224, 103, 0.3);
+}
+
+:local(.voteBtn:disabled),
+:local(.cancelBtn:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+} 

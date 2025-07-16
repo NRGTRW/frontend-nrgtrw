@@ -87,10 +87,24 @@
         "sectionTitles": {
           "elegance": "Elegance",
           "pumpCovers": "Pump Covers",
-          "confidence": "Confidence"
+          "confidence": "Confidence",
+          "available": "Available"
         },
         "loadingMessage": "Loading products...",
-        "errorMessage": "Failed to load products."
+        "errorMessage": "Failed to load products.",
+        "voteSection": {
+          "title": "Vote for Collections",
+          "subtitle": "Help us decide which collections to produce next",
+          "description": "These collections are currently in the voting phase. If enough people show interest, we'll make them happen!",
+          "voteButton": "Vote for Collection",
+          "alreadyVoted": "You've already voted for this collection",
+          "voteCount": "votes"
+        },
+        "availableSection": {
+          "title": "Available Collections",
+          "subtitle": "Ready to ship",
+          "description": "These collections are currently available for purchase."
+        }
       },
         "cartPage": {
           "addToCart": "Add to Cart",

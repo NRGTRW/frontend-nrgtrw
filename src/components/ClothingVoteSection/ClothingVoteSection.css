@@ -1,0 +1,231 @@
+.clothing-vote-section {
+  padding: 60px 20px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  margin: 40px 0;
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.vote-section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.vote-section-header h2 {
+  color: var(--accent-primary);
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+}
+
+.vote-section-header p {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.vote-description {
+  color: var(--text-secondary) !important;
+  font-size: 1rem !important;
+  max-width: 600px;
+  margin: 0 auto !important;
+}
+
+.vote-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vote-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.vote-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vote-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent-secondary);
+}
+
+.vote-card:hover::before {
+  opacity: 1;
+}
+
+.vote-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.vote-card-header h3 {
+  color: var(--accent-primary);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.vote-count {
+  text-align: center;
+  background: rgba(191, 161, 74, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 60px;
+}
+
+.vote-number {
+  display: block;
+  color: var(--accent-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.vote-label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.vote-card-content {
+  text-align: center;
+}
+
+.vote-card-content p {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.vote-button {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: var(--bg-primary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vote-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 224, 103, 0.3);
+}
+
+.vote-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.voted-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--accent-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px;
+  background: rgba(255, 224, 103, 0.1);
+  border: 1px solid rgba(255, 224, 103, 0.2);
+  border-radius: 8px;
+}
+
+.voted-icon {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.loading-message {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  padding: 40px;
+  grid-column: 1 / -1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .clothing-vote-section {
+    padding: 40px 16px;
+    margin: 20px 0;
+  }
+  
+  .vote-section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .vote-section-header p {
+    font-size: 1rem;
+  }
+  
+  .vote-cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .vote-card {
+    padding: 20px;
+  }
+  
+  .vote-card-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .vote-count {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .vote-section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .vote-card {
+    padding: 16px;
+  }
+  
+  .vote-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+} 

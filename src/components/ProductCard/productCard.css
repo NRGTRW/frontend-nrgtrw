@@ -1,11 +1,9 @@
 /* General Styling */
 .product-grid {
   display: grid;
-  /* Force each column to be exactly 300px wide */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+  grid-template-columns: repeat(auto-fit, 315px);
   gap: 20px;
   padding: 20px;
-  /* Center the grid when there are fewer items */
   justify-content: center;
   justify-items: center;
 }
@@ -84,17 +82,17 @@
   font-family: "Poppins", sans-serif;
 }
 
-.product-name {
+.product-info h3 {
   font-size: 18px;
   font-weight: bold;
   margin: 0;
   color: #333;
 }
 
-.product-price {
+.product-info p {
   font-size: 16px;
   margin: 5px 0 15px;
-  color: #666;
+  /* color: #666; */
 }
 
 /* Color Options */
@@ -103,6 +101,7 @@
   justify-content: center;
   gap: 10px;
   padding: 10px 0;
+  margin-bottom: 30px;
 }
 
 .color-circle {
@@ -114,6 +113,7 @@
   background-size: cover;
   background-position: center;
   transition: transform 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .color-circle:hover {
@@ -167,6 +167,60 @@
   transform: scale(1.1);
 }
 
+/* Vote Button Styling */
+.vote-btn-on-card {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: var(--bg-primary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 12px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(255, 224, 103, 0.2);
+}
+
+.vote-btn-on-card:hover,
+.vote-btn-on-card:active {
+  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+}
+
+.vote-btn-overlay {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: calc(100% - 40px);
+  max-width: 220px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  opacity: 0.97;
+  pointer-events: auto;
+}
+
+.card-size-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0 8px 0;
+}
+
+.card-size-item {
+  display: inline-block;
+  background: #f5f5f5;
+  color: #222;
+  border-radius: 16px;
+  padding: 2px 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .wishlist-button {
@@ -195,3 +249,15 @@
     font-size: 18px;
   }
 }
+
+.product-card .image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card .product-image,
+.product-card .hover-image {
+  transition: opacity 0.3s ease;
+}
+
+/* Remove zoom effect on hover */

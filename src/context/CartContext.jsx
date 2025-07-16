@@ -47,8 +47,10 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
+      // Always use product.id as productId
+      const productId = product.id;
       const requestData = {
-        productId: Number(product.productId),
+        productId: Number(productId),
         name: product.name,
         price: product.price,
         selectedSize: product.selectedSize,

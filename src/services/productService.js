@@ -1,5 +1,6 @@
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
+import { fetchAllTemuProducts } from './temuProductService';
 
 export const fetchAllProducts = async () => {
   try {
@@ -12,6 +13,10 @@ export const fetchAllProducts = async () => {
 };
 
 export const fetchProductById = async (id) => {
+  if (id && typeof id === 'string' && id.startsWith('temu-')) {
+    const temuProducts = await fetchAllTemuProducts();
+    return temuProducts.find(p => p.id === id);
+  }
   try {
     const response = await axios.get(`${API_URL}/products/${id}`);
     return response.data;

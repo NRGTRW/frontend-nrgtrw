@@ -301,4 +301,67 @@ export const fetchWaitlistStats = async () => {
   }
 };
 
+// ----------------- Clothing Vote Endpoints -----------------
+export const joinClothingVote = async (voteData) => {
+  try {
+    const response = await api.post("/clothing-vote/join", voteData);
+    return response.data;
+  } catch (error) {
+    console.error("Error joining clothing vote:", error.message);
+    throw new Error("Failed to submit clothing vote.");
+  }
+};
+
+export const checkClothingVoteStatus = async (email, categoryId) => {
+  try {
+    const params = new URLSearchParams({ email, categoryId });
+    const response = await api.get(`/clothing-vote/check?${params}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error checking clothing vote status:", error.message);
+    throw new Error("Failed to check clothing vote status.");
+  }
+};
+
+export const fetchClothingVoteStats = async () => {
+  try {
+    const response = await api.get("/clothing-vote/stats");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching clothing vote stats:", error.message);
+    throw new Error("Failed to fetch clothing vote statistics.");
+  }
+};
+
+// ----------------- Clothing Vote Admin Endpoints -----------------
+export const fetchClothingVotes = async (params = {}) => {
+  try {
+    const response = await api.get(`/clothing-vote/admin?${new URLSearchParams(params)}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching clothing votes:", error.message);
+    throw new Error("Failed to fetch clothing votes.");
+  }
+};
+
+export const updateClothingVote = async (voteId, updateData) => {
+  try {
+    const response = await api.patch(`/clothing-vote/admin/${voteId}`, updateData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating clothing vote:", error.message);
+    throw new Error("Failed to update clothing vote.");
+  }
+};
+
+export const deleteClothingVote = async (voteId) => {
+  try {
+    const response = await api.delete(`/clothing-vote/admin/${voteId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting clothing vote:", error.message);
+    throw new Error("Failed to delete clothing vote.");
+  }
+};
+
 export default api;

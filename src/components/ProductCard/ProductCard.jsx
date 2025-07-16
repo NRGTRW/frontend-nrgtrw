@@ -10,14 +10,20 @@ import { toast } from "react-toastify";
 import { deleteProduct } from "../../services/productService"; // Import the deleteProduct function
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal"; // Import the modal component
 import { useTranslation } from "react-i18next";
+import ProductVoteModal from '../ProductVoteModal/ProductVoteModal';
 
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 function getS3Url(path) {
   if (!path) return undefined;
-  return path.startsWith('http') ? path : S3_BASE + (path.startsWith('/') ? path.slice(1) : path);
+  // If the path is a local image (starts with /images/ or /public/), return as-is
+  if (path.startsWith('/images/') || path.startsWith('/public/')) return path;
+  // If the path is already an absolute URL, return as-is
+  if (path.startsWith('http')) return path;
+  // Otherwise, prepend the S3 base URL
+  return S3_BASE + (path.startsWith('/') ? path.slice(1) : path);
 }
 
-const Products = ({ products }) => {
+const Products = ({ products, showVoteButton = false, showSizes = false, categoryName }) => {
   const navigate = useNavigate();
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
   const { user } = useAuth();
@@ -26,6 +32,8 @@ const Products = ({ products }) => {
   const [showModal, setShowModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const { i18n, t } = useTranslation();
+  const [voteModalOpen, setVoteModalOpen] = useState(false);
+  const [voteProduct, setVoteProduct] = useState(null);
 
   const handleDeleteProduct = async (productId) => {
     setProductToDelete(productId);
@@ -114,6 +122,7 @@ const Products = ({ products }) => {
             key={product.id}
             className="product-card"
             onClick={() => handleProductClick(product, currentColor)}
+            style={{ position: 'relative' }}
           >
             {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
               <div
@@ -138,6 +147,18 @@ const Products = ({ products }) => {
                 alt={`${displayName} hover`}
                 className="hover-image"
               />
+              {showVoteButton && (
+                <button
+                  className="vote-btn-on-card vote-btn-overlay"
+                  onClick={e => {
+                    e.stopPropagation();
+                    setVoteProduct(product);
+                    setVoteModalOpen(true);
+                  }}
+                >
+                  Vote for Product
+                </button>
+              )}
             </div>
 
             <div className="hover-overlay">
@@ -153,48 +174,51 @@ const Products = ({ products }) => {
               <div className="product-info">
                 <h3>{displayName}</h3>
                 <p>${product.price.toFixed(2)}</p>
+                {/* Remove size display from card */}
+                {/* {showSizes && product.sizes && product.sizes.length > 0 && (
+                  <div className="card-size-row">
+                    {product.sizes.map((size) => (
+                      <span key={size.id || size.size} className="card-size-item">{size.size}</span>
+                    ))}
+                  </div>
+                )} */}
+                <div className="color-options">
+                  {product.colors?.map((color, index) => (
+                    <div
+                      key={`color-${index}`}
+                      className={`color-circle ${
+                        index === selectedColorIndex ? "selected" : ""
+                      }`}
+                      style={{
+                        backgroundImage: `url('${color.imageUrl}')`,
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedColors((prev) => ({
+                          ...prev,
+                          [product.id]: index,
+                        }));
+                      }}
+                      title={color.colorName}
+                    ></div>
+                  ))}
+                </div>
               </div>
-
-              <div className="color-options">
-                {product.colors?.map((color, index) => (
-                  <div
-                    key={`color-${index}`}
-                    className={`color-circle ${
-                      index === selectedColorIndex ? "selected" : ""
-                    }`}
-                    style={{
-                      backgroundImage: `url('${color.imageUrl}')`,
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedColors((prev) => ({
-                        ...prev,
-                        [product.id]: index,
-                      }));
-                    }}
-                    title={color.colorName}
-                  ></div>
-                ))}
-              </div>
-              {/*
-                If you want to add an "Add to Cart" button here, you could include:
-                <button onClick={(e) => { e.stopPropagation(); /* add your addToCart logic *\/ }}>
-                  {t("cartPage.addToCart", "Add to Cart")}
-                </button>
-              */}
             </div>
+            <ProductVoteModal
+              isOpen={voteModalOpen}
+              onClose={() => setVoteModalOpen(false)}
+              product={voteProduct}
+            />
+            <DeleteConfirmationModal
+              showModal={showModal}
+              onClose={() => setShowModal(false)}
+              onConfirm={confirmDelete}
+              productName={products.find((p) => p.id === productToDelete)?.name}
+            />
           </div>
         );
       })}
-
-      <DeleteConfirmationModal
-        showModal={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={confirmDelete}
-        productName={
-          products.find((p) => p.id === productToDelete)?.name
-        }
-      />
     </div>
   );
 };

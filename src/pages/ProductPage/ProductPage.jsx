@@ -179,8 +179,10 @@ const ProductPage = () => {
       toast.error(`Maximum quantity of ${MAX_QUANTITY} reached`);
       return;
     }
+    // Always use product.id as productId
+    const productId = product.id;
     addToCart({
-      productId: product.id,
+      id: product.id, // always pass as id
       name: displayName,
       price: product.price,
       selectedSize,
@@ -335,8 +337,23 @@ const ProductPage = () => {
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
+  const isTemuProduct = product?.id && typeof product.id === 'string' && product.id.startsWith('temu-');
   const currentColor = product?.colors?.[selectedColorIndex] || {};
-  const images = [getS3Url(currentColor.imageUrl), getS3Url(currentColor.hoverImage)].filter(Boolean);
+  // Determine if this is the 'Available' product (Reflection Layer)
+  const isAvailableProduct = displayName === 'Reflection Layer'; // or use product.id === 9 if that's the ID
+  // Determine images for the carousel
+  let images = [];
+  if (product) {
+    if (isAvailableProduct) {
+      // For Reflection Layer, show all color images as the carousel
+      images = product.colors?.map((c) => getS3Url(c.imageUrl)).filter(Boolean) || [];
+    } else if (Array.isArray(product.images) && product.images.length > 0) {
+      images = product.images;
+    } else {
+      // Fallback: use color image and hover image if available
+      images = [getS3Url(currentColor.imageUrl), getS3Url(currentColor.hoverImage)].filter(Boolean);
+    }
+  }
 
   return (
     <div className="product-page">
@@ -550,42 +567,42 @@ const ProductPage = () => {
             <div className="image-carousel">
               <button
                 className="carousel-arrow left-arrow"
-                onClick={() =>
-                  setCurrentImageIndex((prev) =>
-                    prev === 0 ? images.length - 1 : prev - 1
-                  )
-                }
+                onClick={() => {
+                  setCurrentImageIndex((prev) => {
+                    const newIndex = prev === 0 ? images.length - 1 : prev - 1;
+                    return newIndex;
+                  });
+                }}
               >
                 ❮
               </button>
               <img
-                src={images[currentImageIndex] || getS3Url(product.imageUrl)}
-                alt={`${displayName} - ${
-                  product.colors?.[selectedColorIndex]?.colorName || "default"
-                }`}
+                src={images[currentImageIndex] || (isTemuProduct ? currentColor.imageUrl : getS3Url(product.imageUrl))}
+                alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
                 className="main-image"
               />
               <button
                 className="carousel-arrow right-arrow"
-                onClick={() =>
-                  setCurrentImageIndex((prev) =>
-                    prev === images.length - 1 ? 0 : prev + 1
-                  )
-                }
+                onClick={() => {
+                  setCurrentImageIndex((prev) => {
+                    const newIndex = prev === images.length - 1 ? 0 : prev + 1;
+                    return newIndex;
+                  });
+                }}
               >
                 ❯
               </button>
             </div>
-            <div className="color-thumbnails">
-              {product.colors?.map((color, index) => (
+            {/* Thumbnails below the main image */}
+            <div className="image-thumbnails">
+              {images.map((img, idx) => (
                 <img
-                  key={color.id}
-                  src={getS3Url(color.imageUrl)}
-                  alt={`${displayName} - ${color.colorName}`}
-                  className={`thumbnail ${
-                    selectedColorIndex === index ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedColorIndex(index)}
+                  key={img + idx}
+                  src={img}
+                  alt={`Thumbnail ${idx + 1}`}
+                  className={`thumbnail ${currentImageIndex === idx ? "selected" : ""}`}
+                  onClick={() => setCurrentImageIndex(idx)}
+                  style={{ cursor: 'pointer', width: 60, height: 60, objectFit: 'cover', margin: '0 6px', border: currentImageIndex === idx ? '2px solid #222' : '1px solid #ccc', borderRadius: 8, boxShadow: currentImageIndex === idx ? '0 0 6px #aaa' : 'none' }}
                 />
               ))}
             </div>
@@ -595,19 +612,22 @@ const ProductPage = () => {
             <p className="product-price">${product.price.toFixed(2)}</p>
             <p className="product-description">{displayDescription}</p>
             <div className="size-quantity-row">
-              <div className="size-selector">
-                {sortedSizes.map((size) => (
-                  <button
-                    key={size.id}
-                    className={`size-button ${
-                      selectedSize === size.size ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedSize(size.size)}
-                  >
-                    {size.size}
-                  </button>
-                ))}
-              </div>
+              {/* Only show size selector for non-Available products */}
+              {!isAvailableProduct && (
+                <div className="size-selector">
+                  {sortedSizes.map((size) => (
+                    <button
+                      key={size.id}
+                      className={`size-button ${
+                        selectedSize === size.size ? "selected" : ""
+                      }`}
+                      onClick={() => setSelectedSize(size.size)}
+                    >
+                      {size.size}
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="quantity-selector">
                 <button
                   className="quantity-button minus"
@@ -642,9 +662,9 @@ const ProductPage = () => {
             <button
               className="add-to-cart-button"
               onClick={handleAddToCart}
-              disabled={!selectedSize || !quantity}
+              disabled={!selectedSize && !isAvailableProduct || !quantity}
             >
-              {t("cartPage.addToCart", "Add to Cart")}
+              {t("cartPage.addToCart")}
             </button>
             {user &&
               (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (

@@ -5,6 +5,7 @@ import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "./CheckoutPage.css";
+import { updateProfile } from "../../services/profileService";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -12,6 +13,10 @@ const CheckoutPage = () => {
   const { cart } = useCart();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState(user?.address || "");
+  const [phone, setPhone] = useState(user?.phone || "");
+  const [addressTouched, setAddressTouched] = useState(false);
+  const [phoneTouched, setPhoneTouched] = useState(false);
 
   // Compute grand total based on each item's price and quantity
   const totalPrice = cart.reduce((total, item) => {
@@ -23,16 +28,36 @@ const CheckoutPage = () => {
       toast.error("Your cart is empty!");
       return;
     }
+    if (!address.trim()) {
+      setAddressTouched(true);
+      toast.error("Please enter your delivery address.");
+      return;
+    }
+    if (!phone.trim()) {
+      setPhoneTouched(true);
+      toast.error("Please enter your phone number.");
+      return;
+    }
     setLoading(true);
     try {
+      // Update user profile if address or phone changed
+      if ((user?.address !== address) || (user?.phone !== phone)) {
+        const formData = new FormData();
+        formData.append("address", address);
+        formData.append("phone", phone);
+        await updateProfile(formData);
+      }
       // Use the authenticated user's ID if available; fallback to 1 for testing
       const userId = user?.id || 1;
       // Prepare the items array for the backend.
       const items = cart.map((item) => ({
         productId: item.productId || item.id,
         quantity: item.quantity,
+        selectedColor: item.selectedColor,
+        selectedSize: item.selectedSize,
+        name: item.name,
       }));
-
+      // Optionally update user profile with address/phone here (API call)
       const data = await createCheckoutSession({ userId, items });
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({
@@ -56,6 +81,7 @@ const CheckoutPage = () => {
       {cart.length === 0 ? (
         <p className="empty-message">Your cart is empty.</p>
       ) : (
+        <>
         <div className="order-summary">
           <h2 className="order-heading">Order Summary</h2>
           <ul className="order-list">
@@ -90,6 +116,33 @@ const CheckoutPage = () => {
             <strong>Grand Total: ${totalPrice.toFixed(2)}</strong>
           </div>
         </div>
+        <div className="checkout-fields">
+          <label className="checkout-label">
+            Delivery Address <span style={{color: 'red'}}>*</span>
+            <textarea
+              className={`checkout-input${addressTouched && !address.trim() ? ' error' : ''}`}
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+              onBlur={() => setAddressTouched(true)}
+              required
+              rows={2}
+              placeholder="Enter your delivery address"
+            />
+          </label>
+          <label className="checkout-label">
+            Phone Number <span style={{color: 'red'}}>*</span>
+            <input
+              className={`checkout-input${phoneTouched && !phone.trim() ? ' error' : ''}`}
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+              onBlur={() => setPhoneTouched(true)}
+              required
+              type="tel"
+              placeholder="Enter your phone number"
+            />
+          </label>
+        </div>
+        </>
       )}
       <button
         onClick={handleCheckout}
