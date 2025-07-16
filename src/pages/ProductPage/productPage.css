@@ -21,11 +21,11 @@ body {
   position: relative; /* Ensures absolute positioning works for child elements */
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 60px; /* More space between image and details */
   max-width: 1200px;
   background: var(--card-bg);
   border-radius: 10px;
-  padding: 20px;
+  padding: 40px 32px;
   box-shadow: var(--shadow);
   border: 1px solid var(--card-border);
   width: 100%;
@@ -33,17 +33,35 @@ body {
 }
 
 .product-images {
-  flex: 1;
-  min-width: 300px;
-  text-align: center;
-  position: relative; /* This is key for positioning the delete button inside the image container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 500px;
+  width: 100%;
+  padding: 32px 0 24px 0;
+  margin-right: 0;
+  /* background: var(--card-bg); */
+  border-radius: 16px;
+  /* box-shadow: 0 2px 16px rgba(0,0,0,0.04); */
 }
 
 .image-carousel {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   max-width: 100%;
+  margin-bottom: 32px;
+}
+
+.image-thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 16px;
+  margin-bottom: 0;
 }
 
 .main-image {
@@ -308,17 +326,7 @@ body {
 
 /* Wishlist Icon for Product Page */
 .wishlist-icon-productPage {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  z-index: 10000;
-  background: #fff;
-  border-radius: 50%;
-  padding: 2px;
+  /* No longer used, revert to ProductCard style */
 }
 
 /* ✅ On Mobile, ensure the wishlist button remains at the top right corner of the image */
@@ -337,13 +345,14 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 2rem;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
-  z-index: 100; /* Ensure it stays on top of other elements */
-  color: red;
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
+  transition: transform 0.2s ease-in-out, opacity 0.3s ease;
+  z-index: 10000;
+  background: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .wishlist-button:hover {

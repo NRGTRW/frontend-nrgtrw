@@ -555,45 +555,44 @@ const ProductPage = () => {
         </div>
       ) : (
         <div className="product-container">
-          <motion.img
-            src={isWishlisted ? "/wishlist-filled.png" : "/wishlist-outline.png"}
-            alt="Wishlist"
-            className="wishlist-icon-productPage"
-            onClick={handleWishlistToggle}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          />
           <div className="product-images">
-            <div className="image-carousel">
-              <button
-                className="carousel-arrow left-arrow"
-                onClick={() => {
-                  setCurrentImageIndex((prev) => {
-                    const newIndex = prev === 0 ? images.length - 1 : prev - 1;
-                    return newIndex;
-                  });
-                }}
-              >
-                ❮
-              </button>
+            <div className="image-carousel" style={{ position: 'relative' }}>
               <img
-                src={images[currentImageIndex] || (isTemuProduct ? currentColor.imageUrl : getS3Url(product.imageUrl))}
-                alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
-                className="main-image"
+                src={isWishlisted ? '/wishlist-filled.png' : '/wishlist-outline.png'}
+                alt="Wishlist"
+                className="wishlist-button"
+                onClick={handleWishlistToggle}
+                style={{ position: 'absolute', top: 10, right: 10, zIndex: 10000 }}
               />
               <button
-                className="carousel-arrow right-arrow"
-                onClick={() => {
-                  setCurrentImageIndex((prev) => {
-                    const newIndex = prev === images.length - 1 ? 0 : prev + 1;
-                    return newIndex;
-                  });
-                }}
-              >
-                ❯
-              </button>
+                  className="carousel-arrow left-arrow"
+                  onClick={() => {
+                    setCurrentImageIndex((prev) => {
+                      const newIndex = prev === 0 ? images.length - 1 : prev - 1;
+                      return newIndex;
+                    });
+                  }}
+                >
+                  ❮
+                </button>
+                <img
+                  src={images[currentImageIndex] || (isTemuProduct ? currentColor.imageUrl : getS3Url(product.imageUrl))}
+                  alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
+                  className="main-image"
+                />
+                <button
+                  className="carousel-arrow right-arrow"
+                  onClick={() => {
+                    setCurrentImageIndex((prev) => {
+                      const newIndex = prev === images.length - 1 ? 0 : prev + 1;
+                      return newIndex;
+                    });
+                  }}
+                >
+                  ❯
+                </button>
             </div>
-            {/* Thumbnails below the main image */}
+            {/* Thumbnails below the main image, outside the carousel */}
             <div className="image-thumbnails">
               {images.map((img, idx) => (
                 <img
@@ -611,49 +610,46 @@ const ProductPage = () => {
             <h1>{displayName}</h1>
             <p className="product-price">${product.price.toFixed(2)}</p>
             <p className="product-description">{displayDescription}</p>
-            <div className="size-quantity-row">
-              {/* Only show size selector for non-Available products */}
-              {!isAvailableProduct && (
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="size-quantity-row">
                 <div className="size-selector">
-                  {sortedSizes.map((size) => (
+                  {product.sizes.map((size) => (
                     <button
                       key={size.id}
-                      className={`size-button ${
-                        selectedSize === size.size ? "selected" : ""
-                      }`}
+                      className={`size-button ${selectedSize === size.size ? 'selected' : ''}`}
                       onClick={() => setSelectedSize(size.size)}
                     >
                       {size.size}
                     </button>
                   ))}
                 </div>
-              )}
-              <div className="quantity-selector">
-                <button
-                  className="quantity-button minus"
-                  onClick={decreaseQuantity}
-                  disabled={quantity <= 1}
-                >
-                  -
-                </button>
-                <input
-                  type="text"
-                  className="quantity-input"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                />
-                <button
-                  className="quantity-button plus"
-                  onClick={increaseQuantity}
-                  disabled={quantity >= MAX_QUANTITY}
-                >
-                  +
-                </button>
+                <div className="quantity-selector">
+                  <button
+                    className="quantity-button minus"
+                    onClick={decreaseQuantity}
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text"
+                    className="quantity-input"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                  <button
+                    className="quantity-button plus"
+                    onClick={increaseQuantity}
+                    disabled={quantity >= MAX_QUANTITY}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
             {maxQuantityMessage && (
               <p className="max-quantity-message">
-                Maximum quantity reached! For bulk orders, please{" "}
+                Maximum quantity reached! For bulk orders, please{' '}
                 <a href="/contact-us" className="contact-link">
                   contact us
                 </a>.
