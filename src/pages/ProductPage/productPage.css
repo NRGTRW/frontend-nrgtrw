@@ -315,11 +315,10 @@ body {
   height: 32px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  z-index: 10;
-}
-
-.wishlist-icon-productPage:hover {
-  transform: scale(1.1);
+  z-index: 10000;
+  background: #fff;
+  border-radius: 50%;
+  padding: 2px;
 }
 
 /* ✅ On Mobile, ensure the wishlist button remains at the top right corner of the image */
