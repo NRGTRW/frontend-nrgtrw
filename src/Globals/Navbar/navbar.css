@@ -438,6 +438,7 @@ body {
 .menu li.service-link:hover {
   border-left-color: var(--navbar-accent);
   background: linear-gradient(135deg, rgba(230, 184, 0, 0.15) 0%, rgba(230, 184, 0, 0.08) 100%);
+  color: var(--navbar-bg);
 }
 
 /* Collapsible submenu for Clothing Details */
