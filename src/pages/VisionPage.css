@@ -25,14 +25,18 @@
 }
 
 .cosmic-title {
-  font-size: 3.2rem;
-  font-family: 'Orbitron', 'Eurostile', 'SF Pro Rounded', Arial, sans-serif;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 24px #000, 0 0 48px #000;
-  margin-bottom: 32px;
-  text-align: center;
+    color: #67ffe6;
+    font-size: 4.7rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: center;
+      text-shadow: 0 2px 12px #23211a;
+    opacity: 0.82;
+    background: linear-gradient( 90deg, #00fff7bb 0%, #fff 55%, #fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;  
 }
 
 /* Remove overlays, starfield, and cosmic effects for this mode */
@@ -302,7 +306,7 @@
   width: 90vw;
   max-width: 700px;
   border-radius: 18px;
-  box-shadow: 0 0 32px #00fff7cc, 0 0 48px #7f00ff44;
+  box-shadow: 0 0 32px #00fff7cc, 0 0 48px #7f00ff99;
   background: #0a0a1a;
 }
 

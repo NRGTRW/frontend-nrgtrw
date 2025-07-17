@@ -130,13 +130,20 @@
 }
 
 .tech-page .video-text {
-  color: #19fff5;
-  font-size: 1.45rem;
-  font-weight: 700;
+  color: #67ffe8;
+  font-size: 1.7rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-align: center;
-  text-shadow: 0 2px 12px #0a1016;
+  text-shadow: 0 2px 12px #23211a;
+  opacity: 0.82;
+  background: linear-gradient(90deg, #67f5ff 0%, #fffbe6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+
 
 @media (max-width: 900px) {
   .tech-page .tech-cards {

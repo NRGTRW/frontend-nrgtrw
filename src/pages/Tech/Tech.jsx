@@ -45,7 +45,7 @@ const Tech = () => {
     <div className="tech-page">
       <section className="tech-video-placeholder">
         <div className="tech-video-container">
-          <div className="video-text">🎥 Tech Intro Video Coming Soon</div>
+          <div className="video-text">🎥  Intro Video Coming Soon</div>
         </div>
       </section>
       <section className="tech-cards">
