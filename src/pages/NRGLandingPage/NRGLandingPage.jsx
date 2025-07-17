@@ -10,7 +10,7 @@ const categories = [
   { title: "Fitness", image: S3_BASE + "Fitness.jpg", path: "/fitness", glow: "fitness-glow" },
   { title: "Tech", image: S3_BASE + "Tech.webp", path: "/tech", glow: "tech-glow" },
   { title: "Clothing", image: S3_BASE + "Reflection%20Layer_upclose.webp", path: "/clothing", glow: "clothing-glow" },
-  { title: "Designs", image: S3_BASE + "BlackCroppedTurtuleneckHover.webp", path: "/designs", glow: "designs-glow" },
+  // { title: "Designs", image: S3_BASE + "BlackCroppedTurtuleneckHover.webp", path: "/designs", glow: "designs-glow" },
   { title: "Vision", image: S3_BASE + "vision.png", path: "/vision", glow: "vision-glow" },
 ];
 

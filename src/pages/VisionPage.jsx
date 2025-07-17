@@ -7,13 +7,16 @@ const VisionPage = () => {
       <div className="hero-content simple" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <h1 className="cosmic-title">Our Vision</h1>
         <div className="cosmic-video-player animate-video-reveal">
-          <video
+          <iframe
             className="explore-video"
-            src="/videos/vision-explore-placeholder.mp4"
-            controls
-            autoPlay
-            poster="/images/vision-cosmic-fallback.jpg"
-          />
+            width="100%"
+            height="400"
+            src="https://www.youtube.com/embed/5O2n67tmi5I"
+            title="Vision Video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
     </div>
