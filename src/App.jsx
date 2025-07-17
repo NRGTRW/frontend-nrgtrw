@@ -57,6 +57,9 @@ import FitnessCheckoutPage from "./pages/CheckOutPage/FitnessCheckoutPage";
 // ------------------ AdminRoute ------------------
 import PropTypes from "prop-types";
 import ProductionWarning from "./components/ProductionWarning/ProductionWarning";
+import ChatSidebar from './components/Chat/ChatSidebar';
+import ChatWindow from './components/Chat/ChatWindow';
+import chatStyles from './components/Chat/ChatButton.module.css';
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -108,6 +111,8 @@ AdminRoute.propTypes = {
 // ------------------ App Component ------------------
 const App = () => {
   const location = useLocation();
+  const { user } = useAuth();
+  const [chatOpen, setChatOpen] = useState(false);
   // All translation-related state and modals removed. English only.
 
   // Clothing-related route matcher
@@ -190,6 +195,93 @@ const App = () => {
       />
       {isClothingPage && <ProductionWarning />}
       {isValidRoute && <ContentBellowNavbar />}
+      {user && (
+        <>
+          <button
+            className={chatStyles['chat-fab']}
+            onClick={() => setChatOpen(true)}
+            aria-label="Open chat"
+          >
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+              <path d="M21 12c0 4.418-4.03 8-9 8-1.13 0-2.21-.16-3.19-.46L3 20l.7-3.11C3.25 15.13 3 14.08 3 13c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          {chatOpen && (
+            <div
+              style={{
+                position: 'fixed',
+                bottom: 32,
+                right: 32,
+                width: 380,
+                maxWidth: '95vw',
+                height: 540,
+                maxHeight: '80vh',
+                background: 'rgba(255,255,255,0.92)',
+                boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
+                zIndex: 10000,
+                display: 'flex',
+                borderRadius: 18,
+                overflow: 'hidden',
+                flexDirection: 'row',
+                backdropFilter: 'blur(16px)',
+                border: '1.5px solid var(--accent-primary)',
+                transition: 'box-shadow 0.2s',
+              }}
+            >
+              {/* Sidebar */}
+              <div style={{
+                width: 120,
+                minWidth: 100,
+                maxWidth: 140,
+                height: '100%',
+                overflowY: 'auto',
+                borderRight: '1.5px solid var(--accent-primary)',
+                background: 'rgba(255,255,255,0.7)',
+                flexShrink: 0,
+              }}>
+                <ChatSidebar onClose={() => setChatOpen(false)} />
+              </div>
+              {/* Chat Window */}
+              <div style={{
+                flex: 1,
+                height: '100%',
+                overflowY: 'auto',
+                background: 'rgba(255,255,255,0.85)',
+                display: 'flex',
+                flexDirection: 'column',
+              }}>
+                <ChatWindow />
+              </div>
+              {/* Close Button */}
+              <button
+                onClick={() => setChatOpen(false)}
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  fontSize: 28,
+                  background: '#181512',
+                  border: 'none',
+                  color: 'var(--accent-primary)',
+                  cursor: 'pointer',
+                  zIndex: 10001,
+                  borderRadius: '50%',
+                  width: 36,
+                  height: 36,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                  transition: 'background 0.2s'
+                }}
+                aria-label="Close chat"
+              >
+                ×
+              </button>
+            </div>
+          )}
+        </>
+      )}
       {/* Smoother animation on route transitions */}
       <motion.div
         key={location.pathname}

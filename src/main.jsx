@@ -10,6 +10,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
 import TermsAndConditions from "./components/TermsPopup/TermsPopup";
+import { ChatProvider } from "./context/ChatContext";
 import "./i18n";
 
 
@@ -26,8 +27,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <WishlistProvider>
                 <CartProvider>
                   <SWRProvider>
-                    <TermsAndConditions />
-                    <App />
+                    <ChatProvider>
+                      <TermsAndConditions />
+                      <App />
+                    </ChatProvider>
                   </SWRProvider>
                 </CartProvider>
               </WishlistProvider>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./NRGLandingPage.css";
+import RequestModal from "../../components/RequestModal/RequestModal";
+import { useAuth } from "../../context/AuthContext";
 
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 const landingPageMobileFirst = S3_BASE + "landingPageMobileFirst.png";
@@ -18,6 +20,9 @@ const typingText =
 const NRGLandingPage = () => {
   const [typedText, setTypedText] = useState("");
   const [isDoneTyping, setIsDoneTyping] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("NRGLandingPage loaded at", window.location.pathname);
@@ -53,8 +58,20 @@ const NRGLandingPage = () => {
         </p>
 
         <div className="nrg-actions">
-          <button className="secondary-btn">Make a Request</button>
+          <button
+            className="secondary-btn"
+            onClick={() => {
+              if (user) {
+                setShowRequestModal(true);
+              } else {
+                navigate("/login", { state: { from: "/" } });
+              }
+            }}
+          >
+            Make a Request
+          </button>
         </div>
+        <RequestModal isOpen={showRequestModal} onClose={() => setShowRequestModal(false)} />
 
         <section className="nrg-sections">
           {categories.map((cat) => (

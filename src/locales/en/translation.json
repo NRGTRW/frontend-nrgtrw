@@ -144,9 +144,9 @@
     
         "productionWarning": {
           "title": "⚠️ Important Notice ⚠️",
-          "currentStatus": "The products are currently:",
+          "currentStatus": "Any products outside of the Available category are:",
           "unavailable": "unavailable",
-          "paymentNotice": "Any payments made will be considered as donations or shall be returned!"
+          "paymentNotice": "Any payments related to them will be considered as donations or shall be returned!"
         },
         
             "profile": {

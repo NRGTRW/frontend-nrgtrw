@@ -562,6 +562,11 @@ body {
     width: 30px;
     height: 30px;
   }
+
+  .menu {
+    top: 48px;
+    padding-top: 32px;
+  }
 }
 
 @media (max-width: 480px) {
