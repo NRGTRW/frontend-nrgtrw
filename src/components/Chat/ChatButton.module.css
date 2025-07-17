@@ -5,13 +5,13 @@
     --fab-gradient:   linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     --fab-gradient-r: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
     --fab-shadow:     0 6px 24px rgba(0, 0, 0, 0.18), 0 1.5px 6px rgba(0, 102, 204, 0.6);
-    --fab-shadow-hv:  0 8px 32px rgba(0, 102, 204, 0.6), 0 2px 8px rgba(0, 91, 181, 0.6);
+    --fab-shadow-hv:  0 8px 32px rgba(255, 255, 255, 0.6), 0 2px 8prgba(0, 0, 0, 0.6)6);
   }
   
   @media (prefers-color-scheme: dark) {
     :root {
       --fab-shadow:    0 6px 24px rgba(0, 0, 0, 0.6), 0 1.5px 6px rgba(0, 102, 204, 0.8);
-      --fab-shadow-hv: 0 8px 32px rgba(0, 102, 204, 0.8), 0 2px 8px rgba(0, 91, 181, 0.8);
+      --fab-shadow-hv: 0 8px 32px rgba(255, 255, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.8);
     }
   }
   
