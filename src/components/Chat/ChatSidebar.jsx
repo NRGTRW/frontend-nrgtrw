@@ -13,9 +13,8 @@ export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClos
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this request?')) return;
     try {
-      await axios.delete(`/api/requests/${id}`, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/requests/${id}`,
+        { headers: { Authorization: `Bearer ${authToken}` } });
       window.location.reload(); // Or refetch requests contextually
     } catch (err) {
       alert('Failed to delete request.');
@@ -25,9 +24,8 @@ export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClos
   // Handler for accepting/rejecting a request (admin only)
   const handleStatus = async (id, status) => {
     try {
-      await axios.patch(`/api/requests/${id}/status`, { status }, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      });
+      await axios.patch(`${import.meta.env.VITE_API_URL}/requests/${id}/status`, { status },
+        { headers: { Authorization: `Bearer ${authToken}` } });
       window.location.reload(); // Or refetch requests contextually
     } catch (err) {
       alert('Failed to update request status.');

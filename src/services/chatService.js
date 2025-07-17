@@ -1,5 +1,5 @@
 // Chat/Request API service
-const API = '/api';
+const API = import.meta.env.VITE_API_URL;
 
 function getAuthHeaders() {
   const token = localStorage.getItem('authToken');
