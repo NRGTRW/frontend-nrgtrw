@@ -5,7 +5,7 @@
   color-scheme: dark;
 } */
 .dark-fitness-bg {
-  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a) !important;
+  background: linear-gradient(to bottom, #191919, #1a1a1a) !important;
   color: #fff !important;
   min-height: 100vh;
   min-width: 100vw;
