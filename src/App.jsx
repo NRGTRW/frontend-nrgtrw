@@ -60,6 +60,7 @@ import ProductionWarning from "./components/ProductionWarning/ProductionWarning"
 import ChatSidebar from './components/Chat/ChatSidebar';
 import ChatWindow from './components/Chat/ChatWindow';
 import chatStyles from './components/Chat/ChatButton.module.css';
+import { useChatContext } from './context/ChatContext';
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -113,6 +114,8 @@ const App = () => {
   const location = useLocation();
   const { user } = useAuth();
   const [chatOpen, setChatOpen] = useState(false);
+  const { selectedRequest } = useChatContext();
+  const [sidebarHovered, setSidebarHovered] = useState(false);
   // All translation-related state and modals removed. English only.
 
   // Clothing-related route matcher
@@ -226,29 +229,39 @@ const App = () => {
                 backdropFilter: 'blur(16px)',
                 border: '1.5px solid var(--accent-primary)',
                 transition: 'box-shadow 0.2s',
+                minWidth: 0,
               }}
             >
               {/* Sidebar */}
-              <div style={{
-                width: 120,
-                minWidth: 100,
-                maxWidth: 140,
-                height: '100%',
-                overflowY: 'auto',
-                borderRight: '1.5px solid var(--accent-primary)',
-                background: 'rgba(255,255,255,0.7)',
-                flexShrink: 0,
-              }}>
+              <div
+                onMouseEnter={() => setSidebarHovered(true)}
+                onMouseLeave={() => setSidebarHovered(false)}
+                style={{
+                  width: selectedRequest && !sidebarHovered ? 60 : 220,
+                  minWidth: selectedRequest && !sidebarHovered ? 60 : 220,
+                  maxWidth: selectedRequest && !sidebarHovered ? 60 : 220,
+                  height: '100%',
+                  overflowY: 'auto',
+                  borderRight: '1.5px solid var(--accent-primary)',
+                  background: 'rgba(255,255,255,0.7)',
+                  flexShrink: 0,
+                  transition: 'width 0.3s, min-width 0.3s, max-width 0.3s',
+                  display: 'flex',
+                }}
+              >
                 <ChatSidebar onClose={() => setChatOpen(false)} />
               </div>
               {/* Chat Window */}
               <div style={{
-                flex: 1,
-                height: '100%',
-                overflowY: 'auto',
-                background: 'rgba(255,255,255,0.85)',
-                display: 'flex',
-                flexDirection: 'column',
+                 flex: 1,
+                 height: '100%',
+                 minWidth: 0,
+                 overflowY: 'auto',
+                 background: 'rgba(255,255,255,0.85)',
+                 display: 'flex',
+                 flexDirection: 'column',
+                 position: 'relative',
+                 left: 0,
               }}>
                 <ChatWindow />
               </div>

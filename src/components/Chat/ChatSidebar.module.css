@@ -19,9 +19,10 @@
     flex-direction: column;
     flex-shrink: 0;
     width: var(--sidebar-width);
-    min-width: var(--sidebar-width-min);
+    min-width: -webkit-fill-available;
     max-width: var(--sidebar-width-max);
-    height: 100%;
+    height: 100vh; /* Ensure full viewport height */
+    min-height: 100vh; /* Ensure full viewport height */
     padding: 0;
     background: #181512;
     backdrop-filter: blur(6px);
@@ -52,8 +53,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 1.125rem 0.625rem 0.625rem;
-    font-size: 1.2rem;
+    padding: 0.75rem 0.25rem 0.5rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--accent-primary);
     text-align: center;
@@ -150,9 +151,17 @@
 /* Responsive Adjustments */
 @media (max-width: 600px) {
     :root {
-      --sidebar-width-min: 4.375rem;
-      --sidebar-width:      5.625rem;
-      --sidebar-width-max:  5.625rem;
+      --sidebar-width-min: 180px;
+      --sidebar-width:     220px;
+      --sidebar-width-max: 220px;
+    }
+    .sidebar {
+      height: 100vh;
+      min-height: 100vh;
+      max-height: 100vh;
+      min-width: 180px;
+      width: 220px;
+      max-width: 220px;
     }
     .sidebarHeader {
       font-size: 1rem;

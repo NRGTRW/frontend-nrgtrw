@@ -4,11 +4,11 @@ import { toast } from 'react-toastify';
 import styles from './RequestModal.module.css';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../services/chatService';
-import { useNavigate } from 'react-router-dom';
+import { useChatContext } from '../../context/ChatContext';
 
-const RequestModal = ({ isOpen, onClose }) => {
+const RequestModal = ({ isOpen, onClose, onOpenChat }) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const { fetchRequests } = useChatContext();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -110,6 +110,9 @@ const RequestModal = ({ isOpen, onClose }) => {
         });
         clearStorage();
         setLastRequestId(res.id); // Save the request ID for chat access
+        await fetchRequests(); // Refresh chat list instantly
+        onClose();
+        if (onOpenChat) onOpenChat(res.id);
       } else {
         toast.error(res.error || 'Failed to submit request.');
       }
@@ -270,32 +273,6 @@ const RequestModal = ({ isOpen, onClose }) => {
             </div>
           </form>
         </div>
-        {lastRequestId && (
-          <button
-            style={{
-              position: 'fixed',
-              bottom: 30,
-              right: 30,
-              zIndex: 9999,
-              background: 'linear-gradient(90deg, #2E2824 0%, #12100E 100%)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '50px',
-              padding: '16px 32px',
-              fontSize: '1.2rem',
-              fontWeight: 600,
-              boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-            onClick={() => {
-              onClose();
-              navigate(`/requests/${lastRequestId}`);
-            }}
-          >
-            Go to Chat for This Request
-          </button>
-        )}
       </div>
     </div>
   );

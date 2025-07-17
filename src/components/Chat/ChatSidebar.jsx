@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClose }) {
-  const { requests, selectedRequest, selectRequest, loading } = useChatContext();
+  const { requests, selectedRequest, selectRequest, loading, fetchRequests } = useChatContext();
   const { user, authToken } = useAuth();
 
   // Handler for deleting a request (admin only)
@@ -15,7 +15,7 @@ export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClos
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/requests/${id}`,
         { headers: { Authorization: `Bearer ${authToken}` } });
-      window.location.reload(); // Or refetch requests contextually
+      await fetchRequests(); // SWR-like update
     } catch (err) {
       alert('Failed to delete request.');
     }
@@ -26,7 +26,16 @@ export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClos
     try {
       await axios.patch(`${import.meta.env.VITE_API_URL}/requests/${id}/status`, { status },
         { headers: { Authorization: `Bearer ${authToken}` } });
-      window.location.reload(); // Or refetch requests contextually
+      await fetchRequests(); // SWR-like update
+      // Find the updated request from the freshly fetched list
+      setTimeout(() => {
+        const updatedRequest = typeof requests === 'object' && Array.isArray(requests)
+          ? requests.find(r => r.id === id)
+          : null;
+        if (updatedRequest) {
+          selectRequest(updatedRequest);
+        }
+      }, 100); // slight delay to ensure state update
     } catch (err) {
       alert('Failed to update request status.');
     }
@@ -38,9 +47,7 @@ export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClos
     <aside className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
         Requests
-        {window.innerWidth <= 700 && (
-          <button onClick={onClose} aria-label="Close sidebar" className={styles.closeButton}>×</button>
-        )}
+        {/* Removed the X (close) button for mobile */}
       </div>
       {loading ? (
         <div>Loading...</div>
@@ -56,7 +63,6 @@ export default function ChatSidebar({ onCreateRequest, mobileOpen = true, onClos
               }
               onClick={() => {
                 selectRequest(req);
-                if (window.innerWidth <= 700 && onClose) onClose();
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
