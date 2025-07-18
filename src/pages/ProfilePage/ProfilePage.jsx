@@ -40,13 +40,21 @@ const ProfilePage = () => {
   const [showUpgrades, setShowUpgrades] = useState(false);
 
   useEffect(() => {
+    // Check for token in query string (OAuth redirect)
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromQuery = params.get("token");
+    if (tokenFromQuery) {
+      localStorage.setItem("authToken", tokenFromQuery);
+      // Remove token from URL
+      params.delete("token");
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
     const initializeProfile = async () => {
       const token = localStorage.getItem("authToken");
       if (!token) {
         navigate("/login", { replace: true });
         return;
       }
-
       try {
         setShowLoader(true);
         if (location.state?.fromLogin) {
@@ -63,7 +71,6 @@ const ProfilePage = () => {
         setShowLoader(false);
       }
     };
-
     initializeProfile();
   }, [navigate, location.state, loadUser, loadProfile, t]);
 

@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api"; 
 import { toast } from "react-toastify"; 
 import "./logIn.css";
 import { useAuth } from "../../context/AuthContext"; 
 import { useWishlist } from "../../context/WishlistContext"; 
+
+const OAUTH_SUCCESS_PATH = "/oauth-success";
 
 const LogInPage = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +20,18 @@ const LogInPage = () => {
 
   const { login } = useAuth();
   const { loadWishlist } = useWishlist();
+
+  useEffect(() => {
+    // Handle OAuth redirect
+    if (window.location.pathname === OAUTH_SUCCESS_PATH) {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get("token");
+      if (token) {
+        localStorage.setItem("authToken", token);
+        navigate("/profile", { replace: true });
+      }
+    }
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,11 +95,26 @@ const LogInPage = () => {
     }
   };
 
+  const handleSocialLogin = (provider) => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/${provider}`;
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-container">
         <h1 className="auth-header">LOG IN</h1>
         <p className="auth-subtitle">Welcome back! Please log in.</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
+          <button
+            type="button"
+            className="auth-button social-login google"
+            onClick={() => handleSocialLogin("google")}
+            style={{ background: "#fff", color: "#333", border: "1px solid #ccc", marginBottom: 8 }}
+          >
+            <img src="/google-icon.svg" alt="Google" style={{ width: 20, marginRight: 8, verticalAlign: "middle" }} />
+            Continue with Google
+          </button>
+        </div>
         <form className="auth-form" onSubmit={handleSubmit}>
           <input
             type="email"
