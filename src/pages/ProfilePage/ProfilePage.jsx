@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import LoaderModal from "../../components/Modals/LoaderModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
+import ProfileUpgrades from "../../components/ProfileUpgrades/ProfileUpgrades";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ const ProfilePage = () => {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
+  const [showUpgrades, setShowUpgrades] = useState(false);
 
   useEffect(() => {
     const initializeProfile = async () => {
@@ -242,6 +244,13 @@ const ProfilePage = () => {
               >
                 {isSaving ? t("profile.saving") : t("profile.saveChanges")}
               </button>
+              <button 
+                className="upgrades-button" 
+                type="button" 
+                onClick={() => setShowUpgrades(true)}
+              >
+                🎨 Profile Upgrades
+              </button>
               <button className="logout-button" type="button" onClick={logOut}>
                 {t("profile.logOut")}
               </button>
@@ -249,6 +258,13 @@ const ProfilePage = () => {
           </form>
         </div>
       </div>
+      
+      {/* Profile Upgrades Modal */}
+      <ProfileUpgrades 
+        isOpen={showUpgrades} 
+        onClose={() => setShowUpgrades(false)} 
+        user={profile}
+      />
     </>
   );
 };

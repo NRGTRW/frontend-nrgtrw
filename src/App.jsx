@@ -61,6 +61,82 @@ import ChatSidebar from './components/Chat/ChatSidebar';
 import ChatWindow from './components/Chat/ChatWindow';
 import chatStyles from './components/Chat/ChatButton.module.css';
 import { useChatContext } from './context/ChatContext';
+import CosmicBackground from './components/CosmicBackground/CosmicBackground';
+import FeedbackWidget from './components/FeedbackWidget/FeedbackWidget';
+// import TestimonialsSection from './components/Testimonials/TestimonialsSection';
+import SEOHead from './components/SEO/SEOHead';
+
+// Page-specific cosmic palettes
+const cosmicPalettes = {
+  landing: {
+    gradient: ['#0a0a0a', '#1a1a2e', '#16213e', '#0f3460', '#533483'],
+    nebula1: 'rgba(245, 197, 24, 0.22)', // gold
+    nebula2: 'rgba(120, 119, 198, 0.18)', // purple
+    star: '#fffbe6',
+    accent: '#ffe067',
+    planet: '#ffe067',
+    crown: '#f5c518',
+  },
+  fitness: {
+    gradient: ['#191919', '#1a1a1a', '#23211a', '#bfa14a'],
+    nebula1: 'rgba(245, 197, 24, 0.18)',
+    nebula2: 'rgba(191, 161, 74, 0.12)',
+    star: '#ffe067',
+    accent: '#ffe067',
+    planet: '#ffe067',
+    crown: '#bfa14a',
+  },
+  tech: {
+    gradient: ['#0a1016', '#101622', '#1a2a3a', '#19fff5'],
+    nebula1: 'rgba(30, 180, 255, 0.18)',
+    nebula2: 'rgba(25, 255, 245, 0.12)',
+    star: '#19fff5',
+    accent: '#19fff5',
+    planet: '#19fff5',
+    crown: '#7eeeff',
+  },
+  product: {
+    gradient: ['#fffbe6', '#e6b800', '#bfa14a', '#23211a'],
+    nebula1: 'rgba(230, 184, 0, 0.18)',
+    nebula2: 'rgba(191, 161, 74, 0.12)',
+    star: '#ffe067',
+    accent: '#e6b800',
+    planet: '#ffe067',
+    crown: '#bfa14a',
+  },
+  notfound: {
+    gradient: ['#23211a', '#1a1a1a', '#333', '#bfa14a'],
+    nebula1: 'rgba(255, 100, 200, 0.18)',
+    nebula2: 'rgba(100, 200, 255, 0.12)',
+    star: '#fff',
+    accent: '#ffe067',
+    planet: '#fffbe6',
+    crown: '#e6b800',
+  },
+  default: {
+    gradient: ['#0a0a0a', '#1a1a2e', '#16213e', '#0f3460', '#533483'],
+    nebula1: 'rgba(255, 100, 200, 0.4)',
+    nebula2: 'rgba(100, 200, 255, 0.3)',
+    star: '#fff',
+    accent: '#ffe067',
+    planet: '#ffe067',
+    crown: '#f5c518',
+  },
+};
+
+function getCosmicPalette(pathname) {
+  if (pathname === '/' || pathname === '/NRGLandingPage') return cosmicPalettes.landing;
+  if (pathname.startsWith('/fitness')) return cosmicPalettes.fitness;
+  if (pathname.startsWith('/tech')) return cosmicPalettes.tech;
+  if (pathname.startsWith('/product')) return cosmicPalettes.product;
+  if (pathname.startsWith('/not-found') || pathname === '/404') return cosmicPalettes.notfound;
+  if (pathname.startsWith('/profile')) return cosmicPalettes.landing;
+  if (pathname.startsWith('/clothing')) return cosmicPalettes.product;
+  if (pathname.startsWith('/materials')) return cosmicPalettes.product;
+  if (pathname.startsWith('/inspiration')) return cosmicPalettes.landing;
+  if (pathname.startsWith('/wishlist')) return cosmicPalettes.product;
+  return cosmicPalettes.default;
+}
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
@@ -114,9 +190,61 @@ const App = () => {
   const location = useLocation();
   const { user } = useAuth();
   const [chatOpen, setChatOpen] = useState(false);
-  const { selectedRequest } = useChatContext();
+  const { selectedRequest, setSelectedRequest } = useChatContext();
   const [sidebarHovered, setSidebarHovered] = useState(false);
   // All translation-related state and modals removed. English only.
+
+  // SEO configuration based on current route
+  const getSEOConfig = () => {
+    const pathname = location.pathname;
+    
+    switch (pathname) {
+      case '/':
+        return {
+          title: 'NRG - Premium Fitness & Lifestyle',
+          description: 'Transform your lifestyle with premium fitness programs, high-quality clothing, and cutting-edge tech solutions.',
+          keywords: 'fitness, lifestyle, clothing, tech, premium, transformation',
+          image: 'https://nrgtrw-images.s3.eu-central-1.amazonaws.com/vision.png'
+        };
+      case '/fitness':
+        return {
+          title: 'Fitness Programs',
+          description: 'Premium fitness programs designed for maximum results. Transform your body and mind with expert guidance.',
+          keywords: 'fitness, workout, training, programs, transformation',
+          image: 'https://nrgtrw-images.s3.eu-central-1.amazonaws.com/Fitness.jpg'
+        };
+      case '/tech':
+        return {
+          title: 'Tech Projects',
+          description: 'Explore cutting-edge technology projects and innovative solutions.',
+          keywords: 'tech, technology, projects, innovation, development',
+          image: 'https://nrgtrw-images.s3.eu-central-1.amazonaws.com/Tech.webp'
+        };
+      case '/clothing':
+        return {
+          title: 'Premium Clothing',
+          description: 'High-quality, stylish clothing designed for performance and comfort.',
+          keywords: 'clothing, fashion, premium, style, quality',
+          image: 'https://nrgtrw-images.s3.eu-central-1.amazonaws.com/Clothing.jpg'
+        };
+      case '/vision':
+        return {
+          title: 'Our Vision',
+          description: 'Discover the vision behind NRG and our commitment to excellence.',
+          keywords: 'vision, mission, excellence, commitment, future',
+          image: 'https://nrgtrw-images.s3.eu-central-1.amazonaws.com/vision.png'
+        };
+      default:
+        return {
+          title: 'NRG - Premium Fitness & Lifestyle',
+          description: 'Premium fitness programs, high-quality clothing, and cutting-edge tech solutions.',
+          keywords: 'fitness, lifestyle, clothing, tech, premium',
+          image: 'https://nrgtrw-images.s3.eu-central-1.amazonaws.com/vision.png'
+        };
+    }
+  };
+
+  const seoConfig = getSEOConfig();
 
   // Clothing-related route matcher
   const clothingRelated = [
@@ -173,6 +301,11 @@ const App = () => {
 
   return (
     <>
+      <SEOHead {...seoConfig} />
+      {(location.pathname === '/tech' || location.pathname === '/NRGLandingPage' || location.pathname === '/' || location.pathname === '/vision') && (
+        <CosmicBackground palette={getCosmicPalette(location.pathname)} />
+      )}
+      <FeedbackWidget />
       <ToastContainer
         position="top-center"
         autoClose={2500}
@@ -347,6 +480,10 @@ const App = () => {
           />
         </Routes>
       </motion.div>
+      {/* Testimonials Section - Show on main pages */}
+      {/* {(location.pathname === '/' || location.pathname === '/clothing' || location.pathname === '/fitness') && (
+        <TestimonialsSection />
+      )} */}
     </>
   );
 };

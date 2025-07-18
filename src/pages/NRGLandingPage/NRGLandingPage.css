@@ -13,7 +13,7 @@
   :root {
     --nrg-bg: linear-gradient(to bottom, #0d0d0d, #111);
     --nrg-text: #fff;
-    --nrg-hero-overlay: rgba(0,0,0,0.7);
+    --nrg-hero-overlay: rgba(0,0,0,0.4);
     --nrg-slogan: #fff;
     --nrg-slogan-accent: #f5c518;
     --nrg-sub: #bbb;

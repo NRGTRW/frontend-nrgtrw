@@ -56,6 +56,15 @@ export async function markNotificationRead(id) {
   return res.json();
 }
 
+export async function markMessagesAsRead(requestId, messageIds) {
+  const res = await fetch(`${API}/requests/${requestId}/messages/read`, {
+    method: 'PATCH',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ messageIds }),
+  });
+  return res.json();
+}
+
 export async function adminUpdateRequestStatus(requestId, status) {
   const res = await fetch(`${API}/requests/${requestId}/status`, {
     method: 'PATCH',

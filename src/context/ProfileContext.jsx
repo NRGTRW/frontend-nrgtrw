@@ -41,8 +41,8 @@ export const ProfileProvider = ({ children }) => {
         updatedProfile,
         { headers: { Authorization: `Bearer ${getToken()}` } },
       );
-      setProfile(response.data);
-      return response.data;
+      setProfile(response.data.user || response.data); // handle both {user: ...} and direct
+      return response.data.user || response.data;
     } catch (error) {
       console.error("❌ Failed to save profile:", error.message);
       throw error;

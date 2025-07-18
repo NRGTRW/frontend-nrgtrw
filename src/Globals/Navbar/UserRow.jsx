@@ -84,13 +84,14 @@ const UserRow = ({ user, profilePicture, defaultProfilePicture }) => {
       onClick={handleClick}
     >
       {/* Profile Image */}
-      <img
-        src={profilePicture}
-        alt="User profile"
-        style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-        onError={(e) => (e.target.src = defaultProfilePicture)}
-      />
-
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        <img
+          src={profilePicture}
+          alt="User profile"
+          style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+          onError={(e) => (e.target.src = defaultProfilePicture)}
+        />
+      </div>
       {/* Tooltip displaying the user's name */}
       {tooltipVisible && user?.name && (
         <div

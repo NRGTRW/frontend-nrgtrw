@@ -77,7 +77,7 @@ const Navbar = () => {
   }, [menuOpen]);
 
   useEffect(() => {
-    // Set a data-theme attribute for future JS-based theme switching if needed
+    // Set default theme based on system preference
     const match = window.matchMedia('(prefers-color-scheme: dark)');
     const setTheme = () => {
       document.documentElement.setAttribute('data-theme', match.matches ? 'dark' : 'light');
@@ -272,14 +272,7 @@ const Navbar = () => {
             {showCartPreview && <CartPreview />}
           </div>
 
-          <UserRow
-            user={profile}
-            profilePicture={profilePicture}
-            defaultProfilePicture={defaultProfilePicture}
-            handleClick={() =>
-              handleAuthenticatedNavigation("/profile", "/login")
-            }
-          />
+          <UserRow user={profile} profilePicture={profilePicture} defaultProfilePicture={defaultProfilePicture} />
         </div>
       </div>
 

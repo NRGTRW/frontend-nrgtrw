@@ -1,0 +1,334 @@
+/* Cosmic Background Animation Module */
+.cosmic-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Base cosmic gradient */
+.cosmic-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+  animation: cosmicShift 20s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* Floating stars layer */
+.cosmic-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 200px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 240px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 280px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 320px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 360px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 400px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 440px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 480px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 520px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 560px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 600px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 640px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 680px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 720px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 760px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 800px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 840px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 880px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 920px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 960px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 1000px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 1040px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 1080px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 1120px 30px, #ddd, transparent),
+    radial-gradient(2px 2px at 1160px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 1200px 40px, #fff, transparent);
+  background-repeat: repeat;
+  background-size: 1200px 100px;
+  animation: starFloat 60s linear infinite;
+  z-index: 1;
+}
+
+/* Nebula clouds */
+.cosmic-nebula {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  z-index: 2;
+}
+
+.cosmic-nebula::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(ellipse, var(--nebula1, rgba(255, 100, 200, 0.4)) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: nebulaDrift 25s ease-in-out infinite;
+}
+
+.cosmic-nebula::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  right: 15%;
+  width: 250px;
+  height: 180px;
+  background: radial-gradient(ellipse, var(--nebula2, rgba(100, 200, 255, 0.3)) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: nebulaDrift 30s ease-in-out infinite reverse;
+}
+
+.crown-planet-container {
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  z-index: 10;
+  animation: planetFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes planetFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-24px) scale(1.04); }
+}
+
+.crown-planet {
+  filter: drop-shadow(0 0 32px rgba(255, 224, 103, 0.18));
+}
+
+/* Shooting stars */
+.cosmic-shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: linear-gradient(45deg, #fff, transparent);
+  border-radius: 50%;
+  animation: shootingStar 8s linear infinite;
+}
+
+.cosmic-shooting-star:nth-child(1) {
+  top: 20%;
+  left: 0;
+  animation-delay: 0s;
+}
+
+.cosmic-shooting-star:nth-child(2) {
+  top: 40%;
+  left: 0;
+  animation-delay: 2s;
+}
+
+.cosmic-shooting-star:nth-child(3) {
+  top: 60%;
+  left: 0;
+  animation-delay: 4s;
+}
+
+.cosmic-shooting-star:nth-child(4) {
+  top: 80%;
+  left: 0;
+  animation-delay: 6s;
+}
+
+/* Cosmic particles */
+.cosmic-particle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: #fff;
+  border-radius: 50%;
+  animation: particleFloat 15s linear infinite;
+}
+
+.cosmic-particle:nth-child(5) { top: 15%; left: 20%; animation-delay: 0s; }
+.cosmic-particle:nth-child(6) { top: 25%; left: 80%; animation-delay: 1s; }
+.cosmic-particle:nth-child(7) { top: 35%; left: 40%; animation-delay: 2s; }
+.cosmic-particle:nth-child(8) { top: 45%; left: 60%; animation-delay: 3s; }
+.cosmic-particle:nth-child(9) { top: 55%; left: 30%; animation-delay: 4s; }
+.cosmic-particle:nth-child(10) { top: 65%; left: 70%; animation-delay: 5s; }
+.cosmic-particle:nth-child(11) { top: 75%; left: 50%; animation-delay: 6s; }
+.cosmic-particle:nth-child(12) { top: 85%; left: 10%; animation-delay: 7s; }
+
+/* Animations */
+@keyframes cosmicShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes starFloat {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-1200px);
+  }
+}
+
+@keyframes nebulaDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(50px, -30px) scale(1.1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(100px, 20px) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(30px, 40px) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) translateY(0) rotate(45deg);
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(100vw) translateY(100vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Light theme adjustments */
+@media (prefers-color-scheme: light) {
+  .cosmic-background::before {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+  }
+  
+  .cosmic-nebula::before {
+    background: radial-gradient(ellipse, var(--nebula1, rgba(255, 100, 200, 0.15)) 0%, transparent 70%);
+  }
+  
+  .cosmic-nebula::after {
+    background: radial-gradient(ellipse, var(--nebula2, rgba(100, 200, 255, 0.12)) 0%, transparent 70%);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-background::before,
+  .cosmic-background::after,
+  .cosmic-nebula::before,
+  .cosmic-nebula::after,
+  .cosmic-shooting-star,
+  .cosmic-particle {
+    animation: none;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .cosmic-background::after {
+    background-size: 600px 50px;
+  }
+  
+  @keyframes starFloat {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-600px);
+    }
+  }
+} 
+
+.cosmic-comet-container {
+  position: absolute;
+  top: 20vh;
+  left: -200px;
+  width: 180px;
+  height: 40px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.7;
+  animation: cometFly 14s linear infinite;
+}
+
+@keyframes cometFly {
+  0% {
+    left: -200px;
+    top: 20vh;
+    opacity: 0;
+    transform: scale(0.95) rotate(-8deg);
+  }
+  10% {
+    opacity: 0.7;
+  }
+  50% {
+    left: 60vw;
+    top: 60vh;
+    opacity: 0.8;
+    transform: scale(1.05) rotate(2deg);
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    left: 110vw;
+    top: 100vh;
+    opacity: 0;
+    transform: scale(0.95) rotate(8deg);
+  }
+}
+
+.cosmic-comet {
+  width: 180px;
+  height: 40px;
+  display: block;
+} 

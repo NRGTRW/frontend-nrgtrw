@@ -15,6 +15,17 @@
     }
   }
   
+  @keyframes feedback-glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 8px 2px rgba(255,255,255,0.18);
+      filter: brightness(1.01);
+    }
+    50% {
+      box-shadow: 0 0 14px 4px rgba(255,255,255,0.22);
+      filter: brightness(1.04);
+    }
+  }
+  
   .chat-fab {
     position: fixed;
     bottom: 2rem;   /* 32px */
@@ -23,8 +34,9 @@
   
     width: var(--fab-size);
     height: var(--fab-size);
-    background: var(--fab-gradient);
-    color: var(--bg-primary);
+    /* background: var(--fab-gradient); */
+    background: transparent;
+    color: var(--text-primary);
   
     border: none;
     border-radius: 50%;
@@ -43,11 +55,12 @@
       background 0.25s ease,
       box-shadow 0.25s ease,
       transform 0.15s ease;
+    animation: feedback-glow-pulse 3.2s ease-in-out infinite;
   }
   
   .chat-fab:hover,
   .chat-fab:focus {
-    background: var(--fab-gradient-r);
+    /* background: var(--fab-gradient-r); */
     box-shadow: var(--fab-shadow-hv);
     transform: scale(1.08);
   }

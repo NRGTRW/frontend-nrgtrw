@@ -175,4 +175,73 @@
   pointer-events: auto;
   visibility: visible;
 }
+
+.messageContent {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.statusIcon {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.readReceipt {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 4px;
+  font-style: italic;
+  text-align: right;
+}
+
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 8px 0;
+  opacity: 0.7;
+}
+
+.typingDots {
+  display: flex;
+  gap: 2px;
+}
+
+.typingDots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #888;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typingDots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typingDots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.typingText {
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+}
   

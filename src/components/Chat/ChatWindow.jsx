@@ -3,10 +3,20 @@ import { useChatContext } from '../../context/ChatContext';
 import styles from './ChatWindow.module.css';
 
 export default function ChatWindow() {
-  const { selectedRequest, messages, sendMessage, messagesLoading } = useChatContext();
+  const { 
+    selectedRequest, 
+    messages, 
+    sendMessage, 
+    messagesLoading, 
+    typingUsers, 
+    messageStatus, 
+    startTyping, 
+    stopTyping 
+  } = useChatContext();
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
   const [detailsOpen, setDetailsOpen] = useState(true);
+  const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
     // When selectedRequest changes, set detailsOpen based on status
@@ -20,6 +30,36 @@ export default function ChatWindow() {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+
+  // Handle typing detection
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+    
+    // Start typing indicator
+    if (!typingTimeoutRef.current) {
+      startTyping();
+    }
+    
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    // Set timeout to stop typing indicator
+    typingTimeoutRef.current = setTimeout(() => {
+      stopTyping();
+      typingTimeoutRef.current = null;
+    }, 1000);
+  };
+
+  // Cleanup typing timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, []);
 
   if (!selectedRequest) {
     return (
@@ -44,8 +84,37 @@ export default function ChatWindow() {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
+    
+    // Clear typing indicator immediately
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+    }
+    stopTyping();
+    
     await sendMessage(input.trim());
     setInput('');
+  };
+
+  // Get message status icon
+  const getMessageStatusIcon = (messageId, isOwnMessage) => {
+    if (!isOwnMessage) return null;
+    
+    const status = messageStatus.get(messageId);
+    switch (status) {
+      case 'sending':
+        return <span className={styles.statusIcon}>⏳</span>;
+      case 'sent':
+        return <span className={styles.statusIcon}>✓</span>;
+      case 'delivered':
+        return <span className={styles.statusIcon}>✓✓</span>;
+      case 'read':
+        return <span className={styles.statusIcon}>✓✓</span>;
+      case 'failed':
+        return <span className={styles.statusIcon}>❌</span>;
+      default:
+        return null;
+    }
   };
 
   // Dropdown/collapsible for request details
@@ -98,29 +167,53 @@ export default function ChatWindow() {
               <div>Loading messages...</div>
             ) : (
               <>
-                {(Array.isArray(messages) ? messages : []).map(msg => (
-                  <div
-                    key={msg.id}
-                    className={
-                      msg.senderId === selectedRequest.userId
-                        ? styles.messageRow
-                        : `${styles.messageRow} ${styles['messageRow.admin']}`
-                    }
-                  >
-                    <div className={styles.meta}>
-                      {otherName(msg)} • {new Date(msg.createdAt).toLocaleString()}
-                    </div>
+                {(Array.isArray(messages) ? messages : []).map(msg => {
+                  const isOwnMessage = msg.senderId !== selectedRequest.userId;
+                  return (
                     <div
+                      key={msg.id}
                       className={
-                        msg.senderId === selectedRequest.userId
-                          ? styles.bubble
-                          : `${styles.bubble} ${styles['bubble.admin']}`
+                        isOwnMessage
+                          ? styles.messageRow
+                          : `${styles.messageRow} ${styles['messageRow.admin']}`
                       }
                     >
-                      {msg.content}
+                      <div className={styles.meta}>
+                        {otherName(msg)} • {new Date(msg.createdAt).toLocaleString()}
+                      </div>
+                      <div
+                        className={
+                          isOwnMessage
+                            ? styles.bubble
+                            : `${styles.bubble} ${styles['bubble.admin']}`
+                        }
+                      >
+                        <div className={styles.messageContent}>
+                          {msg.content}
+                          {getMessageStatusIcon(msg.id, isOwnMessage)}
+                        </div>
+                        {msg.read && isOwnMessage && (
+                          <div className={styles.readReceipt}>Read</div>
+                        )}
+                      </div>
                     </div>
+                  );
+                })}
+                
+                {/* Typing indicator */}
+                {typingUsers.size > 0 && (
+                  <div className={styles.typingIndicator}>
+                    <div className={styles.typingDots}>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <span className={styles.typingText}>
+                      {Array.from(typingUsers).join(', ')} {typingUsers.size === 1 ? 'is' : 'are'} typing...
+                    </span>
                   </div>
-                ))}
+                )}
+                
                 <div ref={messagesEndRef} />
               </>
             )}
@@ -129,7 +222,7 @@ export default function ChatWindow() {
             <input
               type="text"
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Type your message..."
               className={styles.input}
             />

@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 import { getToken } from "../context/tokenUtils";
 import DeleteConfirmationModal from "../components/Modals/DeleteConfirmationModal";
 import { fetchWaitlistEntries, updateWaitlistEntry, deleteWaitlistEntry, fetchWaitlistStats } from "../services/api";
+import { getUserAccess } from '../utils/accessControl';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -16,7 +19,16 @@ const AdminDashboard = () => {
   const [waitlistEntries, setWaitlistEntries] = useState([]);
   const [waitlistStats, setWaitlistStats] = useState({});
   const [waitlistLoading, setWaitlistLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('users');
+  
+  // New state for enhanced features
+  const [activeTab, setActiveTab] = useState('analytics');
+  const [analytics, setAnalytics] = useState({});
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [systemHealth, setSystemHealth] = useState({});
+  const [activityLog, setActivityLog] = useState([]);
+  const [dataLoading, setDataLoading] = useState({});
+  const [feedback, setFeedback] = useState([]);
 
   const fetchUsers = async () => {
     try {
@@ -57,9 +69,127 @@ const AdminDashboard = () => {
     }
   };
 
+  // Enhanced data fetching functions
+  const fetchAnalytics = async () => {
+    setDataLoading(prev => ({ ...prev, analytics: true }));
+    try {
+      const token = getToken();
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/analytics`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setAnalytics(response.data);
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+      // Set mock data for now
+      setAnalytics({
+        totalUsers: users.length,
+        totalOrders: 0,
+        totalRevenue: 0,
+        activeUsers: users.filter(u => u.isVerified).length,
+        newUsersThisWeek: 0,
+        conversionRate: 0,
+        topProducts: [],
+        recentActivity: []
+      });
+    } finally {
+      setDataLoading(prev => ({ ...prev, analytics: false }));
+    }
+  };
+
+  const fetchProducts = async () => {
+    setDataLoading(prev => ({ ...prev, products: true }));
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+      setProducts(response.data || []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setProducts([]);
+    } finally {
+      setDataLoading(prev => ({ ...prev, products: false }));
+    }
+  };
+
+  const fetchOrders = async () => {
+    setDataLoading(prev => ({ ...prev, orders: true }));
+    try {
+      const token = getToken();
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/orders`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setOrders(response.data || []);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      setOrders([]);
+    } finally {
+      setDataLoading(prev => ({ ...prev, orders: false }));
+    }
+  };
+
+  const fetchSystemHealth = async () => {
+    setDataLoading(prev => ({ ...prev, system: true }));
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/health`);
+      setSystemHealth(response.data);
+    } catch (error) {
+      console.error("Error fetching system health:", error);
+      setSystemHealth({
+        status: 'error',
+        uptime: 'Unknown',
+        database: 'Unknown',
+        memory: 'Unknown'
+      });
+    } finally {
+      setDataLoading(prev => ({ ...prev, system: false }));
+    }
+  };
+
+  const fetchActivityLog = async () => {
+    setDataLoading(prev => ({ ...prev, activity: true }));
+    try {
+      const token = getToken();
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/activity-log`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setActivityLog(response.data || []);
+    } catch (error) {
+      console.error("Error fetching activity log:", error);
+      setActivityLog([]);
+    } finally {
+      setDataLoading(prev => ({ ...prev, activity: false }));
+    }
+  };
+
+  const fetchFeedback = async () => {
+    setDataLoading(prev => ({ ...prev, feedback: true }));
+    try {
+      const token = getToken();
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/feedback/admin`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // Ensure we get the data array from the response
+      const feedbackData = response.data?.data || response.data || [];
+      setFeedback(Array.isArray(feedbackData) ? feedbackData : []);
+    } catch (error) {
+      console.error("Error fetching feedback:", error);
+      setFeedback([]);
+    } finally {
+      setDataLoading(prev => ({ ...prev, feedback: false }));
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
     fetchWaitlistData();
+    fetchAnalytics();
+    fetchProducts();
+    fetchOrders();
+    fetchSystemHealth();
+    fetchActivityLog();
+    fetchFeedback();
   }, []);
 
   const fetchWaitlistData = async () => {
@@ -167,6 +297,67 @@ const AdminDashboard = () => {
     }
   };
 
+  // Product Management Handlers
+  const handleEditProduct = (productId) => {
+    // Navigate to the product page with the product ID for editing
+    navigate(`/product/${productId}`);
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        const token = getToken();
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/admin/products/${productId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        toast.success("Product deleted successfully");
+        fetchProducts(); // Refresh the products list
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        toast.error("Failed to delete product");
+      }
+    }
+  };
+
+  const handleViewFeedback = (feedbackItem) => {
+    toast.info(`Viewing feedback: ${feedbackItem.message}`);
+    // In a real app, you'd open a modal or navigate to a detail page
+  };
+
+  const handleUpdateFeedbackStatus = async (feedbackId, newStatus) => {
+    try {
+      const token = getToken();
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/feedback/admin/${feedbackId}/status`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success(`Feedback status updated to ${newStatus}`);
+      fetchFeedback(); // Refresh feedback list
+    } catch (error) {
+      console.error("Error updating feedback status:", error);
+      toast.error(`Failed to update feedback status: ${error.message}`);
+    }
+  };
+
+  const handleDeleteFeedback = async (feedbackId) => {
+    if (window.confirm('Are you sure you want to delete this feedback? This action cannot be undone.')) {
+      try {
+        const token = getToken();
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/feedback/admin/${feedbackId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        toast.success("Feedback deleted successfully");
+        fetchFeedback(); // Refresh feedback list
+      } catch (error) {
+        console.error("Error deleting feedback:", error);
+        toast.error(`Failed to delete feedback: ${error.message}`);
+      }
+    }
+  };
+
   return (
     <div className="admin-dashboard">
       {/* Tab Navigation */}
@@ -182,6 +373,42 @@ const AdminDashboard = () => {
           onClick={() => setActiveTab('waitlist')}
         >
           📋 Waitlist Management
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'analytics' ? 'active' : ''}`}
+          onClick={() => setActiveTab('analytics')}
+        >
+          📊 Analytics
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'products' ? 'active' : ''}`}
+          onClick={() => setActiveTab('products')}
+        >
+          🛍️ Product Management
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'orders' ? 'active' : ''}`}
+          onClick={() => setActiveTab('orders')}
+        >
+          🛒 Order Management
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'system' ? 'active' : ''}`}
+          onClick={() => setActiveTab('system')}
+        >
+          ⚙️ System Health
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'activity' ? 'active' : ''}`}
+          onClick={() => setActiveTab('activity')}
+        >
+          📝 Activity Logs
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'feedback' ? 'active' : ''}`}
+          onClick={() => setActiveTab('feedback')}
+        >
+          💬 Feedback
         </button>
       </div>
 
@@ -354,6 +581,350 @@ const AdminDashboard = () => {
               {waitlistEntries.length === 0 && (
                 <div className="no-data">
                   <p>No waitlist entries found.</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Analytics Tab */}
+      {activeTab === 'analytics' && (
+        <div className="admin-card">
+          <div className="admin-header">
+            <h2 className="admin-title">Analytics</h2>
+          </div>
+          {dataLoading.analytics ? (
+            <div className="admin-loading-container">
+              <div className="admin-loading"></div>
+            </div>
+          ) : (
+            <div className="analytics-grid">
+              <div className="stat-card">
+                <h3>Total Users</h3>
+                <p>{analytics.totalUsers || 0}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Active Users</h3>
+                <p>{analytics.activeUsers || 0}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Total Orders</h3>
+                <p>{analytics.totalOrders || 0}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Total Revenue</h3>
+                <p>${analytics.totalRevenue || 0}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Conversion Rate</h3>
+                <p>{analytics.conversionRate || 0}%</p>
+              </div>
+              <div className="stat-card">
+                <h3>New Users This Week</h3>
+                <p>{analytics.newUsersThisWeek || 0}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Top Products</h3>
+                <ul>
+                  {analytics.topProducts && analytics.topProducts.map((product, index) => (
+                    <li key={index}>{product.name}: {product.count} sales</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="stat-card">
+                <h3>Recent Activity</h3>
+                <ul>
+                  {analytics.recentActivity && analytics.recentActivity.map((log, index) => (
+                    <li key={index}>{log.message} ({new Date(log.timestamp).toLocaleDateString()})</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Product Management Tab */}
+      {activeTab === 'products' && (
+        <div className="admin-card">
+          <div className="admin-header">
+            <h2 className="admin-title">Product Management</h2>
+          </div>
+          {dataLoading.products ? (
+            <div className="admin-loading-container">
+              <div className="admin-loading"></div>
+            </div>
+          ) : (
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.id}</td>
+                      <td>
+                        {product.translations && product.translations.length > 0 
+                          ? product.translations.find(t => t.language === 'en')?.name || 'No name'
+                          : 'No name'
+                        }
+                      </td>
+                      <td>${product.price}</td>
+                      <td>{product.stock}</td>
+                      <td>{product.category?.name || 'No category'}</td>
+                      <td>
+                        <button 
+                          className="admin-btn"
+                          onClick={() => handleEditProduct(product.id)}
+                        >
+                          Edit
+                        </button>
+                        <button 
+                          className="admin-btn danger"
+                          onClick={() => handleDeleteProduct(product.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {products.length === 0 && (
+                <div className="no-data">
+                  <p>No products found. Add new products from the product page.</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Order Management Tab */}
+      {activeTab === 'orders' && (
+        <div className="admin-card">
+          <div className="admin-header">
+            <h2 className="admin-title">Order Management</h2>
+          </div>
+          {dataLoading.orders ? (
+            <div className="admin-loading-container">
+              <div className="admin-loading"></div>
+            </div>
+          ) : (
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Products</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order.id}>
+                      <td>{order.id}</td>
+                      <td>{order.user?.name || 'N/A'}</td>
+                      <td>
+                        {order.products && order.products.length > 0 ? (
+                          <ul>
+                            {order.products.map((item, index) => (
+                              <li key={index}>{item.name || 'Unknown Product'} x{item.quantity || 1}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          'No products'
+                        )}
+                      </td>
+                      <td>${order.total || 0}</td>
+                      <td>{order.status || 'Pending'}</td>
+                      <td>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}</td>
+                      <td>
+                        <button className="admin-btn">View Details</button>
+                        <button className="admin-btn">Update Status</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {orders.length === 0 && (
+                <div className="no-data">
+                  <p>No orders found.</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* System Health Tab */}
+      {activeTab === 'system' && (
+        <div className="admin-card">
+          <div className="admin-header">
+            <h2 className="admin-title">System Health</h2>
+          </div>
+          {dataLoading.system ? (
+            <div className="admin-loading-container">
+              <div className="admin-loading"></div>
+            </div>
+          ) : (
+            <div className="system-health-grid">
+              <div className="stat-card">
+                <h3>Status</h3>
+                <p style={{ color: systemHealth.status === 'ok' ? 'green' : 'red' }}>{systemHealth.status}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Uptime</h3>
+                <p>{systemHealth.uptime}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Database</h3>
+                <p>{systemHealth.database}</p>
+              </div>
+              <div className="stat-card">
+                <h3>Memory</h3>
+                <p>{systemHealth.memory}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Activity Logs Tab */}
+      {activeTab === 'activity' && (
+        <div className="admin-card">
+          <div className="admin-header">
+            <h2 className="admin-title">Activity Logs</h2>
+          </div>
+          {dataLoading.activity ? (
+            <div className="admin-loading-container">
+              <div className="admin-loading"></div>
+            </div>
+          ) : (
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activityLog.map((log) => (
+                    <tr key={log.id}>
+                      <td>{log.id}</td>
+                      <td>{log.user?.name || 'System'}</td>
+                      <td>{log.action}</td>
+                      <td>{log.details}</td>
+                      <td>{new Date(log.timestamp).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {activityLog.length === 0 && (
+                <div className="no-data">
+                  <p>No activity logs found.</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Feedback Management Tab */}
+      {activeTab === 'feedback' && (
+        <div className="admin-card">
+          <div className="admin-header">
+            <h2 className="admin-title">Feedback Management</h2>
+          </div>
+          {dataLoading.feedback ? (
+            <div className="admin-loading-container">
+              <div className="admin-loading"></div>
+            </div>
+          ) : (
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Message</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.isArray(feedback) && feedback.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>
+                        <span className={`feedback-type-badge ${item.type}`}>
+                          {item.type === 'bug' && '🐛 Bug'}
+                          {item.type === 'feature' && '💡 Feature'}
+                          {item.type === 'improvement' && '⚡ Improvement'}
+                          {item.type === 'general' && '💬 General'}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="feedback-message">
+                          {item.message.length > 100 
+                            ? `${item.message.substring(0, 100)}...` 
+                            : item.message
+                          }
+                        </div>
+                      </td>
+                      <td>{item.email || 'N/A'}</td>
+                      <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                      <td>
+                        <span className={`status-badge ${item.status || 'new'}`}>
+                          {item.status || 'New'}
+                        </span>
+                      </td>
+                      <td>
+                        <button 
+                          className="admin-btn"
+                          onClick={() => handleViewFeedback(item)}
+                        >
+                          View
+                        </button>
+                        <button 
+                          className="admin-btn"
+                          onClick={() => handleUpdateFeedbackStatus(item.id, 'reviewed')}
+                        >
+                          Mark Reviewed
+                        </button>
+                        <button 
+                          className="admin-btn danger"
+                          onClick={() => handleDeleteFeedback(item.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {Array.isArray(feedback) && feedback.length === 0 && (
+                <div className="no-data">
+                  <p>No feedback found.</p>
                 </div>
               )}
             </div>

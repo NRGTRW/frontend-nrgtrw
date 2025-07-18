@@ -1,11 +1,12 @@
 .vision-page {
-  background: radial-gradient(ellipse at 50% 60%,
+  /* background: radial-gradient(ellipse at 50% 60%,
     rgba(40,30,60,0.92) 0%,
     rgba(40,30,60,0.88) 25%,
     rgba(24,26,42,0.85) 55%,
     rgba(18,16,30,0.92) 80%,
     rgba(10,10,20,1) 100%),
-    linear-gradient(135deg, #181a2a 0%, #232a4d 50%, #1a3a3a 100%);
+    linear-gradient(135deg, #181a2a 0%, #232a4d 50%, #1a3a3a 100%); */
+    
   min-height: 100vh;
   color: #fff;
   font-family: 'Orbitron', 'Eurostile', 'SF Pro Rounded', Arial, sans-serif;

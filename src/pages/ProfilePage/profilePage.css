@@ -108,13 +108,14 @@
 /* Luxury Buttons */
 .button-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   margin-top: 48px;
 }
 
 .save-button,
-.logout-button {
+.logout-button,
+.upgrades-button {
   padding: 16px 32px;
   font-size: 1rem;
   font-weight: 500;
@@ -144,6 +145,18 @@
 .logout-button:hover {
   border-color: #1a1a1a;
   transform: translateY(-1px);
+}
+
+.upgrades-button {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.upgrades-button:hover {
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(230, 184, 0, 0.3);
 }
 
 .save-button:disabled {
@@ -209,5 +222,29 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 32px 24px;
+    margin: 20px;
+  }
+  
+  .profile-header {
+    font-size: 2.2rem;
+  }
+  
+  .button-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .save-button,
+  .logout-button,
+  .upgrades-button {
+    padding: 14px 24px;
+    font-size: 0.95rem;
   }
 }
