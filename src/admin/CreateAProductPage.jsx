@@ -55,7 +55,14 @@ const CreateAProductPage = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/categories`
         );
-        setCategories(response.data || []);
+        let fetched = response.data || [];
+  
+        // Add 'Accessories' only if it doesn't exist
+        if (!fetched.some(cat => cat.name === 'Accessories')) {
+          fetched.push({ id: 'accessories', name: 'Accessories' });
+        }
+  
+        setCategories(fetched);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
         toast.error("Failed to load categories.");
@@ -63,6 +70,7 @@ const CreateAProductPage = () => {
     };
     fetchCategories();
   }, []);
+  
 
   // Add this to the categories fetch effect, after categories are loaded:
   useEffect(() => {
@@ -501,29 +509,30 @@ const CreateAProductPage = () => {
               Sizes <span className="cp-page__required-marker">*</span>
             </label>
             <div className="cp-page__size-manager">
-              {(productDetails.category === 'accessories' && accessoryType === 'phone-case') ? (
-                phoneCaseSizes.map((size) => (
-                  <button
-                    key={size}
-                    type="button"
-                    className="cp-page__size-btn"
-                    onClick={() => handleSizeChange("add", size)}
-                  >
-                    Add {size}
-                  </button>
-                ))
-              ) : (
-                ["S", "M", "L", "XL"].map((size) => (
-                  <button
-                    key={size}
-                    type="button"
-                    className="cp-page__size-btn"
-                    onClick={() => handleSizeChange("add", size)}
-                  >
-                    Add {size}
-                  </button>
-                ))
-              )}
+            {productDetails.category === 'accessories' ? (
+  phoneCaseSizes.map((size) => (
+    <button
+      key={size}
+      type="button"
+      className="cp-page__size-btn"
+      onClick={() => handleSizeChange("add", size)}
+    >
+      Add {size}
+    </button>
+  ))
+) : (
+  defaultSizes.map((size) => (
+    <button
+      key={size}
+      type="button"
+      className="cp-page__size-btn"
+      onClick={() => handleSizeChange("add", size)}
+    >
+      Add {size}
+    </button>
+  ))
+)}
+
               {productDetails.sizes.map((size) => (
                 <div key={size} className="cp-page__size-tag">
                   <span>{size}</span>

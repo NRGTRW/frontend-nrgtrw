@@ -104,12 +104,14 @@
   font-size: 20px;
   font-weight: bold;
   margin: 10px 0;
-  color: var(--text-primary);
+  color: var(--text-secondary-cards-bg);
+  /* text-shadow: 1px 0 100px rgba(0, 0, 0, 0.1);
+  text-border: 1px solid var(--text-primary); */
 }
 
 .product-info p {
   font-size: 16px;
-  color: var(--text-secondary);
+  color: var(--text-secondary-cards);
   margin: 5px 0;
 }
 
