@@ -342,13 +342,46 @@ const ProductPage = () => {
   const isTemuProduct = product?.id && typeof product.id === 'string' && product.id.startsWith('temu-');
   const currentColor = product?.colors?.[selectedColorIndex] || {};
   // Determine if this is the 'Available' product (Reflection Layer)
-  const isAvailableProduct = displayName === 'Reflection Layer'; // or use product.id === 9 if that's the ID
-  // Determine images for the carousel
+  const normalizeName = (str) =>
+    str
+      ?.trim()
+      .replace(/&apos;/g, "'")       // Replace HTML entity
+      .replace(/[`‘’]/g, "'")        // Replace odd quotes
+      .replace(/\u2019/g, "'")       // Replace curly quote
+      .replace(/\s+/g, " ");         // Normalize spacing
+  
+  const cleanName = normalizeName(displayName);
+  
+  const isAvailableProduct =
+    cleanName === "Reflection Layer" || cleanName === "Dragon's Eye";
+      // Determine images for the carousel
   let images = [];
   if (product) {
     if (isAvailableProduct) {
       // For Reflection Layer, show all color images as the carousel
-      images = product.colors?.map((c) => getS3Url(c.imageUrl)).filter(Boolean) || [];
+if (isAvailableProduct) {
+  if (cleanName === "Reflection Layer") {
+    // Only use main images for Reflection Layer (no duplicates)
+    if (isAvailableProduct) {
+      if (cleanName === "Reflection Layer") {
+        // Only use main images for Reflection Layer (no duplicates)
+        images = product.colors?.map((c) => getS3Url(c.imageUrl)).filter(Boolean) || [];
+      } else {
+        // Include both imageUrl and hoverImage for others like Dragon's Eye
+        images = product.colors?.flatMap((c) => [
+          getS3Url(c.imageUrl),
+          getS3Url(c.hoverImage)
+        ]).filter(Boolean) || [];
+      }
+    }
+      } else {
+    // Include both imageUrl and hoverImage for others like Dragon's Eye
+    images = product.colors?.flatMap((c) => [
+      getS3Url(c.imageUrl),
+      getS3Url(c.hoverImage)
+    ]).filter(Boolean) || [];
+  }
+}
     } else if (Array.isArray(product.images) && product.images.length > 0) {
       images = product.images;
     } else {
