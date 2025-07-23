@@ -174,86 +174,99 @@ const Navbar = () => {
           NRG
         </li>
         {/* Dashboard Navigation Dropdown: Only on /admin/dashboard* and only under the logo, not in the right-container grid */}
-        {isAdmin && isMobile && location.pathname.startsWith('/admin/dashboard') && (
-          <div style={{ position: 'absolute', left: '50%', top: 'calc(var(--navbar-height, 60px) + 8px)', transform: 'translateX(-50%)', zIndex: 1002 }} ref={dashboardDropdownRef}>
-            <button
-              className="dashboard-nav-dropdown-trigger"
-              aria-label="Dashboard Navigation"
-              onClick={() => setDashboardDropdownOpen((open) => !open)}
-              style={{
-                background: 'var(--navbar-accent)',
-                border: 'none',
-                borderRadius: 8,
-                padding: '2px 22px',
-                margin: '18px',
-                fontWeight: 700,
-                fontSize: '1.1rem',
-                color: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-                boxShadow: dashboardDropdownOpen ? '0 4px 12px rgba(230,184,0,0.18)' : 'none',
-                transition: 'box-shadow 0.2s',
-                zIndex: 1001
-              }}
-            >
-              Dashboard Menu
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 12, transition: 'transform 0.3s', transform: dashboardDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            {dashboardDropdownOpen && (
-              <div
-                className="dashboard-nav-dropdown-anim-wrapper"
+        {isAdmin && location.pathname.startsWith('/admin/dashboard') && (
+          isMobile ? (
+            <div style={{ position: 'absolute', left: '50%', top: 'calc(var(--navbar-height, 60px) + 8px)', transform: 'translateX(-50%)', zIndex: 1002 }} ref={dashboardDropdownRef}>
+              <button
+                className="dashboard-nav-dropdown-trigger"
+                aria-label="Dashboard Navigation"
+                onClick={() => setDashboardDropdownOpen((open) => !open)}
                 style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 8px)',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  minWidth: 220,
-                  zIndex: 1002,
-                  pointerEvents: dashboardDropdownOpen ? 'auto' : 'none',
+                  background: 'var(--navbar-accent)',
+                  border: 'none',
+                  borderRadius: 8,
+                  padding: '2px 22px',
+                  margin: '18px',
+                  fontWeight: 700,
+                  fontSize: '1.1rem',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  boxShadow: dashboardDropdownOpen ? '0 4px 12px rgba(230,184,0,0.18)' : 'none',
+                  transition: 'box-shadow 0.2s',
+                  zIndex: 1001
                 }}
               >
+                Dashboard Menu
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 12, transition: 'transform 0.3s', transform: dashboardDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              {dashboardDropdownOpen && (
                 <div
-                  className={`dashboard-nav-dropdown-menu${dashboardDropdownOpen ? ' open' : ''}`}
+                  className="dashboard-nav-dropdown-anim-wrapper"
                   style={{
-                    background: 'var(--navbar-bg)',
-                    border: '1px solid var(--navbar-accent)',
-                    borderRadius: 8,
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-                    padding: '8px 0',
-                    opacity: dashboardDropdownOpen ? 1 : 0,
-                    transform: dashboardDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',
-                    transition: 'opacity 0.25s, transform 0.25s',
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    minWidth: 220,
+                    zIndex: 1002,
+                    pointerEvents: dashboardDropdownOpen ? 'auto' : 'none',
                   }}
                 >
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard'); setDashboardDropdownOpen(false); }}>
-                    👥 User Management
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/waitlist'); setDashboardDropdownOpen(false); }}>
-                    📋 Waitlist Management
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/analytics'); setDashboardDropdownOpen(false); }}>
-                    📊 Analytics
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/products'); setDashboardDropdownOpen(false); }}>
-                    🛍️ Product Management
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/orders'); setDashboardDropdownOpen(false); }}>
-                    🛒 Order Management
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/system'); setDashboardDropdownOpen(false); }}>
-                    ⚙️ System Health
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/activity'); setDashboardDropdownOpen(false); }}>
-                    📝 Activity Logs
-                  </button>
-                  <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/feedback'); setDashboardDropdownOpen(false); }}>
-                    💬 Feedback
-                  </button>
+                  <div
+                    className={`dashboard-nav-dropdown-menu${dashboardDropdownOpen ? ' open' : ''}`}
+                    style={{
+                      background: 'var(--navbar-bg)',
+                      border: '1px solid var(--navbar-accent)',
+                      borderRadius: 8,
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                      padding: '8px 0',
+                      opacity: dashboardDropdownOpen ? 1 : 0,
+                      transform: dashboardDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',
+                      transition: 'opacity 0.25s, transform 0.25s',
+                    }}
+                  >
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard'); setDashboardDropdownOpen(false); }}>
+                      👥 User Management
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/waitlist'); setDashboardDropdownOpen(false); }}>
+                      📋 Waitlist Management
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/analytics'); setDashboardDropdownOpen(false); }}>
+                      📊 Analytics
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/products'); setDashboardDropdownOpen(false); }}>
+                      🛍️ Product Management
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/orders'); setDashboardDropdownOpen(false); }}>
+                      🛒 Order Management
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/system'); setDashboardDropdownOpen(false); }}>
+                      ⚙️ System Health
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/activity'); setDashboardDropdownOpen(false); }}>
+                      📝 Activity Logs
+                    </button>
+                    <button className={`dashboard-nav-dropdown-item`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { navigate('/admin/dashboard/feedback'); setDashboardDropdownOpen(false); }}>
+                      💬 Feedback
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: '10px', position: 'absolute', left: '50%', top: 'calc(var(--navbar-height, 60px) + 8px)', transform: 'translateX(-50%)', zIndex: 1002 }}>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'users' } })}>👥 User Management</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'waitlist' } })}>📋 Waitlist Management</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'analytics' } })}>📊 Analytics</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'products' } })}>🛍️ Product Management</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'orders' } })}>🛒 Order Management</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'system' } })}>⚙️ System Health</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'activity' } })}>📝 Activity Logs</button>
+              <button className="dashboard-nav-btn" onClick={() => navigate('/admin/dashboard', { state: { dashboardTab: 'feedback' } })}>💬 Feedback</button>
+            </div>
+          )
         )}
         <div className={`right-container${isAdmin && isMobile ? ' admin-mobile' : ''}`}>
           {/* Only one fragment wrapping all children */}

@@ -6,10 +6,11 @@ import { getToken } from "../context/tokenUtils";
 import DeleteConfirmationModal from "../components/Modals/DeleteConfirmationModal";
 import { fetchWaitlistEntries, updateWaitlistEntry, deleteWaitlistEntry, fetchWaitlistStats } from "../services/api";
 import { getUserAccess } from '../utils/accessControl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -47,6 +48,12 @@ const AdminDashboard = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [navDropdownOpen]);
+
+  useEffect(() => {
+    if (location.state && location.state.dashboardTab) {
+      setActiveTab(location.state.dashboardTab);
+    }
+  }, [location.state]);
 
   const fetchUsers = async () => {
     try {
@@ -378,6 +385,8 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
+      {/* Dashboard Nav Bar Spacer for desktop */}
+      <div className="dashboard-nav-bar-spacer"></div>
       {/* Dropdown Navigation */}
       <div
         style={{
