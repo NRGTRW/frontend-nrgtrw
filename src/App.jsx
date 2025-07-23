@@ -329,7 +329,6 @@ const App = () => {
           boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)", // Soft shadow
         }}
       />
-      {isClothingPage && <ProductionWarning />}
       {isValidRoute && <ContentBellowNavbar />}
       {user && (
         <>

@@ -71,6 +71,7 @@
 
 .filter-toggle:hover {
   background: #e9ecef;
+  /* background: transparent; */
   border-color: #667eea;
   color: #667eea;
 }

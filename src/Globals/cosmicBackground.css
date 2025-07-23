@@ -10,6 +10,15 @@
   pointer-events: none;
 }
 
+.cosmic-background,
+.cosmic-background::before,
+.cosmic-background::after {
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  filter: none !important;
+}
+
 /* Base cosmic gradient */
 .cosmic-background::before {
   content: '';
@@ -273,4 +282,13 @@
       transform: translateX(-600px);
     }
   }
+} 
+
+.cosmic-nebula,
+.cosmic-nebula::before,
+.cosmic-nebula::after,
+.cosmic-shooting-star,
+.cosmic-particle {
+  display: none !important;
+  opacity: 0 !important;
 } 

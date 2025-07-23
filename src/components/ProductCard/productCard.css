@@ -14,7 +14,7 @@
   overflow: hidden;
   border-radius: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #fff;
+  background-color: var(--card-bg);
   cursor: pointer;
   /* Ensure fixed width */
   width: 315px;
@@ -86,7 +86,7 @@
   font-size: 18px;
   font-weight: bold;
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .product-info p {

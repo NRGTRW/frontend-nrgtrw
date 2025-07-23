@@ -22,7 +22,7 @@
 }
 
 .go-back-button:hover {
-  background-color: #000;
+  background-color: var(--text-primary);
   transform: scale(1.1);
 }
 

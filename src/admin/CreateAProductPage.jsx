@@ -12,17 +12,24 @@ const CreateAProductPage = () => {
 
   // Default sizes for the product.
   const defaultSizes = ["S", "M", "L", "XL"];
+  const phoneCaseSizes = [
+    "iPhone 16", "iPhone 16 Pro", "iPhone 16 Plus", "iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro Max", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone 11 Pro", "iPhone 12"
+  ];
 
   // State for categories (fetched from the API).
   const [categories, setCategories] = useState([]);
+
+  // Add subcategory/type state:
+  const [accessoryType, setAccessoryType] = useState("");
+
+  // Add availability state:
+  const [availability, setAvailability] = useState('available');
 
   // State for product form values.
   // Separate fields for English and Bulgarian translations.
   const [productDetails, setProductDetails] = useState({
     enName: "",
     enDescription: "",
-    bgName: "",
-    bgDescription: "",
     price: "",
     category: "", // category id as string
     sizes: [...defaultSizes],
@@ -56,6 +63,14 @@ const CreateAProductPage = () => {
     };
     fetchCategories();
   }, []);
+
+  // Add this to the categories fetch effect, after categories are loaded:
+  useEffect(() => {
+    // Add 'Accessories' as a category if not present
+    if (!categories.some(cat => cat.name === 'Accessories')) {
+      setCategories(prev => [...prev, { id: 'accessories', name: 'Accessories' }]);
+    }
+  }, [categories]);
 
   // Cleanup any generated object URLs.
   useEffect(() => {
@@ -155,8 +170,6 @@ const CreateAProductPage = () => {
     const newErrors = {};
     if (!productDetails.enName.trim()) newErrors.enName = "English Name is required";
     if (!productDetails.enDescription.trim()) newErrors.enDescription = "English Description is required";
-    if (!productDetails.bgName.trim()) newErrors.bgName = "Bulgarian Name is required";
-    if (!productDetails.bgDescription.trim()) newErrors.bgDescription = "Bulgarian Description is required";
     if (!productDetails.price || parseFloat(productDetails.price) <= 0) newErrors.price = "Valid price is required";
     if (!productDetails.category) newErrors.category = "Category is required";
     if (!productDetails.sizes || productDetails.sizes.length === 0) newErrors.sizes = "At least one size must be selected";
@@ -185,22 +198,29 @@ const CreateAProductPage = () => {
     // Ensure translation fields are defined (default to empty strings).
     const enName = productDetails.enName || "";
     const enDescription = productDetails.enDescription || "";
-    const bgName = productDetails.bgName || "";
-    const bgDescription = productDetails.bgDescription || "";
+    const bgName = "AUTO-GENERATED";
+    const bgDescription = "AUTO-GENERATED";
+
+    // For fallback, find the real id for 'Available' from categories:
+    const availableCategory = categories.find(cat => cat.name === 'Available');
 
     // Build payload for product creation.
     // (Notice that the translation fields are included at the top level)
+    const categoryIdToSend = (availability === 'available' && !productDetails.category && availableCategory)
+      ? availableCategory.id
+      : Number(productDetails.category);
     const productData = {
       enName,
       enDescription,
       bgName,
       bgDescription,
       price: parseFloat(productDetails.price),
-      categoryId: productDetails.category,
+      categoryId: categoryIdToSend,
       sizes: productDetails.sizes,
       colors: productDetails.colors.map((color) => ({
         colorName: color.colorName,
       })),
+      availability,
       translations: {
         create: [
           {
@@ -282,6 +302,12 @@ const CreateAProductPage = () => {
   const handlePublish = () => {
     confirmPublish();
   };
+
+  // Remove 'Available' and duplicate 'Accessories' from categories in the selector:
+  const filteredCategories = categories.filter((cat, idx, arr) =>
+    cat.name !== 'Available' &&
+    arr.findIndex(c => c.name === cat.name) === idx
+  );
 
   return (
     <div className="cp-page">
@@ -400,34 +426,6 @@ const CreateAProductPage = () => {
             ></textarea>
             {errors.enDescription && <span className="cp-page__error">{errors.enDescription}</span>}
           </div>
-          {/* Bulgarian Translation Fields */}
-          <div className="cp-page__input-group">
-            <label>
-              Bulgarian Name <span className="cp-page__required-marker">*</span>
-            </label>
-            <input
-              type="text"
-              className="cp-page__form-input"
-              name="bgName"
-              value={productDetails.bgName}
-              onChange={handleInputChange}
-              placeholder="Enter Bulgarian product name"
-            />
-            {errors.bgName && <span className="cp-page__error">{errors.bgName}</span>}
-          </div>
-          <div className="cp-page__input-group">
-            <label>
-              Bulgarian Description <span className="cp-page__required-marker">*</span>
-            </label>
-            <textarea
-              className="cp-page__form-textarea"
-              name="bgDescription"
-              value={productDetails.bgDescription}
-              onChange={handleInputChange}
-              placeholder="Enter Bulgarian product description"
-            ></textarea>
-            {errors.bgDescription && <span className="cp-page__error">{errors.bgDescription}</span>}
-          </div>
 
           {/* Other product details */}
           <div className="cp-page__input-group">
@@ -446,6 +444,19 @@ const CreateAProductPage = () => {
           </div>
 
           <div className="cp-page__input-group">
+            <label>Availability</label>
+            <select
+              className="cp-page__form-select"
+              value={availability}
+              onChange={e => setAvailability(e.target.value)}
+              required
+            >
+              <option value="available">Available</option>
+              <option value="unavailable">Unavailable</option>
+            </select>
+          </div>
+
+          <div className="cp-page__input-group">
             <label>
               Category <span className="cp-page__required-marker">*</span>
             </label>
@@ -453,11 +464,14 @@ const CreateAProductPage = () => {
               className="cp-page__form-select"
               name="category"
               value={productDetails.category}
-              onChange={handleInputChange}
+              onChange={e => {
+                handleInputChange(e);
+                if (e.target.value === 'accessories') setAccessoryType("");
+              }}
               required
             >
               <option value="">Select Category</option>
-              {categories.map((cat) => (
+              {filteredCategories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
                 </option>
@@ -466,21 +480,50 @@ const CreateAProductPage = () => {
             {errors.category && <span className="cp-page__error">{errors.category}</span>}
           </div>
 
+          {productDetails.category === 'accessories' && (
+            <div className="cp-page__input-group">
+              <label>Accessory Type</label>
+              <select
+                className="cp-page__form-select"
+                value={accessoryType}
+                onChange={e => setAccessoryType(e.target.value)}
+                required
+              >
+                <option value="">Select Type</option>
+                <option value="phone-case">Phone Case</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          )}
+
           <div className="cp-page__input-group">
             <label>
               Sizes <span className="cp-page__required-marker">*</span>
             </label>
             <div className="cp-page__size-manager">
-              {["S", "M", "L", "XL"].map((size) => (
-                <button
-                  key={size}
-                  type="button"
-                  className="cp-page__size-btn"
-                  onClick={() => handleSizeChange("add", size)}
-                >
-                  Add {size}
-                </button>
-              ))}
+              {(productDetails.category === 'accessories' && accessoryType === 'phone-case') ? (
+                phoneCaseSizes.map((size) => (
+                  <button
+                    key={size}
+                    type="button"
+                    className="cp-page__size-btn"
+                    onClick={() => handleSizeChange("add", size)}
+                  >
+                    Add {size}
+                  </button>
+                ))
+              ) : (
+                ["S", "M", "L", "XL"].map((size) => (
+                  <button
+                    key={size}
+                    type="button"
+                    className="cp-page__size-btn"
+                    onClick={() => handleSizeChange("add", size)}
+                  >
+                    Add {size}
+                  </button>
+                ))
+              )}
               {productDetails.sizes.map((size) => (
                 <div key={size} className="cp-page__size-tag">
                   <span>{size}</span>

@@ -51,7 +51,7 @@
 /* Product Card */
 .product-card {
   position: relative;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -104,12 +104,12 @@
   font-size: 20px;
   font-weight: bold;
   margin: 10px 0;
-  color: #000;
+  color: var(--text-primary);
 }
 
 .product-info p {
   font-size: 16px;
-  color: #666;
+  color: var(--text-secondary);
   margin: 5px 0;
 }
 
@@ -144,7 +144,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 2px solid var(--border-color);
   cursor: pointer;
   transition:
     transform 0.3s ease,
@@ -153,11 +153,11 @@
 
 .color-circle:hover {
   transform: scale(1.1);
-  border-color: #333;
+  border-color: var(--text-primary);
 }
 
 .color-circle.active {
-  border-color: #000;
+  border-color: var(--text-primary);
   transform: scale(1.2);
 }
 
@@ -193,7 +193,7 @@
   background: var(--card-bg);
   border-radius: 16px;
   border: 1px solid var(--border-color);
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background .3s ease, border-color .3s ease;
 }
 
 .unavailable-category-title {
@@ -204,5 +204,5 @@
   font-weight: 600;
   text-align: center;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--accent-primary);
 }

@@ -31,7 +31,7 @@
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
-  background-color: #fff;
+  background-color: var(--card-bg);
   cursor: pointer;
 }
 
@@ -116,8 +116,8 @@
 }
 
 .wishlist-action-button {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
   border: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -134,7 +134,7 @@
 }
 
 .remove-from-wishlist-button {
-  background-color: #333;
+  background-color: var(--text-primary);
 }
 
 .remove-from-wishlist-button:hover {
@@ -162,8 +162,8 @@
 }
 
 .browse-products-button {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
   border: none;
   padding: 12px 24px;
   border-radius: 5px;

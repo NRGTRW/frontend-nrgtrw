@@ -48,8 +48,8 @@ p {
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
-  color: #fff;
-  background-color: #000;
+  color: var(--text-primary);
+  background-color: var(--card-bg);
   border: none;
   border-radius: 50px;
   cursor: pointer;

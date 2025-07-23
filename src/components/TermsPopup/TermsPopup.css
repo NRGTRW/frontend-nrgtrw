@@ -14,7 +14,7 @@
   
   /* Container for the pop-up content */
   .terms-popup-container {
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 8px;
     padding: 20px 30px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  color: #fff;
+  color: var(--text-primary);
   animation: feedback-glow-pulse 3.2s ease-in-out infinite;
 }
 
@@ -59,7 +59,7 @@
 
 /* Modal */
 .feedback-modal {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 0;
   max-width: 500px;

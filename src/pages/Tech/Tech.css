@@ -45,7 +45,7 @@
 .tech-page .tech-info {
   padding: 1.5rem 1.2rem 1.2rem 1.2rem;
   text-align: center;
-  color: #e0faff;
+  color: var(--text-primary);
 }
 
 .tech-page .tech-info h3 {
@@ -80,7 +80,7 @@
   max-width: 90vw;
   max-height: 90vh;
   overflow: auto;
-  color: #e0faff;
+  color: var(--text-primary);
   text-align: center;
 }
 

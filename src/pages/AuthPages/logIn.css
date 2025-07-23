@@ -4,14 +4,13 @@
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #f9f9f9, #eaeaea);
-  font-family: "Poppins", sans-serif;
   padding: 20px;
 }
 
 .auth-container {
   width: 100%;
   max-width: 450px;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding: 40px 30px;
@@ -27,12 +26,12 @@
 }
 
 .auth-header {
-  font-family: "Cinzel", serif;
   font-size: 36px;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: 700;
 }
 
 .auth-subtitle {
@@ -59,7 +58,7 @@
 }
 
 .auth-input:focus {
-  border-color: #333;
+  border-color: var(--border-color); /* Highlight border on focus */
   box-shadow: 0 0 5px rgba(51, 51, 51, 0.5);
 }
 
@@ -171,7 +170,7 @@
 }
 
 .auth-input:focus {
-  border-color: #000; /* Highlight border on focus */
+  border-color: var(--border-color); /* Highlight border on focus */
 }
 
 /* Password Field Container */

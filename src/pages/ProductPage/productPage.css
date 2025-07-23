@@ -18,18 +18,18 @@ body {
 }
 
 .product-container {
-  position: relative; /* Ensures absolute positioning works for child elements */
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 60px; /* More space between image and details */
+  gap: 60px;
   max-width: 1200px;
   background: var(--card-bg);
   border-radius: 10px;
   padding: 40px 32px;
   box-shadow: var(--shadow);
-  border: 1px solid var(--card-border);
+  border: 2px solid var(--card-border);
   width: 100%;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background .3s ease, border-color .3s ease;
 }
 
 .product-images {
@@ -168,13 +168,13 @@ body {
     color: #f3f3f3;
   }
   .product-details h1 {
-    color: #fff;
+    color: var(--text-primary);
   }
   .product-price {
-    color: #ffd700;
+    color: var(--accent-primary);
   }
   .product-description {
-    color: #e0e0e0;
+    color: var(--text-secondary);
   }
 }
 
@@ -374,4 +374,32 @@ body {
 .contact-link:hover {
   text-decoration: underline;
   color: var(--accent-secondary);
+}
+
+.color-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+  border-color: #333;
+}
+
+.color-circle.active {
+  border-color: var(--text-primary);
+  transform: scale(1.2);
 }

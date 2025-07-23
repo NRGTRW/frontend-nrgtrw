@@ -104,17 +104,6 @@ const LogInPage = () => {
       <div className="auth-container">
         <h1 className="auth-header">LOG IN</h1>
         <p className="auth-subtitle">Welcome back! Please log in.</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
-          <button
-            type="button"
-            className="auth-button social-login google"
-            onClick={() => handleSocialLogin("google")}
-            style={{ background: "#fff", color: "#333", border: "1px solid #ccc", marginBottom: 8 }}
-          >
-            <img src="/google-icon.svg" alt="Google" style={{ width: 20, marginRight: 8, verticalAlign: "middle" }} />
-            Continue with Google
-          </button>
-        </div>
         <form className="auth-form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -144,6 +133,25 @@ const LogInPage = () => {
             >
               {showPassword ? "Hide" : "Show"}
             </button>
+            <button
+              type="button"
+              className="reset-password-link"
+              onClick={handlePasswordReset}
+              style={{ 
+                position: 'absolute', 
+                right: '0px', 
+                top: '100%', 
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                color: 'rgb(51 51 51)',
+                fontSize: '12px',
+                cursor: 'pointer',
+                textDecoration: 'underline'
+              }}
+            >
+              Forgot password?
+            </button>
           </div>
 
           <button type="submit" className="auth-button" disabled={isLoading}>
@@ -154,10 +162,12 @@ const LogInPage = () => {
         <div className="auth-footer">
           <button
             type="button"
-            className="reset-password-link"
-            onClick={handlePasswordReset}
+            className="auth-button social-login google"
+            onClick={() => handleSocialLogin("google")}
+            style={{ background: "#fff", color: "#333", border: "1px solid #ccc", marginBottom: 8 }}
           >
-            Forgot Password?
+            <img src="/google-icon.svg" alt="Google" style={{ width: 20, marginRight: 8, verticalAlign: "middle" }} />
+            Continue with Google
           </button>
           <p>
             Don't have an account?{" "}

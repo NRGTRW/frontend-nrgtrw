@@ -3,14 +3,33 @@
   --navbar-bg: #fff;
   --navbar-text: #18140a;
   --navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --navbar-menu-bg: #f8f8f8;
-  --navbar-menu-text: #18140a;
+  --navbar-menu-bg: #f8f9fa;
+  --navbar-menu-text: #1F4060;
   --navbar-icon-border: #18140a;
   --navbar-accent: #e6b800;
+  --navbar-icon-invert: 0;
+  --navbar-menu-border: #d1d5db;
+  --navbar-section-title: #4B3D99;
+  --navbar-menu-hover-bg: #e9ecef;
+  --navbar-menu-hover-text: #1F4060;
+  --navbar-menu-hover-border: #4B3D99;
 }
 
+/* Dark Mode Colors */
+[data-theme="dark"] {
+  --navbar-bg: linear-gradient(90deg, #2E2824 0%, #12100E 50%, #2E2824 100%);
+  --navbar-text: #CAC6C0;
+  --navbar-shadow: 0 2px 8px rgba(46, 40, 36, 0.7);
+  --navbar-menu-bg: linear-gradient(120deg, #2E2824 60%, #12100E 100%);
+  --navbar-menu-text: #CAC6C0;
+  --navbar-icon-border: #CAC6C0;
+  --navbar-accent: #5E452A;
+  --navbar-icon-invert: 1;
+}
+
+/* Fallback for prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --navbar-bg: linear-gradient(90deg, #2E2824 0%, #12100E 50%, #2E2824 100%);
     --navbar-text: #CAC6C0;
     --navbar-shadow: 0 2px 8px rgba(46, 40, 36, 0.7);
@@ -364,7 +383,8 @@ body {
   width: 320px;
   height: 100vh;
   background: var(--navbar-menu-bg);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 0 16px 0 rgba(31, 64, 96, 0.06), 0 2px 8px rgba(0,0,0,0.04);
+  border-right: 2px solid var(--navbar-menu-border);
   z-index: 1001;
   display: flex;
   flex-direction: column;
@@ -387,39 +407,42 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: var(--navbar-text);
+  color: var(--navbar-section-title);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 2px solid rgba(230, 184, 0, 0.2);
+  border-bottom: 2px solid rgba(147, 128, 111, 0.2);
 }
 
 /* Menu Items */
-.menu li {
+.menu li,
+.menu li.service-link,
+.menu .collapsible li {
   list-style: none;
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--navbar-menu-text);
   cursor: pointer;
-  padding: 12px 30px;
-  margin: 2px 0;
-  border-radius: 8px;
-  margin-left: 15px;
-  margin-right: 15px;
-  transition: all 0.3s ease;
+  color: #1F4060;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin: 1px 0;
+  transition: background 0.2s, color 0.2s, border 0.2s;
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
 }
-
-.menu li:hover {
-  background: rgba(230, 184, 0, 0.1);
-  color: var(--navbar-bg);
-  transform: translateX(8px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.menu li:hover,
+.menu li.service-link:hover,
+.menu .collapsible li:hover {
+  background: #fff;
+  border: 1.5px solid #4B3D99;
+  color: #4B3D99;
+  box-shadow: 0 2px 8px rgba(75, 61, 153, 0.06);
 }
 
 .menu li:active {
@@ -428,17 +451,26 @@ body {
 
 /* Service Links Styling */
 .menu li.service-link {
+  background: transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin: 1px 0;
+  border: 1.5px solid transparent;
+  color: #1F4060;
   font-weight: 600;
-  padding: 14px 30px;
-  margin: 3px 15px;
-  background: linear-gradient(135deg, rgba(230, 184, 0, 0.05) 0%, rgba(230, 184, 0, 0.02) 100%);
-  border-left: 3px solid transparent;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
 }
-
 .menu li.service-link:hover {
-  border-left-color: var(--navbar-accent);
-  background: linear-gradient(135deg, rgba(230, 184, 0, 0.15) 0%, rgba(230, 184, 0, 0.08) 100%);
-  color: var(--navbar-bg);
+  background: #fff;
+  border: 1.5px solid #4B3D99;
+  color: #4B3D99;
+  box-shadow: 0 2px 8px rgba(75, 61, 153, 0.06);
 }
 
 /* Collapsible submenu for Clothing Details */
@@ -462,12 +494,15 @@ body {
   padding: 10px 20px;
   margin: 1px 0;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--navbar-bg);
+  background: transparent;
+  color: #1F4060;
+  border: 1.5px solid transparent;
+  transition: background 0.2s, color 0.2s, border 0.2s;
 }
-
 .menu .collapsible li:hover {
-  background: rgba(230, 184, 0, 0.08);
+  background: #fff;
+  color: #4B3D99;
+  border: 1.5px solid #4B3D99;
   transform: translateX(5px);
 }
 
@@ -476,7 +511,7 @@ body {
   margin-left: auto;
   font-size: 12px;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  color: var(--navbar-accent);
+  color: #4B3D99;
 }
 
 .menu .arrow.open {
@@ -626,6 +661,8 @@ body {
     padding: 10px 25px;
     margin-left: 10px;
     margin-right: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
   
   .menu-section {
@@ -703,4 +740,52 @@ body {
   .cart-icon:hover {
     color: var(--navbar-accent);
   }
+}
+
+@media (max-width: 600px) {
+  .right-container.admin-mobile {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 8px;
+    justify-items: center;
+    align-items: center;
+  }
+  .logo.admin-mobile {
+    left: 60% !important;
+    transform: translateX(-90%) !important;
+  }
+}
+
+[data-theme="dark"] .menu {
+  background: linear-gradient(120deg, #2E2824 60%, #12100E 100%);
+  border-right: 2px solid #5E452A;
+}
+[data-theme="dark"] .menu li,
+[data-theme="dark"] .menu li.service-link,
+[data-theme="dark"] .menu .collapsible li {
+  background: transparent;
+  color: #CAC6C0;
+  border: 1.5px solid transparent;
+}
+[data-theme="dark"] .menu li:hover,
+[data-theme="dark"] .menu li.service-link:hover,
+[data-theme="dark"] .menu .collapsible li:hover {
+  background: #23211a;
+  color: #4B3D99;
+  border: 1.5px solid #4B3D99;
+  /* scale: 1.05; */
+}
+
+.logo,
+.footer-logo h1,
+.footer-nav ul li a,
+.back-home-button,
+.menu li,
+.menu li.service-link,
+.menu .collapsible li,
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
 }

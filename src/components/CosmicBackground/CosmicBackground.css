@@ -155,13 +155,28 @@
 }
 
 /* Cosmic particles */
+@keyframes particleFloatMulti {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--star-x, 0), var(--star-y, 0)) scale(0.7);
+    opacity: 0;
+  }
+}
+
 .cosmic-particle {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  background: #fff;
   border-radius: 50%;
-  animation: particleFloat 15s linear infinite;
+  background: #fff;
+  animation: particleFloatMulti 15s linear infinite;
 }
 
 .cosmic-particle:nth-child(5) { top: 15%; left: 20%; animation-delay: 0s; }
@@ -331,4 +346,92 @@
   width: 180px;
   height: 40px;
   display: block;
+} 
+
+@keyframes laserShoot {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.2) translateY(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1.2) translateY(var(--laser-y, 0));
+  }
+}
+
+.cosmic-laser {
+  position: absolute;
+  height: 1.2px;
+  width: 40vw;
+  left: -5vw;
+  background: red;
+  border-radius: 1.5px;
+  opacity: 0.45;
+  box-shadow: 0 0 4px 1px currentColor;
+  animation: laserShoot 1.5s linear infinite;
+  z-index: 3;
+}
+
+@keyframes explosionExpand {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 0.7;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+.cosmic-explosion {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #ffe067 40%, #ffb347 80%, transparent 100%);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: explosionExpand 1.2s linear infinite;
+  z-index: 4;
+} 
+
+.cosmic-fighter {
+  position: absolute;
+  width: 22px;
+  height: 12px;
+  opacity: 0.32;
+  z-index: 5;
+  pointer-events: none;
+  animation: fighterFly 7s linear infinite;
+}
+
+@keyframes fighterFly {
+  0% {
+    transform: translateX(-10vw) scale(0.9);
+    opacity: 0.1;
+  }
+  10% {
+    opacity: 0.32;
+  }
+  90% {
+    opacity: 0.32;
+  }
+  100% {
+    transform: translateX(110vw) scale(1.1);
+    opacity: 0.1;
+  }
 } 

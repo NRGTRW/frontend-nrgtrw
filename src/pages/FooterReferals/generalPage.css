@@ -6,7 +6,7 @@
   height: 100vh;
   text-align: center;
   background: linear-gradient(to bottom, #f7f7f7, #e0e0e0);
-  color: #333;
+  color: var(--text-primary);
   font-family: "Poppins", sans-serif;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .general-page a {
-  color: #000;
+  color: var(--text-primary);
   text-decoration: underline;
 }
 

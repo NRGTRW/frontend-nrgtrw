@@ -82,4 +82,11 @@
       font-size: 1.4rem;
     }
   }
+
+.chat-icon {
+  width: 36px !important;
+  height: 36px !important;
+  display: inline-block;
+  vertical-align: middle;
+}
   

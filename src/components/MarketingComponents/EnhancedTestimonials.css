@@ -1,0 +1,437 @@
+/* CSS Custom Properties for Light/Dark Mode */
+:root {
+  /* Light Mode Colors */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #e9ecef;
+  --bg-card: #ffffff;
+  --bg-overlay: rgba(255, 255, 255, 0.8);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --text-light: #999999;
+  --border-color: rgba(245, 197, 24, 0.2);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --accent-primary: #f5c518;
+  --accent-secondary: #e6b800;
+  --accent-glow: rgba(245, 197, 24, 0.3);
+  --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #f5c518 100%);
+  --gradient-accent: linear-gradient(135deg, #f5c518 0%, #e6b800 100%);
+  --gradient-bg: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Dark Mode Colors */
+[data-theme="dark"] {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-card: #2a2a2a;
+  --bg-overlay: rgba(42, 42, 42, 0.9);
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #aaaaaa;
+  --text-light: #888888;
+  --border-color: rgba(245, 197, 24, 0.3);
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.5);
+  --accent-primary: #f5c518;
+  --accent-secondary: #e6b800;
+  --accent-glow: rgba(245, 197, 24, 0.2);
+  --gradient-primary: linear-gradient(135deg, #f5c518 0%, #ffffff 100%);
+  --gradient-accent: linear-gradient(135deg, #f5c518 0%, #e6b800 100%);
+  --gradient-bg: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+
+.nrg-enhanced-testimonials.enhanced-testimonials {
+  padding: 4rem 2rem;
+  background: var(--gradient-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.nrg-enhanced-testimonials.enhanced-testimonials::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23f5c518" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+}
+
+.nrg-enhanced-testimonials .testimonials-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.nrg-enhanced-testimonials .testimonials-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.nrg-enhanced-testimonials .testimonials-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nrg-enhanced-testimonials .testimonials-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.nrg-enhanced-testimonials .testimonial-carousel {
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.nrg-enhanced-testimonials .testimonial-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 8px 32px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.nrg-enhanced-testimonials .testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-accent);
+}
+
+.nrg-enhanced-testimonials .testimonial-content {
+  position: relative;
+  z-index: 2;
+}
+
+.nrg-enhanced-testimonials .testimonial-quote {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.nrg-enhanced-testimonials .quote-icon {
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  width: 40px;
+  height: 40px;
+  color: var(--accent-primary);
+  opacity: 0.3;
+}
+
+.nrg-enhanced-testimonials .testimonial-quote p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-style: italic;
+  padding-left: 2rem;
+}
+
+.nrg-enhanced-testimonials .testimonial-author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.nrg-enhanced-testimonials .author-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nrg-enhanced-testimonials .author-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent-primary);
+}
+
+.nrg-enhanced-testimonials .author-details h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.nrg-enhanced-testimonials .author-role {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.nrg-enhanced-testimonials .rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nrg-enhanced-testimonials .star {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.nrg-enhanced-testimonials .star.filled {
+  color: var(--accent-primary);
+}
+
+.nrg-enhanced-testimonials .testimonial-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.nrg-enhanced-testimonials .metric-card {
+  background: var(--bg-overlay);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+}
+
+.nrg-enhanced-testimonials .metric-card h5 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nrg-enhanced-testimonials .metric-values {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.nrg-enhanced-testimonials .before,
+.nrg-enhanced-testimonials .after {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nrg-enhanced-testimonials .arrow {
+  font-size: 1.2rem;
+  color: var(--accent-primary);
+  font-weight: bold;
+}
+
+.nrg-enhanced-testimonials .metric {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.nrg-enhanced-testimonials .timeframe {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.nrg-enhanced-testimonials .carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.nrg-enhanced-testimonials .control-btn {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.nrg-enhanced-testimonials .control-btn:hover {
+  background: var(--accent-primary);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.nrg-enhanced-testimonials .control-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nrg-enhanced-testimonials .carousel-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nrg-enhanced-testimonials .indicator {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nrg-enhanced-testimonials .indicator.active {
+  background: var(--accent-primary);
+  transform: scale(1.2);
+}
+
+.nrg-enhanced-testimonials .testimonials-cta {
+  text-align: center;
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 32px var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.nrg-enhanced-testimonials .testimonials-cta h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.nrg-enhanced-testimonials .testimonials-cta p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.nrg-enhanced-testimonials .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background: var(--gradient-accent);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px var(--accent-glow);
+  text-decoration: none;
+}
+
+.nrg-enhanced-testimonials .cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.nrg-enhanced-testimonials .arrow-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.nrg-enhanced-testimonials .cta-button:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nrg-enhanced-testimonials.enhanced-testimonials {
+    padding: 2rem 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonials-title {
+    font-size: 2rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonial-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonial-metrics {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .metric-card {
+    padding: 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .carousel-controls {
+    gap: 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .control-btn {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .nrg-enhanced-testimonials .cta-button {
+    padding: 0.875rem 2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nrg-enhanced-testimonials .testimonials-title {
+    font-size: 1.75rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonial-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .author-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonial-quote p {
+    padding-left: 1rem;
+    font-size: 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .quote-icon {
+    width: 30px;
+    height: 30px;
+    top: -0.5rem;
+    left: -0.5rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonials-cta {
+    padding: 2rem 1rem;
+  }
+  
+  .nrg-enhanced-testimonials .testimonials-cta h3 {
+    font-size: 1.75rem;
+  }
+} 

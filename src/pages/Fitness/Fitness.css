@@ -27,6 +27,8 @@
   color: var(--fitness-text);
   font-family: "Poppins", sans-serif;
   padding-bottom: 80px;
+  margin-top: 0;
+  padding-top: var(--navbar-height, 60px);
 }
 
 .fitness-video-placeholder {

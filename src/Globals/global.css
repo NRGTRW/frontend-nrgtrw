@@ -6,36 +6,34 @@
 }
 
 :root {
-  /* Light theme variables */
-  --bg-primary: #ffffff;
+  --bg-primary: #fff;
   --bg-secondary: #f9f9f9;
-  --text-primary: #1a1a1a;
-  --text-secondary: #555555;
-  --accent-primary: #e6b800;
-  --accent-secondary: #bfa14a;
-  --border-color: #e0e0e0;
-  --card-bg: #ffffff;
-  --card-border: #e0e0e0;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --text-primary: #000;
+  --text-secondary: #666;
+  --accent-primary: #f5c518;
+  --accent-secondary: #e6b800;
+  --border-color: #ccc;
+  --card-bg: #fff;
+  --card-border: #eee;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] {
-  /* Dark theme variables */
   --bg-primary: #181818;
   --bg-secondary: #23211a;
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --accent-primary: #ffe067;
-  --accent-secondary: #bfa14a;
-  --border-color: rgba(191, 161, 74, 0.2);
-  --card-bg: rgba(0, 0, 0, 0.3);
-  --card-border: rgba(191, 161, 74, 0.2);
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --text-primary: #fff;
+  --text-secondary: #bbb;
+  --accent-primary: #f5c518;
+  --accent-secondary: #e6b800;
+  --border-color: #444;
+  --card-bg: #23211a;
+  --card-border: #bfa14a33;
+  --shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
 
 body {
-  font-family: "Inter", sans-serif;
-  background: var(--bg-primary);
+  font-family: "Poppins", sans-serif;
+  background: #fff !important;
   color: var(--text-primary);
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;

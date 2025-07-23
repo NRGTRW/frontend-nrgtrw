@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 import { toast } from "react-toastify";
@@ -29,6 +29,24 @@ const AdminDashboard = () => {
   const [activityLog, setActivityLog] = useState([]);
   const [dataLoading, setDataLoading] = useState({});
   const [feedback, setFeedback] = useState([]);
+
+  // Dropdown for dashboard navigation
+  const [navDropdownOpen, setNavDropdownOpen] = useState(false);
+  const navDropdownRef = useRef(null);
+  // Close nav dropdown on outside click
+  useEffect(() => {
+    if (!navDropdownOpen) return;
+    function handleClickOutside(e) {
+      if (
+        navDropdownRef.current &&
+        !navDropdownRef.current.contains(e.target)
+      ) {
+        setNavDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [navDropdownOpen]);
 
   const fetchUsers = async () => {
     try {
@@ -360,56 +378,91 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      {/* Tab Navigation */}
-      <div className="admin-tabs">
-        <button 
-          className={`admin-tab ${activeTab === 'users' ? 'active' : ''}`}
-          onClick={() => setActiveTab('users')}
+      {/* Dropdown Navigation */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 'calc(var(--navbar-height, 60px) * 3)',
+          left: 0,
+          width: '100%',
+          zIndex: 1002,
+          marginBottom: 24
+        }}
+        ref={navDropdownRef}
+      >
+        {/* <button
+          className="dashboard-nav-dropdown-trigger"
+          aria-label="Dashboard Navigation"
+          onClick={() => setNavDropdownOpen((open) => !open)}
+          style={{
+            background: 'var(--navbar-accent)',
+            border: 'none',
+            borderRadius: 8,
+            padding: '10px 22px',
+            fontWeight: 700,
+            fontSize: '1.1rem',
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            boxShadow: navDropdownOpen ? '0 4px 12px rgba(230,184,0,0.18)' : 'none',
+            transition: 'box-shadow 0.2s',
+            zIndex: 1001
+          }}
         >
-          👥 User Management
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'waitlist' ? 'active' : ''}`}
-          onClick={() => setActiveTab('waitlist')}
+          Dashboard Menu
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 12, transition: 'transform 0.3s', transform: navDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}><polyline points="6 9 12 15 18 9"/></svg>
+        </button> */}
+        <div
+          className="dashboard-nav-dropdown-anim-wrapper"
+          style={{
+            position: 'relative',
+            top: 8,
+            left: 0,
+            minWidth: 220,
+            zIndex: 1002,
+            pointerEvents: navDropdownOpen ? 'auto' : 'none',
+          }}
         >
-          📋 Waitlist Management
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'analytics' ? 'active' : ''}`}
-          onClick={() => setActiveTab('analytics')}
-        >
-          📊 Analytics
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'products' ? 'active' : ''}`}
-          onClick={() => setActiveTab('products')}
-        >
-          🛍️ Product Management
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'orders' ? 'active' : ''}`}
-          onClick={() => setActiveTab('orders')}
-        >
-          🛒 Order Management
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'system' ? 'active' : ''}`}
-          onClick={() => setActiveTab('system')}
-        >
-          ⚙️ System Health
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'activity' ? 'active' : ''}`}
-          onClick={() => setActiveTab('activity')}
-        >
-          📝 Activity Logs
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'feedback' ? 'active' : ''}`}
-          onClick={() => setActiveTab('feedback')}
-        >
-          💬 Feedback
-        </button>
+          <div
+            className={`dashboard-nav-dropdown-menu${navDropdownOpen ? ' open' : ''}`}
+            style={{
+              background: 'var(--navbar-bg)',
+              border: '1px solid var(--navbar-accent)',
+              borderRadius: 8,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+              padding: '8px 0',
+              opacity: navDropdownOpen ? 1 : 0,
+              transform: navDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',
+              transition: 'opacity 0.25s, transform 0.25s',
+            }}
+          >
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'users' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('users'); setNavDropdownOpen(false); }}>
+              👥 User Management
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'waitlist' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('waitlist'); setNavDropdownOpen(false); }}>
+              📋 Waitlist Management
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'analytics' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('analytics'); setNavDropdownOpen(false); }}>
+              📊 Analytics
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'products' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('products'); setNavDropdownOpen(false); }}>
+              🛍️ Product Management
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'orders' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('orders'); setNavDropdownOpen(false); }}>
+              🛒 Order Management
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'system' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('system'); setNavDropdownOpen(false); }}>
+              ⚙️ System Health
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'activity' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('activity'); setNavDropdownOpen(false); }}>
+              📝 Activity Logs
+            </button>
+            <button className={`dashboard-nav-dropdown-item${activeTab === 'feedback' ? ' active' : ''}`} style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', width: '100%', background: 'none', border: 'none', color: 'var(--navbar-text)', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }} onClick={() => { setActiveTab('feedback'); setNavDropdownOpen(false); }}>
+              💬 Feedback
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* User Management Tab */}

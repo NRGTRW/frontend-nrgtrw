@@ -21,10 +21,15 @@
   right: 8px;
   background: transparent;
   border: none;
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #000;
   cursor: pointer;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toast-heading {

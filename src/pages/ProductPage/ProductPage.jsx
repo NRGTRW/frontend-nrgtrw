@@ -13,6 +13,8 @@ import "../../admin/createAProductPage.css";
 import { getToken } from "../../context/tokenUtils";
 import InsertColorName from "../../components/InsertColorName/InsertColorName";
 import { useTranslation } from "react-i18next";
+import ProductionWarning from '../../components/ProductionWarning/ProductionWarning';
+import CosmicBackground from '../../components/CosmicBackground/CosmicBackground';
 
 const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
 const MAX_QUANTITY = 99;
@@ -356,327 +358,356 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="product-page">
-      <GoBackButton />
-      <div className="spacer-bar2"></div>
-      {editing ? (
-        <div className="cp-page">
-          <div className="cp-page__container">
-            <div className="cp-page__details-section">
-              <h2>Edit Product</h2>
-              {/* English Translation */}
-              <h3>English Translation</h3>
-              <div className="cp-page__input-group">
-                <label className="cp-page__input-label">
-                  English Name <span className="cp-page__required-marker">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="cp-page__form-input"
-                  value={editForm.enName}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, enName: e.target.value })
-                  }
-                  placeholder="Enter English product name"
-                />
-              </div>
-              <div className="cp-page__input-group">
-                <label className="cp-page__input-label">
-                  English Description <span className="cp-page__required-marker">*</span>
-                </label>
-                <textarea
-                  className="cp-page__form-textarea"
-                  value={editForm.enDescription}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, enDescription: e.target.value })
-                  }
-                  placeholder="Enter English product description"
-                ></textarea>
-              </div>
-              {/* Bulgarian Translation */}
-              <h3>Bulgarian Translation</h3>
-              <div className="cp-page__input-group">
-                <label className="cp-page__input-label">
-                  Bulgarian Name <span className="cp-page__required-marker">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="cp-page__form-input"
-                  value={editForm.bgName}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, bgName: e.target.value })
-                  }
-                  placeholder="Enter Bulgarian product name"
-                />
-              </div>
-              <div className="cp-page__input-group">
-                <label className="cp-page__input-label">
-                  Bulgarian Description <span className="cp-page__required-marker">*</span>
-                </label>
-                <textarea
-                  className="cp-page__form-textarea"
-                  value={editForm.bgDescription}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, bgDescription: e.target.value })
-                  }
-                  placeholder="Enter Bulgarian product description"
-                ></textarea>
-              </div>
-              <div className="cp-page__input-group">
-                <label className="cp-page__input-label">
-                  Price <span className="cp-page__required-marker">*</span>
-                </label>
-                <input
-                  type="number"
-                  className="cp-page__form-input"
-                  value={editForm.price}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, price: e.target.value })
-                  }
-                  placeholder="Enter product price"
-                />
-              </div>
-              <div className="cp-page__input-group">
-                <label className="cp-page__input-label">
-                  Category <span className="cp-page__required-marker">*</span>
-                </label>
-                <select
-                  className="cp-page__form-select"
-                  name="category"
-                  value={editForm.category}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, category: e.target.value })
-                  }
-                  required
-                >
-                  <option value="">Select Category</option>
-                  {Array.isArray(categories) &&
-                    categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <h3>Edit Colors</h3>
-              {editColors.map((color, index) => (
-                <div
-                  key={color.id !== null ? color.id : `new-${index}`}
-                  className="cp-page__color-option"
-                >
-                  <div className="cp-page__input-group">
-                    <label className="cp-page__input-label">
-                      Color Name <span className="cp-page__required-marker">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="cp-page__form-input"
-                      value={color.colorName}
-                      onChange={(e) => handleEditColorNameChange(e, index)}
-                      placeholder="Enter color name"
-                    />
-                  </div>
-                  <div className="cp-page__input-group">
-                    <label className="cp-page__input-label">Color Image</label>
-                    <input
-                      type="file"
-                      className="cp-page__file-input"
-                      accept="image/*"
-                      onChange={(e) =>
-                        handleEditColorFileChange(e, index, "imageUrl")
-                      }
-                    />
-                  </div>
-                  <div className="cp-page__input-group">
-                    <label className="cp-page__input-label">Hover Image</label>
-                    <input
-                      type="file"
-                      className="cp-page__file-input"
-                      accept="image/*"
-                      onChange={(e) =>
-                        handleEditColorFileChange(e, index, "hoverImage")
-                      }
-                    />
-                  </div>
-                  <div className="cp-page__preview-container">
-                    <img
-                      src={
-                        color.newImageFile
-                          ? URL.createObjectURL(color.newImageFile)
-                          : color.imageUrl
-                      }
-                      alt="Color Preview"
-                      className="cp-page__preview-image"
-                    />
-                    <img
-                      src={
-                        color.newHoverImageFile
-                          ? URL.createObjectURL(color.newHoverImageFile)
-                          : color.hoverImage
-                      }
-                      alt="Hover Preview"
-                      className="cp-page__preview-image"
-                      style={{ marginLeft: "1rem" }}
-                    />
-                  </div>
-                  <div className="cp-page__button-group">
-                    <button
-                      className="cp-page__danger-btn"
-                      onClick={() => handleRemoveColor(index)}
-                    >
-                      Remove Color
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <div className="cp-page__button-group">
-                <button className="cp-page__action-btn" onClick={handleAddColor}>
-                  Add Color
-                </button>
-              </div>
-              <div className="cp-page__button-group">
-                <button className="cp-page__action-btn" onClick={handleSave}>
-                  Save
-                </button>
-                <button
-                  className="cp-page__danger-btn"
-                  onClick={() => setEditing(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-          <InsertColorName
-            show={showNewColorModal}
-            onConfirm={handleConfirmNewColor}
-            onCancel={handleCancelNewColor}
-          />
-        </div>
-      ) : (
-        <div className="product-container">
-          <div className="product-images">
-            <div className="image-carousel" style={{ position: 'relative' }}>
-              <img
-                src={isWishlisted ? '/wishlist-filled.png' : '/wishlist-outline.png'}
-                alt="Wishlist"
-                className="wishlist-button"
-                onClick={handleWishlistToggle}
-                style={{ position: 'absolute', top: 10, right: 10, zIndex: 10000 }}
-              />
-              <button
-                  className="carousel-arrow left-arrow"
-                  onClick={() => {
-                    setCurrentImageIndex((prev) => {
-                      const newIndex = prev === 0 ? images.length - 1 : prev - 1;
-                      return newIndex;
-                    });
-                  }}
-                >
-                  ❮
-                </button>
-                <img
-                  src={images[currentImageIndex] || (isTemuProduct ? currentColor.imageUrl : getS3Url(product.imageUrl))}
-                  alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
-                  className="main-image"
-                />
-                <button
-                  className="carousel-arrow right-arrow"
-                  onClick={() => {
-                    setCurrentImageIndex((prev) => {
-                      const newIndex = prev === images.length - 1 ? 0 : prev + 1;
-                      return newIndex;
-                    });
-                  }}
-                >
-                  ❯
-                </button>
-            </div>
-            {/* Thumbnails below the main image, outside the carousel */}
-            <div className="image-thumbnails">
-              {images.map((img, idx) => (
-                <img
-                  key={img + idx}
-                  src={img}
-                  alt={`Thumbnail ${idx + 1}`}
-                  className={`thumbnail ${currentImageIndex === idx ? "selected" : ""}`}
-                  onClick={() => setCurrentImageIndex(idx)}
-                  style={{ cursor: 'pointer', width: 60, height: 60, objectFit: 'cover', margin: '0 6px', border: currentImageIndex === idx ? '2px solid #222' : '1px solid #ccc', borderRadius: 8, boxShadow: currentImageIndex === idx ? '0 0 6px #aaa' : 'none' }}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="product-details">
-            <h1>{displayName}</h1>
-            <p className="product-price">${product.price.toFixed(2)}</p>
-            <p className="product-description">{displayDescription}</p>
-            {product.sizes && product.sizes.length > 0 && (
-              <div className="size-quantity-row">
-                <div className="size-selector">
-                  {product.sizes.map((size) => (
-                    <button
-                      key={size.id}
-                      className={`size-button ${selectedSize === size.size ? 'selected' : ''}`}
-                      onClick={() => setSelectedSize(size.size)}
-                    >
-                      {size.size}
-                    </button>
-                  ))}
-                </div>
-                <div className="quantity-selector">
-                  <button
-                    className="quantity-button minus"
-                    onClick={decreaseQuantity}
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </button>
+    <>
+      <CosmicBackground palette={{
+        gradient: ['#fff', '#f5c518', '#e6b800', '#23211a'],
+        nebula1: 'rgba(245, 197, 24, 0.22)',
+        nebula2: 'rgba(120, 119, 198, 0.18)',
+        star: '#fffbe6',
+        accent: '#ffe067',
+        planet: '#ffe067',
+        crown: '#f5c518',
+      }} />
+      <div className="product-page">
+        <GoBackButton />
+        <div className="spacer-bar2"></div>
+        {!isAvailableProduct && <ProductionWarning />}
+        {editing ? (
+          <div className="cp-page">
+            <div className="cp-page__container">
+              <div className="cp-page__details-section">
+                <h2>Edit Product</h2>
+                {/* English Translation */}
+                <h3>English Translation</h3>
+                <div className="cp-page__input-group">
+                  <label className="cp-page__input-label">
+                    English Name <span className="cp-page__required-marker">*</span>
+                  </label>
                   <input
                     type="text"
-                    className="quantity-input"
-                    value={quantity}
-                    onChange={handleQuantityChange}
+                    className="cp-page__form-input"
+                    value={editForm.enName}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, enName: e.target.value })
+                    }
+                    placeholder="Enter English product name"
                   />
-                  <button
-                    className="quantity-button plus"
-                    onClick={increaseQuantity}
-                    disabled={quantity >= MAX_QUANTITY}
+                </div>
+                <div className="cp-page__input-group">
+                  <label className="cp-page__input-label">
+                    English Description <span className="cp-page__required-marker">*</span>
+                  </label>
+                  <textarea
+                    className="cp-page__form-textarea"
+                    value={editForm.enDescription}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, enDescription: e.target.value })
+                    }
+                    placeholder="Enter English product description"
+                  ></textarea>
+                </div>
+                {/* Bulgarian Translation */}
+                <h3>Bulgarian Translation</h3>
+                <div className="cp-page__input-group">
+                  <label className="cp-page__input-label">
+                    Bulgarian Name <span className="cp-page__required-marker">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="cp-page__form-input"
+                    value={editForm.bgName}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, bgName: e.target.value })
+                    }
+                    placeholder="Enter Bulgarian product name"
+                  />
+                </div>
+                <div className="cp-page__input-group">
+                  <label className="cp-page__input-label">
+                    Bulgarian Description <span className="cp-page__required-marker">*</span>
+                  </label>
+                  <textarea
+                    className="cp-page__form-textarea"
+                    value={editForm.bgDescription}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, bgDescription: e.target.value })
+                    }
+                    placeholder="Enter Bulgarian product description"
+                  ></textarea>
+                </div>
+                <div className="cp-page__input-group">
+                  <label className="cp-page__input-label">
+                    Price <span className="cp-page__required-marker">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    className="cp-page__form-input"
+                    value={editForm.price}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, price: e.target.value })
+                    }
+                    placeholder="Enter product price"
+                  />
+                </div>
+                <div className="cp-page__input-group">
+                  <label className="cp-page__input-label">
+                    Category <span className="cp-page__required-marker">*</span>
+                  </label>
+                  <select
+                    className="cp-page__form-select"
+                    name="category"
+                    value={editForm.category}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, category: e.target.value })
+                    }
+                    required
                   >
-                    +
+                    <option value="">Select Category</option>
+                    {Array.isArray(categories) &&
+                      categories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <h3>Edit Colors</h3>
+                {editColors.map((color, index) => (
+                  <div
+                    key={color.id !== null ? color.id : `new-${index}`}
+                    className="cp-page__color-option"
+                  >
+                    <div className="cp-page__input-group">
+                      <label className="cp-page__input-label">
+                        Color Name <span className="cp-page__required-marker">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="cp-page__form-input"
+                        value={color.colorName}
+                        onChange={(e) => handleEditColorNameChange(e, index)}
+                        placeholder="Enter color name"
+                      />
+                    </div>
+                    <div className="cp-page__input-group">
+                      <label className="cp-page__input-label">Color Image</label>
+                      <input
+                        type="file"
+                        className="cp-page__file-input"
+                        accept="image/*"
+                        onChange={(e) =>
+                          handleEditColorFileChange(e, index, "imageUrl")
+                        }
+                      />
+                    </div>
+                    <div className="cp-page__input-group">
+                      <label className="cp-page__input-label">Hover Image</label>
+                      <input
+                        type="file"
+                        className="cp-page__file-input"
+                        accept="image/*"
+                        onChange={(e) =>
+                          handleEditColorFileChange(e, index, "hoverImage")
+                        }
+                      />
+                    </div>
+                    <div className="cp-page__preview-container">
+                      <img
+                        src={
+                          color.newImageFile
+                            ? URL.createObjectURL(color.newImageFile)
+                            : color.imageUrl
+                        }
+                        alt="Color Preview"
+                        className="cp-page__preview-image"
+                      />
+                      <img
+                        src={
+                          color.newHoverImageFile
+                            ? URL.createObjectURL(color.newHoverImageFile)
+                            : color.hoverImage
+                        }
+                        alt="Hover Preview"
+                        className="cp-page__preview-image"
+                        style={{ marginLeft: "1rem" }}
+                      />
+                    </div>
+                    <div className="cp-page__button-group">
+                      <button
+                        className="cp-page__danger-btn"
+                        onClick={() => handleRemoveColor(index)}
+                      >
+                        Remove Color
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <div className="cp-page__button-group">
+                  <button className="cp-page__action-btn" onClick={handleAddColor}>
+                    Add Color
+                  </button>
+                </div>
+                <div className="cp-page__button-group">
+                  <button className="cp-page__action-btn" onClick={handleSave}>
+                    Save
+                  </button>
+                  <button
+                    className="cp-page__danger-btn"
+                    onClick={() => setEditing(false)}
+                  >
+                    Cancel
                   </button>
                 </div>
               </div>
-            )}
-            {maxQuantityMessage && (
-              <p className="max-quantity-message">
-                Maximum quantity reached! For bulk orders, please{' '}
-                <a href="/contact-us" className="contact-link">
-                  contact us
-                </a>.
-              </p>
-            )}
-            <button
-              className="add-to-cart-button"
-              onClick={handleAddToCart}
-              disabled={!selectedSize && !isAvailableProduct || !quantity}
-            >
-              {t("cartPage.addToCart")}
-            </button>
-            {user &&
-              (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
-                <div className="admin-actions">
-                  <button
-                    className="cp-page__action-btn"
-                    onClick={() => setEditing(true)}
+            </div>
+            <InsertColorName
+              show={showNewColorModal}
+              onConfirm={handleConfirmNewColor}
+              onCancel={handleCancelNewColor}
+            />
+          </div>
+        ) : (
+          <div className="product-container">
+            <div className="product-images">
+              <div className="image-carousel" style={{ position: 'relative' }}>
+                <img
+                  src={isWishlisted ? '/wishlist-filled.png' : '/wishlist-outline.png'}
+                  alt="Wishlist"
+                  className="wishlist-button"
+                  onClick={handleWishlistToggle}
+                  style={{ position: 'absolute', top: 10, right: 10, zIndex: 10000 }}
+                />
+                <button
+                    className="carousel-arrow left-arrow"
+                    onClick={() => {
+                      setCurrentImageIndex((prev) => {
+                        const newIndex = prev === 0 ? images.length - 1 : prev - 1;
+                        return newIndex;
+                      });
+                    }}
                   >
-                    Edit Product
+                    ❮
                   </button>
+                  <img
+                    src={images[currentImageIndex] || (isTemuProduct ? currentColor.imageUrl : getS3Url(product.imageUrl))}
+                    alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
+                    className="main-image"
+                  />
+                  <button
+                    className="carousel-arrow right-arrow"
+                    onClick={() => {
+                      setCurrentImageIndex((prev) => {
+                        const newIndex = prev === images.length - 1 ? 0 : prev + 1;
+                        return newIndex;
+                      });
+                    }}
+                  >
+                    ❯
+                  </button>
+              </div>
+              {/* Thumbnails below the main image, outside the carousel */}
+              <div className="image-thumbnails">
+                {images.map((img, idx) => (
+                  <img
+                    key={img + idx}
+                    src={img}
+                    alt={`Thumbnail ${idx + 1}`}
+                    className={`thumbnail ${currentImageIndex === idx ? "selected" : ""}`}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    style={{ cursor: 'pointer', width: 60, height: 60, objectFit: 'cover', margin: '0 6px', border: currentImageIndex === idx ? '2px solid #222' : '1px solid #ccc', borderRadius: 8, boxShadow: currentImageIndex === idx ? '0 0 6px #aaa' : 'none' }}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="product-details">
+              <h1>{displayName}</h1>
+              <p className="product-price">${product.price.toFixed(2)}</p>
+              <p className="product-description">{displayDescription}</p>
+              {/* Color Options */}
+              {product.colors && product.colors.length > 1 && (
+                <div
+                  className="color-options"
+                  style={displayName === 'Reflection Layer' ? { display: 'none' } : {}}
+                >
+                  {product.colors.map((color, idx) => (
+                    <button
+                      key={color.id || idx}
+                      className={`color-circle${selectedColorIndex === idx ? ' active' : ''}`}
+                      style={{ background: `url(${color.imageUrl}) center/cover no-repeat` }}
+                      onClick={() => setSelectedColorIndex(idx)}
+                      aria-label={color.colorName || `Color ${idx + 1}`}
+                    />
+                  ))}
                 </div>
               )}
+              {product.sizes && product.sizes.length > 0 && (
+                <div className="size-quantity-row">
+                  <div className="size-selector">
+                    {product.sizes.map((size) => (
+                      <button
+                        key={typeof size === 'string' ? size : size.id || size.size}
+                        className={`size-button ${selectedSize === (size.size || size) ? 'selected' : ''}`}
+                        onClick={() => setSelectedSize(size.size || size)}
+                      >
+                        {size.size || size}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="quantity-selector">
+                    <button
+                      className="quantity-button minus"
+                      onClick={decreaseQuantity}
+                      disabled={quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <input
+                      type="text"
+                      className="quantity-input"
+                      value={quantity}
+                      onChange={handleQuantityChange}
+                    />
+                    <button
+                      className="quantity-button plus"
+                      onClick={increaseQuantity}
+                      disabled={quantity >= MAX_QUANTITY}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              )}
+              {maxQuantityMessage && (
+                <p className="max-quantity-message">
+                  Maximum quantity reached! For bulk orders, please{' '}
+                  <a href="/contact-us" className="contact-link">
+                    contact us
+                  </a>.
+                </p>
+              )}
+              <button
+                className="add-to-cart-button"
+                onClick={handleAddToCart}
+                disabled={!selectedSize && !isAvailableProduct || !quantity}
+              >
+                {t("cartPage.addToCart")}
+              </button>
+              {user &&
+                (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
+                  <div className="admin-actions">
+                    <button
+                      className="cp-page__action-btn"
+                      onClick={() => setEditing(true)}
+                    >
+                      Edit Product
+                    </button>
+                  </div>
+                )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

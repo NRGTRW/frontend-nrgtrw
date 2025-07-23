@@ -30,7 +30,7 @@
 .hero-title {
   font-family: "Cinzel", serif;
   font-size: 64px;
-  color: #fff;
+  color: var(--text-primary);
   text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -39,8 +39,8 @@
   padding: 10px 30px;
   font-size: 24px;
   font-weight: bold;
-  color: #000;
-  background-color: #fff;
+  color: var(--text-primary);
+  background-color: var(--card-bg);
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -112,7 +112,7 @@
   font-size: 24px;
   font-weight: 600;
   /* Keep original color and background */
-  color: #fff;
+  color: var(--text-primary);
   background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
   border: none;
   border-radius: 36px;
@@ -171,7 +171,7 @@ html {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  color: #000;
+  color: var(--text-primary);
 }
 
 .next-section h2 {
