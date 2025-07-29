@@ -20,7 +20,8 @@ const ProgramForm = ({ program, onSubmit, onCancel }) => {
     pdfUrl: program?.pdfUrl || '',
     price: program?.price || 50,
     stripePriceId: program?.stripePriceId || '',
-    isActive: program?.isActive ?? true
+    isActive: program?.isActive ?? true,
+    waitlistMode: program?.waitlistMode ?? false,
   });
 
   const [errors, setErrors] = useState({});
@@ -143,6 +144,17 @@ const ProgramForm = ({ program, onSubmit, onCancel }) => {
             onChange={(e) => handleInputChange('isActive', e.target.checked)}
           />
           Active Program
+        </label>
+      </div>
+
+      <div className="form-group">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={formData.waitlistMode}
+            onChange={(e) => handleInputChange('waitlistMode', e.target.checked)}
+          />
+          Waitlist Mode (Show Waitlist instead of Buy)
         </label>
       </div>
 
