@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./NRGLandingPage.css";
 import RequestModal from "../../components/RequestModal/RequestModal";
 import TikTokFeed from "../../components/TikTokFeed/TikTokFeed";
-import FeatureHighlights from "../../components/MarketingComponents/FeatureHighlights";
+// import FeatureHighlights from "../../components/MarketingComponents/FeatureHighlights";
 import EnhancedTestimonials from "../../components/MarketingComponents/EnhancedTestimonials";
 import { useAuth } from "../../context/AuthContext";
 
@@ -67,7 +67,7 @@ const NRGLandingPage = () => {
       <TikTokFeed />
 
       {/* Feature Highlights Section */}
-      <FeatureHighlights />
+      {/* <FeatureHighlights /> */}
 
       {/* Service Categories Section */}
       <section className="nrg-sections" style={{ background: 'var(--nrg-bg)' }}>
@@ -94,7 +94,7 @@ const NRGLandingPage = () => {
       </section>
 
       {/* Enhanced Testimonials Section */}
-      <EnhancedTestimonials />
+      {/* <EnhancedTestimonials /> */}
 
       {/* Final CTA Section */}
       <section className="final-cta">

@@ -266,12 +266,47 @@ const ProgramsPage = () => {
 
       {/* Admin Access Indicator */}
       {user?.role && ['ADMIN', 'ROOT_ADMIN'].includes(user.role.trim().toUpperCase()) && (
-        <div className="admin-access-indicator">
-          <div className="admin-badge">
-            👑 Admin Access - Full Program Content Available
-          </div>
-        </div>
-      )}
+  <div className="admin-access-indicator">
+    <div className="admin-badge">
+      👑 Admin Access - Full Program Content Available
+    </div>
+  </div>
+)}
+{/* Purchase and Subscribe Buttons */}
+{!userHasAccess() && !waitlistMode && (
+  <div className="purchase-buttons">
+    <button
+      className="purchase-button"
+      onClick={handlePurchase}
+    >
+      Unlock This Program
+    </button>
+    <button
+      className="subscribe-button"
+      onClick={handleSubscribe}
+    >
+      Subscribe for All Access
+    </button>
+  </div>
+)}
+
+{!userHasAccess() && waitlistMode && (
+  <div className="purchase-buttons">
+    <button
+      className="waitlist-button"
+      onClick={handleJoinWaitlist}
+    >
+      📋 Join Waitlist
+    </button>
+    <button
+      className="subscribe-button"
+      onClick={handleSubscribe}
+    >
+      Subscribe for All Access
+    </button>
+  </div>
+)}
+
 
       {/* Program Content - Always Show */}
       <div className="program-content">
