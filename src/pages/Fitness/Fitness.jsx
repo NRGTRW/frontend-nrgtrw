@@ -14,6 +14,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import WaitlistModal from "../../components/WaitlistModal/WaitlistModal";
+import RequestModal from "../../components/RequestModal/RequestModal";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -22,31 +23,36 @@ const Fitness = () => {
   const [programs, setPrograms] = useState([]);
   const [userAccess, setUserAccess] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeProgram, setActiveProgram] = useState(null);
   const [hoveredProgramId, setHoveredProgramId] = useState(null);
   const [showOverview, setShowOverview] = useState(false);
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
   const [selectedProgramForWaitlist, setSelectedProgramForWaitlist] = useState(null);
   const [isOnGlobalWaitlist, setIsOnGlobalWaitlist] = useState(false);
+  const [showConsultationModal, setShowConsultationModal] = useState(false);
   const { user } = useAuth();
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const [programsData, accessData] = await Promise.all([
+        fetchFitnessPrograms(),
+        user ? checkUserAccess() : { accessMap: {}, hasSubscription: false },
+      ]);
+      setPrograms(programsData);
+      setUserAccess(accessData);
+    } catch (error) {
+      console.error("Error fetching fitness data:", error);
+      setError("Failed to load fitness programs. Please try again.");
+      toast.error("Failed to load fitness programs");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [programsData, accessData] = await Promise.all([
-          fetchFitnessPrograms(),
-          user ? checkUserAccess() : { accessMap: {}, hasSubscription: false },
-        ]);
-        setPrograms(programsData);
-        setUserAccess(accessData);
-      } catch (error) {
-        console.error("Error fetching fitness data:", error);
-        toast.error("Failed to load fitness programs");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
   }, [user]);
 
@@ -180,13 +186,49 @@ const Fitness = () => {
 
   return (
     <div className="fitness-page dark-fitness-bg">
-      <section className="fitness-video-placeholder">
+      {/* Video Placeholder */}
+      <div className="fitness-video-placeholder">
         <div className="fitness-video-container">
-          <div className="fitness-video-text">🎥 Intro Video Coming Soon</div>
+          <div className="fitness-video-text">
+            Transform Your Body, Transform Your Life
+          </div>
         </div>
-      </section>
+      </div>
 
-      <section className="program-cards">
+      {/* Loading State */}
+      {loading && (
+        <section className="program-cards">
+          {[1, 2, 3].map((index) => (
+            <div key={index} className="program-card skeleton-card">
+              <div className="skeleton-image"></div>
+              <div className="program-info">
+                <div className="skeleton-title"></div>
+                <div className="skeleton-description"></div>
+                <div className="skeleton-price"></div>
+                <div className="skeleton-button"></div>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Error State */}
+      {error && !loading && (
+        <section className="error-section">
+          <div className="error-container">
+            <div className="error-icon">⚠️</div>
+            <h3 className="error-title">Something went wrong</h3>
+            <p className="error-message">{error}</p>
+            <button className="retry-btn" onClick={fetchData}>
+              Try Again
+            </button>
+          </div>
+        </section>
+      )}
+
+      {/* Programs Section */}
+      {!loading && !error && (
+        <section className="program-cards">
         {programs.map((program) => (
           <div
             key={program.id}
@@ -271,6 +313,46 @@ const Fitness = () => {
             </div>
           </div>
         ))}
+      </section>
+      )}
+
+      {/* 1-on-1 Consultation Booking Section */}
+      <section className="consultation-section">
+        <div className="consultation-container">
+          <div className="consultation-content">
+            <h2 className="consultation-title">
+              Need a <span className="accent-text">Personal Touch</span>?
+            </h2>
+            <p className="consultation-description">
+              Get a custom fitness regime tailored specifically to your goals, lifestyle, and preferences. 
+              Book a 1-on-1 consultation and let's build your perfect program together.
+            </p>
+            <div className="consultation-features">
+              <div className="feature-item">
+                <div className="feature-icon">🎯</div>
+                <span>Personalized Goals Assessment</span>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">📋</div>
+                <span>Custom Program Design</span>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">💪</div>
+                <span>Form & Technique Review</span>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">📱</div>
+                <span>Ongoing Support</span>
+              </div>
+            </div>
+            <button 
+              className="consultation-btn"
+              onClick={() => setShowConsultationModal(true)}
+            >
+              Book Your 1-on-1 Consultation
+            </button>
+          </div>
+        </div>
       </section>
 
       {activeProgram && showOverview && (
@@ -376,6 +458,11 @@ const Fitness = () => {
         isOpen={showWaitlistModal}
         onClose={handleCloseWaitlistModal}
         program={selectedProgramForWaitlist}
+      />
+
+      <RequestModal
+        isOpen={showConsultationModal}
+        onClose={() => setShowConsultationModal(false)}
       />
     </div>
   );
