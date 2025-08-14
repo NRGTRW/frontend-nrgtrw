@@ -1,0 +1,213 @@
+// Service Worker for NRG App
+const CACHE_NAME = 'nrg-cache-v1';
+const STATIC_CACHE = 'nrg-static-v1';
+const DYNAMIC_CACHE = 'nrg-dynamic-v1';
+
+// Assets to cache immediately
+const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/static/js/bundle.js',
+  '/static/css/main.css',
+  '/favicon.ico',
+  '/manifest.json'
+];
+
+// Install event - cache static assets
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(STATIC_CACHE)
+      .then((cache) => {
+        console.log('Caching static assets');
+        return cache.addAll(STATIC_ASSETS);
+      })
+      .catch((error) => {
+        console.log('Cache install failed:', error);
+      })
+  );
+  self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Fetch event - serve from cache or network
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Skip non-GET requests
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  // Handle different types of requests
+  if (url.pathname.startsWith('/api/')) {
+    // API requests - network first, cache fallback
+    event.respondWith(handleApiRequest(request));
+  } else if (url.pathname.includes('.') && !url.pathname.includes('index.html')) {
+    // Static assets - cache first, network fallback
+    event.respondWith(handleStaticAsset(request));
+  } else {
+    // HTML pages - network first, cache fallback
+    event.respondWith(handlePageRequest(request));
+  }
+});
+
+// Handle API requests
+async function handleApiRequest(request) {
+  try {
+    const networkResponse = await fetch(request);
+    
+    // Cache successful GET requests
+    if (networkResponse.ok && request.method === 'GET') {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      cache.put(request, networkResponse.clone());
+    }
+    
+    return networkResponse;
+  } catch (error) {
+    // Try to serve from cache
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
+    // Return offline response for API calls
+    return new Response(
+      JSON.stringify({ error: 'Offline - Please check your connection' }),
+      {
+        status: 503,
+        statusText: 'Service Unavailable',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+}
+
+// Handle static assets
+async function handleStaticAsset(request) {
+  const cachedResponse = await caches.match(request);
+  
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  
+  try {
+    const networkResponse = await fetch(request);
+    
+    if (networkResponse.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      cache.put(request, networkResponse.clone());
+    }
+    
+    return networkResponse;
+  } catch (error) {
+    // Return a placeholder for images
+    if (request.destination === 'image') {
+      return new Response(
+        '<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f0f0f0"/><text x="100" y="100" text-anchor="middle" fill="#999">Image not available</text></svg>',
+        {
+          headers: { 'Content-Type': 'image/svg+xml' }
+        }
+      );
+    }
+    
+    throw error;
+  }
+}
+
+// Handle page requests
+async function handlePageRequest(request) {
+  try {
+    const networkResponse = await fetch(request);
+    
+    if (networkResponse.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      cache.put(request, networkResponse.clone());
+    }
+    
+    return networkResponse;
+  } catch (error) {
+    const cachedResponse = await caches.match(request);
+    
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
+    // Return offline page
+    return caches.match('/offline.html') || new Response(
+      '<html><body><h1>Offline</h1><p>Please check your internet connection.</p></body></html>',
+      {
+        headers: { 'Content-Type': 'text/html' }
+      }
+    );
+  }
+}
+
+// Background sync for offline actions
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'background-sync') {
+    event.waitUntil(doBackgroundSync());
+  }
+});
+
+async function doBackgroundSync() {
+  // Handle background sync tasks
+  console.log('Background sync triggered');
+}
+
+// Push notifications
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data ? event.data.text() : 'New notification from NRG',
+    icon: '/favicon-96x96.png',
+    badge: '/favicon-96x96.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
+    actions: [
+      {
+        action: 'explore',
+        title: 'Explore',
+        icon: '/favicon-96x96.png'
+      },
+      {
+        action: 'close',
+        title: 'Close',
+        icon: '/favicon-96x96.png'
+      }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('NRG', options)
+  );
+});
+
+// Handle notification clicks
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  if (event.action === 'explore') {
+    event.waitUntil(
+      clients.openWindow('/')
+    );
+  }
+});

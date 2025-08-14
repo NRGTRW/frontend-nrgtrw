@@ -40,3 +40,64 @@
 .read-the-docs {
   color: #888;
 }
+
+/* App.css */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: var(--navbar-height, 80px);
+}
+
+/* Loading Spinner */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.loading-spinner {
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.loading-spinner .spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(245, 197, 24, 0.2);
+  border-top: 3px solid #f5c518;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+.loading-spinner p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark theme support */
+[data-theme="dark"] .loading-container {
+  background: var(--bg-primary);
+}
+
+[data-theme="dark"] .loading-spinner {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .loading-spinner .spinner {
+  border-color: rgba(245, 197, 24, 0.2);
+  border-top-color: #f5c518;
+}
