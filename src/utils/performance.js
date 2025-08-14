@@ -98,27 +98,175 @@ export const createIntersectionObserver = (callback, options = {}) => {
   return new IntersectionObserver(callback, defaultOptions);
 };
 
-// Performance monitoring
-export const performanceMonitor = {
-  marks: new Map(),
-  
-  start: (name) => {
-    performance.mark(`${name}-start`);
-    performanceMonitor.marks.set(name, Date.now());
-  },
-  
-  end: (name) => {
-    performance.mark(`${name}-end`);
-    performance.measure(name, `${name}-start`, `${name}-end`);
+// Performance monitoring utility
+class PerformanceMonitor {
+  constructor() {
+    this.metrics = {};
+    this.observers = {};
+    this.init();
+  }
+
+  init() {
+    // Track page load performance
+    this.trackPageLoad();
     
-    const startTime = performanceMonitor.marks.get(name);
-    if (startTime) {
-      const duration = Date.now() - startTime;
-      console.log(`${name} took ${duration}ms`);
-      performanceMonitor.marks.delete(name);
+    // Track user interactions
+    this.trackUserInteractions();
+    
+    // Track resource loading
+    this.trackResourceLoading();
+    
+    // Track memory usage (if supported)
+    this.trackMemoryUsage();
+  }
+
+  trackPageLoad() {
+    if (typeof window !== 'undefined' && window.performance) {
+      window.addEventListener('load', () => {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        const paint = performance.getEntriesByType('paint');
+        
+        this.metrics.pageLoad = {
+          domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+          loadComplete: navigation.loadEventEnd - navigation.loadEventStart,
+          firstPaint: paint.find(p => p.name === 'first-paint')?.startTime,
+          firstContentfulPaint: paint.find(p => p.name === 'first-contentful-paint')?.startTime,
+          timestamp: Date.now()
+        };
+
+        this.logMetric('pageLoad', this.metrics.pageLoad);
+      });
     }
   }
-};
+
+  trackUserInteractions() {
+    // Track button clicks
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        this.trackInteraction('button_click', {
+          element: e.target.textContent || e.target.closest('button')?.textContent,
+          path: window.location.pathname,
+          timestamp: Date.now()
+        });
+      }
+    });
+
+    // Track navigation
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A' || e.target.closest('a')) {
+        this.trackInteraction('navigation', {
+          href: e.target.href || e.target.closest('a')?.href,
+          path: window.location.pathname,
+          timestamp: Date.now()
+        });
+      }
+    });
+  }
+
+  trackResourceLoading() {
+    if (typeof window !== 'undefined' && window.performance) {
+      const observer = new PerformanceObserver((list) => {
+        list.getEntries().forEach((entry) => {
+          if (entry.entryType === 'resource') {
+            this.trackResource(entry);
+          }
+        });
+      });
+
+      observer.observe({ entryTypes: ['resource'] });
+    }
+  }
+
+  trackMemoryUsage() {
+    if (typeof window !== 'undefined' && window.performance && window.performance.memory) {
+      setInterval(() => {
+        const memory = performance.memory;
+        this.metrics.memory = {
+          used: memory.usedJSHeapSize,
+          total: memory.totalJSHeapSize,
+          limit: memory.jsHeapSizeLimit,
+          timestamp: Date.now()
+        };
+      }, 30000); // Check every 30 seconds
+    }
+  }
+
+  trackInteraction(type, data) {
+    if (!this.metrics.interactions) {
+      this.metrics.interactions = [];
+    }
+    
+    this.metrics.interactions.push({
+      type,
+      data,
+      timestamp: Date.now()
+    });
+
+    this.logMetric('interaction', { type, data });
+  }
+
+  trackResource(entry) {
+    if (!this.metrics.resources) {
+      this.metrics.resources = [];
+    }
+
+    this.metrics.resources.push({
+      name: entry.name,
+      duration: entry.duration,
+      size: entry.transferSize,
+      type: entry.initiatorType,
+      timestamp: Date.now()
+    });
+  }
+
+  logMetric(type, data) {
+    // In production, you'd send this to your analytics service
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[Performance] ${type}:`, data);
+    }
+    
+    // You can also send to your backend
+    // this.sendToAnalytics(type, data);
+  }
+
+  getMetrics() {
+    return this.metrics;
+  }
+
+  // Track custom events
+  trackEvent(eventName, data = {}) {
+    this.trackInteraction('custom_event', {
+      event: eventName,
+      data,
+      path: window.location.pathname
+    });
+  }
+
+  // Track API calls
+  trackApiCall(endpoint, duration, status) {
+    this.trackInteraction('api_call', {
+      endpoint,
+      duration,
+      status,
+      path: window.location.pathname
+    });
+  }
+
+  // Track errors
+  trackError(error, context = {}) {
+    this.trackInteraction('error', {
+      message: error.message,
+      stack: error.stack,
+      context,
+      path: window.location.pathname
+    });
+  }
+}
+
+// Create singleton instance
+const performanceMonitor = new PerformanceMonitor();
+
+export default performanceMonitor;
 
 // Memory usage monitoring
 export const getMemoryUsage = () => {

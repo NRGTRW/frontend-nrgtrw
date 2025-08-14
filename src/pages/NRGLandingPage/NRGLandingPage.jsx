@@ -49,7 +49,8 @@ const NRGLandingPage = () => {
       {/* Hero Section */}
       <section
         className="nrg-hero"
-        style={{ backgroundImage: `url(${landingPageMobileFirst})` }}
+        // style={{ backgroundImage: `url(${landingPageMobileFirst})` }}
+        style={{ backgroundImage: `url()` }}
       >
         {/* Overlay removed: only background image and content remain */}
         <div className="nrg-hero-content">
@@ -60,11 +61,23 @@ const NRGLandingPage = () => {
           <p className={`nrg-sub typing-text ${isDoneTyping ? "done" : ""}`}>
             {typedText}
           </p>
+          
+          {/* Video Placeholder */}
+          <div className="hero-video-placeholder">
+            <div className="video-container">
+              <div className="video-placeholder-content">
+                <div className="play-button">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 5v14l11-7z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <p className="video-text">Quick walktrough</p>
+                <p className="video-subtitle">Watch to learn</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-
-      {/* TikTok Feed Section */}
-      <TikTokFeed />
 
       {/* Feature Highlights Section */}
       {/* <FeatureHighlights /> */}
@@ -95,6 +108,9 @@ const NRGLandingPage = () => {
 
       {/* Enhanced Testimonials Section */}
       {/* <EnhancedTestimonials /> */}
+
+      {/* TikTok Feed Section */}
+      <TikTokFeed />
 
       {/* Final CTA Section */}
       <section className="final-cta">

@@ -86,16 +86,7 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
-  useEffect(() => {
-    // Set default theme based on system preference
-    const match = window.matchMedia('(prefers-color-scheme: dark)');
-    const setTheme = () => {
-      document.documentElement.setAttribute('data-theme', match.matches ? 'dark' : 'light');
-    };
-    setTheme();
-    match.addEventListener('change', setTheme);
-    return () => match.removeEventListener('change', setTheme);
-  }, []);
+
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleNavigation = (path) => {
@@ -482,7 +473,7 @@ const Navbar = () => {
             )}
             {showCartPreview && <CartPreview />}
           </div>
-            {/* <ThemeToggle /> */}
+            <ThemeToggle />
           <UserRow user={profile} profilePicture={profilePicture} defaultProfilePicture={defaultProfilePicture} />
           </>
         </div>
