@@ -36,8 +36,8 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #fff !important;
-  color: var(--text-primary);
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #000);
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -54,7 +54,6 @@ img {
 .Toastify__toast-container {
   top: 80px !important;
 }
-
 
 .global-Colors{
   --toast_default_colors: predefined;

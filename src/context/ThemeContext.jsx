@@ -12,20 +12,50 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check if user has a saved preference
+    // Check localStorage first
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme === 'dark';
     }
-    // Check system preference
+    // Fall back to system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
+  // Apply theme immediately on mount and when it changes
   useEffect(() => {
-    // Update document attribute and localStorage
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    const theme = isDarkMode ? 'dark' : 'light';
+    
+    // Set document attribute
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Save to localStorage
+    localStorage.setItem('theme', theme);
+    
+    // Force immediate application
+    document.documentElement.style.colorScheme = theme;
+    
+    // Apply theme to body immediately
+    if (document.body) {
+      document.body.style.backgroundColor = theme === 'dark' ? '#181818' : '#fff';
+      document.body.style.color = theme === 'dark' ? '#fff' : '#000';
+    }
+    
   }, [isDarkMode]);
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleChange = (e) => {
+      // Only update if user hasn't set a preference
+      if (!localStorage.getItem('theme')) {
+        setIsDarkMode(e.matches);
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   const toggleTheme = () => {
     setIsDarkMode(prev => !prev);

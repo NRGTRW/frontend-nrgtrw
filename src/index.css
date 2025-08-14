@@ -22,10 +22,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #000);
 }
 
 h1 {
@@ -40,7 +40,8 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--bg-primary, #1a1a1a);
+  color: var(--text-primary, #fff);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -52,8 +53,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Light theme (default) */
+:root {
+  color: #213547;
+  background-color: #ffffff;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  color: #ffffff;
+  background-color: #181818;
+}
+
+/* Fallback for prefers-color-scheme */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme]) {
     color: #213547;
     background-color: #ffffff;
   }
@@ -62,5 +76,12 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color: #ffffff;
+    background-color: #181818;
   }
 }
