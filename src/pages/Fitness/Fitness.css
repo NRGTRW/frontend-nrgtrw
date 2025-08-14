@@ -1040,3 +1040,462 @@
   background: linear-gradient(135deg, #fffbe6 0%, #ffe067 100%);
   color: #7a5c15;
 }
+
+/* Consultation Section Styles */
+.consultation-section {
+  margin: 80px 0;
+  padding: 0 20px;
+}
+
+.consultation-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, rgba(36,36,36,0.95) 0%, rgba(191,161,74,0.1) 100%);
+  border: 2px solid rgba(245, 197, 24, 0.3);
+  border-radius: 24px;
+  padding: 60px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.consultation-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(245, 197, 24, 0.05) 50%, transparent 70%);
+  animation: shimmer 4s infinite;
+  pointer-events: none;
+}
+
+.consultation-content {
+  position: relative;
+  z-index: 2;
+}
+
+.consultation-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.02em;
+}
+
+.accent-text {
+  background: linear-gradient(90deg, #ffe067 0%, #f5c518 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.consultation-description {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.consultation-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  border: 1px solid rgba(245, 197, 24, 0.2);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(245, 197, 24, 0.4);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.feature-item span {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.consultation-btn {
+  background: linear-gradient(135deg, #ffe067 0%, #f5c518 100%);
+  color: #000;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(245, 197, 24, 0.3);
+  letter-spacing: 0.02em;
+}
+
+.consultation-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(245, 197, 24, 0.4);
+  background: linear-gradient(135deg, #f5c518 0%, #ffe067 100%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .consultation-container {
+    padding: 40px 20px;
+  }
+  
+  .consultation-title {
+    font-size: 2rem;
+  }
+  
+  .consultation-description {
+    font-size: 1.1rem;
+  }
+  
+  .consultation-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .feature-item {
+    padding: 15px;
+  }
+  
+  .feature-icon {
+    font-size: 1.5rem;
+  }
+  
+  .feature-item span {
+    font-size: 0.9rem;
+  }
+  
+  .consultation-btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .consultation-features {
+    grid-template-columns: 1fr;
+  }
+  
+  .consultation-title {
+    font-size: 1.8rem;
+  }
+  
+  .consultation-description {
+    font-size: 1rem;
+  }
+}
+
+/* Skeleton Loading Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton-card {
+  background: #23211a !important;
+  border: 1.5px solid #bfa14a !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  width: 320px !important;
+  min-height: 400px !important;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 24px 0 rgba(191,161,74,0.10), 0 0.5px 0.5px 0 #23211a;
+}
+
+.skeleton-image {
+  height: 200px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-title {
+  height: 24px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  width: 80%;
+}
+
+.skeleton-description {
+  height: 16px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.skeleton-description:nth-child(3) {
+  width: 60%;
+}
+
+.skeleton-price {
+  height: 20px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  margin: 12px 0;
+  border-radius: 4px;
+  width: 40%;
+}
+
+.skeleton-button {
+  height: 44px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  margin-top: 16px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* Error State Styles */
+.error-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 40px 20px;
+}
+
+.error-container {
+  text-align: center;
+  max-width: 500px;
+  background: linear-gradient(135deg, rgba(36,36,36,0.95) 0%, rgba(191,161,74,0.1) 100%);
+  border: 2px solid rgba(245, 197, 24, 0.3);
+  border-radius: 16px;
+  padding: 40px 30px;
+  backdrop-filter: blur(10px);
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.error-title {
+  color: #ffe067;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-family: 'Cinzel', serif;
+}
+
+.error-message {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, #ffe067 0%, #f5c518 100%);
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(245, 197, 24, 0.3);
+}
+
+.retry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 197, 24, 0.4);
+  background: linear-gradient(135deg, #f5c518 0%, #ffe067 100%);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .fitness-page {
+    padding: 0 10px 60px 10px;
+  }
+  
+  .fitness-video-placeholder {
+    height: 280px;
+    margin: 20px auto 0 auto;
+    padding: 0 20px;
+  }
+  
+  .fitness-video-text {
+    font-size: 1.4rem;
+  }
+  
+  .program-cards {
+    gap: 20px;
+    margin-top: 40px;
+    padding: 0 10px;
+  }
+  
+  .program-card {
+    width: 100% !important;
+    max-width: 400px !important;
+    min-height: 380px !important;
+  }
+  
+  .program-info {
+    padding: 15px;
+  }
+  
+  .program-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .program-info p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  /* Ensure touch-friendly buttons */
+  .fitnessProgramBtn, .waitlist-btn, .view-full-program-btn {
+    min-height: 44px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    margin-top: 12px;
+  }
+  
+  /* Consultation section mobile optimization */
+  .consultation-section {
+    margin: 60px 0;
+    padding: 0 10px;
+  }
+  
+  .consultation-container {
+    padding: 40px 20px;
+  }
+  
+  .consultation-title {
+    font-size: 2rem;
+  }
+  
+  .consultation-description {
+    font-size: 1.1rem;
+  }
+  
+  .consultation-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .consultation-btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fitness-video-placeholder {
+    height: 240px;
+    padding: 0 15px;
+  }
+  
+  .fitness-video-text {
+    font-size: 1.2rem;
+  }
+  
+  .program-cards {
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .program-card {
+    min-height: 360px !important;
+  }
+  
+  .program-info {
+    padding: 12px;
+  }
+  
+  .program-info h3 {
+    font-size: 1.1rem;
+  }
+  
+  .program-info p {
+    font-size: 0.85rem;
+  }
+  
+  /* Consultation section for small screens */
+  .consultation-container {
+    padding: 30px 15px;
+  }
+  
+  .consultation-title {
+    font-size: 1.8rem;
+  }
+  
+  .consultation-description {
+    font-size: 1rem;
+  }
+  
+  .consultation-features {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .feature-item {
+    padding: 15px;
+  }
+  
+  .feature-icon {
+    font-size: 1.5rem;
+  }
+  
+  .feature-item span {
+    font-size: 0.9rem;
+  }
+  
+  .consultation-btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+}

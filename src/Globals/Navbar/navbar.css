@@ -103,6 +103,9 @@
   position: relative;
   overflow: hidden;
   color: var(--navbar-text);
+  /* Ensure minimum touch target size */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .menu-toggle::before {
@@ -169,6 +172,66 @@
 
 .menu-toggle.open .bottom-bar {
   transform: rotate(-45deg) translate(-12px, 0px);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0 15px;
+  }
+  
+  .logo {
+    font-size: 32px;
+    letter-spacing: 0.15em;
+  }
+  
+  .right-container {
+    gap: 10px;
+  }
+  
+  .menu-toggle {
+    width: 48px;
+    height: 48px;
+    padding: 10px;
+  }
+  
+  .hamburger-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Ensure minimum touch targets */
+  .cart-icon, .wishlist-icon, .user-icon {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0 10px;
+  }
+  
+  .logo {
+    font-size: 28px;
+    letter-spacing: 0.1em;
+  }
+  
+  .right-container {
+    gap: 8px;
+  }
+  
+  .menu-toggle {
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+  }
+  
+  .hamburger-icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* Ensure page content starts below navbar */
