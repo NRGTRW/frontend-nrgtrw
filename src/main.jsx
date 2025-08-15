@@ -14,6 +14,7 @@ import TermsAndConditions from "./components/TermsPopup/TermsPopup";
 import { ChatProvider } from "./context/ChatContext";
 import "./i18n";
 import "./Globals/global.css";
+import "./Globals/cosmicBackground.css";
 
 
 // If you have an ApiProvider (for API calls) you can import and include it here as well:

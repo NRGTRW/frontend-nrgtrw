@@ -491,8 +491,10 @@ const Navbar = () => {
           <ul className={`collapsible${clothingDetailsOpen ? ' open' : ''}`}>
             <li onClick={() => handleNavigation("/")}>Home</li>
             <li onClick={() => handleNavigation("/clothing")}>Clothing</li>
+            <li onClick={() => handleNavigation("/clothing-details")}>Clothing Details</li>
             <li onClick={() => handleNavigation("/materials")}>Materials</li>
             <li onClick={() => handleNavigation("/inspiration")}>Inspiration</li>
+            <li onClick={() => handleNavigation("/design")}>Design</li>
           </ul>
         </div>
 
@@ -501,6 +503,7 @@ const Navbar = () => {
           <div className="menu-section-title">Services</div>
           <li onClick={() => handleNavigation("/")} className="service-link">All Services</li>
           <li onClick={() => handleNavigation("/fitness")} className="service-link">Fitness</li>
+          <li onClick={() => handleNavigation("/programs")} className="service-link">Programs</li>
           <li onClick={() => handleNavigation("/tech")} className="service-link">Tech</li>
           <li onClick={() => handleNavigation("/clothing")} className="service-link">Clothing</li>
           <li onClick={() => handleNavigation("/vision")} className="service-link">Vision</li>

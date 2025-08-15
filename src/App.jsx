@@ -29,6 +29,9 @@ const Tech = lazy(() => import("./pages/Tech/Tech"));
 const MaterialsPage = lazy(() => import("./pages/MaterialsPage/MaterialsPage"));
 const InspirationPage = lazy(() => import("./pages/InspirationPage/InspirationPage"));
 const VisionPage = lazy(() => import("./pages/VisionPage"));
+const DesignPage = lazy(() => import("./pages/DesignPage"));
+const ClothingDetailsPage = lazy(() => import("./pages/ClothingDetailsPage"));
+const ProgramsPage = lazy(() => import("./pages/ProgramsPage/ProgramsPage"));
 const ChatPage = lazy(() => import("./pages/ChatPage"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions/TermsAndConditions"));
 const AboutUsPage = lazy(() => import("./pages/FooterReferals/AboutUsPage"));
@@ -76,6 +79,9 @@ function App() {
               <Route path="/materials" element={<MaterialsPage />} />
               <Route path="/inspiration" element={<InspirationPage />} />
               <Route path="/vision" element={<VisionPage />} />
+              <Route path="/design" element={<DesignPage />} />
+              <Route path="/clothing-details" element={<ClothingDetailsPage />} />
+              <Route path="/programs" element={<ProgramsPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/terms" element={<TermsAndConditions />} />
               <Route path="/about" element={<AboutUsPage />} />
