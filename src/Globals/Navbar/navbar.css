@@ -73,10 +73,28 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .logo:hover {
   transform: translateX(-50%) scale(1.1);
+}
+
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 32px;
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 28px;
+    max-width: 120px;
+  }
 }
 
 /* Right Container Styling */

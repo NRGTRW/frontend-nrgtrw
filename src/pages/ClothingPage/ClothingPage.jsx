@@ -43,13 +43,13 @@ const ClothingPage = () => {
   if (!allProducts) return <p className="loading-message">{t("clothingPage.loadingMessage")}</p>;
 
   // Filter products for the "Available" category (categoryId 4)
-  let availableProducts = allProducts.filter((product) => product.categoryId === 4);
+  let availableProducts = allProducts?.filter((product) => product.categoryId === 4) || [];
   // Add all Temu products to available products if loaded
   if (temuProducts && temuProducts.length > 0) {
     availableProducts = [...temuProducts, ...availableProducts];
   }
   // All other products are considered unavailable
-  const unavailableProducts = allProducts.filter((product) => product.categoryId !== 4);
+  const unavailableProducts = allProducts?.filter((product) => product.categoryId !== 4) || [];
 
   // Group unavailable products by category
   const unavailableByCategory = unavailableProducts.reduce((acc, product) => {

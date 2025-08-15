@@ -10,14 +10,7 @@
   pointer-events: none;
 }
 
-.cosmic-background,
-.cosmic-background::before,
-.cosmic-background::after {
-  background: none !important;
-  background-image: none !important;
-  opacity: 0 !important;
-  filter: none !important;
-}
+/* Remove the problematic override rules */
 
 /* Base cosmic gradient */
 .cosmic-background::before {
@@ -284,11 +277,4 @@
   }
 } 
 
-.cosmic-nebula,
-.cosmic-nebula::before,
-.cosmic-nebula::after,
-.cosmic-shooting-star,
-.cosmic-particle {
-  display: none !important;
-  opacity: 0 !important;
-} 
+/* Remove the problematic hiding rules */ 

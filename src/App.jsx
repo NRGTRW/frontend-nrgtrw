@@ -5,17 +5,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-// Context Providers
-import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/CartContext";
-import { ThemeProvider } from "./context/ThemeContext";
-import { ChatProvider } from "./context/ChatContext";
-import { WishlistProvider } from "./context/WishlistContext";
-
 // Lazy load components for better performance
 const Navbar = lazy(() => import("./Globals/Navbar/Navbar"));
 const Footer = lazy(() => import("./Globals/Footer/Footer"));
 const ErrorBoundary = lazy(() => import("./Globals/ErrorBoundary"));
+const CosmicBackground = lazy(() => import("./components/CosmicBackground/CosmicBackground"));
 
 // Lazy load pages
 const NRGLandingPage = lazy(() => import("./pages/NRGLandingPage/NRGLandingPage"));
@@ -34,6 +28,7 @@ const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
 const Tech = lazy(() => import("./pages/Tech/Tech"));
 const MaterialsPage = lazy(() => import("./pages/MaterialsPage/MaterialsPage"));
 const InspirationPage = lazy(() => import("./pages/InspirationPage/InspirationPage"));
+const VisionPage = lazy(() => import("./pages/VisionPage"));
 const ChatPage = lazy(() => import("./pages/ChatPage"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions/TermsAndConditions"));
 const AboutUsPage = lazy(() => import("./pages/FooterReferals/AboutUsPage"));
@@ -53,68 +48,61 @@ const LoadingSpinner = () => (
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider>
-        <AuthProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <ChatProvider>
-                <Router>
-                  <div className="App">
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <Navbar />
-                    </Suspense>
-                    
-                    <main className="main-content">
-                      <Suspense fallback={<LoadingSpinner />}>
-                        <Routes>
-                          <Route path="/" element={<NRGLandingPage />} />
-                          <Route path="/fitness" element={<Fitness />} />
-                          <Route path="/clothing" element={<ClothingPage />} />
-                          <Route path="/product/:id" element={<ProductPage />} />
-                          <Route path="/cart" element={<CartPage />} />
-                          <Route path="/checkout" element={<CheckoutPage />} />
-                          <Route path="/profile" element={<ProfilePage />} />
-                          <Route path="/wishlist" element={<WishlistPage />} />
-                          <Route path="/login" element={<LogInPage />} />
-                          <Route path="/signup" element={<SignUpPage />} />
-                          <Route path="/reset-password" element={<ResetPasswordPage />} />
-                          <Route path="/admin" element={<AdminDashboard />} />
-                          <Route path="/tech" element={<Tech />} />
-                          <Route path="/materials" element={<MaterialsPage />} />
-                          <Route path="/inspiration" element={<InspirationPage />} />
-                          <Route path="/chat" element={<ChatPage />} />
-                          <Route path="/terms" element={<TermsAndConditions />} />
-                          <Route path="/about" element={<AboutUsPage />} />
-                          <Route path="/contact" element={<ContactUsPage />} />
-                          <Route path="/faq" element={<FAQPage />} />
-                          <Route path="*" element={<NotFoundPage />} />
-                        </Routes>
-                      </Suspense>
-                    </main>
-                    
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <Footer />
-                    </Suspense>
-                  </div>
-                </Router>
-                
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="dark"
-                />
-              </ChatProvider>
-            </WishlistProvider>
-          </CartProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      <Suspense fallback={<LoadingSpinner />}>
+        <CosmicBackground />
+      </Suspense>
+      
+      <div className="App">
+        <Suspense fallback={<LoadingSpinner />}>
+          <Navbar />
+        </Suspense>
+        
+        <main className="main-content">
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/" element={<NRGLandingPage />} />
+              <Route path="/fitness" element={<Fitness />} />
+              <Route path="/clothing" element={<ClothingPage />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/login" element={<LogInPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/tech" element={<Tech />} />
+              <Route path="/materials" element={<MaterialsPage />} />
+              <Route path="/inspiration" element={<InspirationPage />} />
+              <Route path="/vision" element={<VisionPage />} />
+              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/terms" element={<TermsAndConditions />} />
+              <Route path="/about" element={<AboutUsPage />} />
+              <Route path="/contact" element={<ContactUsPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
+        </main>
+        
+        <Suspense fallback={<LoadingSpinner />}>
+          <Footer />
+        </Suspense>
+      </div>
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </ErrorBoundary>
   );
 }
