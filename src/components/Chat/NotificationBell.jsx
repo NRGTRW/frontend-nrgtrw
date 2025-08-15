@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import { useChatContext } from '../../context/ChatContext';
 
 export default function NotificationBell() {
-  const { notifications, notificationsLoading, markNotificationRead } = useChatContext();
+  const { notifications, notificationsLoading, markNotificationRead, isAuthenticated } = useChatContext();
   const [open, setOpen] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  // Don't render if user is not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div style={{ position: 'relative', marginLeft: 18 }}>

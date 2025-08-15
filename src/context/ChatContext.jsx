@@ -1,19 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import * as chatService from '../services/chatService';
 import { io } from 'socket.io-client';
+import { useAuth } from './AuthContext';
 
 const ChatContext = createContext();
 
-// Stub: get current user from localStorage (replace with real auth context)
-function getCurrentUser() {
-  try {
-    return JSON.parse(localStorage.getItem('profile')) || {};
-  } catch {
-    return {};
-  }
-}
-
 export function ChatProvider({ children }) {
+  const { user } = useAuth(); // Use the real auth context
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -24,21 +17,33 @@ export function ChatProvider({ children }) {
   const [socket, setSocket] = useState(null);
   const [typingUsers, setTypingUsers] = useState(new Set()); // Track who's typing
   const [messageStatus, setMessageStatus] = useState(new Map()); // Track message status
-  const user = getCurrentUser();
+
+  // Only fetch data if user is authenticated
+  const isAuthenticated = !!user;
 
   // Fetch all requests (user or admin)
   const fetchRequests = useCallback(async () => {
+    if (!isAuthenticated) {
+      setRequests([]);
+      return;
+    }
+    
     setLoading(true);
     try {
       const data = await chatService.getRequests();
       setRequests(data);
+    } catch (error) {
+      console.error('Failed to fetch requests:', error);
+      setRequests([]);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   // Select a request and fetch its messages
   const selectRequest = useCallback(async (request) => {
+    if (!isAuthenticated) return;
+    
     setSelectedRequest(request);
     setMessagesLoading(true);
     try {
@@ -48,14 +53,17 @@ export function ChatProvider({ children }) {
       if (data.length > 0) {
         markMessagesAsRead(request.id, data.map(msg => msg.id));
       }
+    } catch (error) {
+      console.error('Failed to fetch messages:', error);
+      setMessages([]);
     } finally {
       setMessagesLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   // Send a message in the selected request
   const sendMessage = useCallback(async (content, type = 'text') => {
-    if (!selectedRequest) return;
+    if (!selectedRequest || !isAuthenticated) return;
     
     // Create optimistic message
     const optimisticMessage = {
@@ -90,10 +98,12 @@ export function ChatProvider({ children }) {
       setMessageStatus(prev => new Map(prev).set(optimisticMessage.id, 'failed'));
       throw error;
     }
-  }, [selectedRequest, user.id, socket]);
+  }, [selectedRequest, user?.id, socket, isAuthenticated]);
 
   // Mark messages as read
   const markMessagesAsRead = useCallback(async (requestId, messageIds) => {
+    if (!isAuthenticated) return;
+    
     try {
       await chatService.markMessagesAsRead(requestId, messageIds);
       setMessages(prev => prev.map(msg => 
@@ -102,147 +112,187 @@ export function ChatProvider({ children }) {
     } catch (error) {
       console.error('Failed to mark messages as read:', error);
     }
-  }, []);
-
-  // Handle typing events
-  const startTyping = useCallback(() => {
-    if (socket && selectedRequest) {
-      socket.emit('start_typing', { requestId: selectedRequest.id, userId: user.id });
-    }
-  }, [socket, selectedRequest, user.id]);
-
-  const stopTyping = useCallback(() => {
-    if (socket && selectedRequest) {
-      socket.emit('stop_typing', { requestId: selectedRequest.id, userId: user.id });
-    }
-  }, [socket, selectedRequest, user.id]);
+  }, [isAuthenticated]);
 
   // Fetch notifications
   const fetchNotifications = useCallback(async () => {
+    if (!isAuthenticated) {
+      setNotifications([]);
+      return;
+    }
+    
     setNotificationsLoading(true);
     try {
       const data = await chatService.getNotifications();
       setNotifications(data);
+    } catch (error) {
+      console.error('Failed to fetch notifications:', error);
+      setNotifications([]);
     } finally {
       setNotificationsLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   // Mark notification as read
   const markNotificationRead = useCallback(async (id) => {
-    await chatService.markNotificationRead(id);
-    setNotifications((prev) => prev.map(n => n.id === id ? { ...n, read: true } : n));
-  }, []);
+    if (!isAuthenticated) return;
+    
+    try {
+      await chatService.markNotificationRead(id);
+      setNotifications((prev) => prev.map(n => n.id === id ? { ...n, read: true } : n));
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error);
+    }
+  }, [isAuthenticated]);
 
-  // Real-time: connect to Socket.IO and handle events
-  useEffect(() => {
-    if (!user.id) return;
-    const s = io('http://localhost:8088', {
-      auth: { token: localStorage.getItem('authToken') },
-      transports: ['websocket'],
-    });
-    setSocket(s);
+  // Create a new request
+  const createRequest = useCallback(async (requestData) => {
+    if (!isAuthenticated) throw new Error('User not authenticated');
     
-    s.on('connect', () => {
-      s.emit('join', { room: `user_${user.id}` });
-    });
-    
-    s.on('new_request', (request) => {
+    try {
+      const request = await chatService.createRequest(requestData);
       setRequests(prev => [request, ...prev]);
-    });
+      return request;
+    } catch (error) {
+      console.error('Failed to create request:', error);
+      throw error;
+    }
+  }, [isAuthenticated]);
+
+  // Update request status (admin only)
+  const updateRequestStatus = useCallback(async (requestId, status) => {
+    if (!isAuthenticated) return;
     
-    s.on('new_message', (message) => {
-      // If message is for selected request, append
-      if (selectedRequest && message.requestId === selectedRequest.id) {
-        setMessages(prev => [...prev, { ...message, status: 'received' }]);
-        setMessageStatus(prev => new Map(prev).set(message.id, 'received'));
-        
-        // Mark as read if request is selected
-        markMessagesAsRead(selectedRequest.id, [message.id]);
-      }
-      // Optionally, update request preview/notifications
-      fetchRequests();
-      fetchNotifications();
-    });
-    
-    s.on('status_update', ({ requestId, status }) => {
+    try {
+      await chatService.adminUpdateRequestStatus(requestId, status);
       setRequests(prev => prev.map(r => r.id === requestId ? { ...r, status } : r));
       fetchNotifications();
-    });
-    
-    // Typing indicators
-    s.on('user_typing', ({ requestId, userId, userName }) => {
-      if (selectedRequest && requestId === selectedRequest.id && userId !== user.id) {
-        setTypingUsers(prev => new Set(prev).add(userName || 'Someone'));
+    } catch (error) {
+      console.error('Failed to update request status:', error);
+    }
+  }, [isAuthenticated, fetchNotifications]);
+
+  // Socket.IO connection
+  useEffect(() => {
+    if (!isAuthenticated) {
+      if (socket) {
+        socket.disconnect();
+        setSocket(null);
+      }
+      return;
+    }
+
+    const newSocket = io(import.meta.env.VITE_API_URL, {
+      auth: {
+        token: localStorage.getItem('authToken')
       }
     });
-    
-    s.on('user_stopped_typing', ({ requestId, userId, userName }) => {
-      if (selectedRequest && requestId === selectedRequest.id && userId !== user.id) {
+
+    newSocket.on('connect', () => {
+      console.log('Connected to chat server');
+      newSocket.emit('join', { userId: user.id });
+    });
+
+    newSocket.on('disconnect', () => {
+      console.log('Disconnected from chat server');
+    });
+
+    newSocket.on('new_message', (message) => {
+      if (message.requestId === selectedRequest?.id) {
+        setMessages(prev => [...prev, message]);
+      }
+      fetchNotifications();
+    });
+
+    newSocket.on('typing_start', ({ requestId, userId }) => {
+      if (requestId === selectedRequest?.id) {
+        setTypingUsers(prev => new Set(prev).add(userId));
+      }
+    });
+
+    newSocket.on('typing_stop', ({ requestId, userId }) => {
+      if (requestId === selectedRequest?.id) {
         setTypingUsers(prev => {
           const newSet = new Set(prev);
-          newSet.delete(userName || 'Someone');
+          newSet.delete(userId);
           return newSet;
         });
       }
     });
-    
-    // Message status updates
-    s.on('message_delivered', ({ messageId }) => {
-      setMessageStatus(prev => new Map(prev).set(messageId, 'delivered'));
-    });
-    
-    s.on('message_read', ({ messageId }) => {
-      setMessageStatus(prev => new Map(prev).set(messageId, 'read'));
-      setMessages(prev => prev.map(msg => 
-        msg.id === messageId ? { ...msg, read: true } : msg
-      ));
-    });
-    
+
+    setSocket(newSocket);
+
     return () => {
-      s.disconnect();
+      newSocket.disconnect();
     };
-    // eslint-disable-next-line
-  }, [user.id, selectedRequest]);
+  }, [isAuthenticated, user?.id, selectedRequest?.id, fetchNotifications]);
+
+  // Initial data fetch
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchRequests();
+      fetchNotifications();
+    } else {
+      // Clear data when user logs out
+      setRequests([]);
+      setNotifications([]);
+      setSelectedRequest(null);
+      setMessages([]);
+    }
+  }, [isAuthenticated, fetchRequests, fetchNotifications]);
 
   // Clear typing indicators when changing requests
   useEffect(() => {
     setTypingUsers(new Set());
   }, [selectedRequest]);
 
-  // Initial load
+  // Refresh data periodically when authenticated
   useEffect(() => {
-    fetchRequests();
-    fetchNotifications();
-  }, [fetchRequests, fetchNotifications]);
+    if (!isAuthenticated) return;
+    
+    const interval = setInterval(() => {
+      fetchRequests();
+      fetchNotifications();
+    }, 30000); // Refresh every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated, fetchRequests, fetchNotifications]);
+
+  const value = {
+    // State
+    requests,
+    selectedRequest,
+    messages,
+    notifications,
+    loading,
+    messagesLoading,
+    notificationsLoading,
+    typingUsers,
+    messageStatus,
+    isAuthenticated,
+
+    // Actions
+    fetchRequests,
+    selectRequest,
+    sendMessage,
+    markMessagesAsRead,
+    fetchNotifications,
+    markNotificationRead,
+    createRequest,
+    updateRequestStatus,
+  };
 
   return (
-    <ChatContext.Provider value={{
-      requests,
-      selectedRequest,
-      setSelectedRequest,
-      selectRequest,
-      messages,
-      sendMessage,
-      loading,
-      messagesLoading,
-      notifications,
-      notificationsLoading,
-      fetchRequests,
-      fetchNotifications,
-      markNotificationRead,
-      typingUsers,
-      messageStatus,
-      startTyping,
-      stopTyping,
-      markMessagesAsRead,
-      user,
-    }}>
+    <ChatContext.Provider value={value}>
       {children}
     </ChatContext.Provider>
   );
 }
 
 export function useChatContext() {
-  return useContext(ChatContext);
+  const context = useContext(ChatContext);
+  if (!context) {
+    throw new Error('useChatContext must be used within a ChatProvider');
+  }
+  return context;
 } 
