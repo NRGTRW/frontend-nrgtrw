@@ -5,7 +5,8 @@
   text-align: center;
 }
 
-.logo {
+/* App-specific logo styles - only for non-navbar logos */
+.App .logo:not(.navbar .logo) {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
