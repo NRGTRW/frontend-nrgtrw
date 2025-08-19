@@ -63,7 +63,9 @@
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .analytics-grid .stat-card:hover {
@@ -117,7 +119,9 @@
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .system-health-grid .stat-card:hover {
@@ -354,8 +358,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* 👑 ROOT ADMIN STYLING */
@@ -368,7 +376,9 @@
   font-size: 0.8rem;
   font-weight: 700;
   text-align: center;
-  animation: auraGlow 3s ease-in-out infinite, shimmerEffect 2s ease-in-out infinite;
+  animation:
+    auraGlow 3s ease-in-out infinite,
+    shimmerEffect 2s ease-in-out infinite;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -377,14 +387,27 @@
 }
 
 @keyframes auraGlow {
-  0%, 100% { box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
-  50% { box-shadow: 0 4px 25px rgba(255, 215, 0, 0.7), 0 0 35px rgba(255, 215, 0, 0.3); }
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 4px 25px rgba(255, 215, 0, 0.7),
+      0 0 35px rgba(255, 215, 0, 0.3);
+  }
 }
 
 @keyframes shimmerEffect {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .root-admin-icon::after {
@@ -397,8 +420,15 @@
 }
 
 @keyframes sparkle {
-  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
 }
 
 /* 📱 RESPONSIVE DESIGN */

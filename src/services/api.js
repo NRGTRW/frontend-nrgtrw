@@ -5,7 +5,9 @@ const baseURL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 // Validate environment variable
 if (!import.meta.env.VITE_API_URL) {
-  console.warn("⚠️ VITE_API_URL not found in environment variables. Using fallback URL.");
+  console.warn(
+    "⚠️ VITE_API_URL not found in environment variables. Using fallback URL.",
+  );
 }
 
 console.log("🔍 API Base URL:", baseURL);
@@ -22,7 +24,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // ----------------- Admin Endpoints -----------------
@@ -55,7 +57,10 @@ export const updateUserRole = async (userId, role) => {
  */
 export const createCheckoutSession = async (payload) => {
   try {
-    const response = await api.post("/checkout/create-checkout-session", payload);
+    const response = await api.post(
+      "/checkout/create-checkout-session",
+      payload,
+    );
     return response.data;
   } catch (error) {
     console.error("Error creating checkout session:", error.message);
@@ -127,7 +132,10 @@ export const createFitnessProgram = async (programData) => {
 
 export const updateFitnessProgram = async (programId, programData) => {
   try {
-    const response = await api.put(`/fitness/admin/programs/${programId}`, programData);
+    const response = await api.put(
+      `/fitness/admin/programs/${programId}`,
+      programData,
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating fitness program:", error.message);
@@ -137,7 +145,9 @@ export const updateFitnessProgram = async (programId, programData) => {
 
 export const toggleFitnessProgram = async (programId) => {
   try {
-    const response = await api.patch(`/fitness/admin/programs/${programId}/toggle`);
+    const response = await api.patch(
+      `/fitness/admin/programs/${programId}/toggle`,
+    );
     return response.data;
   } catch (error) {
     console.error("Error toggling fitness program:", error.message);
@@ -178,7 +188,9 @@ export const fetchFitnessSubscriptions = async () => {
 
 export const cancelFitnessSubscription = async (subscriptionId) => {
   try {
-    const response = await api.patch(`/fitness/admin/subscriptions/${subscriptionId}/cancel`);
+    const response = await api.patch(
+      `/fitness/admin/subscriptions/${subscriptionId}/cancel`,
+    );
     return response.data;
   } catch (error) {
     console.error("Error cancelling fitness subscription:", error.message);
@@ -188,7 +200,9 @@ export const cancelFitnessSubscription = async (subscriptionId) => {
 
 export const fetchProgramStats = async (programId) => {
   try {
-    const response = await api.get(`/fitness/admin/programs/${programId}/stats`);
+    const response = await api.get(
+      `/fitness/admin/programs/${programId}/stats`,
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching program stats:", error.message);
@@ -200,7 +214,7 @@ export const bulkToggleFitnessPrograms = async (programIds, isActive) => {
   try {
     const response = await api.post("/fitness/admin/programs/bulk-toggle", {
       programIds,
-      isActive
+      isActive,
     });
     return response.data;
   } catch (error) {
@@ -212,7 +226,7 @@ export const bulkToggleFitnessPrograms = async (programIds, isActive) => {
 export const exportFitnessPurchases = async () => {
   try {
     const response = await api.get("/fitness/admin/export/purchases", {
-      responseType: 'blob'
+      responseType: "blob",
     });
     return response.data;
   } catch (error) {
@@ -224,7 +238,7 @@ export const exportFitnessPurchases = async () => {
 export const exportFitnessSubscriptions = async () => {
   try {
     const response = await api.get("/fitness/admin/export/subscriptions", {
-      responseType: 'blob'
+      responseType: "blob",
     });
     return response.data;
   } catch (error) {
@@ -247,7 +261,7 @@ export const joinWaitlist = async (waitlistData) => {
 export const checkWaitlistStatus = async (email, programId = null) => {
   try {
     const params = new URLSearchParams({ email });
-    if (programId) params.append('programId', programId);
+    if (programId) params.append("programId", programId);
     const response = await api.get(`/waitlist/check?${params}`);
     return response.data;
   } catch (error) {
@@ -269,7 +283,9 @@ export const getUserWaitlistStatus = async () => {
 // ----------------- Waitlist Admin Endpoints -----------------
 export const fetchWaitlistEntries = async (params = {}) => {
   try {
-    const response = await api.get(`/waitlist/admin?${new URLSearchParams(params)}`);
+    const response = await api.get(
+      `/waitlist/admin?${new URLSearchParams(params)}`,
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching waitlist entries:", error.message);
@@ -342,7 +358,9 @@ export const fetchClothingVoteStats = async () => {
 // ----------------- Clothing Vote Admin Endpoints -----------------
 export const fetchClothingVotes = async (params = {}) => {
   try {
-    const response = await api.get(`/clothing-vote/admin?${new URLSearchParams(params)}`);
+    const response = await api.get(
+      `/clothing-vote/admin?${new URLSearchParams(params)}`,
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching clothing votes:", error.message);
@@ -352,7 +370,10 @@ export const fetchClothingVotes = async (params = {}) => {
 
 export const updateClothingVote = async (voteId, updateData) => {
   try {
-    const response = await api.patch(`/clothing-vote/admin/${voteId}`, updateData);
+    const response = await api.patch(
+      `/clothing-vote/admin/${voteId}`,
+      updateData,
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating clothing vote:", error.message);

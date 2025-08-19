@@ -28,7 +28,8 @@ const Fitness = () => {
   const [hoveredProgramId, setHoveredProgramId] = useState(null);
   const [showOverview, setShowOverview] = useState(false);
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
-  const [selectedProgramForWaitlist, setSelectedProgramForWaitlist] = useState(null);
+  const [selectedProgramForWaitlist, setSelectedProgramForWaitlist] =
+    useState(null);
   const [isOnGlobalWaitlist, setIsOnGlobalWaitlist] = useState(false);
   const [showConsultationModal, setShowConsultationModal] = useState(false);
   const { user } = useAuth();
@@ -72,7 +73,10 @@ const Fitness = () => {
   }, [user]);
 
   const userHasAccess = (programId) => {
-    if (user?.role && ["ADMIN", "ROOT_ADMIN"].includes(user.role.trim().toUpperCase())) {
+    if (
+      user?.role &&
+      ["ADMIN", "ROOT_ADMIN"].includes(user.role.trim().toUpperCase())
+    ) {
       return true;
     }
     return userAccess.accessMap?.[programId] || userAccess.hasSubscription;
@@ -179,7 +183,9 @@ const Fitness = () => {
   if (loading) {
     return (
       <div className="fitness-page">
-        <div style={{ textAlign: "center", padding: "50px" }}>Loading fitness programs...</div>
+        <div style={{ textAlign: "center", padding: "50px" }}>
+          Loading fitness programs...
+        </div>
       </div>
     );
   }
@@ -229,44 +235,63 @@ const Fitness = () => {
       {/* Programs Section */}
       {!loading && !error && (
         <section className="program-cards">
-        {programs.map((program) => (
-          <div
-            key={program.id}
-            className="program-card"
-            onMouseEnter={() => setHoveredProgramId(program.id)}
-            onMouseLeave={() => setHoveredProgramId(null)}
-          >
-            <div className="program-image-container" style={{ position: "relative" }}>
-              <img
-                src={program.image}
-                alt={program.title}
-                style={{ display: hoveredProgramId === program.id ? "none" : "block", width: "100%" }}
-              />
-              {hoveredProgramId === program.id && program.video && (
-                <video
-                  src={program.video}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="program-preview-video"
-                  style={{ width: "100%", height: "200px", objectFit: "cover", cursor: "pointer" }}
-                  onClick={() => {
-                    setActiveProgram(program);
-                    setShowOverview(false);
+          {programs.map((program) => (
+            <div
+              key={program.id}
+              className="program-card"
+              onMouseEnter={() => setHoveredProgramId(program.id)}
+              onMouseLeave={() => setHoveredProgramId(null)}
+            >
+              <div
+                className="program-image-container"
+                style={{ position: "relative" }}
+              >
+                <img
+                  src={program.image}
+                  alt={program.title}
+                  style={{
+                    display: hoveredProgramId === program.id ? "none" : "block",
+                    width: "100%",
                   }}
                 />
-              )}
-            </div>
-            <div className="program-info">
-              <h3>{program.title}</h3>
-              <p>{program.description}</p>
-              {!program.waitlistMode && (
-                <div style={{ fontSize: "1.05rem", color: "var(--fitness-btn)", opacity: 0.82, margin: "6px 0", fontWeight: 500 }}>
-                  ${program.price.toFixed(2)}
-                </div>
-              )}
-              {/* <button
+                {hoveredProgramId === program.id && program.video && (
+                  <video
+                    src={program.video}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="program-preview-video"
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setActiveProgram(program);
+                      setShowOverview(false);
+                    }}
+                  />
+                )}
+              </div>
+              <div className="program-info">
+                <h3>{program.title}</h3>
+                <p>{program.description}</p>
+                {!program.waitlistMode && (
+                  <div
+                    style={{
+                      fontSize: "1.05rem",
+                      color: "var(--fitness-btn)",
+                      opacity: 0.82,
+                      margin: "6px 0",
+                      fontWeight: 500,
+                    }}
+                  >
+                    ${program.price.toFixed(2)}
+                  </div>
+                )}
+                {/* <button
                 className={styles.fitnessProgramBtn}
                 onClick={() => {
                   setActiveProgram(program);
@@ -275,45 +300,46 @@ const Fitness = () => {
               >
                 Program Overview
               </button> */}
-              <button
-                className="view-full-program-btn"
-                onClick={() => navigate(`/programs/${program.id}`)}
-              >
-                View Full Program
-              </button>
-              {program.waitlistMode ? (
                 <button
-                  className="waitlist-btn"
-                  onClick={() => handleJoinWaitlist(program)}
-                  style={{
-                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                    color: "white",
-                    border: "none",
-                    padding: "10px 16px",
-                    borderRadius: "6px",
-                    fontSize: "0.9rem",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    marginTop: "8px",
-                    width: "100%",
-                  }}
+                  className="view-full-program-btn"
+                  onClick={() => navigate(`/programs/${program.id}`)}
                 >
-                  📋 Join Waitlist
+                  View Full Program
                 </button>
-              ) : (
-                <button
-                  className={styles.fitnessProgramBtn}
-                  onClick={() => handleStripeCheckout(program)}
-                  style={{ marginTop: "8px", width: "100%" }}
-                >
-                  🔓 Get Program
-                </button>
-              )}
+                {program.waitlistMode ? (
+                  <button
+                    className="waitlist-btn"
+                    onClick={() => handleJoinWaitlist(program)}
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      color: "white",
+                      border: "none",
+                      padding: "10px 16px",
+                      borderRadius: "6px",
+                      fontSize: "0.9rem",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      marginTop: "8px",
+                      width: "100%",
+                    }}
+                  >
+                    📋 Join Waitlist
+                  </button>
+                ) : (
+                  <button
+                    className={styles.fitnessProgramBtn}
+                    onClick={() => handleStripeCheckout(program)}
+                    style={{ marginTop: "8px", width: "100%" }}
+                  >
+                    🔓 Get Program
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </section>
+          ))}
+        </section>
       )}
 
       {/* 1-on-1 Consultation Booking Section */}
@@ -324,8 +350,9 @@ const Fitness = () => {
               Need a <span className="accent-text">Personal Touch</span>?
             </h2>
             <p className="consultation-description">
-              Get a custom fitness regime tailored specifically to your goals, lifestyle, and preferences. 
-              Book a 1-on-1 consultation and let's build your perfect program together.
+              Get a custom fitness regime tailored specifically to your goals,
+              lifestyle, and preferences. Book a 1-on-1 consultation and let's
+              build your perfect program together.
             </p>
             <div className="consultation-features">
               <div className="feature-item">
@@ -345,7 +372,7 @@ const Fitness = () => {
                 <span>Ongoing Support</span>
               </div>
             </div>
-            <button 
+            <button
               className="consultation-btn"
               onClick={() => setShowConsultationModal(true)}
             >
@@ -356,89 +383,138 @@ const Fitness = () => {
       </section>
 
       {activeProgram && showOverview && (
-  <div className="program-modal" onClick={() => navigate(`/programs/${activeProgram.id}`)}>
-    <div className="modal-content fitness-overview-modal" onClick={e => e.stopPropagation()}>
-      <h2>{activeProgram.title}</h2>
-      <p>{activeProgram.description}</p>
-      {activeProgram.programText && (
-        <div style={{ whiteSpace: 'pre-line', margin: '16px 0', color: '#ffe067', fontFamily: 'inherit', fontSize: '1.05rem' }}>
-          {activeProgram.programText}
-        </div>
-      )}
-      {userHasAccess(activeProgram.id) ? (
-        <>
-          {user?.role && ['ADMIN', 'ROOT_ADMIN'].includes(user.role.trim().toUpperCase()) && (
-            <div style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              padding: '8px 16px',
-              borderRadius: '6px',
-              marginBottom: '16px',
-              textAlign: 'center',
-              fontSize: '0.9rem',
-              fontWeight: '600'
-            }}>
-              👑 Admin Access - Full Program Available
-            </div>
-          )}
-          <button className="fitness-modal-close-btn" onClick={() => handleDownloadPDF(activeProgram)}>
-            Download/View PDF
-          </button>
-          <div style={{ color: 'var(--fitness-btn)', marginTop: 12, fontWeight: 600 }}>
-            <span>We strongly recommend downloading your PDF now. Once the program is updated, your original version may no longer be available!</span>
-          </div>
-        </>
-      ) : (
-        <>
-          {activeProgram.waitlistMode ? (
-            <>
-              <div style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                color: 'white',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                marginBottom: '16px',
-                textAlign: 'center',
-                fontSize: '0.95rem',
-                fontWeight: '600'
-              }}>
-                🔒 Program Currently in Waitlist Mode
-              </div>
-              <button
-                className="fitness-modal-close-btn"
-                onClick={() => handleJoinWaitlist(activeProgram)}
+        <div
+          className="program-modal"
+          onClick={() => navigate(`/programs/${activeProgram.id}`)}
+        >
+          <div
+            className="modal-content fitness-overview-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>{activeProgram.title}</h2>
+            <p>{activeProgram.description}</p>
+            {activeProgram.programText && (
+              <div
                 style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white',
-                  border: 'none'
+                  whiteSpace: "pre-line",
+                  margin: "16px 0",
+                  color: "#ffe067",
+                  fontFamily: "inherit",
+                  fontSize: "1.05rem",
                 }}
               >
-                📋 Join Waitlist for Early Access
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="fitness-modal-close-btn" onClick={() => handleStripeCheckout(activeProgram)}>
-                Unlock Full Program
-              </button>
-              <button className="fitness-modal-close-btn" onClick={handleStripeSubscription}>
-                Subscribe for All Access
-              </button>
-            </>
-          )}
-        </>
+                {activeProgram.programText}
+              </div>
+            )}
+            {userHasAccess(activeProgram.id) ? (
+              <>
+                {user?.role &&
+                  ["ADMIN", "ROOT_ADMIN"].includes(
+                    user.role.trim().toUpperCase(),
+                  ) && (
+                    <div
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        color: "white",
+                        padding: "8px 16px",
+                        borderRadius: "6px",
+                        marginBottom: "16px",
+                        textAlign: "center",
+                        fontSize: "0.9rem",
+                        fontWeight: "600",
+                      }}
+                    >
+                      👑 Admin Access - Full Program Available
+                    </div>
+                  )}
+                <button
+                  className="fitness-modal-close-btn"
+                  onClick={() => handleDownloadPDF(activeProgram)}
+                >
+                  Download/View PDF
+                </button>
+                <div
+                  style={{
+                    color: "var(--fitness-btn)",
+                    marginTop: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  <span>
+                    We strongly recommend downloading your PDF now. Once the
+                    program is updated, your original version may no longer be
+                    available!
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                {activeProgram.waitlistMode ? (
+                  <>
+                    <div
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        color: "white",
+                        padding: "12px 16px",
+                        borderRadius: "8px",
+                        marginBottom: "16px",
+                        textAlign: "center",
+                        fontSize: "0.95rem",
+                        fontWeight: "600",
+                      }}
+                    >
+                      🔒 Program Currently in Waitlist Mode
+                    </div>
+                    <button
+                      className="fitness-modal-close-btn"
+                      onClick={() => handleJoinWaitlist(activeProgram)}
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        color: "white",
+                        border: "none",
+                      }}
+                    >
+                      📋 Join Waitlist for Early Access
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="fitness-modal-close-btn"
+                      onClick={() => handleStripeCheckout(activeProgram)}
+                    >
+                      Unlock Full Program
+                    </button>
+                    <button
+                      className="fitness-modal-close-btn"
+                      onClick={handleStripeSubscription}
+                    >
+                      Subscribe for All Access
+                    </button>
+                  </>
+                )}
+              </>
+            )}
+            <button
+              className="fitness-modal-close-btn"
+              style={{ marginTop: 24 }}
+              onClick={() => {
+                setActiveProgram(null);
+                setShowOverview(false);
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
       )}
-      <button className="fitness-modal-close-btn" style={{ marginTop: 24 }} onClick={() => { setActiveProgram(null); setShowOverview(false); }}>
-        Close
-      </button>
-    </div>
-  </div>
-)}
-
 
       {activeProgram && !showOverview && (
         <div className="program-modal" onClick={() => setActiveProgram(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>{activeProgram.title}</h2>
             <p>{activeProgram.description}</p>
             {activeProgram.video && (
@@ -446,10 +522,20 @@ const Fitness = () => {
                 src={activeProgram.video}
                 controls
                 autoPlay
-                style={{ width: '100%', maxWidth: 480, borderRadius: 12, margin: '20px 0' }}
+                style={{
+                  width: "100%",
+                  maxWidth: 480,
+                  borderRadius: 12,
+                  margin: "20px 0",
+                }}
               />
             )}
-            <button onClick={() => setActiveProgram(null)} className="fitness-modal-close-btn">Close</button>
+            <button
+              onClick={() => setActiveProgram(null)}
+              className="fitness-modal-close-btn"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

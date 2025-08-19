@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import "./hero.css";
 import MaterialsSection from "./MaterialsSection";
@@ -24,8 +24,12 @@ const HeroSection = () => {
           style={{ backgroundImage: `url(${heroImage})` }}
         ></div>
         <div className="hero-content">
-          <h1 className="hero-title">{t("hero.title", "Elegance in Strength")}</h1>
-          <div style={{ display: 'flex', gap: '18px', justifyContent: 'center' }}>
+          <h1 className="hero-title">
+            {t("hero.title", "Elegance in Strength")}
+          </h1>
+          <div
+            style={{ display: "flex", gap: "18px", justifyContent: "center" }}
+          >
             <button className="hero-button" onClick={scrollToInspiration}>
               {t("hero.button", "EXPLORE")}
             </button>
@@ -33,7 +37,7 @@ const HeroSection = () => {
               className="hero-services-button"
               onClick={() => navigate("/NRGLandingPage")}
             >
-               SERVICES 
+              SERVICES
             </button>
           </div>
         </div>

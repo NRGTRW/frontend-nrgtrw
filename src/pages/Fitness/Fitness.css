@@ -12,14 +12,14 @@
   width: 100vw;
   box-sizing: border-box;
 }
-  :root {
-    --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-    --fitness-text: #fff;
-    --fitness-card-bg: #1c1c1c;
-    --fitness-card-border: #333;
-    --fitness-btn: #ffe067;
-    --fitness-btn-hover-bg: #23211a;
-    --fitness-btn-hover-text: #ffe067;
+:root {
+  --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+  --fitness-text: #fff;
+  --fitness-card-bg: #1c1c1c;
+  --fitness-card-border: #333;
+  --fitness-btn: #ffe067;
+  --fitness-btn-hover-bg: #23211a;
+  --fitness-btn-hover-text: #ffe067;
 }
 
 .fitness-page {
@@ -32,13 +32,19 @@
 }
 
 .fitness-video-placeholder {
-  background: linear-gradient(120deg, rgba(36,36,36,0.82) 60%, rgba(191,161,74,0.12) 100%);
+  background: linear-gradient(
+    120deg,
+    rgba(36, 36, 36, 0.82) 60%,
+    rgba(191, 161, 74, 0.12) 100%
+  );
   height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 32px;
-  box-shadow: 0 8px 40px 0 rgba(44, 62, 80, 0.18), 0 2px 8px rgba(191,161,74,0.10);
+  box-shadow:
+    0 8px 40px 0 rgba(44, 62, 80, 0.18),
+    0 2px 8px rgba(191, 161, 74, 0.1);
   margin: 32px auto 0 auto;
   padding: 0 32px;
   position: relative;
@@ -58,11 +64,11 @@
 .fitness-video-text {
   color: #ffe067;
   font-size: 1.7rem;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-align: center;
-    text-shadow: 0 2px 12px #23211a;
+  text-shadow: 0 2px 12px #23211a;
   opacity: 0.82;
   background: linear-gradient(90deg, #ffe067 0%, #fffbe6 100%);
   -webkit-background-clip: text;
@@ -86,10 +92,14 @@
   overflow: hidden;
   width: 320px !important;
   min-height: 400px !important;
-  transition: transform 0.3s ease, box-shadow 0.3s;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 24px 0 rgba(191,161,74,0.10), 0 0.5px 0.5px 0 #23211a;
+  box-shadow:
+    0 2px 24px 0 rgba(191, 161, 74, 0.1),
+    0 0.5px 0.5px 0 #23211a;
 }
 .program-info {
   background: transparent !important;
@@ -112,7 +122,8 @@
   margin-bottom: 0;
   line-height: 1.5;
 }
-.program-btn, .fitnessProgramBtn {
+.program-btn,
+.fitnessProgramBtn {
   margin-top: 15px;
   padding: 10px 20px;
   background: transparent;
@@ -121,14 +132,18 @@
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
   align-self: center;
   border-radius: 32px;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: 1.1rem;
   box-shadow: 0 0 16px 2px #ffe06780;
 }
-.program-btn:hover, .fitnessProgramBtn:hover {
+.program-btn:hover,
+.fitnessProgramBtn:hover {
   background: #ffe067 !important;
   color: #23211a !important;
   box-shadow: 0 0 32px 6px #ffe067cc;
@@ -170,7 +185,7 @@
   width: 100%;
   box-shadow: 0 2px 12px 0 #ffe06740;
   letter-spacing: 0.02em;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 .waitlist-btn:hover {
   filter: brightness(1.08) saturate(1.15);
@@ -242,13 +257,18 @@
 }
 
 .view-full-program-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -292,7 +312,9 @@
 
 .program-preview-video:hover {
   filter: brightness(1.08);
-  box-shadow: 0 4px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow:
+    0 4px 32px var(--fitness-btn),
+    0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .program-modal {
@@ -316,7 +338,9 @@
   padding: 32px 24px 24px 24px;
   max-width: 320px;
   width: 95vw;
-  box-shadow: 0 8px 32px var(--fitness-btn), 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow:
+    0 8px 32px var(--fitness-btn),
+    0 2px 8px rgba(0, 0, 0, 0.18);
   position: relative;
   text-align: center;
   animation: popIn 0.3s ease;
@@ -324,7 +348,7 @@
 
 .modal-content h2 {
   color: var(--fitness-btn);
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.3rem;
   margin-bottom: 1.2rem;
 }
@@ -352,12 +376,15 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   letter-spacing: 0.04em;
-  box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.04);
+  box-shadow:
+    0 2px 16px var(--fitness-btn),
+    0 1.5px 6px rgba(0, 0, 0, 0.04);
 }
 
-.modal-content button:hover, .modal-content button:focus {
+.modal-content button:hover,
+.modal-content button:focus {
   background: var(--fitness-btn);
   color: var(--fitness-text);
   transform: translateY(-2px) scale(1.03);
@@ -374,25 +401,38 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   letter-spacing: 0.04em;
-  box-shadow: 0 2px 16px var(--fitness-btn), 0 1.5px 6px rgba(0,0,0,0.04);
+  box-shadow:
+    0 2px 16px var(--fitness-btn),
+    0 1.5px 6px rgba(0, 0, 0, 0.04);
 }
 
-.fitness-modal-close-btn:hover, .fitness-modal-close-btn:focus {
+.fitness-modal-close-btn:hover,
+.fitness-modal-close-btn:focus {
   background: var(--fitness-btn);
   color: var(--fitness-text);
   transform: translateY(-2px) scale(1.03);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Luxurious Coaching Offer Section */
@@ -407,16 +447,27 @@
 }
 
 .coaching-offer-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 60%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+  background: radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 215, 0, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 215, 0, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 60%,
+      rgba(255, 215, 0, 0.05) 0%,
+      transparent 50%
+    );
   pointer-events: none;
 }
 
@@ -570,13 +621,18 @@
 }
 
 .coaching-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 215, 0, 0.2),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -611,10 +667,21 @@
   }
 
   .coaching-offer-section::before {
-    background: 
-      radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 40% 60%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(255, 215, 0, 0.15) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(255, 215, 0, 0.15) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 60%,
+        rgba(255, 215, 0, 0.08) 0%,
+        transparent 50%
+      );
   }
 
   .coaching-title {
@@ -714,7 +781,7 @@
   background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
   border-radius: 24px;
   margin: 48px auto 48px auto;
-  box-shadow: 0 8px 32px rgba(26,26,26,0.25);
+  box-shadow: 0 8px 32px rgba(26, 26, 26, 0.25);
   padding: 0;
   max-width: 900px;
   position: relative;
@@ -744,7 +811,7 @@
 }
 .unified-title {
   font-size: 2.5rem;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-weight: 700;
   color: #fff;
   margin-bottom: 12px;
@@ -813,7 +880,8 @@
   .unified-subtitle {
     color: #7a5c15;
   }
-  .unified-price-label, .unified-price-note {
+  .unified-price-label,
+  .unified-price-note {
     color: #7a5c15;
   }
   .unified-price-amount {
@@ -835,7 +903,7 @@
 .white-offer {
   background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
   color: #1a1a1a !important;
-  box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.1);
 }
 .white-offer .unified-title,
 .white-offer .unified-badge,
@@ -873,7 +941,7 @@
 .white-offer .unified-button {
   background: linear-gradient(135deg, #1a1a1a 0%, #333 100%) !important;
   color: #fff !important;
-  box-shadow: 0 8px 25px rgba(44,62,80,0.10);
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
 }
 .white-offer .unified-button:hover {
   background: linear-gradient(135deg, #333 0%, #1a1a1a 100%) !important;
@@ -911,7 +979,8 @@
 
 /* Custom Offer Card with Background */
 .custom-offer-card {
-  background: url('https://nrgtrw-images.s3.eu-central-1.amazonaws.com/CustomOfferBackground.jpg') center center/cover no-repeat;
+  background: url("https://nrgtrw-images.s3.eu-central-1.amazonaws.com/CustomOfferBackground.jpg")
+    center center/cover no-repeat;
   position: relative;
   width: 320px;
   min-height: 400px;
@@ -920,7 +989,7 @@
   overflow: hidden;
   box-shadow:
     0 0 48px 8px rgba(44, 62, 80, 0.22),
-    0 0 96px 24px rgba(44, 62, 80, 0.10);
+    0 0 96px 24px rgba(44, 62, 80, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -932,8 +1001,8 @@
 @media (prefers-color-scheme: dark) {
   .custom-offer-card {
     box-shadow:
-      0 0 56px 12px rgba(255,255,255,0.22),
-      0 0 120px 32px rgba(255,255,255,0.10);
+      0 0 56px 12px rgba(255, 255, 255, 0.22),
+      0 0 120px 32px rgba(255, 255, 255, 0.1);
     animation: offerGlowPulseDark 2.8s ease-in-out infinite alternate;
   }
 }
@@ -941,7 +1010,7 @@
   0% {
     box-shadow:
       0 0 48px 8px rgba(44, 62, 80, 0.22),
-      0 0 96px 24px rgba(44, 62, 80, 0.10);
+      0 0 96px 24px rgba(44, 62, 80, 0.1);
   }
   100% {
     box-shadow:
@@ -952,18 +1021,21 @@
 @keyframes offerGlowPulseDark {
   0% {
     box-shadow:
-      0 0 56px 12px rgba(255,255,255,0.22),
-      0 0 120px 32px rgba(255,255,255,0.10);
+      0 0 56px 12px rgba(255, 255, 255, 0.22),
+      0 0 120px 32px rgba(255, 255, 255, 0.1);
   }
   100% {
     box-shadow:
-      0 0 80px 24px rgba(255,255,255,0.28),
-      0 0 160px 48px rgba(255,255,255,0.13);
+      0 0 80px 24px rgba(255, 255, 255, 0.28),
+      0 0 160px 48px rgba(255, 255, 255, 0.13);
   }
 }
 .custom-offer-overlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(24, 24, 24, 0.62); /* slightly lighter for marble */
   z-index: 1;
 }
@@ -979,7 +1051,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 .custom-offer-badge {
   background: rgba(224, 200, 143, 0.13);
@@ -992,12 +1064,12 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   letter-spacing: 0.03em;
 }
 .custom-offer-title {
   font-size: 1.45rem;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-weight: 700;
   color: #f4f4f4;
   margin-bottom: 18px;
@@ -1013,7 +1085,7 @@
   max-width: 260px;
   margin-left: auto;
   margin-right: auto;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 .custom-offer-bullets li {
   margin-bottom: 12px;
@@ -1050,7 +1122,11 @@
 .consultation-container {
   max-width: 1200px;
   margin: 0 auto;
-  background: linear-gradient(135deg, rgba(36,36,36,0.95) 0%, rgba(191,161,74,0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(36, 36, 36, 0.95) 0%,
+    rgba(191, 161, 74, 0.1) 100%
+  );
   border: 2px solid rgba(245, 197, 24, 0.3);
   border-radius: 24px;
   padding: 60px 40px;
@@ -1061,13 +1137,18 @@
 }
 
 .consultation-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(245, 197, 24, 0.05) 50%, transparent 70%);
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(245, 197, 24, 0.05) 50%,
+    transparent 70%
+  );
   animation: shimmer 4s infinite;
   pointer-events: none;
 }
@@ -1082,7 +1163,7 @@
   font-weight: 700;
   color: #fff;
   margin-bottom: 20px;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   letter-spacing: 0.02em;
 }
 
@@ -1151,7 +1232,7 @@
   border-radius: 50px;
   font-size: 1.1rem;
   font-weight: 600;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(245, 197, 24, 0.3);
@@ -1169,32 +1250,32 @@
   .consultation-container {
     padding: 40px 20px;
   }
-  
+
   .consultation-title {
     font-size: 2rem;
   }
-  
+
   .consultation-description {
     font-size: 1.1rem;
   }
-  
+
   .consultation-features {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  
+
   .feature-item {
     padding: 15px;
   }
-  
+
   .feature-icon {
     font-size: 1.5rem;
   }
-  
+
   .feature-item span {
     font-size: 0.9rem;
   }
-  
+
   .consultation-btn {
     padding: 14px 28px;
     font-size: 1rem;
@@ -1205,11 +1286,11 @@
   .consultation-features {
     grid-template-columns: 1fr;
   }
-  
+
   .consultation-title {
     font-size: 1.8rem;
   }
-  
+
   .consultation-description {
     font-size: 1rem;
   }
@@ -1234,7 +1315,9 @@
   min-height: 400px !important;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 24px 0 rgba(191,161,74,0.10), 0 0.5px 0.5px 0 #23211a;
+  box-shadow:
+    0 2px 24px 0 rgba(191, 161, 74, 0.1),
+    0 0.5px 0.5px 0 #23211a;
 }
 
 .skeleton-image {
@@ -1300,7 +1383,11 @@
 .error-container {
   text-align: center;
   max-width: 500px;
-  background: linear-gradient(135deg, rgba(36,36,36,0.95) 0%, rgba(191,161,74,0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(36, 36, 36, 0.95) 0%,
+    rgba(191, 161, 74, 0.1) 100%
+  );
   border: 2px solid rgba(245, 197, 24, 0.3);
   border-radius: 16px;
   padding: 40px 30px;
@@ -1314,8 +1401,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .error-title {
@@ -1323,7 +1415,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 15px;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
 }
 
 .error-message {
@@ -1357,74 +1449,76 @@
   .fitness-page {
     padding: 0 10px 60px 10px;
   }
-  
+
   .fitness-video-placeholder {
     height: 280px;
     margin: 20px auto 0 auto;
     padding: 0 20px;
   }
-  
+
   .fitness-video-text {
     font-size: 1.4rem;
   }
-  
+
   .program-cards {
     gap: 20px;
     margin-top: 40px;
     padding: 0 10px;
   }
-  
+
   .program-card {
     width: 100% !important;
     max-width: 400px !important;
     min-height: 380px !important;
   }
-  
+
   .program-info {
     padding: 15px;
   }
-  
+
   .program-info h3 {
     font-size: 1.2rem;
     margin-bottom: 8px;
   }
-  
+
   .program-info p {
     font-size: 0.9rem;
     line-height: 1.4;
   }
-  
+
   /* Ensure touch-friendly buttons */
-  .fitnessProgramBtn, .waitlist-btn, .view-full-program-btn {
+  .fitnessProgramBtn,
+  .waitlist-btn,
+  .view-full-program-btn {
     min-height: 44px;
     padding: 12px 20px;
     font-size: 1rem;
     margin-top: 12px;
   }
-  
+
   /* Consultation section mobile optimization */
   .consultation-section {
     margin: 60px 0;
     padding: 0 10px;
   }
-  
+
   .consultation-container {
     padding: 40px 20px;
   }
-  
+
   .consultation-title {
     font-size: 2rem;
   }
-  
+
   .consultation-description {
     font-size: 1.1rem;
   }
-  
+
   .consultation-features {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  
+
   .consultation-btn {
     padding: 14px 28px;
     font-size: 1rem;
@@ -1437,62 +1531,62 @@
     height: 240px;
     padding: 0 15px;
   }
-  
+
   .fitness-video-text {
     font-size: 1.2rem;
   }
-  
+
   .program-cards {
     gap: 15px;
     margin-top: 30px;
   }
-  
+
   .program-card {
     min-height: 360px !important;
   }
-  
+
   .program-info {
     padding: 12px;
   }
-  
+
   .program-info h3 {
     font-size: 1.1rem;
   }
-  
+
   .program-info p {
     font-size: 0.85rem;
   }
-  
+
   /* Consultation section for small screens */
   .consultation-container {
     padding: 30px 15px;
   }
-  
+
   .consultation-title {
     font-size: 1.8rem;
   }
-  
+
   .consultation-description {
     font-size: 1rem;
   }
-  
+
   .consultation-features {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .feature-item {
     padding: 15px;
   }
-  
+
   .feature-icon {
     font-size: 1.5rem;
   }
-  
+
   .feature-item span {
     font-size: 0.9rem;
   }
-  
+
   .consultation-btn {
     padding: 12px 24px;
     font-size: 0.95rem;

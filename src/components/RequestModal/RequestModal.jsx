@@ -1,46 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
-import styles from './RequestModal.module.css';
-import PropTypes from 'prop-types';
-import { createRequest } from '../../services/chatService';
-import { useChatContext } from '../../context/ChatContext';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
+import styles from "./RequestModal.module.css";
+import PropTypes from "prop-types";
+import { createRequest } from "../../services/chatService";
+import { useChatContext } from "../../context/ChatContext";
 
 const RequestModal = ({ isOpen, onClose, onOpenChat }) => {
   const { user } = useAuth();
   const { fetchRequests } = useChatContext();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    projectType: '',
-    description: '',
-    timeline: '',
-    budget: '',
-    urgency: 'medium',
-    additionalInfo: ''
+    name: "",
+    email: "",
+    projectType: "",
+    description: "",
+    timeline: "",
+    budget: "",
+    urgency: "medium",
+    additionalInfo: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastRequestId, setLastRequestId] = useState(null);
 
   // Auto-save to localStorage
   const saveToStorage = (data) => {
-    localStorage.setItem('requestFormData', JSON.stringify(data));
+    localStorage.setItem("requestFormData", JSON.stringify(data));
   };
 
   const loadFromStorage = () => {
-    const saved = localStorage.getItem('requestFormData');
+    const saved = localStorage.getItem("requestFormData");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         setFormData(parsed);
       } catch (error) {
-        console.error('Error loading saved form data:', error);
+        console.error("Error loading saved form data:", error);
       }
     }
   };
 
   const clearStorage = () => {
-    localStorage.removeItem('requestFormData');
+    localStorage.removeItem("requestFormData");
   };
 
   // Load saved data on mount
@@ -52,7 +52,7 @@ const RequestModal = ({ isOpen, onClose, onOpenChat }) => {
 
   // Auto-save on form changes
   useEffect(() => {
-    if (isOpen && Object.values(formData).some(value => value !== '')) {
+    if (isOpen && Object.values(formData).some((value) => value !== "")) {
       saveToStorage(formData);
     }
   }, [formData, isOpen]);
@@ -60,53 +60,58 @@ const RequestModal = ({ isOpen, onClose, onOpenChat }) => {
   // Pre-fill user data if logged in
   useEffect(() => {
     if (user && isOpen) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         name: user.name || prev.name,
-        email: user.email || prev.email
+        email: user.email || prev.email,
       }));
     }
   }, [user, isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.description.trim()) {
-      toast.error('Please fill in all required fields');
+      toast.error("Please fill in all required fields");
       return;
     }
     setIsSubmitting(true);
     try {
       // Compose title and description for the in-app request
-      const title = formData.projectType || formData.description.slice(0, 40) || 'Request';
+      const title =
+        formData.projectType || formData.description.slice(0, 40) || "Request";
       const description =
         `Name: ${formData.name}\n` +
-        (formData.email ? `Email: ${formData.email}\n` : '') +
-        (formData.projectType ? `Project Type: ${formData.projectType}\n` : '') +
-        (formData.timeline ? `Timeline: ${formData.timeline}\n` : '') +
-        (formData.budget ? `Budget: ${formData.budget}\n` : '') +
-        (formData.urgency ? `Urgency: ${formData.urgency}\n` : '') +
+        (formData.email ? `Email: ${formData.email}\n` : "") +
+        (formData.projectType
+          ? `Project Type: ${formData.projectType}\n`
+          : "") +
+        (formData.timeline ? `Timeline: ${formData.timeline}\n` : "") +
+        (formData.budget ? `Budget: ${formData.budget}\n` : "") +
+        (formData.urgency ? `Urgency: ${formData.urgency}\n` : "") +
         `Description: ${formData.description}\n` +
-        (formData.additionalInfo ? `Additional Info: ${formData.additionalInfo}` : '');
+        (formData.additionalInfo
+          ? `Additional Info: ${formData.additionalInfo}`
+          : "");
       const res = await createRequest({ title, description });
       if (res && !res.error) {
-        toast.success('Request submitted! Awaiting admin approval.');
+        toast.success("Request submitted! Awaiting admin approval.");
         setFormData({
-          name: '',
-          email: '',
-          projectType: '',
-          description: '',
-          timeline: '',
-          budget: '',
-          urgency: 'medium',
-          additionalInfo: ''
+          name: "",
+          email: "",
+          projectType: "",
+          description: "",
+          timeline: "",
+          budget: "",
+          urgency: "medium",
+          additionalInfo: "",
         });
         clearStorage();
         setLastRequestId(res.id); // Save the request ID for chat access
@@ -114,10 +119,10 @@ const RequestModal = ({ isOpen, onClose, onOpenChat }) => {
         onClose();
         if (onOpenChat) onOpenChat(res.id);
       } else {
-        toast.error(res.error || 'Failed to submit request.');
+        toast.error(res.error || "Failed to submit request.");
       }
     } catch (error) {
-      toast.error('Failed to submit request.');
+      toast.error("Failed to submit request.");
     } finally {
       setIsSubmitting(false);
     }

@@ -28,7 +28,7 @@ const InspirationSection = () => {
           <p>
             {t(
               "inspiration.description",
-              "At NRG, we draw inspiration from the elegance of nature and the strength of innovation. Each piece is crafted to reflect balance and purpose."
+              "At NRG, we draw inspiration from the elegance of nature and the strength of innovation. Each piece is crafted to reflect balance and purpose.",
             )}
           </p>
           <button className="learn-more-button" onClick={handleLearnMore}>

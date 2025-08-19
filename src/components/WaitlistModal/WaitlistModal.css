@@ -263,27 +263,27 @@
     width: 95%;
     margin: 20px;
   }
-  
+
   .waitlist-modal-header {
     padding: 16px 20px;
   }
-  
+
   .waitlist-modal-header h2 {
     font-size: 1.3rem;
   }
-  
+
   .waitlist-modal-content {
     padding: 20px;
   }
-  
+
   .email-input-group {
     flex-direction: column;
   }
-  
+
   .check-status-btn {
     width: 100%;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
@@ -294,16 +294,16 @@
     width: 98%;
     margin: 10px;
   }
-  
+
   .waitlist-modal-content {
     padding: 16px;
   }
-  
+
   .waitlist-modal-header {
     padding: 14px 16px;
   }
-  
+
   .waitlist-modal-header h2 {
     font-size: 1.2rem;
   }
-} 
+}

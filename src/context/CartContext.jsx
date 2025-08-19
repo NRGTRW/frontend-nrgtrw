@@ -33,13 +33,16 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.error(
         "Failed to load cart:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
       return [];
     }
   };
 
-  const { data: cart = [], mutate } = useSWR(token ? `/cart?token=${token}` : null, fetchCart);
+  const { data: cart = [], mutate } = useSWR(
+    token ? `/cart?token=${token}` : null,
+    fetchCart,
+  );
 
   const addToCart = async (product) => {
     if (!token) {
@@ -64,7 +67,7 @@ export const CartProvider = ({ children }) => {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/cart`,
         requestData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       mutate();
       return response.data;
@@ -86,7 +89,7 @@ export const CartProvider = ({ children }) => {
     mutate(
       (currentCart) =>
         currentCart.filter((item) => item.cartItemId !== cartItemId),
-      false
+      false,
     );
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/cart/${cartItemId}`, {

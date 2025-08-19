@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './FeatureHighlights.css';
+import React, { useState } from "react";
+import "./FeatureHighlights.css";
 
 const FeatureHighlights = () => {
   const [showModal, setShowModal] = useState(false);
@@ -7,36 +7,40 @@ const FeatureHighlights = () => {
   const features = [
     {
       id: 1,
-      icon: '💪',
-      title: 'Fitness Excellence',
-      description: 'Transform your body and mind with personalized training programs designed for real results.',
-      stats: 'Personal Transformations',
-      color: 'fitness'
+      icon: "💪",
+      title: "Fitness Excellence",
+      description:
+        "Transform your body and mind with personalized training programs designed for real results.",
+      stats: "Personal Transformations",
+      color: "fitness",
     },
     {
       id: 2,
-      icon: '🚀',
-      title: 'Tech Innovation',
-      description: 'Cutting-edge solutions that push boundaries and create lasting impact in the digital world.',
-      stats: 'Projects Delivered',
-      color: 'tech'
+      icon: "🚀",
+      title: "Tech Innovation",
+      description:
+        "Cutting-edge solutions that push boundaries and create lasting impact in the digital world.",
+      stats: "Projects Delivered",
+      color: "tech",
     },
     {
       id: 3,
-      icon: '✨',
-      title: 'Style & Design',
-      description: 'Elevate your presence with curated fashion and design that speaks to your unique identity.',
-      stats: 'Happy Clients',
-      color: 'style'
+      icon: "✨",
+      title: "Style & Design",
+      description:
+        "Elevate your presence with curated fashion and design that speaks to your unique identity.",
+      stats: "Happy Clients",
+      color: "style",
     },
     {
       id: 4,
-      icon: '🎯',
-      title: 'Vision Realization',
-      description: 'Turn your dreams into reality with strategic planning and relentless execution.',
-      stats: 'Goals Achieved',
-      color: 'vision'
-    }
+      icon: "🎯",
+      title: "Vision Realization",
+      description:
+        "Turn your dreams into reality with strategic planning and relentless execution.",
+      stats: "Goals Achieved",
+      color: "vision",
+    },
   ];
 
   const handleFeatureClick = (feature) => {
@@ -50,7 +54,8 @@ const FeatureHighlights = () => {
         <div className="feature-header">
           <h2 className="feature-title">What I Deliver</h2>
           <p className="feature-subtitle">
-            Excellence across every discipline. Results that speak for themselves.
+            Excellence across every discipline. Results that speak for
+            themselves.
           </p>
         </div>
 
@@ -60,13 +65,13 @@ const FeatureHighlights = () => {
               key={feature.id}
               className={`feature-card ${feature.color}`}
               onClick={() => handleFeatureClick(feature)}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             >
               <div className="feature-icon">
                 <span className="icon-emoji">{feature.icon}</span>
                 <div className="icon-glow"></div>
               </div>
-              
+
               <div className="feature-content">
                 <h3 className="feature-card-title">{feature.title}</h3>
                 <p className="feature-description">{feature.description}</p>
@@ -82,10 +87,18 @@ const FeatureHighlights = () => {
           ))}
         </div>
         {showModal && (
-          <div className="feature-modal-overlay" onClick={() => setShowModal(false)}>
-            <div className="feature-modal" onClick={e => e.stopPropagation()}>
+          <div
+            className="feature-modal-overlay"
+            onClick={() => setShowModal(false)}
+          >
+            <div className="feature-modal" onClick={(e) => e.stopPropagation()}>
               <p>{modalMessage}</p>
-              <button onClick={() => setShowModal(false)} style={{marginTop: '18px'}}>Close</button>
+              <button
+                onClick={() => setShowModal(false)}
+                style={{ marginTop: "18px" }}
+              >
+                Close
+              </button>
             </div>
           </div>
         )}
@@ -94,4 +107,4 @@ const FeatureHighlights = () => {
   );
 };
 
-export default FeatureHighlights; 
+export default FeatureHighlights;

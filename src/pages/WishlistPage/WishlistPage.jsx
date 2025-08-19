@@ -12,7 +12,10 @@ const fetchWishlist = async () => {
     console.log("✅ Wishlist API Response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ Failed to fetch wishlist:", error.response?.data || error.message);
+    console.error(
+      "❌ Failed to fetch wishlist:",
+      error.response?.data || error.message,
+    );
     return [];
   }
 };
@@ -20,11 +23,11 @@ const fetchWishlist = async () => {
 const getProductName = (translations, currentLanguage, t) => {
   if (!translations || translations.length === 0) return null;
   // Try exact match first
-  let translation = translations.find(tr => tr.language === currentLanguage);
+  let translation = translations.find((tr) => tr.language === currentLanguage);
   // If not found, try matching the base language (e.g., "en" from "en-US")
   if (!translation && currentLanguage.includes("-")) {
     const baseLang = currentLanguage.split("-")[0];
-    translation = translations.find(tr => tr.language === baseLang);
+    translation = translations.find((tr) => tr.language === baseLang);
   }
   // Fallback: use the first translation if available
   return translation ? translation.name : null;
@@ -77,7 +80,8 @@ const WishlistPage = () => {
           // Use the imageUrl from the translation if available
           const selectedColor =
             item.selectedColor ||
-            (item.product.translations && item.product.translations[0].imageUrl) ||
+            (item.product.translations &&
+              item.product.translations[0].imageUrl) ||
             item.product.imageUrl;
 
           return (

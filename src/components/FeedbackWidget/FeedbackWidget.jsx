@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import './FeedbackWidget.css';
+import React, { useState } from "react";
+import "./FeedbackWidget.css";
 
 const FeedbackWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [feedbackType, setFeedbackType] = useState('');
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
+  const [feedbackType, setFeedbackType] = useState("");
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const feedbackTypes = [
-    { id: 'bug', label: 'Bug Report', icon: '🐛' },
-    { id: 'feature', label: 'Feature Request', icon: '💡' },
-    { id: 'improvement', label: 'Improvement', icon: '⚡' },
-    { id: 'general', label: 'General Feedback', icon: '💬' }
+    { id: "bug", label: "Bug Report", icon: "🐛" },
+    { id: "feature", label: "Feature Request", icon: "💡" },
+    { id: "improvement", label: "Improvement", icon: "⚡" },
+    { id: "general", label: "General Feedback", icon: "💬" },
   ];
 
   const handleSubmit = async (e) => {
@@ -21,12 +21,12 @@ const FeedbackWidget = () => {
     if (!feedbackType || !message.trim()) return;
 
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/feedback`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           type: feedbackType,
@@ -36,30 +36,29 @@ const FeedbackWidget = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit feedback');
+        throw new Error("Failed to submit feedback");
       }
 
       const result = await response.json();
-      
+
       if (result.success) {
         // Reset form
-        setFeedbackType('');
-        setMessage('');
-        setEmail('');
+        setFeedbackType("");
+        setMessage("");
+        setEmail("");
         setIsSubmitted(true);
-        
+
         // Close after showing success message
         setTimeout(() => {
           setIsSubmitted(false);
           setIsOpen(false);
         }, 2000);
       } else {
-        throw new Error(result.message || 'Failed to submit feedback');
+        throw new Error(result.message || "Failed to submit feedback");
       }
-      
     } catch (error) {
-      console.error('Error submitting feedback:', error);
-      alert('Failed to submit feedback. Please try again.');
+      console.error("Error submitting feedback:", error);
+      alert("Failed to submit feedback. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -68,9 +67,9 @@ const FeedbackWidget = () => {
   const handleClose = () => {
     if (!isSubmitting) {
       setIsOpen(false);
-      setFeedbackType('');
-      setMessage('');
-      setEmail('');
+      setFeedbackType("");
+      setMessage("");
+      setEmail("");
       setIsSubmitted(false);
     }
   };
@@ -94,7 +93,7 @@ const FeedbackWidget = () => {
             {/* Header */}
             <div className="feedback-header">
               <h3>Share Your Feedback</h3>
-              <button 
+              <button
                 className="feedback-close-btn"
                 onClick={handleClose}
                 disabled={isSubmitting}
@@ -123,7 +122,7 @@ const FeedbackWidget = () => {
                       <button
                         key={type.id}
                         type="button"
-                        className={`feedback-type-btn ${feedbackType === type.id ? 'selected' : ''}`}
+                        className={`feedback-type-btn ${feedbackType === type.id ? "selected" : ""}`}
                         onClick={() => setFeedbackType(type.id)}
                       >
                         <span className="type-icon">{type.icon}</span>
@@ -136,7 +135,12 @@ const FeedbackWidget = () => {
                 {/* Message Input */}
                 <div className="feedback-message-section">
                   <label htmlFor="feedback-message">
-                    Tell us more about your {feedbackType ? feedbackTypes.find(t => t.id === feedbackType)?.label.toLowerCase() : 'feedback'}
+                    Tell us more about your{" "}
+                    {feedbackType
+                      ? feedbackTypes
+                          .find((t) => t.id === feedbackType)
+                          ?.label.toLowerCase()
+                      : "feedback"}
                   </label>
                   <textarea
                     id="feedback-message"
@@ -176,7 +180,7 @@ const FeedbackWidget = () => {
                       Submitting...
                     </>
                   ) : (
-                    'Submit Feedback'
+                    "Submit Feedback"
                   )}
                 </button>
               </form>
@@ -188,4 +192,4 @@ const FeedbackWidget = () => {
   );
 };
 
-export default FeedbackWidget; 
+export default FeedbackWidget;

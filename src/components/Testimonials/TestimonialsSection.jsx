@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import './TestimonialsSection.css';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
+import axios from "axios";
+import "./TestimonialsSection.css";
 
 const TestimonialsSection = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ content: '', rating: 5 });
+  const [formData, setFormData] = useState({ content: "", rating: 5 });
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
@@ -17,37 +17,41 @@ const TestimonialsSection = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/testimonials`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/testimonials`,
+      );
       setTestimonials(response.data.data || []);
     } catch (error) {
-      console.error('Error fetching testimonials:', error);
+      console.error("Error fetching testimonials:", error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      toast.error('Please log in to submit a testimonial');
+      toast.error("Please log in to submit a testimonial");
       return;
     }
 
     setLoading(true);
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem("authToken");
       await axios.post(
         `${import.meta.env.VITE_API_URL}/testimonials`,
         formData,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
-      
-      toast.success('Testimonial submitted successfully! It will be reviewed by our team.');
-      setFormData({ content: '', rating: 5 });
+
+      toast.success(
+        "Testimonial submitted successfully! It will be reviewed by our team.",
+      );
+      setFormData({ content: "", rating: 5 });
       setShowForm(false);
       fetchTestimonials();
     } catch (error) {
-      toast.error('Failed to submit testimonial');
+      toast.error("Failed to submit testimonial");
     } finally {
       setLoading(false);
     }
@@ -55,7 +59,7 @@ const TestimonialsSection = () => {
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={`star ${i < rating ? 'filled' : ''}`}>
+      <span key={i} className={`star ${i < rating ? "filled" : ""}`}>
         ★
       </span>
     ));
@@ -65,15 +69,18 @@ const TestimonialsSection = () => {
     <section className="testimonials-section">
       <div className="testimonials-container">
         <h2 className="testimonials-title">What Our Customers Say</h2>
-        
+
         {testimonials.length > 0 ? (
           <div className="testimonials-grid">
             {testimonials.map((testimonial) => (
               <div key={testimonial.id} className="testimonial-card">
                 <div className="testimonial-header">
                   <div className="user-info">
-                    <img 
-                      src={testimonial.user.profilePicture || '/default-profile.webp'} 
+                    <img
+                      src={
+                        testimonial.user.profilePicture ||
+                        "/default-profile.webp"
+                      }
                       alt={testimonial.user.name}
                       className="user-avatar"
                     />
@@ -91,13 +98,15 @@ const TestimonialsSection = () => {
             ))}
           </div>
         ) : (
-          <p className="no-testimonials">No testimonials yet. Be the first to share your experience!</p>
+          <p className="no-testimonials">
+            No testimonials yet. Be the first to share your experience!
+          </p>
         )}
 
         {user && (
           <div className="testimonial-actions">
             {!showForm ? (
-              <button 
+              <button
                 className="submit-testimonial-btn"
                 onClick={() => setShowForm(true)}
               >
@@ -110,7 +119,12 @@ const TestimonialsSection = () => {
                   <select
                     id="rating"
                     value={formData.rating}
-                    onChange={(e) => setFormData({ ...formData, rating: parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        rating: parseInt(e.target.value),
+                      })
+                    }
                     required
                   >
                     <option value={5}>5 Stars - Excellent</option>
@@ -125,7 +139,9 @@ const TestimonialsSection = () => {
                   <textarea
                     id="content"
                     value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, content: e.target.value })
+                    }
                     placeholder="Share your experience with our products and services..."
                     required
                     minLength={10}
@@ -133,19 +149,19 @@ const TestimonialsSection = () => {
                   />
                 </div>
                 <div className="form-actions">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="cancel-btn"
                     onClick={() => setShowForm(false)}
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="submit-btn"
                     disabled={loading}
                   >
-                    {loading ? 'Submitting...' : 'Submit Review'}
+                    {loading ? "Submitting..." : "Submit Review"}
                   </button>
                 </div>
               </form>
@@ -157,4 +173,4 @@ const TestimonialsSection = () => {
   );
 };
 
-export default TestimonialsSection; 
+export default TestimonialsSection;

@@ -1,23 +1,21 @@
-import React from 'react';
-import './CosmicBackground.css';
-import PropTypes from 'prop-types';
+import React from "react";
+import "./CosmicBackground.css";
+import PropTypes from "prop-types";
 
 // Default palette (fallback)
 const defaultPalette = {
-  gradient: [
-    '#0a0a0a', '#1a1a2e', '#16213e', '#0f3460', '#533483'
-  ],
-  nebula1: 'rgba(255, 100, 200, 0.4)',
-  nebula2: 'rgba(100, 200, 255, 0.3)',
-  star: '#fff',
-  accent: '#ffe067',
-  planet: '#ffe067',
-  crown: '#f5c518',
+  gradient: ["#0a0a0a", "#1a1a2e", "#16213e", "#0f3460", "#533483"],
+  nebula1: "rgba(255, 100, 200, 0.4)",
+  nebula2: "rgba(100, 200, 255, 0.3)",
+  star: "#fff",
+  accent: "#ffe067",
+  planet: "#ffe067",
+  crown: "#f5c518",
 };
 
 const CosmicBackground = ({ palette = defaultPalette }) => {
   // Build gradient string from palette
-  const gradient = `linear-gradient(135deg, ${palette.gradient.join(', ')})`;
+  const gradient = `linear-gradient(135deg, ${palette.gradient.join(", ")})`;
 
   // Generate a very dense, natural star field across the full width
   const starCount = 777;
@@ -42,8 +40,8 @@ const CosmicBackground = ({ palette = defaultPalette }) => {
           height: `${size}px`,
           opacity,
           animationDelay: `${delay}s`,
-          '--star-x': `${x}px`,
-          '--star-y': `${y}px`,
+          "--star-x": `${x}px`,
+          "--star-y": `${y}px`,
         }}
       ></div>
     );
@@ -51,7 +49,11 @@ const CosmicBackground = ({ palette = defaultPalette }) => {
 
   // More shooting stars
   const shootingStars = Array.from({ length: 8 }).map((_, i) => (
-    <div key={i} className="cosmic-shooting-star" style={{ top: `${10 + i * 10}%`, left: 0, animationDelay: `${i * 1.5}s` }}></div>
+    <div
+      key={i}
+      className="cosmic-shooting-star"
+      style={{ top: `${10 + i * 10}%`, left: 0, animationDelay: `${i * 1.5}s` }}
+    ></div>
   ));
 
   // Remove lasers, explosions, and fighters. Only render stars, nebula, and shooting stars.
@@ -61,8 +63,8 @@ const CosmicBackground = ({ palette = defaultPalette }) => {
       <div
         className="cosmic-nebula"
         style={{
-          '--nebula1': palette.nebula1,
-          '--nebula2': palette.nebula2,
+          "--nebula1": palette.nebula1,
+          "--nebula2": palette.nebula2,
         }}
       ></div>
       {/* Shooting stars */}
@@ -74,7 +76,7 @@ const CosmicBackground = ({ palette = defaultPalette }) => {
 };
 
 CosmicBackground.propTypes = {
-  palette: PropTypes.object
+  palette: PropTypes.object,
 };
 
-export default CosmicBackground; 
+export default CosmicBackground;

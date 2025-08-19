@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './OptimizedImage.css';
+import React, { useState, useRef, useEffect } from "react";
+import "./OptimizedImage.css";
 
-const OptimizedImage = ({ 
-  src, 
-  alt, 
-  className = '', 
+const OptimizedImage = ({
+  src,
+  alt,
+  className = "",
   placeholder = null,
   onLoad = null,
   onError = null,
-  ...props 
+  ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -27,9 +27,9 @@ const OptimizedImage = ({
         }
       },
       {
-        rootMargin: '50px 0px',
-        threshold: 0.1
-      }
+        rootMargin: "50px 0px",
+        threshold: 0.1,
+      },
     );
 
     observerRef.current.observe(imgRef.current);
@@ -61,27 +61,31 @@ const OptimizedImage = ({
   }
 
   return (
-    <div className={`optimized-image-container ${className}`} ref={imgRef} {...props}>
+    <div
+      className={`optimized-image-container ${className}`}
+      ref={imgRef}
+      {...props}
+    >
       {/* Placeholder/Blur */}
       {placeholder && !isLoaded && (
-        <div 
+        <div
           className="image-placeholder"
           style={{ backgroundImage: `url(${placeholder})` }}
         />
       )}
-      
+
       {/* Main Image */}
       {isInView && (
         <img
           src={src}
           alt={alt}
-          className={`optimized-image ${isLoaded ? 'loaded' : ''}`}
+          className={`optimized-image ${isLoaded ? "loaded" : ""}`}
           onLoad={handleLoad}
           onError={handleError}
           loading="lazy"
         />
       )}
-      
+
       {/* Loading Spinner */}
       {!isLoaded && !placeholder && (
         <div className="loading-spinner">
@@ -92,4 +96,4 @@ const OptimizedImage = ({
   );
 };
 
-export default OptimizedImage; 
+export default OptimizedImage;

@@ -16,7 +16,7 @@ const CartPage = () => {
 
   const [animatingItems, setAnimatingItems] = useState([]);
   const [cancelledItems, setCancelledItems] = useState(new Set());
-  const timersRef = useRef({}); 
+  const timersRef = useRef({});
 
   const handleRemove = (product) => {
     if (!product.cartItemId || !product.name) {
@@ -50,7 +50,11 @@ const CartPage = () => {
             selectedColor: product.selectedColor,
           })
             .then(() => removeFromCart(product.cartItemId))
-            .catch(() => toast.error(t("cartPage.wishlistError", { productName: product.name })));
+            .catch(() =>
+              toast.error(
+                t("cartPage.wishlistError", { productName: product.name }),
+              ),
+            );
         }
         setAnimatingItems((prev) => prev.filter((key) => key !== productKey));
         delete timersRef.current[productKey];
@@ -78,7 +82,10 @@ const CartPage = () => {
   }, []);
 
   const calculateTotal = () =>
-    cart.reduce((total, product) => total + product.quantity * product.price, 0);
+    cart.reduce(
+      (total, product) => total + product.quantity * product.price,
+      0,
+    );
 
   if (!cart.length) {
     return (
@@ -96,7 +103,9 @@ const CartPage = () => {
         <AnimatePresence>
           {cart.map((product) => {
             const productKey = `${product.productId}-${product.selectedSize}-${product.selectedColor}`;
-            const isAnimating = animatingItems.includes(productKey) && !cancelledItems.has(productKey);
+            const isAnimating =
+              animatingItems.includes(productKey) &&
+              !cancelledItems.has(productKey);
 
             return (
               <motion.div
@@ -114,13 +123,23 @@ const CartPage = () => {
                 />
                 <div className="cart-item-details">
                   <h3>{product.name || t("cartPage.unnamedProduct")}</h3>
-                  <p>{t("cartPage.size")}: {product.selectedSize}</p>
-                  <p>{t("cartPage.quantity")}: {product.quantity}</p>
-                  <p>{t("cartPage.price")}: ${product.price.toFixed(2)}</p>
+                  <p>
+                    {t("cartPage.size")}: {product.selectedSize}
+                  </p>
+                  <p>
+                    {t("cartPage.quantity")}: {product.quantity}
+                  </p>
+                  <p>
+                    {t("cartPage.price")}: ${product.price.toFixed(2)}
+                  </p>
                 </div>
                 <div className="cart-item-actions">
                   <motion.img
-                    src={isAnimating ? "/wishlist-filled.png" : "/wishlist-outline.png"}
+                    src={
+                      isAnimating
+                        ? "/wishlist-filled.png"
+                        : "/wishlist-outline.png"
+                    }
                     alt="Wishlist"
                     className={`wishlist-icon ${isAnimating ? "wishlisted" : ""}`}
                     onClick={() => handleWishlistToggle(product)}

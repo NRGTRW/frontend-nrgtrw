@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api"; 
-import { toast } from "react-toastify"; 
+import api from "../../services/api";
+import { toast } from "react-toastify";
 import "./logIn.css";
-import { useAuth } from "../../context/AuthContext"; 
-import { useWishlist } from "../../context/WishlistContext"; 
+import { useAuth } from "../../context/AuthContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 const OAUTH_SUCCESS_PATH = "/oauth-success";
 
@@ -137,17 +137,17 @@ const LogInPage = () => {
               type="button"
               className="reset-password-link"
               onClick={handlePasswordReset}
-              style={{ 
-                position: 'absolute', 
-                right: '0px', 
-                top: '100%', 
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                color: 'rgb(51 51 51)',
-                fontSize: '12px',
-                cursor: 'pointer',
-                textDecoration: 'underline'
+              style={{
+                position: "absolute",
+                right: "0px",
+                top: "100%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                color: "rgb(51 51 51)",
+                fontSize: "12px",
+                cursor: "pointer",
+                textDecoration: "underline",
               }}
             >
               Forgot password?
@@ -164,9 +164,18 @@ const LogInPage = () => {
             type="button"
             className="auth-button social-login google"
             onClick={() => handleSocialLogin("google")}
-            style={{ background: "#fff", color: "#333", border: "1px solid #ccc", marginBottom: 8 }}
+            style={{
+              background: "#fff",
+              color: "#333",
+              border: "1px solid #ccc",
+              marginBottom: 8,
+            }}
           >
-            <img src="/google-icon.svg" alt="Google" style={{ width: 20, marginRight: 8, verticalAlign: "middle" }} />
+            <img
+              src="/google-icon.svg"
+              alt="Google"
+              style={{ width: 20, marginRight: 8, verticalAlign: "middle" }}
+            />
             Continue with Google
           </button>
           <p>

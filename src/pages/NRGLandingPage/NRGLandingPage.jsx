@@ -10,10 +10,30 @@ import { useAuth } from "../../context/AuthContext";
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 const landingPageMobileFirst = S3_BASE + "landingPageMobileFirst.png";
 const categories = [
-  { title: "Fitness", image: S3_BASE + "Fitness.jpg", path: "/fitness", glow: "fitness-glow" },
-  { title: "Tech", image: S3_BASE + "Tech.webp", path: "/tech", glow: "tech-glow" },
-  { title: "Clothing", image: S3_BASE + "Reflection%20Layer_upclose.webp", path: "/clothing", glow: "clothing-glow" },
-  { title: "Vision", image: S3_BASE + "vision.png", path: "/vision", glow: "vision-glow" },
+  {
+    title: "Fitness",
+    image: S3_BASE + "Fitness.jpg",
+    path: "/fitness",
+    glow: "fitness-glow",
+  },
+  {
+    title: "Tech",
+    image: S3_BASE + "Tech.webp",
+    path: "/tech",
+    glow: "tech-glow",
+  },
+  {
+    title: "Clothing",
+    image: S3_BASE + "Reflection%20Layer_upclose.webp",
+    path: "/clothing",
+    glow: "clothing-glow",
+  },
+  {
+    title: "Vision",
+    image: S3_BASE + "vision.png",
+    path: "/vision",
+    glow: "vision-glow",
+  },
 ];
 
 const typingText =
@@ -55,20 +75,27 @@ const NRGLandingPage = () => {
         {/* Overlay removed: only background image and content remain */}
         <div className="nrg-hero-content">
           <h1 className="nrg-slogan">
-            IF YOU&apos;RE READY TO <span>PAY</span>,<br />I&apos;LL FIND A <span>WAY</span>.
+            IF YOU&apos;RE READY TO <span>PAY</span>,<br />
+            I&apos;LL FIND A <span>WAY</span>.
           </h1>
 
           <p className={`nrg-sub typing-text ${isDoneTyping ? "done" : ""}`}>
             {typedText}
           </p>
-          
+
           {/* Video Placeholder */}
           <div className="hero-video-placeholder">
             <div className="video-container">
               <div className="video-placeholder-content">
                 <div className="play-button">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 5v14l11-7z" fill="currentColor"/>
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M8 5v14l11-7z" fill="currentColor" />
                   </svg>
                 </div>
                 <p className="video-text">Quick walktrough</p>
@@ -83,10 +110,12 @@ const NRGLandingPage = () => {
       {/* <FeatureHighlights /> */}
 
       {/* Service Categories Section */}
-      <section className="nrg-sections" style={{ background: 'var(--nrg-bg)' }}>
+      <section className="nrg-sections" style={{ background: "var(--nrg-bg)" }}>
         <div className="sections-header">
           <h2>Explore My Services</h2>
-          <p className="sections-subtitle-contrast">Choose your path to transformation</p>
+          <p className="sections-subtitle-contrast">
+            Choose your path to transformation
+          </p>
         </div>
         <div className="categories-grid-wrapper">
           <div className="categories-grid">
@@ -133,7 +162,7 @@ const NRGLandingPage = () => {
           </div>
           <button
             className="secondary-cta-btn request-btn"
-            style={{ marginTop: '2rem' }}
+            style={{ marginTop: "2rem" }}
             onClick={() => {
               if (user) {
                 setShowRequestModal(true);
@@ -147,7 +176,10 @@ const NRGLandingPage = () => {
         </div>
       </section>
 
-      <RequestModal isOpen={showRequestModal} onClose={() => setShowRequestModal(false)} />
+      <RequestModal
+        isOpen={showRequestModal}
+        onClose={() => setShowRequestModal(false)}
+      />
     </>
   );
 };

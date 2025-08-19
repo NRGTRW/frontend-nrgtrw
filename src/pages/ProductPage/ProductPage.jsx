@@ -13,8 +13,8 @@ import "../../admin/createAProductPage.css";
 import { getToken } from "../../context/tokenUtils";
 import InsertColorName from "../../components/InsertColorName/InsertColorName";
 import { useTranslation } from "react-i18next";
-import ProductionWarning from '../../components/ProductionWarning/ProductionWarning';
-import CosmicBackground from '../../components/CosmicBackground/CosmicBackground';
+import ProductionWarning from "../../components/ProductionWarning/ProductionWarning";
+import CosmicBackground from "../../components/CosmicBackground/CosmicBackground";
 
 const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
 const MAX_QUANTITY = 99;
@@ -24,7 +24,9 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 function getS3Url(path) {
   if (!path) return undefined;
-  return path.startsWith('http') ? path : S3_BASE + (path.startsWith('/') ? path.slice(1) : path);
+  return path.startsWith("http")
+    ? path
+    : S3_BASE + (path.startsWith("/") ? path.slice(1) : path);
 }
 
 const ProductPage = () => {
@@ -37,14 +39,18 @@ const ProductPage = () => {
   const { t, i18n } = useTranslation();
 
   // Fetch product & categories using SWR.
-  const { data: product, error, mutate } = useSWR(
+  const {
+    data: product,
+    error,
+    mutate,
+  } = useSWR(
     productId ? `${import.meta.env.VITE_API_URL}/products/${productId}` : null,
-    () => fetchProductById(productId)
+    () => fetchProductById(productId),
   );
   const { data: categories } = useSWR(
     `${import.meta.env.VITE_API_URL}/categories`,
     fetcher,
-    { fallbackData: [] }
+    { fallbackData: [] },
   );
 
   // Debug: log the fetched product.
@@ -73,12 +79,11 @@ const ProductPage = () => {
   // Viewing mode state.
   const initialColorIndex = product?.colors
     ? product.colors.findIndex(
-        (color) =>
-          color.imageUrl === location.state?.selectedColor?.imageUrl
+        (color) => color.imageUrl === location.state?.selectedColor?.imageUrl,
       )
     : 0;
   const [selectedColorIndex, setSelectedColorIndex] = useState(
-    initialColorIndex !== -1 ? initialColorIndex : 0
+    initialColorIndex !== -1 ? initialColorIndex : 0,
   );
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -125,14 +130,14 @@ const ProductPage = () => {
           hoverImage: color.hoverImage,
           newImageFile: null,
           newHoverImageFile: null,
-        }))
+        })),
       );
     }
   }, [product, editing, i18n.language]);
 
   const sortedSizes = product?.sizes
     ? [...product.sizes].sort(
-        (a, b) => SIZE_ORDER.indexOf(a.size) - SIZE_ORDER.indexOf(b.size)
+        (a, b) => SIZE_ORDER.indexOf(a.size) - SIZE_ORDER.indexOf(b.size),
       )
     : [];
   useEffect(() => {
@@ -173,7 +178,7 @@ const ProductPage = () => {
       (item) =>
         item.productId === product.id &&
         item.selectedSize === selectedSize &&
-        item.selectedColor === selectedColor.imageUrl
+        item.selectedColor === selectedColor.imageUrl,
     );
     const currentQuantity = existingItem?.quantity || 0;
     const newQuantity = Math.min(currentQuantity + quantity, MAX_QUANTITY);
@@ -196,7 +201,7 @@ const ProductPage = () => {
       toast.success(
         existingItem
           ? `Added ${quantity} more (Total: ${newQuantity})`
-          : `Added ${quantity} ${displayName} to cart!`
+          : `Added ${quantity} ${displayName} to cart!`,
       );
     }
   };
@@ -219,9 +224,7 @@ const ProductPage = () => {
         toast.success(`Added ${displayName} to wishlist!`);
         setTimeout(() => setIsWishlisted(false), 2500);
       })
-      .catch(() =>
-        toast.error(`Failed to add ${displayName} to wishlist.`)
-      );
+      .catch(() => toast.error(`Failed to add ${displayName} to wishlist.`));
   };
 
   // --- Admin Edit Handlers ---
@@ -265,7 +268,7 @@ const ProductPage = () => {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           body: JSON.stringify({ colorName: newColorName }),
-        }
+        },
       );
       const result = await response.json();
       if (result.success) {
@@ -301,15 +304,18 @@ const ProductPage = () => {
           editColors.map((color) => ({
             id: color.id,
             colorName: color.colorName,
-          }))
-        )
+          })),
+        ),
       );
       editColors.forEach((color) => {
         if (color.newImageFile) {
           formData.append(`colorImage_${color.id}`, color.newImageFile);
         }
         if (color.newHoverImageFile) {
-          formData.append(`colorHoverImage_${color.id}`, color.newHoverImageFile);
+          formData.append(
+            `colorHoverImage_${color.id}`,
+            color.newHoverImageFile,
+          );
         }
       });
       const response = await fetch(
@@ -320,7 +326,7 @@ const ProductPage = () => {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           body: formData,
-        }
+        },
       );
       const result = await response.json();
       if (result.success) {
@@ -339,68 +345,82 @@ const ProductPage = () => {
   if (!product && !error) return <p>Loading product...</p>;
   if (error) return <p>Failed to load product. Please try again later.</p>;
 
-  const isTemuProduct = product?.id && typeof product.id === 'string' && product.id.startsWith('temu-');
+  const isTemuProduct =
+    product?.id &&
+    typeof product.id === "string" &&
+    product.id.startsWith("temu-");
   const currentColor = product?.colors?.[selectedColorIndex] || {};
   // Determine if this is the 'Available' product (Reflection Layer)
   const normalizeName = (str) =>
     str
       ?.trim()
-      .replace(/&apos;/g, "'")       // Replace HTML entity
-      .replace(/[`‘’]/g, "'")        // Replace odd quotes
-      .replace(/\u2019/g, "'")       // Replace curly quote
-      .replace(/\s+/g, " ");         // Normalize spacing
-  
+      .replace(/&apos;/g, "'") // Replace HTML entity
+      .replace(/[`‘’]/g, "'") // Replace odd quotes
+      .replace(/\u2019/g, "'") // Replace curly quote
+      .replace(/\s+/g, " "); // Normalize spacing
+
   const cleanName = normalizeName(displayName);
-  
+
   const isAvailableProduct =
     cleanName === "Reflection Layer" || cleanName === "Dragon's Eye";
-      // Determine images for the carousel
+  // Determine images for the carousel
   let images = [];
   if (product) {
     if (isAvailableProduct) {
       // For Reflection Layer, show all color images as the carousel
-if (isAvailableProduct) {
-  if (cleanName === "Reflection Layer") {
-    // Only use main images for Reflection Layer (no duplicates)
-    if (isAvailableProduct) {
-      if (cleanName === "Reflection Layer") {
-        // Only use main images for Reflection Layer (no duplicates)
-        images = product.colors?.map((c) => getS3Url(c.imageUrl)).filter(Boolean) || [];
-      } else {
-        // Include both imageUrl and hoverImage for others like Dragon's Eye
-        images = product.colors?.flatMap((c) => [
-          getS3Url(c.imageUrl),
-          getS3Url(c.hoverImage)
-        ]).filter(Boolean) || [];
+      if (isAvailableProduct) {
+        if (cleanName === "Reflection Layer") {
+          // Only use main images for Reflection Layer (no duplicates)
+          if (isAvailableProduct) {
+            if (cleanName === "Reflection Layer") {
+              // Only use main images for Reflection Layer (no duplicates)
+              images =
+                product.colors
+                  ?.map((c) => getS3Url(c.imageUrl))
+                  .filter(Boolean) || [];
+            } else {
+              // Include both imageUrl and hoverImage for others like Dragon's Eye
+              images =
+                product.colors
+                  ?.flatMap((c) => [
+                    getS3Url(c.imageUrl),
+                    getS3Url(c.hoverImage),
+                  ])
+                  .filter(Boolean) || [];
+            }
+          }
+        } else {
+          // Include both imageUrl and hoverImage for others like Dragon's Eye
+          images =
+            product.colors
+              ?.flatMap((c) => [getS3Url(c.imageUrl), getS3Url(c.hoverImage)])
+              .filter(Boolean) || [];
+        }
       }
-    }
-      } else {
-    // Include both imageUrl and hoverImage for others like Dragon's Eye
-    images = product.colors?.flatMap((c) => [
-      getS3Url(c.imageUrl),
-      getS3Url(c.hoverImage)
-    ]).filter(Boolean) || [];
-  }
-}
     } else if (Array.isArray(product.images) && product.images.length > 0) {
       images = product.images;
     } else {
       // Fallback: use color image and hover image if available
-      images = [getS3Url(currentColor.imageUrl), getS3Url(currentColor.hoverImage)].filter(Boolean);
+      images = [
+        getS3Url(currentColor.imageUrl),
+        getS3Url(currentColor.hoverImage),
+      ].filter(Boolean);
     }
   }
 
   return (
     <>
-      <CosmicBackground palette={{
-        gradient: ['#fff', '#f5c518', '#e6b800', '#23211a'],
-        nebula1: 'rgba(245, 197, 24, 0.22)',
-        nebula2: 'rgba(120, 119, 198, 0.18)',
-        star: '#fffbe6',
-        accent: '#ffe067',
-        planet: '#ffe067',
-        crown: '#f5c518',
-      }} />
+      <CosmicBackground
+        palette={{
+          gradient: ["#fff", "#f5c518", "#e6b800", "#23211a"],
+          nebula1: "rgba(245, 197, 24, 0.22)",
+          nebula2: "rgba(120, 119, 198, 0.18)",
+          star: "#fffbe6",
+          accent: "#ffe067",
+          planet: "#ffe067",
+          crown: "#f5c518",
+        }}
+      />
       <div className="product-page">
         <GoBackButton />
         <div className="spacer-bar2"></div>
@@ -414,7 +434,8 @@ if (isAvailableProduct) {
                 <h3>English Translation</h3>
                 <div className="cp-page__input-group">
                   <label className="cp-page__input-label">
-                    English Name <span className="cp-page__required-marker">*</span>
+                    English Name{" "}
+                    <span className="cp-page__required-marker">*</span>
                   </label>
                   <input
                     type="text"
@@ -428,13 +449,17 @@ if (isAvailableProduct) {
                 </div>
                 <div className="cp-page__input-group">
                   <label className="cp-page__input-label">
-                    English Description <span className="cp-page__required-marker">*</span>
+                    English Description{" "}
+                    <span className="cp-page__required-marker">*</span>
                   </label>
                   <textarea
                     className="cp-page__form-textarea"
                     value={editForm.enDescription}
                     onChange={(e) =>
-                      setEditForm({ ...editForm, enDescription: e.target.value })
+                      setEditForm({
+                        ...editForm,
+                        enDescription: e.target.value,
+                      })
                     }
                     placeholder="Enter English product description"
                   ></textarea>
@@ -443,7 +468,8 @@ if (isAvailableProduct) {
                 <h3>Bulgarian Translation</h3>
                 <div className="cp-page__input-group">
                   <label className="cp-page__input-label">
-                    Bulgarian Name <span className="cp-page__required-marker">*</span>
+                    Bulgarian Name{" "}
+                    <span className="cp-page__required-marker">*</span>
                   </label>
                   <input
                     type="text"
@@ -457,13 +483,17 @@ if (isAvailableProduct) {
                 </div>
                 <div className="cp-page__input-group">
                   <label className="cp-page__input-label">
-                    Bulgarian Description <span className="cp-page__required-marker">*</span>
+                    Bulgarian Description{" "}
+                    <span className="cp-page__required-marker">*</span>
                   </label>
                   <textarea
                     className="cp-page__form-textarea"
                     value={editForm.bgDescription}
                     onChange={(e) =>
-                      setEditForm({ ...editForm, bgDescription: e.target.value })
+                      setEditForm({
+                        ...editForm,
+                        bgDescription: e.target.value,
+                      })
                     }
                     placeholder="Enter Bulgarian product description"
                   ></textarea>
@@ -512,7 +542,8 @@ if (isAvailableProduct) {
                   >
                     <div className="cp-page__input-group">
                       <label className="cp-page__input-label">
-                        Color Name <span className="cp-page__required-marker">*</span>
+                        Color Name{" "}
+                        <span className="cp-page__required-marker">*</span>
                       </label>
                       <input
                         type="text"
@@ -523,7 +554,9 @@ if (isAvailableProduct) {
                       />
                     </div>
                     <div className="cp-page__input-group">
-                      <label className="cp-page__input-label">Color Image</label>
+                      <label className="cp-page__input-label">
+                        Color Image
+                      </label>
                       <input
                         type="file"
                         className="cp-page__file-input"
@@ -534,7 +567,9 @@ if (isAvailableProduct) {
                       />
                     </div>
                     <div className="cp-page__input-group">
-                      <label className="cp-page__input-label">Hover Image</label>
+                      <label className="cp-page__input-label">
+                        Hover Image
+                      </label>
                       <input
                         type="file"
                         className="cp-page__file-input"
@@ -576,7 +611,10 @@ if (isAvailableProduct) {
                   </div>
                 ))}
                 <div className="cp-page__button-group">
-                  <button className="cp-page__action-btn" onClick={handleAddColor}>
+                  <button
+                    className="cp-page__action-btn"
+                    onClick={handleAddColor}
+                  >
                     Add Color
                   </button>
                 </div>
@@ -602,41 +640,57 @@ if (isAvailableProduct) {
         ) : (
           <div className="product-container">
             <div className="product-images">
-              <div className="image-carousel" style={{ position: 'relative' }}>
+              <div className="image-carousel" style={{ position: "relative" }}>
                 <img
-                  src={isWishlisted ? '/wishlist-filled.png' : '/wishlist-outline.png'}
+                  src={
+                    isWishlisted
+                      ? "/wishlist-filled.png"
+                      : "/wishlist-outline.png"
+                  }
                   alt="Wishlist"
                   className="wishlist-button"
                   onClick={handleWishlistToggle}
-                  style={{ position: 'absolute', top: 10, right: 10, zIndex: 10000 }}
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    zIndex: 10000,
+                  }}
                 />
                 <button
-                    className="carousel-arrow left-arrow"
-                    onClick={() => {
-                      setCurrentImageIndex((prev) => {
-                        const newIndex = prev === 0 ? images.length - 1 : prev - 1;
-                        return newIndex;
-                      });
-                    }}
-                  >
-                    ❮
-                  </button>
-                  <img
-                    src={images[currentImageIndex] || (isTemuProduct ? currentColor.imageUrl : getS3Url(product.imageUrl))}
-                    alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
-                    className="main-image"
-                  />
-                  <button
-                    className="carousel-arrow right-arrow"
-                    onClick={() => {
-                      setCurrentImageIndex((prev) => {
-                        const newIndex = prev === images.length - 1 ? 0 : prev + 1;
-                        return newIndex;
-                      });
-                    }}
-                  >
-                    ❯
-                  </button>
+                  className="carousel-arrow left-arrow"
+                  onClick={() => {
+                    setCurrentImageIndex((prev) => {
+                      const newIndex =
+                        prev === 0 ? images.length - 1 : prev - 1;
+                      return newIndex;
+                    });
+                  }}
+                >
+                  ❮
+                </button>
+                <img
+                  src={
+                    images[currentImageIndex] ||
+                    (isTemuProduct
+                      ? currentColor.imageUrl
+                      : getS3Url(product.imageUrl))
+                  }
+                  alt={`${displayName} - ${product.colors?.[selectedColorIndex]?.colorName || "default"}`}
+                  className="main-image"
+                />
+                <button
+                  className="carousel-arrow right-arrow"
+                  onClick={() => {
+                    setCurrentImageIndex((prev) => {
+                      const newIndex =
+                        prev === images.length - 1 ? 0 : prev + 1;
+                      return newIndex;
+                    });
+                  }}
+                >
+                  ❯
+                </button>
               </div>
               {/* Thumbnails below the main image, outside the carousel */}
               <div className="image-thumbnails">
@@ -647,7 +701,20 @@ if (isAvailableProduct) {
                     alt={`Thumbnail ${idx + 1}`}
                     className={`thumbnail ${currentImageIndex === idx ? "selected" : ""}`}
                     onClick={() => setCurrentImageIndex(idx)}
-                    style={{ cursor: 'pointer', width: 60, height: 60, objectFit: 'cover', margin: '0 6px', border: currentImageIndex === idx ? '2px solid #222' : '1px solid #ccc', borderRadius: 8, boxShadow: currentImageIndex === idx ? '0 0 6px #aaa' : 'none' }}
+                    style={{
+                      cursor: "pointer",
+                      width: 60,
+                      height: 60,
+                      objectFit: "cover",
+                      margin: "0 6px",
+                      border:
+                        currentImageIndex === idx
+                          ? "2px solid #222"
+                          : "1px solid #ccc",
+                      borderRadius: 8,
+                      boxShadow:
+                        currentImageIndex === idx ? "0 0 6px #aaa" : "none",
+                    }}
                   />
                 ))}
               </div>
@@ -660,13 +727,19 @@ if (isAvailableProduct) {
               {product.colors && product.colors.length > 1 && (
                 <div
                   className="color-options"
-                  style={displayName === 'Reflection Layer' ? { display: 'none' } : {}}
+                  style={
+                    displayName === "Reflection Layer"
+                      ? { display: "none" }
+                      : {}
+                  }
                 >
                   {product.colors.map((color, idx) => (
                     <button
                       key={color.id || idx}
-                      className={`color-circle${selectedColorIndex === idx ? ' active' : ''}`}
-                      style={{ background: `url(${color.imageUrl}) center/cover no-repeat` }}
+                      className={`color-circle${selectedColorIndex === idx ? " active" : ""}`}
+                      style={{
+                        background: `url(${color.imageUrl}) center/cover no-repeat`,
+                      }}
                       onClick={() => setSelectedColorIndex(idx)}
                       aria-label={color.colorName || `Color ${idx + 1}`}
                     />
@@ -678,8 +751,10 @@ if (isAvailableProduct) {
                   <div className="size-selector">
                     {product.sizes.map((size) => (
                       <button
-                        key={typeof size === 'string' ? size : size.id || size.size}
-                        className={`size-button ${selectedSize === (size.size || size) ? 'selected' : ''}`}
+                        key={
+                          typeof size === "string" ? size : size.id || size.size
+                        }
+                        className={`size-button ${selectedSize === (size.size || size) ? "selected" : ""}`}
                         onClick={() => setSelectedSize(size.size || size)}
                       >
                         {size.size || size}
@@ -712,16 +787,17 @@ if (isAvailableProduct) {
               )}
               {maxQuantityMessage && (
                 <p className="max-quantity-message">
-                  Maximum quantity reached! For bulk orders, please{' '}
+                  Maximum quantity reached! For bulk orders, please{" "}
                   <a href="/contact-us" className="contact-link">
                     contact us
-                  </a>.
+                  </a>
+                  .
                 </p>
               )}
               <button
                 className="add-to-cart-button"
                 onClick={handleAddToCart}
-                disabled={!selectedSize && !isAvailableProduct || !quantity}
+                disabled={(!selectedSize && !isAvailableProduct) || !quantity}
               >
                 {t("cartPage.addToCart")}
               </button>

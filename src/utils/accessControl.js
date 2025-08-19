@@ -13,4 +13,4 @@ export function getUserAccess(user) {
     canAccessAdminPanel: isAdmin || isRootAdmin,
     // Extend as needed for more features
   };
-} 
+}

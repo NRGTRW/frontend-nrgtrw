@@ -25,35 +25,48 @@
     />
     <meta name="apple-mobile-web-app-title" content="NRG" />
     <link rel="manifest" href="/logo/site.webmanifest" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <!-- Theme initialization script to prevent flash -->
     <script>
-      (function() {
+      (function () {
         try {
           // Get saved theme or system preference
-          const savedTheme = localStorage.getItem('theme');
-          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-          
+          const savedTheme = localStorage.getItem("theme");
+          const systemPrefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const theme = savedTheme || (systemPrefersDark ? "dark" : "light");
+
           // Apply theme immediately
-          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute("data-theme", theme);
           document.documentElement.style.colorScheme = theme;
-          
+
           // Set body background to prevent flash (with null check)
           if (document.body) {
-            document.body.style.backgroundColor = theme === 'dark' ? '#181818' : '#fff';
-            document.body.style.color = theme === 'dark' ? '#fff' : '#000';
+            document.body.style.backgroundColor =
+              theme === "dark" ? "#181818" : "#fff";
+            document.body.style.color = theme === "dark" ? "#fff" : "#000";
           }
-          
+
           // Force immediate application
-          document.documentElement.style.setProperty('--bg-primary', theme === 'dark' ? '#181818' : '#fff');
-          document.documentElement.style.setProperty('--text-primary', theme === 'dark' ? '#fff' : '#000');
-          
+          document.documentElement.style.setProperty(
+            "--bg-primary",
+            theme === "dark" ? "#181818" : "#fff",
+          );
+          document.documentElement.style.setProperty(
+            "--text-primary",
+            theme === "dark" ? "#fff" : "#000",
+          );
         } catch (error) {
-          console.warn('Theme initialization error:', error);
+          console.warn("Theme initialization error:", error);
           // Fallback to dark theme
-          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.setAttribute("data-theme", "dark");
         }
       })();
     </script>

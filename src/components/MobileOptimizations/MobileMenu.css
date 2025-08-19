@@ -179,21 +179,21 @@
     width: 100%;
     max-width: none;
   }
-  
+
   .mobile-menu-header {
     padding: 15px;
   }
-  
+
   .mobile-user-info {
     margin: 0 15px 15px 15px;
     padding: 15px;
   }
-  
+
   .mobile-nav {
     padding: 0 15px;
   }
-  
+
   .mobile-menu-footer {
     padding: 15px;
   }
-} 
+}

@@ -6,10 +6,10 @@
     rgba(18,16,30,0.92) 80%,
     rgba(10,10,20,1) 100%),
     linear-gradient(135deg, #181a2a 0%, #232a4d 50%, #1a3a3a 100%); */
-    
+
   min-height: 100vh;
   color: #fff;
-  font-family: 'Orbitron', 'Eurostile', 'SF Pro Rounded', Arial, sans-serif;
+  font-family: "Orbitron", "Eurostile", "SF Pro Rounded", Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,18 +26,18 @@
 }
 
 .cosmic-title {
-    color: #67ffe6;
-    font-size: 4.7rem;
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-align: center;
-      text-shadow: 0 2px 12px #23211a;
-    opacity: 0.82;
-    background: linear-gradient( 90deg, #00fff7bb 0%, #fff 55%, #fff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;  
+  color: #67ffe6;
+  font-size: 4.7rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-shadow: 0 2px 12px #23211a;
+  opacity: 0.82;
+  background: linear-gradient(90deg, #00fff7bb 0%, #fff 55%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Remove overlays, starfield, and cosmic effects for this mode */
@@ -56,7 +56,7 @@
 }
 
 .cosmic-cta-btn {
-  font-family: 'Orbitron', 'Eurostile', 'SF Pro Rounded', Arial, sans-serif;
+  font-family: "Orbitron", "Eurostile", "SF Pro Rounded", Arial, sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   padding: 16px 44px;
@@ -64,61 +64,92 @@
   border: none;
   background: linear-gradient(90deg, #00fff7 0%, #7f00ff 100%);
   color: #0a0a1a;
-  box-shadow: 0 0 24px #00fff7cc, 0 0 48px #7f00ff44;
+  box-shadow:
+    0 0 24px #00fff7cc,
+    0 0 48px #7f00ff44;
   cursor: pointer;
-  transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.18s;
+  transition:
+    background 0.22s,
+    color 0.22s,
+    box-shadow 0.22s,
+    transform 0.18s;
   outline: none;
   margin-top: 10px;
   text-shadow: none;
 }
 
-.cosmic-cta-btn:hover, .cosmic-cta-btn:focus {
+.cosmic-cta-btn:hover,
+.cosmic-cta-btn:focus {
   background: linear-gradient(90deg, #ff00e6 0%, #00fff7 100%);
   color: #fff;
-  box-shadow: 0 0 32px #ff00e6cc, 0 0 64px #00fff7cc;
+  box-shadow:
+    0 0 32px #ff00e6cc,
+    0 0 64px #00fff7cc;
   transform: scale(1.04);
 }
 
 .neon-glow {
-  box-shadow: 0 0 16px #00fff7, 0 0 32px #7f00ff;
+  box-shadow:
+    0 0 16px #00fff7,
+    0 0 32px #7f00ff;
 }
 
 .parallax-starfield {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 2;
-  background: url('/images/starfield-parallax.png') repeat top center;
+  background: url("/images/starfield-parallax.png") repeat top center;
   opacity: 0.22;
   animation: parallax-move 60s linear infinite;
 }
 
 @keyframes parallax-move {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 1000px; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 1000px;
+  }
 }
 
 /* Animated text */
 .animate-typewriter {
   overflow: hidden;
-  border-right: .15em solid #00fff7;
+  border-right: 0.15em solid #00fff7;
   white-space: nowrap;
-  animation: typing 2.8s steps(30, end), blink-caret 0.7s step-end infinite;
+  animation:
+    typing 2.8s steps(30, end),
+    blink-caret 0.7s step-end infinite;
 }
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #00fff7; }
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #00fff7;
+  }
 }
 .animate-fadein {
   opacity: 0;
   animation: fadeIn 1.8s 0.8s forwards;
 }
 @keyframes fadeIn {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 
 .vision-cosmic-scroll {
@@ -138,20 +169,28 @@
   z-index: 5;
 }
 .floating-rock {
-  left: 12vw; top: 120px;
-  width: 60px; height: 60px;
+  left: 12vw;
+  top: 120px;
+  width: 60px;
+  height: 60px;
   background: radial-gradient(circle at 30% 30%, #00fff7 0%, #7f00ff 100%);
   border-radius: 50%;
   box-shadow: 0 0 32px #00fff7cc;
   animation: floatRock 8s ease-in-out infinite alternate;
 }
 @keyframes floatRock {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-40px) scale(1.08); }
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-40px) scale(1.08);
+  }
 }
 .digital-constellation {
-  right: 10vw; top: 180px;
-  width: 90px; height: 40px;
+  right: 10vw;
+  top: 180px;
+  width: 90px;
+  height: 40px;
   background: linear-gradient(90deg, #00fff7 0%, #fff 100%);
   border-radius: 22px;
   box-shadow: 0 0 24px #00fff7cc;
@@ -159,21 +198,33 @@
   animation: constellationMove 12s ease-in-out infinite alternate;
 }
 @keyframes constellationMove {
-  0% { transform: translateY(0) rotate(-2deg); }
-  100% { transform: translateY(30px) rotate(4deg); }
+  0% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(30px) rotate(4deg);
+  }
 }
 .star-shard {
-  left: 50vw; top: 260px;
-  width: 18px; height: 80px;
+  left: 50vw;
+  top: 260px;
+  width: 18px;
+  height: 80px;
   background: linear-gradient(180deg, #fff 0%, #00fff7 100%);
   border-radius: 12px;
-  box-shadow: 0 0 24px #fff, 0 0 48px #00fff7cc;
+  box-shadow:
+    0 0 24px #fff,
+    0 0 48px #00fff7cc;
   opacity: 0.7;
   animation: shardZoom 7s ease-in-out infinite alternate;
 }
 @keyframes shardZoom {
-  0% { transform: scaleY(1) scaleX(1); }
-  100% { transform: scaleY(1.2) scaleX(0.95); }
+  0% {
+    transform: scaleY(1) scaleX(1);
+  }
+  100% {
+    transform: scaleY(1.2) scaleX(0.95);
+  }
 }
 
 .cosmic-section-content {
@@ -188,10 +239,12 @@
 .cosmic-section-title {
   font-size: 2.1rem;
   color: #00fff7;
-  font-family: 'Orbitron', 'Eurostile', 'SF Pro Rounded', Arial, sans-serif;
+  font-family: "Orbitron", "Eurostile", "SF Pro Rounded", Arial, sans-serif;
   font-weight: 700;
   margin-bottom: 18px;
-  text-shadow: 0 0 24px #00fff7, 0 0 48px #7f00ff;
+  text-shadow:
+    0 0 24px #00fff7,
+    0 0 48px #7f00ff;
 }
 
 .cosmic-section-text {
@@ -212,10 +265,12 @@
 .cosmic-future-title {
   font-size: 2rem;
   color: #7f00ff;
-  font-family: 'Orbitron', 'Eurostile', 'SF Pro Rounded', Arial, sans-serif;
+  font-family: "Orbitron", "Eurostile", "SF Pro Rounded", Arial, sans-serif;
   font-weight: 700;
   margin-bottom: 18px;
-  text-shadow: 0 0 24px #00fff7, 0 0 48px #7f00ff;
+  text-shadow:
+    0 0 24px #00fff7,
+    0 0 48px #7f00ff;
 }
 
 .cosmic-future-text {
@@ -227,7 +282,10 @@
 
 .starfield-bg {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -237,52 +295,90 @@
   background: radial-gradient(circle, #fff 60%, #00fff7 100%);
   border-radius: 50%;
   opacity: 0.85;
-  animation: star-twinkle 2.5s infinite alternate, star-drift 18s linear infinite;
+  animation:
+    star-twinkle 2.5s infinite alternate,
+    star-drift 18s linear infinite;
 }
 @keyframes star-twinkle {
-  0% { opacity: 0.7; filter: blur(0.5px); }
-  100% { opacity: 1; filter: blur(1.2px); }
+  0% {
+    opacity: 0.7;
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(1.2px);
+  }
 }
 @keyframes star-drift {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(20px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20px);
+  }
 }
 
 /* Floating cosmic elements - upgrades */
 .floating-orb {
-  left: 70vw; top: 80px;
-  width: 44px; height: 44px;
+  left: 70vw;
+  top: 80px;
+  width: 44px;
+  height: 44px;
   background: radial-gradient(circle at 60% 40%, #7f00ff 0%, #00fff7 100%);
   border-radius: 50%;
-  box-shadow: 0 0 32px #7f00ffcc, 0 0 16px #00fff7cc;
+  box-shadow:
+    0 0 32px #7f00ffcc,
+    0 0 16px #00fff7cc;
   animation: orbFloat 10s ease-in-out infinite alternate;
 }
 @keyframes orbFloat {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-30px) scale(1.12); }
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-30px) scale(1.12);
+  }
 }
 .comet {
-  left: 30vw; top: 40vh;
-  width: 80px; height: 8px;
+  left: 30vw;
+  top: 40vh;
+  width: 80px;
+  height: 8px;
   background: linear-gradient(90deg, #fff 0%, #00fff7 60%, transparent 100%);
   border-radius: 8px;
-  box-shadow: 0 0 24px #00fff7cc, 0 0 48px #fff;
+  box-shadow:
+    0 0 24px #00fff7cc,
+    0 0 48px #fff;
   opacity: 0.7;
   animation: cometMove 14s linear infinite;
 }
 @keyframes cometMove {
-  0% { left: 30vw; top: 40vh; opacity: 0.7; }
-  40% { opacity: 1; }
-  100% { left: 80vw; top: 20vh; opacity: 0; }
+  0% {
+    left: 30vw;
+    top: 40vh;
+    opacity: 0.7;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    left: 80vw;
+    top: 20vh;
+    opacity: 0;
+  }
 }
 .floating-orb.small {
-  left: 80vw; top: 60px;
-  width: 22px; height: 22px;
+  left: 80vw;
+  top: 60px;
+  width: 22px;
+  height: 22px;
   animation-duration: 7s;
 }
 .comet.small {
-  left: 10vw; top: 60vh;
-  width: 40px; height: 5px;
+  left: 10vw;
+  top: 60vh;
+  width: 40px;
+  height: 5px;
   animation-duration: 8s;
 }
 
@@ -292,22 +388,30 @@
   align-items: center;
   justify-content: center;
   min-height: 320px;
-  animation: videoReveal 0.7s cubic-bezier(0.77,0.2,0.05,1) forwards;
+  animation: videoReveal 0.7s cubic-bezier(0.77, 0.2, 0.05, 1) forwards;
 }
 .animate-video-reveal {
   opacity: 0;
   transform: scale(0.8);
-  animation: videoReveal 0.7s cubic-bezier(0.77,0.2,0.05,1) forwards;
+  animation: videoReveal 0.7s cubic-bezier(0.77, 0.2, 0.05, 1) forwards;
 }
 @keyframes videoReveal {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .explore-video {
   width: 90vw;
   max-width: 700px;
   border-radius: 18px;
-  box-shadow: 0 0 32px #00fff7cc, 0 0 48px #7f00ff99;
+  box-shadow:
+    0 0 32px #00fff7cc,
+    0 0 48px #7f00ff99;
   background: #0a0a1a;
 }
 
@@ -328,4 +432,4 @@
   .vision-cosmic-scroll {
     padding: 40px 0 30px 0;
   }
-} 
+}

@@ -33,7 +33,7 @@ const ProfilePage = () => {
   const [pendingSave, setPendingSave] = useState(false);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState(
-    "/default-profile.webp"
+    "/default-profile.webp",
   );
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
@@ -82,7 +82,9 @@ const ProfilePage = () => {
         address: profile.address || "",
         phone: profile.phone || "",
       });
-      setProfilePicturePreview(profile.profilePicture || "/default-profile.webp");
+      setProfilePicturePreview(
+        profile.profilePicture || "/default-profile.webp",
+      );
     }
   }, [profile]);
 
@@ -128,10 +130,9 @@ const ProfilePage = () => {
       setIsSaving(false);
       setShowLoader(false);
     }
-    
-      navigate("/");
-  
-    };
+
+    navigate("/");
+  };
 
   if (isLoading) {
     return <LoadingPage />;
@@ -141,7 +142,9 @@ const ProfilePage = () => {
     <>
       {showLoader && (
         <LoaderModal
-          message={isSaving ? t("profile.savingChanges") : t("profile.loadingProfile")}
+          message={
+            isSaving ? t("profile.savingChanges") : t("profile.loadingProfile")
+          }
         />
       )}
       <div className="profile-page">
@@ -165,7 +168,10 @@ const ProfilePage = () => {
               className="visually-hidden"
               onChange={(e) => handleProfilePictureUpload(e.target.files?.[0])}
             />
-            <label htmlFor="profile-image-upload" className="profile-image-label">
+            <label
+              htmlFor="profile-image-upload"
+              className="profile-image-label"
+            >
               <img
                 src={profilePicturePreview}
                 alt={t("profile.profilePictureAlt")}
@@ -251,9 +257,9 @@ const ProfilePage = () => {
               >
                 {isSaving ? t("profile.saving") : t("profile.saveChanges")}
               </button>
-              <button 
-                className="upgrades-button" 
-                type="button" 
+              <button
+                className="upgrades-button"
+                type="button"
                 onClick={() => setShowUpgrades(true)}
               >
                 🎨 Profile Upgrades
@@ -265,11 +271,11 @@ const ProfilePage = () => {
           </form>
         </div>
       </div>
-      
+
       {/* Profile Upgrades Modal */}
-      <ProfileUpgrades 
-        isOpen={showUpgrades} 
-        onClose={() => setShowUpgrades(false)} 
+      <ProfileUpgrades
+        isOpen={showUpgrades}
+        onClose={() => setShowUpgrades(false)}
         user={profile}
       />
     </>

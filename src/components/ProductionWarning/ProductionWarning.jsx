@@ -1,11 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './ProductionWarning.css';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useRef, useEffect } from "react";
+import "./ProductionWarning.css";
+import { useTranslation } from "react-i18next";
 
 const ProductionWarning = () => {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(true);
-  const [position, setPosition] = useState({ top: 120, left: window.innerWidth / 2 - 200 });
+  const [position, setPosition] = useState({
+    top: 120,
+    left: window.innerWidth / 2 - 200,
+  });
   const [dragging, setDragging] = useState(false);
 
   const dragOffsetRef = useRef({ x: 0, y: 0 });
@@ -54,32 +57,34 @@ const ProductionWarning = () => {
 
   useEffect(() => {
     if (dragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleTouchEnd);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleTouchEnd);
     } else {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     }
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
   }, [dragging]);
 
   useEffect(() => {
     if (dragging && window.innerWidth <= 600) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [dragging]);
 
@@ -89,7 +94,7 @@ const ProductionWarning = () => {
     <div
       ref={containerRef}
       className="toast-container"
-      style={{ top: position.top, left: position.left, position: 'fixed' }}
+      style={{ top: position.top, left: position.left, position: "fixed" }}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
     >
@@ -102,11 +107,11 @@ const ProductionWarning = () => {
       >
         &times;
       </button>
-      <h1 className="toast-heading">{t('productionWarning.title')}</h1>
+      <h1 className="toast-heading">{t("productionWarning.title")}</h1>
       <div className="toast-message">
-        <p>{t('productionWarning.currentStatus')}</p>
-        <h4>{t('productionWarning.unavailable')}</h4>
-        <h3>{t('productionWarning.paymentNotice')}</h3>
+        <p>{t("productionWarning.currentStatus")}</p>
+        <h4>{t("productionWarning.unavailable")}</h4>
+        <h3>{t("productionWarning.paymentNotice")}</h3>
       </div>
     </div>
   );

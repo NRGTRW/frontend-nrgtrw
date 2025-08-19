@@ -65,7 +65,8 @@ const Footer = () => {
       {/* Copyright */}
       <div className="footer-copyright">
         <p>
-          © {new Date().getFullYear()} NRG. {t("footer.rights", "All rights reserved.")}
+          © {new Date().getFullYear()} NRG.{" "}
+          {t("footer.rights", "All rights reserved.")}
         </p>
       </div>
     </footer>

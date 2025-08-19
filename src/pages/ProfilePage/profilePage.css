@@ -148,13 +148,21 @@
 }
 
 .upgrades-button {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
   color: #fff;
   border: 1px solid transparent;
 }
 
 .upgrades-button:hover {
-  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+  background: linear-gradient(
+    135deg,
+    var(--accent-secondary),
+    var(--accent-primary)
+  );
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(230, 184, 0, 0.3);
 }
@@ -231,16 +239,16 @@
     padding: 32px 24px;
     margin: 20px;
   }
-  
+
   .profile-header {
     font-size: 2.2rem;
   }
-  
+
   .button-container {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .save-button,
   .logout-button,
   .upgrades-button {

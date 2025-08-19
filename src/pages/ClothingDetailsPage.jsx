@@ -15,4 +15,4 @@ const ClothingDetailsPage = () => {
   );
 };
 
-export default ClothingDetailsPage; 
+export default ClothingDetailsPage;

@@ -86,7 +86,7 @@ export const WishlistProvider = ({ children }) => {
       );
 
       console.log("✅ Wishlist Item Added!");
-      await mutate(); 
+      await mutate();
     } catch (error) {
       console.error(
         "❌ Wishlist API Error:",

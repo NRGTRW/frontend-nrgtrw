@@ -49,7 +49,7 @@
 }
 
 .nrg-enhanced-testimonials.enhanced-testimonials::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -107,7 +107,7 @@
 }
 
 .nrg-enhanced-testimonials .testimonial-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -367,33 +367,33 @@
   .nrg-enhanced-testimonials.enhanced-testimonials {
     padding: 2rem 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonials-title {
     font-size: 2rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonial-card {
     padding: 2rem 1.5rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonial-metrics {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .metric-card {
     padding: 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .carousel-controls {
     gap: 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .control-btn {
     width: 45px;
     height: 45px;
   }
-  
+
   .nrg-enhanced-testimonials .cta-button {
     padding: 0.875rem 2rem;
     font-size: 0.9rem;
@@ -404,34 +404,34 @@
   .nrg-enhanced-testimonials .testimonials-title {
     font-size: 1.75rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonial-card {
     padding: 1.5rem 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .author-info {
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonial-quote p {
     padding-left: 1rem;
     font-size: 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .quote-icon {
     width: 30px;
     height: 30px;
     top: -0.5rem;
     left: -0.5rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonials-cta {
     padding: 2rem 1rem;
   }
-  
+
   .nrg-enhanced-testimonials .testimonials-cta h3 {
     font-size: 1.75rem;
   }
-} 
+}

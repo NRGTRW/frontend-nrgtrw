@@ -11,9 +11,8 @@
   cursor: move;
   user-select: none;
   will-change: top, left;
-  text-align: center;  /* Add this line to center all text */
+  text-align: center; /* Add this line to center all text */
 }
-
 
 .toast-close {
   position: absolute;

@@ -226,8 +226,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive */
@@ -236,33 +240,33 @@
     width: 95%;
     margin: 20px;
   }
-  
+
   .upgrades-header,
   .upgrades-content {
     padding: 16px 20px;
   }
-  
+
   .premium-banner {
     padding: 12px 20px;
   }
-  
+
   .premium-content {
     flex-direction: column;
     text-align: center;
     gap: 8px;
   }
-  
+
   .upgrade-btn {
     margin-left: 0;
   }
-  
+
   .avatar-grid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 8px;
   }
-  
+
   .theme-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 8px;
   }
-} 
+}

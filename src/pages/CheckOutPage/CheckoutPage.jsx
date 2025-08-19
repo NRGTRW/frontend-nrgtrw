@@ -41,7 +41,7 @@ const CheckoutPage = () => {
     setLoading(true);
     try {
       // Update user profile if address or phone changed
-      if ((user?.address !== address) || (user?.phone !== phone)) {
+      if (user?.address !== address || user?.phone !== phone) {
         const formData = new FormData();
         formData.append("address", address);
         formData.append("phone", phone);
@@ -82,66 +82,66 @@ const CheckoutPage = () => {
         <p className="empty-message">Your cart is empty.</p>
       ) : (
         <>
-        <div className="order-summary">
-          <h2 className="order-heading">Order Summary</h2>
-          <ul className="order-list">
-            {cart.map((item, index) => (
-              <li key={index} className="order-item">
-                <div className="item-image-container">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="item-image"
-                  />
-                </div>
-                <div className="item-details">
-                  <p className="item-name">
-                    <strong>{item.name || "Unnamed Product"}</strong>
-                  </p>
-                  <p className="item-quantity">Quantity: {item.quantity}</p>
-                  <p className="item-price">
-                    Price: ${item.price ? item.price.toFixed(2) : "0.00"}
-                  </p>
-                  <p className="item-total">
-                    Subtotal: $
-                    {item.price
-                      ? (item.price * item.quantity).toFixed(2)
-                      : "0.00"}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="order-total">
-            <strong>Grand Total: ${totalPrice.toFixed(2)}</strong>
+          <div className="order-summary">
+            <h2 className="order-heading">Order Summary</h2>
+            <ul className="order-list">
+              {cart.map((item, index) => (
+                <li key={index} className="order-item">
+                  <div className="item-image-container">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="item-image"
+                    />
+                  </div>
+                  <div className="item-details">
+                    <p className="item-name">
+                      <strong>{item.name || "Unnamed Product"}</strong>
+                    </p>
+                    <p className="item-quantity">Quantity: {item.quantity}</p>
+                    <p className="item-price">
+                      Price: ${item.price ? item.price.toFixed(2) : "0.00"}
+                    </p>
+                    <p className="item-total">
+                      Subtotal: $
+                      {item.price
+                        ? (item.price * item.quantity).toFixed(2)
+                        : "0.00"}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="order-total">
+              <strong>Grand Total: ${totalPrice.toFixed(2)}</strong>
+            </div>
           </div>
-        </div>
-        <div className="checkout-fields">
-          <label className="checkout-label">
-            Delivery Address <span style={{color: 'red'}}>*</span>
-            <textarea
-              className={`checkout-input${addressTouched && !address.trim() ? ' error' : ''}`}
-              value={address}
-              onChange={e => setAddress(e.target.value)}
-              onBlur={() => setAddressTouched(true)}
-              required
-              rows={2}
-              placeholder="Enter your delivery address"
-            />
-          </label>
-          <label className="checkout-label">
-            Phone Number <span style={{color: 'red'}}>*</span>
-            <input
-              className={`checkout-input${phoneTouched && !phone.trim() ? ' error' : ''}`}
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-              onBlur={() => setPhoneTouched(true)}
-              required
-              type="tel"
-              placeholder="Enter your phone number"
-            />
-          </label>
-        </div>
+          <div className="checkout-fields">
+            <label className="checkout-label">
+              Delivery Address <span style={{ color: "red" }}>*</span>
+              <textarea
+                className={`checkout-input${addressTouched && !address.trim() ? " error" : ""}`}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                onBlur={() => setAddressTouched(true)}
+                required
+                rows={2}
+                placeholder="Enter your delivery address"
+              />
+            </label>
+            <label className="checkout-label">
+              Phone Number <span style={{ color: "red" }}>*</span>
+              <input
+                className={`checkout-input${phoneTouched && !phone.trim() ? " error" : ""}`}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                onBlur={() => setPhoneTouched(true)}
+                required
+                type="tel"
+                placeholder="Enter your phone number"
+              />
+            </label>
+          </div>
         </>
       )}
       <button

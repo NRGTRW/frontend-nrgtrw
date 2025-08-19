@@ -12,56 +12,122 @@
 
 /* Base cosmic gradient */
 .cosmic-background::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+  background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a2e 25%,
+    #16213e 50%,
+    #0f3460 75%,
+    #533483 100%
+  );
   animation: cosmicShift 20s ease-in-out infinite;
   z-index: 0;
 }
 
 /* Floating stars layer */
 .cosmic-background::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+  background-image: radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+    radial-gradient(
+      2px 2px at 40px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 130px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 200px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 200px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 240px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 280px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 280px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 320px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 360px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 360px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 400px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 440px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 440px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 480px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 520px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 520px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 560px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 600px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 600px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 640px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 680px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 680px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 720px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 760px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 760px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 800px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 840px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 840px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 880px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 920px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 920px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 960px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 1000px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 1000px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 1040px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 1080px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(
+      1px 1px at 1080px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
     radial-gradient(2px 2px at 1120px 30px, #ddd, transparent),
-    radial-gradient(2px 2px at 1160px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(
+      2px 2px at 1160px 70px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
     radial-gradient(1px 1px at 1200px 40px, #fff, transparent);
   background-repeat: repeat;
   background-size: 1200px 100px;
@@ -79,25 +145,33 @@
 }
 
 .cosmic-nebula::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 10%;
   left: 10%;
   width: 300px;
   height: 200px;
-  background: radial-gradient(ellipse, var(--nebula1, rgba(255, 100, 200, 0.4)) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse,
+    var(--nebula1, rgba(255, 100, 200, 0.4)) 0%,
+    transparent 70%
+  );
   border-radius: 50%;
   animation: nebulaDrift 25s ease-in-out infinite;
 }
 
 .cosmic-nebula::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 60%;
   right: 15%;
   width: 250px;
   height: 180px;
-  background: radial-gradient(ellipse, var(--nebula2, rgba(100, 200, 255, 0.3)) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse,
+    var(--nebula2, rgba(100, 200, 255, 0.3)) 0%,
+    transparent 70%
+  );
   border-radius: 50%;
   animation: nebulaDrift 30s ease-in-out infinite reverse;
 }
@@ -112,8 +186,13 @@
 }
 
 @keyframes planetFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-24px) scale(1.04); }
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-24px) scale(1.04);
+  }
 }
 
 .crown-planet {
@@ -179,18 +258,51 @@
   animation: particleFloatMulti 15s linear infinite;
 }
 
-.cosmic-particle:nth-child(5) { top: 15%; left: 20%; animation-delay: 0s; }
-.cosmic-particle:nth-child(6) { top: 25%; left: 80%; animation-delay: 1s; }
-.cosmic-particle:nth-child(7) { top: 35%; left: 40%; animation-delay: 2s; }
-.cosmic-particle:nth-child(8) { top: 45%; left: 60%; animation-delay: 3s; }
-.cosmic-particle:nth-child(9) { top: 55%; left: 30%; animation-delay: 4s; }
-.cosmic-particle:nth-child(10) { top: 65%; left: 70%; animation-delay: 5s; }
-.cosmic-particle:nth-child(11) { top: 75%; left: 50%; animation-delay: 6s; }
-.cosmic-particle:nth-child(12) { top: 85%; left: 10%; animation-delay: 7s; }
+.cosmic-particle:nth-child(5) {
+  top: 15%;
+  left: 20%;
+  animation-delay: 0s;
+}
+.cosmic-particle:nth-child(6) {
+  top: 25%;
+  left: 80%;
+  animation-delay: 1s;
+}
+.cosmic-particle:nth-child(7) {
+  top: 35%;
+  left: 40%;
+  animation-delay: 2s;
+}
+.cosmic-particle:nth-child(8) {
+  top: 45%;
+  left: 60%;
+  animation-delay: 3s;
+}
+.cosmic-particle:nth-child(9) {
+  top: 55%;
+  left: 30%;
+  animation-delay: 4s;
+}
+.cosmic-particle:nth-child(10) {
+  top: 65%;
+  left: 70%;
+  animation-delay: 5s;
+}
+.cosmic-particle:nth-child(11) {
+  top: 75%;
+  left: 50%;
+  animation-delay: 6s;
+}
+.cosmic-particle:nth-child(12) {
+  top: 85%;
+  left: 10%;
+  animation-delay: 7s;
+}
 
 /* Animations */
 @keyframes cosmicShift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -208,7 +320,8 @@
 }
 
 @keyframes nebulaDrift {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
     opacity: 0.3;
   }
@@ -263,15 +376,30 @@
 /* Light theme adjustments */
 @media (prefers-color-scheme: light) {
   .cosmic-background::before {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+    background: linear-gradient(
+      135deg,
+      #0a0a0a 0%,
+      #1a1a2e 25%,
+      #16213e 50%,
+      #0f3460 75%,
+      #533483 100%
+    );
   }
-  
+
   .cosmic-nebula::before {
-    background: radial-gradient(ellipse, var(--nebula1, rgba(255, 100, 200, 0.15)) 0%, transparent 70%);
+    background: radial-gradient(
+      ellipse,
+      var(--nebula1, rgba(255, 100, 200, 0.15)) 0%,
+      transparent 70%
+    );
   }
-  
+
   .cosmic-nebula::after {
-    background: radial-gradient(ellipse, var(--nebula2, rgba(100, 200, 255, 0.12)) 0%, transparent 70%);
+    background: radial-gradient(
+      ellipse,
+      var(--nebula2, rgba(100, 200, 255, 0.12)) 0%,
+      transparent 70%
+    );
   }
 }
 
@@ -292,7 +420,7 @@
   .cosmic-background::after {
     background-size: 600px 50px;
   }
-  
+
   @keyframes starFloat {
     0% {
       transform: translateX(0);
@@ -301,7 +429,7 @@
       transform: translateX(-600px);
     }
   }
-} 
+}
 
 .cosmic-comet-container {
   position: absolute;
@@ -346,7 +474,7 @@
   width: 180px;
   height: 40px;
   display: block;
-} 
+}
 
 @keyframes laserShoot {
   0% {
@@ -402,12 +530,18 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #ffe067 40%, #ffb347 80%, transparent 100%);
+  background: radial-gradient(
+    circle,
+    #fff 0%,
+    #ffe067 40%,
+    #ffb347 80%,
+    transparent 100%
+  );
   opacity: 0.35;
   pointer-events: none;
   animation: explosionExpand 1.2s linear infinite;
   z-index: 4;
-} 
+}
 
 .cosmic-fighter {
   position: absolute;
@@ -434,4 +568,4 @@
     transform: translateX(110vw) scale(1.1);
     opacity: 0.1;
   }
-} 
+}

@@ -21,14 +21,14 @@ const MaterialsPage = () => {
           <p data-aos="fade-up" data-aos-delay="200">
             {t(
               "materialsPage.content",
-              "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create."
+              "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create.",
             )}
           </p>
         </div>
         <div className="image-section" data-aos="fade-left">
-          <img 
-            src={materialsImage} 
-            alt={t("materialsPage.imageAlt", "Premium Materials")} 
+          <img
+            src={materialsImage}
+            alt={t("materialsPage.imageAlt", "Premium Materials")}
           />
         </div>
       </div>

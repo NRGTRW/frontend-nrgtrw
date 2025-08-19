@@ -1,170 +1,176 @@
 .chatWindow {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    height: 100%;
-    background: #171512;
-    border-radius: 0 18px 18px 0;
-    border: 2px solid var(--accent-primary);
-    border-left: none;
-    overflow: hidden;
-    transition: background 0.3s ease;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  background: #171512;
+  border-radius: 0 18px 18px 0;
+  border: 2px solid var(--accent-primary);
+  border-left: none;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.header {
+  padding: 0.7rem 0.8rem;
+  background: #181512;
+  color: var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  border-top-right-radius: 18px;
+}
+
+.messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.7rem 0.8rem;
+  overflow-y: auto;
+  background: #171512;
+  scroll-behavior: smooth;
+}
+
+/* Custom thin scrollbar */
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+.messages::-webkit-scrollbar-thumb {
+  background-color: var(--shadow);
+  border-radius: 3px;
+}
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messageRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.messageRow.admin {
+  align-items: flex-end;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.15rem;
+}
+
+.bubble {
+  max-width: 90%;
+  padding: 0.35rem 0.7rem;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border-radius: 1rem 1rem 1rem 0.5rem;
+  box-shadow: 0 2px 6px var(--shadow);
+  font-size: 0.95rem;
+  word-break: break-word;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.bubble.admin {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  border-radius: 1rem 1rem 0.5rem 1rem;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.bubble:hover {
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.inputForm {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  background: #181512;
+  border-top: 2px solid var(--accent-primary);
+  border-bottom-right-radius: 18px;
+}
+
+.input {
+  flex: 1;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 0.5rem;
+  outline: none;
+  background: #23201a;
+  color: #fff;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: #bfa14a;
+}
+
+.input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.sendButton {
+  margin-left: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: var(--accent-primary);
+  color: #181512;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s;
+}
+
+.sendButton:hover {
+  background: var(--accent-secondary);
+}
+
+.sendButton:active {
+  transform: scale(0.98);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
   .header {
-    padding: 0.7rem 0.8rem;
-    background: #181512;
-    color: var(--accent-primary);
-    border-bottom: 2px solid var(--accent-primary);
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.01em;
-    border-top-right-radius: 18px;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.4rem;
   }
-  
   .messages {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 0.7rem 0.8rem;
-    overflow-y: auto;
-    background: #171512;
-    scroll-behavior: smooth;
+    padding: 0.5rem 0.4rem;
   }
-  
-  /* Custom thin scrollbar */
-  .messages::-webkit-scrollbar {
-    width: 6px;
-  }
-  .messages::-webkit-scrollbar-thumb {
-    background-color: var(--shadow);
-    border-radius: 3px;
-  }
-  .messages::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .messageRow {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.5rem;
-  }
-  
-  .messageRow.admin {
-    align-items: flex-end;
-  }
-  
-  .meta {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.15rem;
-  }
-  
   .bubble {
-    max-width: 90%;
-    padding: 0.35rem 0.7rem;
-    background: var(--card-bg);
-    color: var(--text-primary);
-    border-radius: 1rem 1rem 1rem 0.5rem;
-    box-shadow: 0 2px 6px var(--shadow);
-    font-size: 0.95rem;
-    word-break: break-word;
-    transition: background 0.2s, box-shadow 0.2s;
+    font-size: 0.9rem;
+    max-width: 100%;
+    padding: 0.3rem 0.5rem;
   }
-  
-  .bubble.admin {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
-    border-radius: 1rem 1rem 0.5rem 1rem;
-    box-shadow: 0 2px 6px var(--shadow);
-  }
-  
-  .bubble:hover {
-    box-shadow: 0 4px 12px var(--shadow);
-  }
-  
-  .inputForm {
-    display: flex;
-    align-items: center;
-    padding: 0.4rem 0.7rem;
-    background: #181512;
-    border-top: 2px solid var(--accent-primary);
-    border-bottom-right-radius: 18px;
-  }
-  
   .input {
-    flex: 1;
-    padding: 0.5rem 0.7rem;
-    font-size: 0.95rem;
-    border: none;
-    border-radius: 0.5rem;
-    outline: none;
-    background: #23201a;
-    color: #fff;
-    transition: border-color 0.2s;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
   }
-  
-  .input::placeholder {
-    color: #bfa14a;
-  }
-  
-  .input:focus {
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
-  }
-  
   .sendButton {
-    margin-left: 0.4rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    background: var(--accent-primary);
-    color: #181512;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
   }
-  
-  .sendButton:hover {
-    background: var(--accent-secondary);
-  }
-  
-  .sendButton:active {
-    transform: scale(0.98);
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 600px) {
-    .header {
-      font-size: 0.9rem;
-      padding: 0.5rem 0.4rem;
-    }
-    .messages {
-      padding: 0.5rem 0.4rem;
-    }
-    .bubble {
-      font-size: 0.9rem;
-      max-width: 100%;
-      padding: 0.3rem 0.5rem;
-    }
-    .input {
-      font-size: 0.9rem;
-      padding: 0.3rem 0.5rem;
-    }
-    .sendButton {
-      font-size: 0.9rem;
-      padding: 0.3rem 0.5rem;
-    }
-  }
+}
 
 .detailsDropdown {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
+  transition:
+    max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.3s;
   padding: 0.8rem 1.2rem 0.5rem 1.2rem;
-  background: rgba(24,21,18,0.85);
+  background: rgba(24, 21, 18, 0.85);
   pointer-events: none;
   visibility: hidden;
 }
@@ -229,7 +235,9 @@
 }
 
 @keyframes typing {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.5;
   }
@@ -244,4 +252,3 @@
   color: #888;
   font-style: italic;
 }
-  

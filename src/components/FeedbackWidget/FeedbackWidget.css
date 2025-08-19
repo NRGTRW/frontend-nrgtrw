@@ -1,11 +1,12 @@
 /* Feedback Widget Styles */
 @keyframes feedback-glow-pulse {
-  0%, 100% {
-    box-shadow: 0 0 8px 2px rgba(255,255,255,0.18);
+  0%,
+  100% {
+    box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.18);
     filter: brightness(1.01);
   }
   50% {
-    box-shadow: 0 0 14px 4px rgba(255,255,255,0.22);
+    box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.22);
     filter: brightness(1.04);
   }
 }
@@ -33,7 +34,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -72,8 +74,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -197,7 +203,11 @@
 
 .feedback-type-btn.selected {
   border-color: var(--accent-primary);
-  background: linear-gradient(135deg, rgba(230, 184, 0, 0.1), rgba(191, 161, 74, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(230, 184, 0, 0.1),
+    rgba(191, 161, 74, 0.1)
+  );
   box-shadow: 0 4px 12px rgba(230, 184, 0, 0.2);
 }
 
@@ -243,7 +253,11 @@
 .feedback-submit-btn {
   width: 100%;
   padding: 14px 24px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -290,60 +304,64 @@
     background: #1a1a1a;
     color: #fff;
   }
-  
+
   .feedback-header {
     background: linear-gradient(135deg, #2a2a2a, #1f1f1f);
     border-bottom-color: #333;
   }
-  
+
   .feedback-header h3 {
     color: #fff;
   }
-  
+
   .feedback-close-btn {
     color: #ccc;
   }
-  
+
   .feedback-close-btn:hover {
     background: #333;
     color: #fff;
   }
-  
+
   .feedback-form label {
     color: #fff;
   }
-  
+
   .feedback-type-btn {
     background: #2a2a2a;
     border-color: #444;
     color: #fff;
   }
-  
+
   .feedback-type-btn:hover {
     background: #333;
     border-color: var(--accent-primary);
   }
-  
+
   .feedback-type-btn.selected {
-    background: linear-gradient(135deg, rgba(230, 184, 0, 0.2), rgba(191, 161, 74, 0.2));
+    background: linear-gradient(
+      135deg,
+      rgba(230, 184, 0, 0.2),
+      rgba(191, 161, 74, 0.2)
+    );
   }
-  
+
   .type-label {
     color: #fff;
   }
-  
+
   .feedback-form textarea,
   .feedback-form input {
     background: #2a2a2a;
     border-color: #444;
     color: #fff;
   }
-  
+
   .feedback-form textarea:focus,
   .feedback-form input:focus {
     border-color: var(--accent-primary);
   }
-  
+
   .feedback-form textarea:disabled,
   .feedback-form input:disabled {
     background: #1a1a1a;
@@ -359,26 +377,26 @@
     height: 56px;
     font-size: 20px;
   }
-  
+
   .feedback-modal {
     width: 95%;
     max-height: 95vh;
     margin: 10px;
   }
-  
+
   .feedback-type-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .feedback-type-btn {
     min-height: 70px;
     padding: 12px 8px;
   }
-  
+
   .type-icon {
     font-size: 20px;
   }
-  
+
   .type-label {
     font-size: 0.8rem;
   }
@@ -391,20 +409,20 @@
   .feedback-submit-btn {
     transition: none;
   }
-  
+
   .feedback-icon {
     animation: none;
   }
-  
+
   .loading-spinner {
     animation: none;
   }
-  
+
   .feedback-overlay {
     animation: none;
   }
-  
+
   .feedback-modal {
     animation: none;
   }
-} 
+}

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import './MobileMenu.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { motion, AnimatePresence } from "framer-motion";
+import "./MobileMenu.css";
 
 const MobileMenu = ({ isOpen, onClose }) => {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
@@ -11,13 +11,13 @@ const MobileMenu = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
@@ -33,67 +33,72 @@ const MobileMenu = ({ isOpen, onClose }) => {
 
   const menuItems = [
     {
-      name: 'Home',
-      path: '/',
-      icon: '🏠'
+      name: "Home",
+      path: "/",
+      icon: "🏠",
     },
     {
-      name: 'Fitness',
-      path: '/fitness',
-      icon: '💪'
+      name: "Fitness",
+      path: "/fitness",
+      icon: "💪",
     },
     {
-      name: 'Tech',
-      path: '/tech',
-      icon: '💻'
+      name: "Tech",
+      path: "/tech",
+      icon: "💻",
     },
     {
-      name: 'Clothing',
-      path: '/clothing',
-      icon: '👕'
+      name: "Clothing",
+      path: "/clothing",
+      icon: "👕",
     },
     {
-      name: 'Vision',
-      path: '/vision',
-      icon: '👁️'
-    }
+      name: "Vision",
+      path: "/vision",
+      icon: "👁️",
+    },
   ];
 
-  const userMenuItems = user ? [
-    {
-      name: 'Profile',
-      path: '/profile',
-      icon: '👤'
-    },
-    {
-      name: 'Orders',
-      path: '/orders',
-      icon: '📦'
-    },
-    {
-      name: 'Wishlist',
-      path: '/wishlist',
-      icon: '❤️'
-    },
-    {
-      name: 'Cart',
-      path: '/cart',
-      icon: '🛒'
-    }
-  ] : [];
+  const userMenuItems = user
+    ? [
+        {
+          name: "Profile",
+          path: "/profile",
+          icon: "👤",
+        },
+        {
+          name: "Orders",
+          path: "/orders",
+          icon: "📦",
+        },
+        {
+          name: "Wishlist",
+          path: "/wishlist",
+          icon: "❤️",
+        },
+        {
+          name: "Cart",
+          path: "/cart",
+          icon: "🛒",
+        },
+      ]
+    : [];
 
-  const adminMenuItems = user?.role === 'ADMIN' || user?.role === 'ROOT_ADMIN' ? [
-    {
-      name: 'Admin Dashboard',
-      path: '/admin',
-      icon: '⚙️'
-    },
-    {
-      name: 'Create Product',
-      path: '/admin/create-product',
-      icon: '➕'
-    }
-  ] : [];
+  const adminMenuItems =
+    user?.role === "ADMIN" || user?.role === "ROOT_ADMIN"
+      ? [
+          {
+            name: "Admin Dashboard",
+            path: "/admin",
+            icon: "⚙️",
+          },
+          {
+            name: "Create Product",
+            path: "/admin/create-product",
+            icon: "➕",
+          },
+        ]
+      : [];
 
   return (
     <AnimatePresence>
@@ -107,14 +112,14 @@ const MobileMenu = ({ isOpen, onClose }) => {
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
-          
+
           {/* Menu */}
           <motion.div
             className="mobile-menu"
-            initial={{ x: '100%' }}
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
           >
             {/* Header */}
             <div className="mobile-menu-header">
@@ -127,8 +132,8 @@ const MobileMenu = ({ isOpen, onClose }) => {
             {/* User Info */}
             {user && (
               <div className="mobile-user-info">
-                <img 
-                  src={user.profilePicture || '/default-profile.webp'} 
+                <img
+                  src={user.profilePicture || "/default-profile.webp"}
                   alt={user.name}
                   className="user-avatar"
                 />
@@ -210,7 +215,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
                   <>
                     <motion.button
                       className="menu-item"
-                      onClick={() => handleNavigation('/login')}
+                      onClick={() => handleNavigation("/login")}
                       whileTap={{ scale: 0.95 }}
                     >
                       <span className="menu-icon">🔑</span>
@@ -218,7 +223,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
                     </motion.button>
                     <motion.button
                       className="menu-item"
-                      onClick={() => handleNavigation('/signup')}
+                      onClick={() => handleNavigation("/signup")}
                       whileTap={{ scale: 0.95 }}
                     >
                       <span className="menu-icon">📝</span>
@@ -240,4 +245,4 @@ const MobileMenu = ({ isOpen, onClose }) => {
   );
 };
 
-export default MobileMenu; 
+export default MobileMenu;

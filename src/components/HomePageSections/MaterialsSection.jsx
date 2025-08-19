@@ -23,13 +23,10 @@ const MaterialsSection = ({ refProp }) => {
           <p>
             {t(
               "materials.description",
-              "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create."
+              "At NRG, we believe in the essence of sustainable elegance. Every material we use is meticulously handpicked to ensure premium quality, exceptional durability, and timeless aesthetic appeal. From luxurious fabrics to innovative textures, our commitment to excellence shines through in every piece we create.",
             )}
           </p>
-          <button
-            className="discover-more-button"
-            onClick={handleDiscoverMore}
-          >
+          <button className="discover-more-button" onClick={handleDiscoverMore}>
             {t("materials.button", "DISCOVER MORE")}
           </button>
         </div>

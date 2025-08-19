@@ -157,20 +157,20 @@
     align-items: stretch;
     gap: 10px;
   }
-  
+
   .search-input-container {
     order: 1;
   }
-  
+
   .filter-toggle {
     order: 2;
   }
-  
+
   .filters-grid {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .filter-group select {
     font-size: 16px; /* Prevents zoom on iOS */
   }
@@ -180,12 +180,12 @@
   .search-bar {
     padding: 15px;
   }
-  
+
   .filters-panel {
     padding: 15px;
   }
-  
+
   .search-input {
     font-size: 16px; /* Prevents zoom on iOS */
   }
-} 
+}

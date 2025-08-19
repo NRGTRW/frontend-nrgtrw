@@ -16,7 +16,6 @@ import "./i18n";
 import "./Globals/global.css";
 import "./Globals/cosmicBackground.css";
 
-
 // If you have an ApiProvider (for API calls) you can import and include it here as well:
 // import { ApiProvider } from "./context/ApiContext";
 
@@ -44,5 +43,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </ThemeProvider>
       </BrowserRouter>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

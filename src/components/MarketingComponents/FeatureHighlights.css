@@ -47,7 +47,7 @@
 }
 
 .nrg-feature-highlights.feature-highlights::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -114,7 +114,7 @@
 }
 
 .nrg-feature-highlights .feature-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -282,7 +282,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.5;
   }
@@ -297,29 +298,29 @@
   .nrg-feature-highlights.feature-highlights {
     padding: 2rem 1rem;
   }
-  
+
   .nrg-feature-highlights .feature-title {
     font-size: 2rem;
   }
-  
+
   .nrg-feature-highlights .feature-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
   }
-  
+
   .nrg-feature-highlights .feature-card {
     padding: 2rem 1.5rem;
   }
-  
+
   .nrg-feature-highlights .feature-icon {
     width: 70px;
     height: 70px;
   }
-  
+
   .nrg-feature-highlights .icon-emoji {
     font-size: 1.75rem;
   }
-  
+
   .nrg-feature-highlights .cta-button {
     padding: 0.875rem 2rem;
     font-size: 0.9rem;
@@ -330,29 +331,32 @@
   .nrg-feature-highlights .feature-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .nrg-feature-highlights .feature-title {
     font-size: 1.75rem;
   }
-  
+
   .nrg-feature-highlights .feature-card {
     padding: 1.5rem 1rem;
   }
-  
+
   .nrg-feature-highlights .feature-icon {
     width: 60px;
     height: 60px;
   }
-  
+
   .nrg-feature-highlights .icon-emoji {
     font-size: 1.5rem;
   }
-} 
+}
 
 .feature-modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.35);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -361,19 +365,19 @@
 
 .feature-modal {
   background: #fff;
-  color: #1F4060;
+  color: #1f4060;
   border-radius: 12px;
   padding: 32px 28px 24px 28px;
-  box-shadow: 0 8px 32px rgba(31,64,96,0.18);
+  box-shadow: 0 8px 32px rgba(31, 64, 96, 0.18);
   min-width: 280px;
   max-width: 90vw;
   text-align: center;
   font-size: 1.15rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .feature-modal button {
-  background: #4B3D99;
+  background: #4b3d99;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -386,5 +390,5 @@
 }
 
 .feature-modal button:hover {
-  background: #1F4060;
-} 
+  background: #1f4060;
+}

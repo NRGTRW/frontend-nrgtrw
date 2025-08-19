@@ -9,10 +9,17 @@ import "./App.css";
 const Navbar = lazy(() => import("./Globals/Navbar/Navbar"));
 const Footer = lazy(() => import("./Globals/Footer/Footer"));
 const ErrorBoundary = lazy(() => import("./Globals/ErrorBoundary"));
-const CosmicBackground = lazy(() => import("./components/CosmicBackground/CosmicBackground"));
+const CosmicBackground = lazy(
+  () => import("./components/CosmicBackground/CosmicBackground"),
+);
+const FeedbackWidget = lazy(
+  () => import("./components/FeedbackWidget/FeedbackWidget"),
+);
 
 // Lazy load pages
-const NRGLandingPage = lazy(() => import("./pages/NRGLandingPage/NRGLandingPage"));
+const NRGLandingPage = lazy(
+  () => import("./pages/NRGLandingPage/NRGLandingPage"),
+);
 const Fitness = lazy(() => import("./pages/Fitness/Fitness"));
 const ClothingPage = lazy(() => import("./pages/ClothingPage/ClothingPage"));
 const ProductPage = lazy(() => import("./pages/ProductPage/ProductPage"));
@@ -22,20 +29,28 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage"));
 const WishlistPage = lazy(() => import("./pages/WishlistPage/WishlistPage"));
 const LogInPage = lazy(() => import("./pages/AuthPages/LogInPage"));
 const SignUpPage = lazy(() => import("./pages/AuthPages/SignUpPage"));
-const ResetPasswordPage = lazy(() => import("./pages/AuthPages/ResetPasswordPage"));
+const ResetPasswordPage = lazy(
+  () => import("./pages/AuthPages/ResetPasswordPage"),
+);
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
 const Tech = lazy(() => import("./pages/Tech/Tech"));
 const MaterialsPage = lazy(() => import("./pages/MaterialsPage/MaterialsPage"));
-const InspirationPage = lazy(() => import("./pages/InspirationPage/InspirationPage"));
+const InspirationPage = lazy(
+  () => import("./pages/InspirationPage/InspirationPage"),
+);
 const VisionPage = lazy(() => import("./pages/VisionPage"));
 const DesignPage = lazy(() => import("./pages/DesignPage"));
 const ClothingDetailsPage = lazy(() => import("./pages/ClothingDetailsPage"));
 const ProgramsPage = lazy(() => import("./pages/ProgramsPage/ProgramsPage"));
 const ChatPage = lazy(() => import("./pages/ChatPage"));
-const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions/TermsAndConditions"));
+const TermsAndConditions = lazy(
+  () => import("./pages/TermsAndConditions/TermsAndConditions"),
+);
 const AboutUsPage = lazy(() => import("./pages/FooterReferals/AboutUsPage"));
-const ContactUsPage = lazy(() => import("./pages/FooterReferals/ContactUsPage"));
+const ContactUsPage = lazy(
+  () => import("./pages/FooterReferals/ContactUsPage"),
+);
 const FAQPage = lazy(() => import("./pages/FooterReferals/FAQPage"));
 
 // Loading component
@@ -54,12 +69,12 @@ function App() {
       <Suspense fallback={<LoadingSpinner />}>
         <CosmicBackground />
       </Suspense>
-      
+
       <div className="App">
         <Suspense fallback={<LoadingSpinner />}>
           <Navbar />
         </Suspense>
-        
+
         <main className="main-content">
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>
@@ -80,7 +95,10 @@ function App() {
               <Route path="/inspiration" element={<InspirationPage />} />
               <Route path="/vision" element={<VisionPage />} />
               <Route path="/design" element={<DesignPage />} />
-              <Route path="/clothing-details" element={<ClothingDetailsPage />} />
+              <Route
+                path="/clothing-details"
+                element={<ClothingDetailsPage />}
+              />
               <Route path="/programs" element={<ProgramsPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/terms" element={<TermsAndConditions />} />
@@ -91,12 +109,16 @@ function App() {
             </Routes>
           </Suspense>
         </main>
-        
+
         <Suspense fallback={<LoadingSpinner />}>
           <Footer />
         </Suspense>
       </div>
-      
+
+      <Suspense fallback={<LoadingSpinner />}>
+        <FeedbackWidget />
+      </Suspense>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

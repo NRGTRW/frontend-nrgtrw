@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { joinClothingVote, checkClothingVoteStatus } from '../../services/api';
-import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
-import styles from './ProductVoteModal.module.css';
+import React, { useState, useEffect } from "react";
+import { joinClothingVote, checkClothingVoteStatus } from "../../services/api";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
+import styles from "./ProductVoteModal.module.css";
 
 const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    priceRange: ''
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+    priceRange: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
@@ -19,45 +19,45 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
 
   useEffect(() => {
     if (user) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        name: user.name || '',
-        email: user.email || ''
+        name: user.name || "",
+        email: user.email || "",
       }));
     } else {
       // Clear form data for non-logged-in users
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        name: '',
-        email: ''
+        name: "",
+        email: "",
       }));
     }
   }, [user, isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) {
-      toast.error('Name and email are required');
+      toast.error("Name and email are required");
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
       return;
     }
     if (!product) {
-      toast.error('Product is required');
+      toast.error("Product is required");
       return;
     }
-    
+
     setIsSubmitting(true);
     try {
       const voteData = {
@@ -67,20 +67,31 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
         message: formData.message,
         categoryId: product.categoryId,
         priceRange: formData.priceRange,
-        productId: product.id
+        productId: product.id,
       };
       await joinClothingVote(voteData);
       // Fetch position and total after voting
-      const status = await checkClothingVoteStatus(formData.email, product.categoryId);
+      const status = await checkClothingVoteStatus(
+        formData.email,
+        product.categoryId,
+      );
       setVoteInfo({ position: status.position, total: status.totalVotes });
-      toast.success(`Successfully voted for ${product.name || 'this product'}!`);
-      setFormData({ name: '', email: '', phone: '', message: '', priceRange: '' });
+      toast.success(
+        `Successfully voted for ${product.name || "this product"}!`,
+      );
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+        priceRange: "",
+      });
       // Don't close modal immediately, show position/progress
     } catch (error) {
-      if (error.message && error.message.includes('already voted')) {
-        toast.warning('You have already voted for this product!');
+      if (error.message && error.message.includes("already voted")) {
+        toast.warning("You have already voted for this product!");
       } else {
-        toast.error('Failed to submit vote. Please try again.');
+        toast.error("Failed to submit vote. Please try again.");
       }
     } finally {
       setIsSubmitting(false);
@@ -89,24 +100,27 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
 
   const checkExistingStatus = async () => {
     if (!formData.email.trim()) {
-      toast.error('Please enter your email first');
+      toast.error("Please enter your email first");
       return;
     }
     if (!product) {
-      toast.error('Product is required');
+      toast.error("Product is required");
       return;
     }
     setIsChecking(true);
     try {
-      const result = await checkClothingVoteStatus(formData.email, product.categoryId);
+      const result = await checkClothingVoteStatus(
+        formData.email,
+        product.categoryId,
+      );
       setVoteInfo({ position: result.position, total: result.totalVotes });
       if (result.hasVoted) {
-        toast.info('You have already voted for this product!');
+        toast.info("You have already voted for this product!");
       } else {
-        toast.info('You have not voted for this product yet.');
+        toast.info("You have not voted for this product yet.");
       }
     } catch (error) {
-      toast.error('Failed to check vote status');
+      toast.error("Failed to check vote status");
     } finally {
       setIsChecking(false);
     }
@@ -116,11 +130,15 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
 
   // Progress bar calculation
   const { position, total } = voteInfo;
-  const progressPercent = position && total ? Math.round((position / total) * 100) : 0;
+  const progressPercent =
+    position && total ? Math.round((position / total) * 100) : 0;
 
   return (
     <div className={styles.productVoteModalOverlay} onClick={onClose}>
-      <div className={styles.productVoteModal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.productVoteModal}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.productVoteModalHeader}>
           <h2>Vote for Product</h2>
           <button className={styles.productVoteModalClose} onClick={onClose}>
@@ -130,21 +148,32 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
         <div className={styles.productVoteModalContent}>
           {product && (
             <div className={styles.productInfo}>
-              <h3>{product.name || 'Product'}</h3>
-              <p>Show your interest in this specific product. If enough people vote, we'll make it happen!</p>
+              <h3>{product.name || "Product"}</h3>
+              <p>
+                Show your interest in this specific product. If enough people
+                vote, we'll make it happen!
+              </p>
             </div>
           )}
           <div className={styles.voteDescription}>
             <p>
-              🎯 <strong>Make it happen!</strong> Vote for this product and help us decide which pieces to produce next.
+              🎯 <strong>Make it happen!</strong> Vote for this product and help
+              us decide which pieces to produce next.
             </p>
             <p>
-              📧 We'll notify you via email when we have enough interest to start production, and you'll get 
-              early access before anyone else.
+              📧 We'll notify you via email when we have enough interest to
+              start production, and you'll get early access before anyone else.
             </p>
             {!user && (
-              <p style={{ color: 'var(--accent-primary)', fontWeight: '600', fontSize: '0.9rem' }}>
-                💡 <strong>Tip:</strong> Log in for accurate vote tracking and better experience!
+              <p
+                style={{
+                  color: "var(--accent-primary)",
+                  fontWeight: "600",
+                  fontSize: "0.9rem",
+                }}
+              >
+                💡 <strong>Tip:</strong> Log in for accurate vote tracking and
+                better experience!
               </p>
             )}
           </div>
@@ -153,13 +182,20 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
           {position && total ? (
             <div className={styles.voteProgressSection}>
               <div className={styles.voteProgressLabel}>
-                <span>🎉 Your Position: <strong>{position}</strong> / {total}</span>
+                <span>
+                  🎉 Your Position: <strong>{position}</strong> / {total}
+                </span>
               </div>
               <div className={styles.voteProgressBarBg}>
-                <div className={styles.voteProgressBar} style={{ width: `${progressPercent}%` }}></div>
+                <div
+                  className={styles.voteProgressBar}
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
               </div>
               <div className={styles.voteProgressText}>
-                {progressPercent === 1 ? 'You were the first to vote!' : `You're in the top ${progressPercent}% of voters!`}
+                {progressPercent === 1
+                  ? "You were the first to vote!"
+                  : `You're in the top ${progressPercent}% of voters!`}
               </div>
             </div>
           ) : null}
@@ -196,7 +232,7 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
                   onClick={checkExistingStatus}
                   disabled={isChecking}
                 >
-                  {isChecking ? 'Checking...' : 'Check Status'}
+                  {isChecking ? "Checking..." : "Check Status"}
                 </button>
               </div>
             </div>
@@ -214,7 +250,9 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="priceRange">Preferred Price Range (Optional)</label>
+              <label htmlFor="priceRange">
+                Preferred Price Range (Optional)
+              </label>
               <select
                 id="priceRange"
                 name="priceRange"
@@ -255,7 +293,7 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
                 className={styles.voteBtn}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Submitting...' : 'Vote'}
+                {isSubmitting ? "Submitting..." : "Vote"}
               </button>
             </div>
           </form>
@@ -274,4 +312,4 @@ const ProductVoteModal = ({ isOpen, onClose, product = null }) => {
   );
 };
 
-export default ProductVoteModal; 
+export default ProductVoteModal;

@@ -67,4 +67,4 @@ export const uploadProfilePicture = async (file) => {
     );
     throw error;
   }
-}; 
+};

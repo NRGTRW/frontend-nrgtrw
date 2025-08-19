@@ -31,7 +31,7 @@
   --border-color: #444;
   --card-bg: #23211a;
   --card-border: #bfa14a33;
-  --shadow: 0 4px 10px rgba(0,0,0,0.25);
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -39,7 +39,9 @@ body {
   background: var(--bg-primary, #fff);
   color: var(--text-primary, #000);
   line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 a {
@@ -55,7 +57,7 @@ img {
   top: 80px !important;
 }
 
-.global-Colors{
+.global-Colors {
   --toast_default_colors: predefined;
   --success: #28a745;
   --danger: #dc3545;

@@ -13,7 +13,24 @@ const CreateAProductPage = () => {
   // Default sizes for the product.
   const defaultSizes = ["S", "M", "L", "XL"];
   const phoneCaseSizes = [
-    "iPhone 16", "iPhone 16 Pro", "iPhone 16 Plus", "iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro Max", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone 11 Pro", "iPhone 12"
+    "iPhone 16",
+    "iPhone 16 Pro",
+    "iPhone 16 Plus",
+    "iPhone 15",
+    "iPhone 15 Plus",
+    "iPhone 15 Pro Max",
+    "iPhone 14 Plus",
+    "iPhone 14 Pro",
+    "iPhone 14 Pro Max",
+    "iPhone 13",
+    "iPhone 13 Pro",
+    "iPhone 13 Pro Max",
+    "iPhone 12 Pro",
+    "iPhone 12 Pro Max",
+    "iPhone 11",
+    "iPhone 11 Pro Max",
+    "iPhone 11 Pro",
+    "iPhone 12",
   ];
 
   // State for categories (fetched from the API).
@@ -23,7 +40,7 @@ const CreateAProductPage = () => {
   const [accessoryType, setAccessoryType] = useState("");
 
   // Add availability state:
-  const [availability, setAvailability] = useState('available');
+  const [availability, setAvailability] = useState("available");
 
   // State for product form values.
   // Separate fields for English and Bulgarian translations.
@@ -53,15 +70,15 @@ const CreateAProductPage = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/categories`
+          `${import.meta.env.VITE_API_URL}/categories`,
         );
         let fetched = response.data || [];
-  
+
         // Add 'Accessories' only if it doesn't exist
-        if (!fetched.some(cat => cat.name === 'Accessories')) {
-          fetched.push({ id: 'accessories', name: 'Accessories' });
+        if (!fetched.some((cat) => cat.name === "Accessories")) {
+          fetched.push({ id: "accessories", name: "Accessories" });
         }
-  
+
         setCategories(fetched);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -70,13 +87,15 @@ const CreateAProductPage = () => {
     };
     fetchCategories();
   }, []);
-  
 
   // Add this to the categories fetch effect, after categories are loaded:
   useEffect(() => {
     // Add 'Accessories' as a category if not present
-    if (!categories.some(cat => cat.name === 'Accessories')) {
-      setCategories(prev => [...prev, { id: 'accessories', name: 'Accessories' }]);
+    if (!categories.some((cat) => cat.name === "Accessories")) {
+      setCategories((prev) => [
+        ...prev,
+        { id: "accessories", name: "Accessories" },
+      ]);
     }
   }, [categories]);
 
@@ -85,7 +104,8 @@ const CreateAProductPage = () => {
     return () => {
       productDetails.colors.forEach((color) => {
         if (color.imageUrlPreview) URL.revokeObjectURL(color.imageUrlPreview);
-        if (color.hoverImagePreview) URL.revokeObjectURL(color.hoverImagePreview);
+        if (color.hoverImagePreview)
+          URL.revokeObjectURL(color.hoverImagePreview);
       });
     };
   }, [productDetails]);
@@ -176,15 +196,22 @@ const CreateAProductPage = () => {
   // Validate form fields.
   const validateForm = () => {
     const newErrors = {};
-    if (!productDetails.enName.trim()) newErrors.enName = "English Name is required";
-    if (!productDetails.enDescription.trim()) newErrors.enDescription = "English Description is required";
-    if (!productDetails.price || parseFloat(productDetails.price) <= 0) newErrors.price = "Valid price is required";
+    if (!productDetails.enName.trim())
+      newErrors.enName = "English Name is required";
+    if (!productDetails.enDescription.trim())
+      newErrors.enDescription = "English Description is required";
+    if (!productDetails.price || parseFloat(productDetails.price) <= 0)
+      newErrors.price = "Valid price is required";
     if (!productDetails.category) newErrors.category = "Category is required";
-    if (!productDetails.sizes || productDetails.sizes.length === 0) newErrors.sizes = "At least one size must be selected";
+    if (!productDetails.sizes || productDetails.sizes.length === 0)
+      newErrors.sizes = "At least one size must be selected";
     productDetails.colors.forEach((color, index) => {
-      if (!color.colorName.trim()) newErrors[`colorName_${index}`] = "Color name is required";
-      if (!(color.imageUrl instanceof File)) newErrors[`colorImage_${index}`] = "Color image is required";
-      if (!(color.hoverImage instanceof File)) newErrors[`colorHoverImage_${index}`] = "Color hover image is required";
+      if (!color.colorName.trim())
+        newErrors[`colorName_${index}`] = "Color name is required";
+      if (!(color.imageUrl instanceof File))
+        newErrors[`colorImage_${index}`] = "Color image is required";
+      if (!(color.hoverImage instanceof File))
+        newErrors[`colorHoverImage_${index}`] = "Color hover image is required";
     });
     return newErrors;
   };
@@ -210,13 +237,18 @@ const CreateAProductPage = () => {
     const bgDescription = "AUTO-GENERATED";
 
     // For fallback, find the real id for 'Available' from categories:
-    const availableCategory = categories.find(cat => cat.name === 'Available');
+    const availableCategory = categories.find(
+      (cat) => cat.name === "Available",
+    );
 
     // Build payload for product creation.
     // (Notice that the translation fields are included at the top level)
-    const categoryIdToSend = (availability === 'available' && !productDetails.category && availableCategory)
-      ? availableCategory.id
-      : Number(productDetails.category);
+    const categoryIdToSend =
+      availability === "available" &&
+      !productDetails.category &&
+      availableCategory
+        ? availableCategory.id
+        : Number(productDetails.category);
     const productData = {
       enName,
       enDescription,
@@ -258,7 +290,7 @@ const CreateAProductPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-        }
+        },
       );
       if (response.data.success) {
         const productId = response.data.product.id;
@@ -299,7 +331,7 @@ const CreateAProductPage = () => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Image upload failed:", error);
@@ -312,9 +344,10 @@ const CreateAProductPage = () => {
   };
 
   // Remove 'Available' and duplicate 'Accessories' from categories in the selector:
-  const filteredCategories = categories.filter((cat, idx, arr) =>
-    cat.name !== 'Available' &&
-    arr.findIndex(c => c.name === cat.name) === idx
+  const filteredCategories = categories.filter(
+    (cat, idx, arr) =>
+      cat.name !== "Available" &&
+      arr.findIndex((c) => c.name === cat.name) === idx,
   );
 
   return (
@@ -339,10 +372,14 @@ const CreateAProductPage = () => {
                   name="colorName"
                   placeholder="Color Name"
                   value={color.colorName}
-                  onChange={(e) => handleColorInputChange(e, index, "colorName")}
+                  onChange={(e) =>
+                    handleColorInputChange(e, index, "colorName")
+                  }
                 />
                 {errors[`colorName_${index}`] && (
-                  <span className="cp-page__error">{errors[`colorName_${index}`]}</span>
+                  <span className="cp-page__error">
+                    {errors[`colorName_${index}`]}
+                  </span>
                 )}
                 <input
                   type="file"
@@ -352,7 +389,9 @@ const CreateAProductPage = () => {
                   onChange={(e) => handleColorInputChange(e, index, "imageUrl")}
                 />
                 {errors[`colorImage_${index}`] && (
-                  <span className="cp-page__error">{errors[`colorImage_${index}`]}</span>
+                  <span className="cp-page__error">
+                    {errors[`colorImage_${index}`]}
+                  </span>
                 )}
                 {color.imageUrlPreview && (
                   <div className="cp-page__preview-container">
@@ -368,10 +407,14 @@ const CreateAProductPage = () => {
                   className="cp-page__file-input"
                   name="hoverImage"
                   accept="image/*"
-                  onChange={(e) => handleColorInputChange(e, index, "hoverImage")}
+                  onChange={(e) =>
+                    handleColorInputChange(e, index, "hoverImage")
+                  }
                 />
                 {errors[`colorHoverImage_${index}`] && (
-                  <span className="cp-page__error">{errors[`colorHoverImage_${index}`]}</span>
+                  <span className="cp-page__error">
+                    {errors[`colorHoverImage_${index}`]}
+                  </span>
                 )}
                 {color.hoverImagePreview && (
                   <div className="cp-page__preview-container">
@@ -419,11 +462,14 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter English product name"
             />
-            {errors.enName && <span className="cp-page__error">{errors.enName}</span>}
+            {errors.enName && (
+              <span className="cp-page__error">{errors.enName}</span>
+            )}
           </div>
           <div className="cp-page__input-group">
             <label>
-              English Description <span className="cp-page__required-marker">*</span>
+              English Description{" "}
+              <span className="cp-page__required-marker">*</span>
             </label>
             <textarea
               className="cp-page__form-textarea"
@@ -432,7 +478,9 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter English product description"
             ></textarea>
-            {errors.enDescription && <span className="cp-page__error">{errors.enDescription}</span>}
+            {errors.enDescription && (
+              <span className="cp-page__error">{errors.enDescription}</span>
+            )}
           </div>
 
           {/* Other product details */}
@@ -448,7 +496,9 @@ const CreateAProductPage = () => {
               onChange={handleInputChange}
               placeholder="Enter product price"
             />
-            {errors.price && <span className="cp-page__error">{errors.price}</span>}
+            {errors.price && (
+              <span className="cp-page__error">{errors.price}</span>
+            )}
           </div>
 
           <div className="cp-page__input-group">
@@ -456,7 +506,7 @@ const CreateAProductPage = () => {
             <select
               className="cp-page__form-select"
               value={availability}
-              onChange={e => setAvailability(e.target.value)}
+              onChange={(e) => setAvailability(e.target.value)}
               required
             >
               <option value="available">Available</option>
@@ -472,9 +522,9 @@ const CreateAProductPage = () => {
               className="cp-page__form-select"
               name="category"
               value={productDetails.category}
-              onChange={e => {
+              onChange={(e) => {
                 handleInputChange(e);
-                if (e.target.value === 'accessories') setAccessoryType("");
+                if (e.target.value === "accessories") setAccessoryType("");
               }}
               required
             >
@@ -485,16 +535,18 @@ const CreateAProductPage = () => {
                 </option>
               ))}
             </select>
-            {errors.category && <span className="cp-page__error">{errors.category}</span>}
+            {errors.category && (
+              <span className="cp-page__error">{errors.category}</span>
+            )}
           </div>
 
-          {productDetails.category === 'accessories' && (
+          {productDetails.category === "accessories" && (
             <div className="cp-page__input-group">
               <label>Accessory Type</label>
               <select
                 className="cp-page__form-select"
                 value={accessoryType}
-                onChange={e => setAccessoryType(e.target.value)}
+                onChange={(e) => setAccessoryType(e.target.value)}
                 required
               >
                 <option value="">Select Type</option>
@@ -509,29 +561,27 @@ const CreateAProductPage = () => {
               Sizes <span className="cp-page__required-marker">*</span>
             </label>
             <div className="cp-page__size-manager">
-            {productDetails.category === 'accessories' ? (
-  phoneCaseSizes.map((size) => (
-    <button
-      key={size}
-      type="button"
-      className="cp-page__size-btn"
-      onClick={() => handleSizeChange("add", size)}
-    >
-      Add {size}
-    </button>
-  ))
-) : (
-  defaultSizes.map((size) => (
-    <button
-      key={size}
-      type="button"
-      className="cp-page__size-btn"
-      onClick={() => handleSizeChange("add", size)}
-    >
-      Add {size}
-    </button>
-  ))
-)}
+              {productDetails.category === "accessories"
+                ? phoneCaseSizes.map((size) => (
+                    <button
+                      key={size}
+                      type="button"
+                      className="cp-page__size-btn"
+                      onClick={() => handleSizeChange("add", size)}
+                    >
+                      Add {size}
+                    </button>
+                  ))
+                : defaultSizes.map((size) => (
+                    <button
+                      key={size}
+                      type="button"
+                      className="cp-page__size-btn"
+                      onClick={() => handleSizeChange("add", size)}
+                    >
+                      Add {size}
+                    </button>
+                  ))}
 
               {productDetails.sizes.map((size) => (
                 <div key={size} className="cp-page__size-tag">
@@ -546,7 +596,9 @@ const CreateAProductPage = () => {
                 </div>
               ))}
             </div>
-            {errors.sizes && <span className="cp-page__error">{errors.sizes}</span>}
+            {errors.sizes && (
+              <span className="cp-page__error">{errors.sizes}</span>
+            )}
           </div>
 
           <button

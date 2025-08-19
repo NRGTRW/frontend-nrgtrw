@@ -1,87 +1,100 @@
 /* FAB Variables & Dark‑Mode */
 :root {
-    --fab-size:       3.5rem;   /* 56px */
-    --fab-size-sm:    2.75rem;  /* 44px */
-    --fab-gradient:   linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    --fab-gradient-r: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
-    --fab-shadow:     0 6px 24px rgba(0, 0, 0, 0.18), 0 1.5px 6px rgba(0, 102, 204, 0.6);
-    --fab-shadow-hv:  0 8px 32px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(145, 181, 0, 0.6);
+  --fab-size: 3.5rem; /* 56px */
+  --fab-size-sm: 2.75rem; /* 44px */
+  --fab-gradient: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
+  --fab-gradient-r: linear-gradient(
+    135deg,
+    var(--accent-secondary),
+    var(--accent-primary)
+  );
+  --fab-shadow: 0 6px 24px rgba(0, 0, 0, 0.18),
+    0 1.5px 6px rgba(0, 102, 204, 0.6);
+  --fab-shadow-hv: 0 8px 32px rgba(255, 255, 255, 0.6),
+    0 2px 8px rgba(145, 181, 0, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fab-shadow: 0 6px 24px rgba(0, 0, 0, 0.6),
+      0 1.5px 6px rgba(0, 102, 204, 0.8);
+    --fab-shadow-hv: 0 8px 32px rgba(255, 255, 255, 0.8),
+      0 2px 8px rgba(255, 255, 255, 0.8);
   }
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fab-shadow:    0 6px 24px rgba(0, 0, 0, 0.6), 0 1.5px 6px rgba(0, 102, 204, 0.8);
-      --fab-shadow-hv: 0 8px 32px rgba(255, 255, 255, 0.8), 0 2px 8px rgba(255, 255, 255, 0.8);
-    }
+}
+
+@keyframes feedback-glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.18);
+    filter: brightness(1.01);
   }
-  
-  @keyframes feedback-glow-pulse {
-    0%, 100% {
-      box-shadow: 0 0 8px 2px rgba(255,255,255,0.18);
-      filter: brightness(1.01);
-    }
-    50% {
-      box-shadow: 0 0 14px 4px rgba(255,255,255,0.22);
-      filter: brightness(1.04);
-    }
+  50% {
+    box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.22);
+    filter: brightness(1.04);
   }
-  
+}
+
+.chat-fab {
+  position: fixed;
+  bottom: 2rem; /* 32px */
+  right: 2rem; /* 32px */
+  z-index: 9999;
+
+  width: var(--fab-size);
+  height: var(--fab-size);
+  /* background: var(--fab-gradient); */
+  background: transparent;
+  color: var(--text-primary);
+
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--fab-shadow);
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2rem;
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
+  animation: feedback-glow-pulse 3.2s ease-in-out infinite;
+}
+
+.chat-fab:hover,
+.chat-fab:focus {
+  /* background: var(--fab-gradient-r); */
+  box-shadow: var(--fab-shadow-hv);
+  transform: scale(1.08);
+}
+
+/* Visible focus ring for keyboard users */
+.chat-fab:focus {
+  box-shadow:
+    0 0 0 3px rgba(0, 102, 204, 0.4),
+    var(--fab-shadow-hv);
+}
+
+/* Responsive sizing */
+@media (max-width: 600px) {
   .chat-fab {
-    position: fixed;
-    bottom: 2rem;   /* 32px */
-    right: 2rem;    /* 32px */
-    z-index: 9999;
-  
-    width: var(--fab-size);
-    height: var(--fab-size);
-    /* background: var(--fab-gradient); */
-    background: transparent;
-    color: var(--text-primary);
-  
-    border: none;
-    border-radius: 50%;
-    box-shadow: var(--fab-shadow);
-    backdrop-filter: blur(6px);
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    font-size: 2rem;
-    cursor: pointer;
-    outline: none;
-  
-    transition:
-      background 0.25s ease,
-      box-shadow 0.25s ease,
-      transform 0.15s ease;
-    animation: feedback-glow-pulse 3.2s ease-in-out infinite;
+    bottom: 1rem; /* 16px */
+    right: 1rem; /* 16px */
+    width: var(--fab-size-sm);
+    height: var(--fab-size-sm);
+    font-size: 1.4rem;
   }
-  
-  .chat-fab:hover,
-  .chat-fab:focus {
-    /* background: var(--fab-gradient-r); */
-    box-shadow: var(--fab-shadow-hv);
-    transform: scale(1.08);
-  }
-  
-  /* Visible focus ring for keyboard users */
-  .chat-fab:focus {
-    box-shadow:
-      0 0 0 3px rgba(0, 102, 204, 0.4),
-      var(--fab-shadow-hv);
-  }
-  
-  /* Responsive sizing */
-  @media (max-width: 600px) {
-    .chat-fab {
-      bottom: 1rem;  /* 16px */
-      right: 1rem;   /* 16px */
-      width: var(--fab-size-sm);
-      height: var(--fab-size-sm);
-      font-size: 1.4rem;
-    }
-  }
+}
 
 .chat-icon {
   width: 36px !important;
@@ -89,4 +102,3 @@
   display: inline-block;
   vertical-align: middle;
 }
-  

@@ -79,16 +79,16 @@
     width: 50px;
     height: 28px;
   }
-  
+
   .toggle-thumb {
     width: 20px;
     height: 20px;
   }
-  
+
   .theme-toggle.dark .toggle-thumb {
     transform: translateX(22px);
   }
-  
+
   .sun-icon,
   .moon-icon {
     width: 12px;
@@ -101,19 +101,19 @@
     width: 45px;
     height: 26px;
   }
-  
+
   .toggle-thumb {
     width: 18px;
     height: 18px;
   }
-  
+
   .theme-toggle.dark .toggle-thumb {
     transform: translateX(19px);
   }
-  
+
   .sun-icon,
   .moon-icon {
     width: 11px;
     height: 11px;
   }
-} 
+}

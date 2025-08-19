@@ -1,44 +1,48 @@
-import React, { useState } from 'react';
-import './ProfileUpgrades.css';
-import { getUserAccess } from '../../utils/accessControl';
-import { useProfile } from '../../context/ProfileContext';
+import React, { useState } from "react";
+import "./ProfileUpgrades.css";
+import { getUserAccess } from "../../utils/accessControl";
+import { useProfile } from "../../context/ProfileContext";
 
 const ProfileUpgrades = ({ isOpen, onClose, user }) => {
   const { saveProfile, reloadProfile } = useProfile();
   const access = getUserAccess(user);
-  const [selectedAvatar, setSelectedAvatar] = useState(user?.avatar || '');
-  const [selectedTheme, setSelectedTheme] = useState(user?.theme || '');
+  const [selectedAvatar, setSelectedAvatar] = useState(user?.avatar || "");
+  const [selectedTheme, setSelectedTheme] = useState(user?.theme || "");
   const [isUpdating, setIsUpdating] = useState(false);
 
   // Premium features in progress
   const avatars = [
-    { id: 'astronaut', name: 'Astronaut', icon: '👨‍🚀', premium: true },
-    { id: 'ninja', name: 'Ninja', icon: '🥷', premium: true },
-    { id: 'wizard', name: 'Wizard', icon: '🧙‍♂️', premium: true },
-    { id: 'robot', name: 'Robot', icon: '🤖', premium: true },
-    { id: 'dragon', name: 'Dragon', icon: '🐉', premium: true },
-    { id: 'phoenix', name: 'Phoenix', icon: '🦅', premium: true },
-    { id: 'cyber', name: 'Cyber', icon: '⚡', premium: true },
-    { id: 'knight', name: 'Knight', icon: '⚔️', premium: true },
+    { id: "astronaut", name: "Astronaut", icon: "👨‍🚀", premium: true },
+    { id: "ninja", name: "Ninja", icon: "🥷", premium: true },
+    { id: "wizard", name: "Wizard", icon: "🧙‍♂️", premium: true },
+    { id: "robot", name: "Robot", icon: "🤖", premium: true },
+    { id: "dragon", name: "Dragon", icon: "🐉", premium: true },
+    { id: "phoenix", name: "Phoenix", icon: "🦅", premium: true },
+    { id: "cyber", name: "Cyber", icon: "⚡", premium: true },
+    { id: "knight", name: "Knight", icon: "⚔️", premium: true },
   ];
 
   const themes = [
-    { id: 'cosmic', name: 'Cosmic', preview: '✨', premium: true },
-    { id: 'neon', name: 'Neon', preview: '💫', premium: true },
-    { id: 'vintage', name: 'Vintage', preview: '📷', premium: true },
-    { id: 'minimal', name: 'Minimal', preview: '⚪', premium: true },
-    { id: 'ocean', name: 'Ocean', preview: '🌊', premium: true },
-    { id: 'forest', name: 'Forest', preview: '🌲', premium: true },
+    { id: "cosmic", name: "Cosmic", preview: "✨", premium: true },
+    { id: "neon", name: "Neon", preview: "💫", premium: true },
+    { id: "vintage", name: "Vintage", preview: "📷", premium: true },
+    { id: "minimal", name: "Minimal", preview: "⚪", premium: true },
+    { id: "ocean", name: "Ocean", preview: "🌊", premium: true },
+    { id: "forest", name: "Forest", preview: "🌲", premium: true },
   ];
 
   const handleAvatarChange = async (avatarId) => {
     // Feature in progress - show coming soon message
-    alert('Custom avatars coming soon! This premium feature is currently in development.');
+    alert(
+      "Custom avatars coming soon! This premium feature is currently in development.",
+    );
   };
 
   const handleThemeChange = async (themeId) => {
     // Feature in progress - show coming soon message
-    alert('Custom themes coming soon! This premium feature is currently in development.');
+    alert(
+      "Custom themes coming soon! This premium feature is currently in development.",
+    );
   };
 
   const handleSave = async () => {
@@ -50,15 +54,22 @@ const ProfileUpgrades = ({ isOpen, onClose, user }) => {
 
   return (
     <div className="profile-upgrades-overlay" onClick={onClose}>
-      <div className="profile-upgrades-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="profile-upgrades-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="upgrades-header">
           <h2>Profile Upgrades</h2>
-          <button className="upgrades-close-btn" onClick={onClose} aria-label="Close">
+          <button
+            className="upgrades-close-btn"
+            onClick={onClose}
+            aria-label="Close"
+          >
             ×
           </button>
         </div>
-        
+
         {/* Premium Banner */}
         {!access.canAccessPremium && (
           <div className="premium-banner">
@@ -68,7 +79,10 @@ const ProfileUpgrades = ({ isOpen, onClose, user }) => {
                 <h3>Upgrade to Premium</h3>
                 <p>Unlock exclusive avatars, themes, and features</p>
               </div>
-              <button className="upgrade-btn" onClick={() => alert('Premium upgrade coming soon!')}>
+              <button
+                className="upgrade-btn"
+                onClick={() => alert("Premium upgrade coming soon!")}
+              >
                 Upgrade Now
               </button>
             </div>
@@ -125,4 +139,4 @@ const ProfileUpgrades = ({ isOpen, onClose, user }) => {
   );
 };
 
-export default ProfileUpgrades; 
+export default ProfileUpgrades;

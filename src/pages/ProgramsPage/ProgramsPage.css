@@ -25,7 +25,7 @@
   min-height: 100vh;
   background: var(--fitness-bg);
   padding: 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: var(--fitness-text);
 }
 
@@ -51,8 +51,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Program Header */
@@ -226,8 +230,13 @@
 }
 
 @keyframes mistFloat {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 0.9; }
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 
 /* Lock Message */
@@ -264,8 +273,13 @@
 }
 
 @keyframes lockPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .lock-message h4 {
@@ -331,13 +345,23 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .access-modal-content {
@@ -747,84 +771,84 @@
     background: var(--fitness-bg);
     color: var(--fitness-text);
   }
-  
+
   .program-header,
   .program-content {
     background: var(--fitness-card-bg);
     color: var(--fitness-text);
     border: 1px solid var(--fitness-card-border);
   }
-  
+
   .program-title,
   .tab-content h3 {
     color: var(--fitness-text);
   }
-  
+
   .program-description,
   .meta-item {
     color: var(--fitness-text);
     opacity: 0.8;
   }
-  
+
   .meta-item {
     background: var(--fitness-bg);
     border: 1px solid var(--fitness-card-border);
   }
-  
+
   .tab-button {
     color: var(--fitness-text);
     opacity: 0.7;
   }
-  
+
   .tab-button.active {
     color: var(--fitness-btn);
     background: var(--fitness-card-bg);
     border-bottom-color: var(--fitness-btn);
     opacity: 1;
   }
-  
+
   .admin-badge {
     background: var(--fitness-btn);
     color: var(--fitness-text);
   }
-  
+
   .download-pdf-button {
     background: var(--fitness-btn);
     color: var(--fitness-text);
   }
-  
+
   .download-pdf-button:hover {
     background: var(--fitness-btn-hover-bg);
     color: var(--fitness-btn-hover-text);
   }
-  
+
   .pdf-note {
     color: var(--fitness-text);
     opacity: 0.7;
   }
-  
+
   .back-button {
     background: var(--fitness-btn);
     color: var(--fitness-text);
   }
-  
+
   .back-button:hover {
     background: var(--fitness-btn-hover-bg);
     color: var(--fitness-btn-hover-text);
   }
-  
+
   .no-content {
     color: var(--fitness-text);
     opacity: 0.7;
   }
-  
+
   .meta-item {
     background: var(--fitness-bg);
     color: var(--fitness-text);
     border: 1px solid var(--fitness-card-border);
   }
-  
+
   .overview-card li:before {
     color: var(--fitness-btn);
   }
-} 
+}

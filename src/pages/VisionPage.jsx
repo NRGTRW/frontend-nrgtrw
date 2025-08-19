@@ -4,7 +4,16 @@ import "./VisionPage.css";
 const VisionPage = () => {
   return (
     <div className="vision-page dark-mode vision-image-bg-only">
-      <div className="hero-content simple" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div
+        className="hero-content simple"
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <h1 className="cosmic-title">Our Vision</h1>
         <div className="cosmic-video-player animate-video-reveal">
           <iframe
@@ -23,4 +32,4 @@ const VisionPage = () => {
   );
 };
 
-export default VisionPage; 
+export default VisionPage;

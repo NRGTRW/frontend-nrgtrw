@@ -1,48 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { joinWaitlist, checkWaitlistStatus } from '../../services/api';
-import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
-import './WaitlistModal.css';
+import React, { useState, useEffect } from "react";
+import { joinWaitlist, checkWaitlistStatus } from "../../services/api";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
+import "./WaitlistModal.css";
 
 const WaitlistModal = ({ isOpen, onClose, program = null }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
-  const [waitlistInfo, setWaitlistInfo] = useState({ position: null, total: 0 });
+  const [waitlistInfo, setWaitlistInfo] = useState({
+    position: null,
+    total: 0,
+  });
 
   useEffect(() => {
     if (user) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        name: user.name || '',
-        email: user.email || ''
+        name: user.name || "",
+        email: user.email || "",
       }));
     }
   }, [user, isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) {
-      toast.error('Name and email are required');
+      toast.error("Name and email are required");
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
       return;
     }
     setIsSubmitting(true);
@@ -51,20 +54,22 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        message: formData.message
+        message: formData.message,
       };
       await joinWaitlist(waitlistData);
       // Fetch position and total after joining
       const status = await checkWaitlistStatus(formData.email);
       setWaitlistInfo({ position: status.position, total: status.total });
-      toast.success('Successfully joined the waitlist! You will be notified for all fitness programs.');
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      toast.success(
+        "Successfully joined the waitlist! You will be notified for all fitness programs.",
+      );
+      setFormData({ name: "", email: "", phone: "", message: "" });
       // Don't close modal immediately, show position/progress
     } catch (error) {
-      if (error.message && error.message.includes('already on the waitlist')) {
-        toast.warning('You are already on the waitlist for all programs!');
+      if (error.message && error.message.includes("already on the waitlist")) {
+        toast.warning("You are already on the waitlist for all programs!");
       } else {
-        toast.error('Failed to join waitlist. Please try again.');
+        toast.error("Failed to join waitlist. Please try again.");
       }
     } finally {
       setIsSubmitting(false);
@@ -73,7 +78,7 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
 
   const checkExistingStatus = async () => {
     if (!formData.email.trim()) {
-      toast.error('Please enter your email first');
+      toast.error("Please enter your email first");
       return;
     }
     setIsChecking(true);
@@ -81,12 +86,12 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
       const result = await checkWaitlistStatus(formData.email);
       setWaitlistInfo({ position: result.position, total: result.total });
       if (result.isOnWaitlist) {
-        toast.info('You are already on the waitlist for all programs!');
+        toast.info("You are already on the waitlist for all programs!");
       } else {
-        toast.info('You are not currently on the waitlist.');
+        toast.info("You are not currently on the waitlist.");
       }
     } catch (error) {
-      toast.error('Failed to check waitlist status');
+      toast.error("Failed to check waitlist status");
     } finally {
       setIsChecking(false);
     }
@@ -96,7 +101,8 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
 
   // Progress bar calculation
   const { position, total } = waitlistInfo;
-  const progressPercent = position && total ? Math.round((position / total) * 100) : 0;
+  const progressPercent =
+    position && total ? Math.round((position / total) * 100) : 0;
 
   return (
     <div className="waitlist-modal-overlay" onClick={onClose}>
@@ -116,12 +122,13 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
           )}
           <div className="waitlist-description">
             <p>
-              🎯 <strong>Be the first to know!</strong> Join our exclusive waitlist and get early access 
-              to this premium fitness program when it becomes available.
+              🎯 <strong>Be the first to know!</strong> Join our exclusive
+              waitlist and get early access to this premium fitness program when
+              it becomes available.
             </p>
             <p>
-              📧 We'll notify you via email as soon as the program launches, and you'll get 
-              priority access before the general public.
+              📧 We'll notify you via email as soon as the program launches, and
+              you'll get priority access before the general public.
             </p>
           </div>
 
@@ -129,13 +136,20 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
           {position && total ? (
             <div className="waitlist-progress-section">
               <div className="waitlist-progress-label">
-                <span>🎉 Your Position: <strong>{position}</strong> / {total}</span>
+                <span>
+                  🎉 Your Position: <strong>{position}</strong> / {total}
+                </span>
               </div>
               <div className="waitlist-progress-bar-bg">
-                <div className="waitlist-progress-bar" style={{ width: `${progressPercent}%` }}></div>
+                <div
+                  className="waitlist-progress-bar"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
               </div>
               <div className="waitlist-progress-text">
-                {progressPercent === 1 ? 'You are first in line!' : `You're in the top ${progressPercent}% of the waitlist!`}
+                {progressPercent === 1
+                  ? "You are first in line!"
+                  : `You're in the top ${progressPercent}% of the waitlist!`}
               </div>
             </div>
           ) : null}
@@ -172,7 +186,7 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
                   onClick={checkExistingStatus}
                   disabled={isChecking}
                 >
-                  {isChecking ? 'Checking...' : 'Check Status'}
+                  {isChecking ? "Checking..." : "Check Status"}
                 </button>
               </div>
             </div>
@@ -215,7 +229,7 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
                 className="join-btn"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+                {isSubmitting ? "Joining..." : "Join Waitlist"}
               </button>
             </div>
           </form>
@@ -235,4 +249,4 @@ const WaitlistModal = ({ isOpen, onClose, program = null }) => {
   );
 };
 
-export default WaitlistModal; 
+export default WaitlistModal;

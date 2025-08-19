@@ -84,7 +84,7 @@ const UserRow = ({ user, profilePicture, defaultProfilePicture }) => {
       onClick={handleClick}
     >
       {/* Profile Image */}
-      <div style={{ position: 'relative', display: 'inline-block' }}>
+      <div style={{ position: "relative", display: "inline-block" }}>
         <img
           src={profilePicture}
           alt="User profile"

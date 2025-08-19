@@ -28,7 +28,9 @@
   border-radius: 15px;
   padding: 25px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .testimonial-card:hover {
@@ -206,17 +208,17 @@
   .testimonials-title {
     font-size: 2rem;
   }
-  
+
   .testimonials-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .testimonial-form {
     margin: 0 20px;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
-} 
+}

@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { debounce } from '../../utils/performance';
-import './AdvancedSearch.css';
+import React, { useState, useEffect, useCallback } from "react";
+import { debounce } from "../../utils/performance";
+import "./AdvancedSearch.css";
 
 const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
-    category: '',
-    priceRange: '',
-    size: '',
-    color: '',
-    sortBy: 'name',
-    sortOrder: 'asc'
+    category: "",
+    priceRange: "",
+    size: "",
+    color: "",
+    sortBy: "name",
+    sortOrder: "asc",
   });
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -22,7 +22,7 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
       setSearchResults(results);
       onSearch?.(results);
     }, 300),
-    [products, onSearch]
+    [products, onSearch],
   );
 
   useEffect(() => {
@@ -35,24 +35,25 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
     // Text search
     if (term) {
       const searchLower = term.toLowerCase();
-      results = results.filter(product => 
-        product.name?.toLowerCase().includes(searchLower) ||
-        product.description?.toLowerCase().includes(searchLower) ||
-        product.category?.toLowerCase().includes(searchLower)
+      results = results.filter(
+        (product) =>
+          product.name?.toLowerCase().includes(searchLower) ||
+          product.description?.toLowerCase().includes(searchLower) ||
+          product.category?.toLowerCase().includes(searchLower),
       );
     }
 
     // Category filter
     if (filterOptions.category) {
-      results = results.filter(product => 
-        product.category === filterOptions.category
+      results = results.filter(
+        (product) => product.category === filterOptions.category,
       );
     }
 
     // Price range filter
     if (filterOptions.priceRange) {
-      const [min, max] = filterOptions.priceRange.split('-').map(Number);
-      results = results.filter(product => {
+      const [min, max] = filterOptions.priceRange.split("-").map(Number);
+      results = results.filter((product) => {
         const price = product.price || 0;
         return price >= min && (max ? price <= max : true);
       });
@@ -60,15 +61,17 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
 
     // Size filter
     if (filterOptions.size) {
-      results = results.filter(product => 
-        product.sizes?.includes(filterOptions.size)
+      results = results.filter((product) =>
+        product.sizes?.includes(filterOptions.size),
       );
     }
 
     // Color filter
     if (filterOptions.color) {
-      results = results.filter(product => 
-        product.colors?.some(color => color.colorName === filterOptions.color)
+      results = results.filter((product) =>
+        product.colors?.some(
+          (color) => color.colorName === filterOptions.color,
+        ),
       );
     }
 
@@ -77,15 +80,15 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
       let aValue = a[filterOptions.sortBy];
       let bValue = b[filterOptions.sortBy];
 
-      if (filterOptions.sortBy === 'price') {
+      if (filterOptions.sortBy === "price") {
         aValue = aValue || 0;
         bValue = bValue || 0;
       } else {
-        aValue = String(aValue || '').toLowerCase();
-        bValue = String(bValue || '').toLowerCase();
+        aValue = String(aValue || "").toLowerCase();
+        bValue = String(bValue || "").toLowerCase();
       }
 
-      if (filterOptions.sortOrder === 'asc') {
+      if (filterOptions.sortOrder === "asc") {
         return aValue > bValue ? 1 : -1;
       } else {
         return aValue < bValue ? 1 : -1;
@@ -103,30 +106,30 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
 
   const clearFilters = () => {
     const clearedFilters = {
-      category: '',
-      priceRange: '',
-      size: '',
-      color: '',
-      sortBy: 'name',
-      sortOrder: 'asc'
+      category: "",
+      priceRange: "",
+      size: "",
+      color: "",
+      sortBy: "name",
+      sortOrder: "asc",
     };
     setFilters(clearedFilters);
-    setSearchTerm('');
+    setSearchTerm("");
     onFilterChange?.(clearedFilters);
   };
 
   const getUniqueCategories = () => {
-    return [...new Set(products.map(p => p.category).filter(Boolean))];
+    return [...new Set(products.map((p) => p.category).filter(Boolean))];
   };
 
   const getUniqueSizes = () => {
-    const allSizes = products.flatMap(p => p.sizes || []);
+    const allSizes = products.flatMap((p) => p.sizes || []);
     return [...new Set(allSizes)];
   };
 
   const getUniqueColors = () => {
-    const allColors = products.flatMap(p => p.colors || []);
-    return [...new Set(allColors.map(c => c.colorName))];
+    const allColors = products.flatMap((p) => p.colors || []);
+    return [...new Set(allColors.map((c) => c.colorName))];
   };
 
   return (
@@ -143,12 +146,12 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
           />
           <button className="search-btn">🔍</button>
         </div>
-        
-        <button 
+
+        <button
           className="filter-toggle"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? 'Hide Filters' : 'Show Filters'}
+          {isExpanded ? "Hide Filters" : "Show Filters"}
         </button>
       </div>
 
@@ -161,11 +164,13 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
               <label>Category</label>
               <select
                 value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
+                onChange={(e) => handleFilterChange("category", e.target.value)}
               >
                 <option value="">All Categories</option>
-                {getUniqueCategories().map(category => (
-                  <option key={category} value={category}>{category}</option>
+                {getUniqueCategories().map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
                 ))}
               </select>
             </div>
@@ -175,7 +180,9 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
               <label>Price Range</label>
               <select
                 value={filters.priceRange}
-                onChange={(e) => handleFilterChange('priceRange', e.target.value)}
+                onChange={(e) =>
+                  handleFilterChange("priceRange", e.target.value)
+                }
               >
                 <option value="">All Prices</option>
                 <option value="0-50">Under $50</option>
@@ -190,11 +197,13 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
               <label>Size</label>
               <select
                 value={filters.size}
-                onChange={(e) => handleFilterChange('size', e.target.value)}
+                onChange={(e) => handleFilterChange("size", e.target.value)}
               >
                 <option value="">All Sizes</option>
-                {getUniqueSizes().map(size => (
-                  <option key={size} value={size}>{size}</option>
+                {getUniqueSizes().map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
                 ))}
               </select>
             </div>
@@ -204,11 +213,13 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
               <label>Color</label>
               <select
                 value={filters.color}
-                onChange={(e) => handleFilterChange('color', e.target.value)}
+                onChange={(e) => handleFilterChange("color", e.target.value)}
               >
                 <option value="">All Colors</option>
-                {getUniqueColors().map(color => (
-                  <option key={color} value={color}>{color}</option>
+                {getUniqueColors().map((color) => (
+                  <option key={color} value={color}>
+                    {color}
+                  </option>
                 ))}
               </select>
             </div>
@@ -218,7 +229,7 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
               <label>Sort By</label>
               <select
                 value={filters.sortBy}
-                onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+                onChange={(e) => handleFilterChange("sortBy", e.target.value)}
               >
                 <option value="name">Name</option>
                 <option value="price">Price</option>
@@ -231,7 +242,9 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
               <label>Order</label>
               <select
                 value={filters.sortOrder}
-                onChange={(e) => handleFilterChange('sortOrder', e.target.value)}
+                onChange={(e) =>
+                  handleFilterChange("sortOrder", e.target.value)
+                }
               >
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
@@ -251,11 +264,14 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
       {/* Search Results Summary */}
       {searchResults.length > 0 && (
         <div className="search-summary">
-          <p>Found {searchResults.length} product{searchResults.length !== 1 ? 's' : ''}</p>
+          <p>
+            Found {searchResults.length} product
+            {searchResults.length !== 1 ? "s" : ""}
+          </p>
         </div>
       )}
     </div>
   );
 };
 
-export default AdvancedSearch; 
+export default AdvancedSearch;

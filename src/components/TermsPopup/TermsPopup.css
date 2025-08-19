@@ -1,71 +1,70 @@
 /* TermsPopup Overlay */
 .terms-popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2); /* Subtle dark overlay */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  /* Container for the pop-up content */
-  .terms-popup-container {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px 30px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-  }
-  
-  /* Styling for the pop-up text */
-  .popup-text {
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  /* Link styling for the Terms page */
-  .terms-link {
-    color: #4CAF50;
-    text-decoration: underline;
-  }
-  
-  /* Checkbox container styling */
-  .checkbox-container {
-    margin-bottom: 20px;
-    text-align: left;
-  }
-  
-  .checkbox-container label {
-    margin-left: 8px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  /* Styling for the submit button */
-  .popup-submit-btn {
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .popup-submit-btn:disabled {
-    background-color: #a5d6a7;
-    cursor: not-allowed;
-  }
-  
-  .popup-submit-btn:hover:not(:disabled) {
-    background-color: #45a049;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Subtle dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Container for the pop-up content */
+.terms-popup-container {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+/* Styling for the pop-up text */
+.popup-text {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Link styling for the Terms page */
+.terms-link {
+  color: #4caf50;
+  text-decoration: underline;
+}
+
+/* Checkbox container styling */
+.checkbox-container {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.checkbox-container label {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Styling for the submit button */
+.popup-submit-btn {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-submit-btn:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.popup-submit-btn:hover:not(:disabled) {
+  background-color: #45a049;
+}

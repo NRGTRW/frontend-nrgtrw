@@ -10,20 +10,25 @@ import { toast } from "react-toastify";
 import { deleteProduct } from "../../services/productService"; // Import the deleteProduct function
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal"; // Import the modal component
 import { useTranslation } from "react-i18next";
-import ProductVoteModal from '../ProductVoteModal/ProductVoteModal';
+import ProductVoteModal from "../ProductVoteModal/ProductVoteModal";
 
 const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
 function getS3Url(path) {
   if (!path) return undefined;
   // If the path is a local image (starts with /images/ or /public/), return as-is
-  if (path.startsWith('/images/') || path.startsWith('/public/')) return path;
+  if (path.startsWith("/images/") || path.startsWith("/public/")) return path;
   // If the path is already an absolute URL, return as-is
-  if (path.startsWith('http')) return path;
+  if (path.startsWith("http")) return path;
   // Otherwise, prepend the S3 base URL
-  return S3_BASE + (path.startsWith('/') ? path.slice(1) : path);
+  return S3_BASE + (path.startsWith("/") ? path.slice(1) : path);
 }
 
-const Products = ({ products, showVoteButton = false, showSizes = false, categoryName }) => {
+const Products = ({
+  products,
+  showVoteButton = false,
+  showSizes = false,
+  categoryName,
+}) => {
   const navigate = useNavigate();
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
   const { user } = useAuth();
@@ -76,7 +81,7 @@ const Products = ({ products, showVoteButton = false, showSizes = false, categor
         const translation =
           product.translations && product.translations.length > 0
             ? product.translations.find(
-                (tr) => tr.language === currentLanguage
+                (tr) => tr.language === currentLanguage,
               ) || product.translations[0]
             : null;
         const displayName = translation ? translation.name : product.name;
@@ -88,7 +93,7 @@ const Products = ({ products, showVoteButton = false, showSizes = false, categor
         const wishlistItem = wishlist.find(
           (item) =>
             item.productId === product.id &&
-            item.selectedColor === currentColor?.imageUrl
+            item.selectedColor === currentColor?.imageUrl,
         );
         const isInWishlist = !!wishlistItem;
 
@@ -122,7 +127,7 @@ const Products = ({ products, showVoteButton = false, showSizes = false, categor
             key={product.id}
             className="product-card"
             onClick={() => handleProductClick(product, currentColor)}
-            style={{ position: 'relative' }}
+            style={{ position: "relative" }}
           >
             {user && (user.role === "ADMIN" || user.role === "ROOT_ADMIN") && (
               <div
@@ -138,19 +143,24 @@ const Products = ({ products, showVoteButton = false, showSizes = false, categor
 
             <div className="image-container">
               <img
-                src={getS3Url(currentColor?.imageUrl) || getS3Url(product.imageUrl)}
+                src={
+                  getS3Url(currentColor?.imageUrl) || getS3Url(product.imageUrl)
+                }
                 alt={displayName}
                 className="product-image"
               />
               <img
-                src={getS3Url(currentColor?.hoverImage) || getS3Url(product.imageUrl)}
+                src={
+                  getS3Url(currentColor?.hoverImage) ||
+                  getS3Url(product.imageUrl)
+                }
                 alt={`${displayName} hover`}
                 className="hover-image"
               />
               {showVoteButton && (
                 <button
                   className="vote-btn-on-card vote-btn-overlay"
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     setVoteProduct(product);
                     setVoteModalOpen(true);
