@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../public/crown_506472.png">
+  <title>NRG'S</title>
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+</head>
+<body>
+  <div id="myDiv" class="initialScreen visible">
+    <input id="checkbox" type="checkbox" onclick="changeClass()"></input>
+    <label class="switch" for="checkbox">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="slider">
+        <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7 14.3 32 32 32s32-14.3 32-32V32zM143.5 120.6c13.6-11.3 15.4-31.5 4.1-45.1s-31.5-15.4-45.1-4.1C49.7 115.4 16 181.8 16 256c0 132.5 107.5 240 240 240s240-107.5 240-240c0-74.2-33.8-140.6-86.6-184.6c-13.6-11.3-33.8-9.4-45.1 4.1s-9.4 33.8 4.1 45.1c38.9 32.3 63.5 81 63.5 135.4c0 97.2-78.8 176-176 176s-176-78.8-176-176c0-54.4 24.7-103.1 63.5-135.4z"></path>
+      </svg>
+    </label>
+  </div>
+  <nav class="navbar close" id="myMenu">
+    <a onclick="hideIframe()" class="logo">NRG'S</a>
+    <div class="menu-content">
+      <ul class="menu-items">
+        <div class="menu-title"></div>
+        <li class="item">
+          <h2>Menu</h2>
+        </li>
+        <li class="item">
+              <a onclick="showIframe('../HTML/CV.html')">CV</a>
+            </li>
+         
+        </li>
+        <li class="item">
+          <div class="submenu-item">
+            <span>Animations</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+          <ul class="menu-items submenu">
+            <div class="menu-title">
+              <i class="fa-solid fa-chevron-left"></i>
+              Menu
+            </div>
+            <li class="item">
+              <a onclick="showIframe('../HTML/NRG.html')">NRG'S</a>
+            </li>
+            <li class="item">
+              <a onclick="showIframe('../HTML/cubes.html')">CUBES</a>
+            </li>
+            <li class="item">
+              <a class="LogIn_SignUp" onclick="showIframe('../HTML/logIn.html')">LogIn<br>SignUp</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="topbar">
+    <i class="fa-solid fa-bars" id="navbar-close"></i>
+  </div>
+  <main class="main">
+  <div class="pl" id="mainContent" style="scale: 2; cursor: pointer;">
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__dot"></div>
+    <div class="pl__text">USE MENU</div>
+</div>
+<label id="checker" class="toggle-pl-container">
+    <input type="checkbox" onclick="togglePl()" checked="checked">
+    <div class="toggle-pl-checkmark">
+        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+            <title>Checkmark</title>
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"></path>
+        </svg>
+    </div>
+</label>
+
+    <iframe id="contentIframe" class="hideIframe" src="" title="Content Iframe"></iframe>
+  </main>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>

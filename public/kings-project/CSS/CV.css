@@ -1,0 +1,227 @@
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, h6, p, ul {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Body styles to center content */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Main content section styling */
+.content-section {
+  display: flex;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  height: 90%;
+  width: 100vh;
+  max-width: 100%;
+}
+
+/* Content sections left and right */
+.content-section-left {
+  flex: 0.35;
+  padding: 20px;
+  background-color: #333b4c;
+  color: #fff;
+  border-right: 2px solid #ccc;
+}
+
+.content-section-right {
+  flex: 0.65;
+  padding: 20px;
+  background-color: #ffffff;
+  color: #212121;
+}
+
+/* Profile image styling */
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 70% 70%;
+}
+
+/* Main title styling */
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Subtitle styling */
+.subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* General info styling */
+.info-left {
+  font-size: 16px;
+  color: #ccc;
+  margin: 5px 0;
+}
+
+.info-right {
+  font-size: 16px;
+  color: #212121;
+  margin: 5px 0;
+}
+
+/* Link styling */
+.link {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* List styling for contact info */
+.info-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.info-item {
+  margin: 5px 0;
+}
+
+/* Section title styling for clarity */
+.section-title-left {
+  font-size: 20px;
+  margin-top: 20px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.section-title-right {
+  font-size: 20px;
+  margin-top: 20px;
+  color: #212121;
+  font-weight: bold;
+}
+
+/* Skills section styling */
+.skills {
+  font-weight: bold;
+}
+
+/* Divider between sections */
+.divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+.divider-darker {
+  border: none;
+  border-top: 1px solid #2a2828a5;
+  margin: 20px 0;
+}
+
+.social-section {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  height: fit-content;
+  margin-top: 20px;
+  gap: 20px; /* optional, adds space between grid items */
+}
+
+.social-box-1,
+.social-box-2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px transparent;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.social-box-1 {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+}
+
+.social-box-2 {
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.text-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+.icon {
+  transform: scale(2);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* General content styling */
+.content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.section-text {
+  font-size: 1em;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.section-list {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.section-list li {
+  margin-bottom: 10px;
+  color: #555;
+}

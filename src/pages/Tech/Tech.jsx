@@ -10,28 +10,53 @@ const techProjects = [
     description: "Return to the main NRG site.",
     image: S3_BASE + "Tech.webp",
     type: "redirect",
-    url: "/clothing-details"
+    url: "/clothing-details",
   },
   {
     id: 2,
+    title: "KING-S Project",
+    description: "Interactive portfolio website with animations and modern UI.",
+    image: "/kings-crown.png",
+    type: "iframe",
+    url: "/kings-project/HTML/home_page.html",
+  },
+  {
+    id: 3,
     title: "Legacy Project 1",
     description: "Preview one of my previous tech projects.",
     image: S3_BASE + "Tech.webp",
     type: "iframe",
-    url: "https://example.com/project1" // Replace with actual URL later
+    url: "https://example.com/project1", // Replace with actual URL later
   },
   {
-    id: 3,
+    id: 4,
     title: "Legacy Project 2",
     description: "Preview another previous tech project.",
     image: S3_BASE + "Tech.webp",
     type: "iframe",
-    url: "https://example.com/project2" // Replace with actual URL later
-  }
+    url: "https://example.com/project2", // Replace with actual URL later
+  },
 ];
 
 const Tech = () => {
   const [activeProject, setActiveProject] = useState(null);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  // Update window size on resize
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleCardClick = (project) => {
     if (project.type === "redirect") {
@@ -41,21 +66,61 @@ const Tech = () => {
     }
   };
 
+  const handleIframeLoad = (event) => {
+    // Handle iframe load events if needed
+    console.log("Iframe loaded:", event.target.src);
+  };
+
   return (
     <div className="tech-page">
       <section className="tech-video-placeholder">
         <div className="tech-video-container">
-          <div className="video-text">🎥  Intro Video Coming Soon</div>
+          <div className="video-text">🎥 Intro Video Coming Soon</div>
         </div>
       </section>
       <section className="tech-cards">
         {techProjects.map((project) => (
           <div key={project.id} className="tech-card">
-            <img src={project.image} alt={project.title} />
+            {project.id === 2 ? (
+              <div style={{ position: "relative" }}>
+                <iframe
+                  src={project.url}
+                  title={project.title}
+                  style={{
+                    width: "100%",
+                    height: "180px",
+                    border: "none",
+                    borderRadius: "18px 18px 0 0",
+                    background: "#212121",
+                    pointerEvents: "none",
+                    transform: "scale(1.1)",
+                    transformOrigin: "center center"
+                  }}
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+                />
+                <div 
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    cursor: "pointer",
+                    borderRadius: "18px 18px 0 0"
+                  }}
+                  onClick={() => handleCardClick(project)}
+                />
+              </div>
+            ) : (
+              <img src={project.image} alt={project.title} />
+            )}
             <div className="tech-info">
               <h3>{project.title}</h3>
               <p>{project.description}</p>
-              <button className={styles.techProjectBtn} onClick={() => handleCardClick(project)}>
+              <button
+                className={styles.techProjectBtn}
+                onClick={() => handleCardClick(project)}
+              >
                 {project.type === "redirect" ? "Go" : "Preview"}
               </button>
             </div>
@@ -71,9 +136,16 @@ const Tech = () => {
               src={activeProject.url}
               title={activeProject.title}
               width="100%"
-              height="500px"
-              style={{ border: "none", borderRadius: "12px", background: "#111" }}
-              sandbox="allow-scripts allow-same-origin allow-forms"
+              height={windowSize.width < 768 ? "400px" : windowSize.width < 1200 ? "600px" : "80vh"}
+              style={{
+                border: "none",
+                borderRadius: "12px",
+                background: "#111",
+                minHeight: windowSize.width < 480 ? "300px" : windowSize.width < 768 ? "400px" : "600px",
+              }}
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+              allowFullScreen
+              onLoad={handleIframeLoad}
             />
             <button onClick={() => setActiveProject(null)}>Close</button>
           </div>
@@ -83,4 +155,4 @@ const Tech = () => {
   );
 };
 
-export default Tech; 
+export default Tech;

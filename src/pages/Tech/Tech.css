@@ -18,19 +18,25 @@
 .tech-page .tech-card {
   background: linear-gradient(120deg, #101622 60%, #1a2a3a 100%);
   border-radius: 18px;
-  box-shadow: 0 4px 32px rgba(30, 180, 255, 0.08), 0 2px 8px rgba(0,0,0,0.10);
+  box-shadow:
+    0 4px 32px rgba(30, 180, 255, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.22s, box-shadow 0.22s;
+  transition:
+    transform 0.22s,
+    box-shadow 0.22s;
   cursor: pointer;
 }
 
 .tech-page .tech-card:hover {
   transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 8px 40px rgba(30, 180, 255, 0.18), 0 4px 16px rgba(0,0,0,0.16);
+  box-shadow:
+    0 8px 40px rgba(30, 180, 255, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.16);
 }
 
 .tech-page .tech-card img {
@@ -63,8 +69,11 @@
 
 .tech-modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(10,16,22,0.92);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 16, 22, 0.92);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -75,7 +84,9 @@
   background: #101622;
   border-radius: 18px;
   padding: 2.5rem 2.2rem 2rem 2.2rem;
-  box-shadow: 0 8px 40px rgba(30, 180, 255, 0.18), 0 4px 16px rgba(0,0,0,0.16);
+  box-shadow:
+    0 8px 40px rgba(30, 180, 255, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.16);
   min-width: 340px;
   max-width: 90vw;
   max-height: 90vh;
@@ -97,12 +108,18 @@
   border: none;
   border-radius: 32px;
   font-size: 1.08rem;
-  font-family: 'Poppins', 'Cinzel', serif;
+  font-family: "Poppins", "Cinzel", serif;
   font-weight: 600;
   letter-spacing: 0.04em;
-  box-shadow: 0 2px 16px rgba(30, 180, 255, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  box-shadow:
+    0 2px 16px rgba(30, 180, 255, 0.08),
+    0 1.5px 6px rgba(0, 0, 0, 0.04);
   cursor: pointer;
-  transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s,
+    transform 0.18s;
   outline: none;
   appearance: none;
   min-width: 140px;
@@ -120,7 +137,9 @@
 .tech-page .tech-video-container {
   background: linear-gradient(120deg, #101622 60%, #1a2a3a 100%);
   border-radius: 18px;
-  box-shadow: 0 4px 32px rgba(30, 180, 255, 0.08), 0 2px 8px rgba(0,0,0,0.10);
+  box-shadow:
+    0 4px 32px rgba(30, 180, 255, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 2.5rem 3.5rem;
   min-width: 340px;
   max-width: 90vw;
@@ -132,7 +151,7 @@
 .tech-page .video-text {
   color: #67ffe8;
   font-size: 1.7rem;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-align: center;
@@ -144,7 +163,6 @@
   background-clip: text;
 }
 
-
 @media (max-width: 900px) {
   .tech-page .tech-cards {
     flex-direction: column;
@@ -155,4 +173,57 @@
     width: 95vw;
     max-width: 370px;
   }
-} 
+  
+  .tech-modal .modal-content {
+    padding: 1.5rem 1rem 1rem 1rem;
+    min-width: 95vw;
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+  
+  .tech-modal .modal-content h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tech-modal .modal-content iframe {
+    min-height: 400px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-modal .modal-content {
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    min-width: 98vw;
+    max-width: 98vw;
+    max-height: 98vh;
+  }
+  
+  .tech-modal .modal-content h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .tech-modal .modal-content iframe {
+    min-height: 300px !important;
+  }
+  
+  .tech-modal .modal-content button {
+    padding: 8px 24px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tech-modal .modal-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 90vw;
+    height: 90vh;
+  }
+  
+  .tech-modal .modal-content iframe {
+    min-height: 700px !important;
+    height: 80vh !important;
+  }
+}
