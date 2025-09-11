@@ -26,7 +26,7 @@ const techProjects = [
     description: "Modern React components library with design system and generator tools.",
     image: "/Library/dist/webDev.webp",
     type: "iframe",
-    url: "/Library/standalone.html",
+    url: "/Library/dist/index.html",
   },
   {
     id: 4,
