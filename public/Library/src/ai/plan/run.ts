@@ -30,43 +30,27 @@ export async function runPlanGeneration(
       brandWords: options.brandWords,
     };
     
-    try {
-      // Try to call the server-side AI endpoint first
-      const response = await generateAIPlan(request);
-      
-      if (!response.success) {
-        throw new Error(response.error || 'AI plan generation failed');
-      }
-      
-      console.log('✅ AI plan generated successfully via server');
-      
-      return {
-        pageConfig: response.pageConfig,
-        warnings: response.warnings,
-      };
-      
-    } catch (serverError) {
-      console.warn('⚠️ Server unavailable, falling back to local fake model:', serverError);
-      
-      // Fallback to local fake model
-      const fakePlan = generateFakePlan(userSpeech);
-      const defaultConfig = buildDefaultConfig({
-        name: 'Your Business',
-        tagline: 'Professional solutions for your needs',
-        industry: 'Business',
-        targetAudience: 'Professionals',
-        tone: 'professional'
-      });
-      
-      const pageConfig = applyAIPlan(fakePlan, defaultConfig);
-      
-      console.log('✅ AI plan generated successfully via fallback');
-      
-      return {
-        pageConfig,
-        warnings: ['Generated using offline mode - server unavailable'],
-      };
-    }
+    // Skip API calls and use local fake model directly for standalone operation
+    console.log('🔧 Using offline mode for standalone operation');
+    
+    // Use local fake model directly
+    const fakePlan = generateFakePlan(userSpeech);
+    const defaultConfig = buildDefaultConfig({
+      name: 'Your Business',
+      tagline: 'Professional solutions for your needs',
+      industry: 'Business',
+      targetAudience: 'Professionals',
+      tone: 'professional'
+    });
+    
+    const pageConfig = applyAIPlan(fakePlan, defaultConfig);
+    
+    console.log('✅ AI plan generated successfully via offline mode');
+    
+    return {
+      pageConfig,
+      warnings: ['Generated using offline mode - standalone operation'],
+    };
     
   } catch (error) {
     console.error('❌ Plan generation failed:', error);
