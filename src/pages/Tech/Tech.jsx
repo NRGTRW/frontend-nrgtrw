@@ -97,6 +97,8 @@ const Tech = () => {
                     transformOrigin: "center center"
                   }}
                   sandbox="allow-scripts allow-forms allow-popups allow-modals"
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
                 />
                 <div 
                   style={{
@@ -144,6 +146,7 @@ const Tech = () => {
                 minHeight: windowSize.width < 480 ? "300px" : windowSize.width < 768 ? "400px" : "600px",
               }}
               sandbox="allow-scripts allow-forms allow-popups allow-modals"
+              referrerPolicy="no-referrer"
               allowFullScreen
               onLoad={handleIframeLoad}
             />
