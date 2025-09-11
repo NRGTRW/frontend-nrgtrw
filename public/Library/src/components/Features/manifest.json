@@ -1,0 +1,618 @@
+{
+  "styleGroups": [
+    "minimal",
+    "luxury",
+    "playful",
+    "corporate",
+    "brutalist",
+    "glass",
+    "gradient",
+    "mono",
+    "editorial",
+    "neumorphic"
+  ],
+  "perStyleCount": 10,
+  "totalVariants": 100,
+  "meta": [
+    {
+      "idx": 0,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V01",
+      "exportName": "FeaturesMinimalV01"
+    },
+    {
+      "idx": 1,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V02",
+      "exportName": "FeaturesMinimalV02"
+    },
+    {
+      "idx": 2,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V03",
+      "exportName": "FeaturesMinimalV03"
+    },
+    {
+      "idx": 3,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V04",
+      "exportName": "FeaturesMinimalV04"
+    },
+    {
+      "idx": 4,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V05",
+      "exportName": "FeaturesMinimalV05"
+    },
+    {
+      "idx": 5,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V06",
+      "exportName": "FeaturesMinimalV06"
+    },
+    {
+      "idx": 6,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V07",
+      "exportName": "FeaturesMinimalV07"
+    },
+    {
+      "idx": 7,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V08",
+      "exportName": "FeaturesMinimalV08"
+    },
+    {
+      "idx": 8,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V09",
+      "exportName": "FeaturesMinimalV09"
+    },
+    {
+      "idx": 9,
+      "style": "minimal",
+      "importPath": "./Minimal/Features.Minimal.V10",
+      "exportName": "FeaturesMinimalV10"
+    },
+    {
+      "idx": 10,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V01",
+      "exportName": "FeaturesLuxuryV01"
+    },
+    {
+      "idx": 11,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V02",
+      "exportName": "FeaturesLuxuryV02"
+    },
+    {
+      "idx": 12,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V03",
+      "exportName": "FeaturesLuxuryV03"
+    },
+    {
+      "idx": 13,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V04",
+      "exportName": "FeaturesLuxuryV04"
+    },
+    {
+      "idx": 14,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V05",
+      "exportName": "FeaturesLuxuryV05"
+    },
+    {
+      "idx": 15,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V06",
+      "exportName": "FeaturesLuxuryV06"
+    },
+    {
+      "idx": 16,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V07",
+      "exportName": "FeaturesLuxuryV07"
+    },
+    {
+      "idx": 17,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V08",
+      "exportName": "FeaturesLuxuryV08"
+    },
+    {
+      "idx": 18,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V09",
+      "exportName": "FeaturesLuxuryV09"
+    },
+    {
+      "idx": 19,
+      "style": "luxury",
+      "importPath": "./Luxury/Features.Luxury.V10",
+      "exportName": "FeaturesLuxuryV10"
+    },
+    {
+      "idx": 20,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V01",
+      "exportName": "FeaturesPlayfulV01"
+    },
+    {
+      "idx": 21,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V02",
+      "exportName": "FeaturesPlayfulV02"
+    },
+    {
+      "idx": 22,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V03",
+      "exportName": "FeaturesPlayfulV03"
+    },
+    {
+      "idx": 23,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V04",
+      "exportName": "FeaturesPlayfulV04"
+    },
+    {
+      "idx": 24,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V05",
+      "exportName": "FeaturesPlayfulV05"
+    },
+    {
+      "idx": 25,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V06",
+      "exportName": "FeaturesPlayfulV06"
+    },
+    {
+      "idx": 26,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V07",
+      "exportName": "FeaturesPlayfulV07"
+    },
+    {
+      "idx": 27,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V08",
+      "exportName": "FeaturesPlayfulV08"
+    },
+    {
+      "idx": 28,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V09",
+      "exportName": "FeaturesPlayfulV09"
+    },
+    {
+      "idx": 29,
+      "style": "playful",
+      "importPath": "./Playful/Features.Playful.V10",
+      "exportName": "FeaturesPlayfulV10"
+    },
+    {
+      "idx": 30,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V01",
+      "exportName": "FeaturesCorporateV01"
+    },
+    {
+      "idx": 31,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V02",
+      "exportName": "FeaturesCorporateV02"
+    },
+    {
+      "idx": 32,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V03",
+      "exportName": "FeaturesCorporateV03"
+    },
+    {
+      "idx": 33,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V04",
+      "exportName": "FeaturesCorporateV04"
+    },
+    {
+      "idx": 34,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V05",
+      "exportName": "FeaturesCorporateV05"
+    },
+    {
+      "idx": 35,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V06",
+      "exportName": "FeaturesCorporateV06"
+    },
+    {
+      "idx": 36,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V07",
+      "exportName": "FeaturesCorporateV07"
+    },
+    {
+      "idx": 37,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V08",
+      "exportName": "FeaturesCorporateV08"
+    },
+    {
+      "idx": 38,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V09",
+      "exportName": "FeaturesCorporateV09"
+    },
+    {
+      "idx": 39,
+      "style": "corporate",
+      "importPath": "./Corporate/Features.Corporate.V10",
+      "exportName": "FeaturesCorporateV10"
+    },
+    {
+      "idx": 40,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V01",
+      "exportName": "FeaturesBrutalistV01"
+    },
+    {
+      "idx": 41,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V02",
+      "exportName": "FeaturesBrutalistV02"
+    },
+    {
+      "idx": 42,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V03",
+      "exportName": "FeaturesBrutalistV03"
+    },
+    {
+      "idx": 43,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V04",
+      "exportName": "FeaturesBrutalistV04"
+    },
+    {
+      "idx": 44,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V05",
+      "exportName": "FeaturesBrutalistV05"
+    },
+    {
+      "idx": 45,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V06",
+      "exportName": "FeaturesBrutalistV06"
+    },
+    {
+      "idx": 46,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V07",
+      "exportName": "FeaturesBrutalistV07"
+    },
+    {
+      "idx": 47,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V08",
+      "exportName": "FeaturesBrutalistV08"
+    },
+    {
+      "idx": 48,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V09",
+      "exportName": "FeaturesBrutalistV09"
+    },
+    {
+      "idx": 49,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Features.Brutalist.V10",
+      "exportName": "FeaturesBrutalistV10"
+    },
+    {
+      "idx": 50,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V01",
+      "exportName": "FeaturesGlassV01"
+    },
+    {
+      "idx": 51,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V02",
+      "exportName": "FeaturesGlassV02"
+    },
+    {
+      "idx": 52,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V03",
+      "exportName": "FeaturesGlassV03"
+    },
+    {
+      "idx": 53,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V04",
+      "exportName": "FeaturesGlassV04"
+    },
+    {
+      "idx": 54,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V05",
+      "exportName": "FeaturesGlassV05"
+    },
+    {
+      "idx": 55,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V06",
+      "exportName": "FeaturesGlassV06"
+    },
+    {
+      "idx": 56,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V07",
+      "exportName": "FeaturesGlassV07"
+    },
+    {
+      "idx": 57,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V08",
+      "exportName": "FeaturesGlassV08"
+    },
+    {
+      "idx": 58,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V09",
+      "exportName": "FeaturesGlassV09"
+    },
+    {
+      "idx": 59,
+      "style": "glass",
+      "importPath": "./Glass/Features.Glass.V10",
+      "exportName": "FeaturesGlassV10"
+    },
+    {
+      "idx": 60,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V01",
+      "exportName": "FeaturesGradientV01"
+    },
+    {
+      "idx": 61,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V02",
+      "exportName": "FeaturesGradientV02"
+    },
+    {
+      "idx": 62,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V03",
+      "exportName": "FeaturesGradientV03"
+    },
+    {
+      "idx": 63,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V04",
+      "exportName": "FeaturesGradientV04"
+    },
+    {
+      "idx": 64,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V05",
+      "exportName": "FeaturesGradientV05"
+    },
+    {
+      "idx": 65,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V06",
+      "exportName": "FeaturesGradientV06"
+    },
+    {
+      "idx": 66,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V07",
+      "exportName": "FeaturesGradientV07"
+    },
+    {
+      "idx": 67,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V08",
+      "exportName": "FeaturesGradientV08"
+    },
+    {
+      "idx": 68,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V09",
+      "exportName": "FeaturesGradientV09"
+    },
+    {
+      "idx": 69,
+      "style": "gradient",
+      "importPath": "./Gradient/Features.Gradient.V10",
+      "exportName": "FeaturesGradientV10"
+    },
+    {
+      "idx": 70,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V01",
+      "exportName": "FeaturesMonochromeV01"
+    },
+    {
+      "idx": 71,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V02",
+      "exportName": "FeaturesMonochromeV02"
+    },
+    {
+      "idx": 72,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V03",
+      "exportName": "FeaturesMonochromeV03"
+    },
+    {
+      "idx": 73,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V04",
+      "exportName": "FeaturesMonochromeV04"
+    },
+    {
+      "idx": 74,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V05",
+      "exportName": "FeaturesMonochromeV05"
+    },
+    {
+      "idx": 75,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V06",
+      "exportName": "FeaturesMonochromeV06"
+    },
+    {
+      "idx": 76,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V07",
+      "exportName": "FeaturesMonochromeV07"
+    },
+    {
+      "idx": 77,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V08",
+      "exportName": "FeaturesMonochromeV08"
+    },
+    {
+      "idx": 78,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V09",
+      "exportName": "FeaturesMonochromeV09"
+    },
+    {
+      "idx": 79,
+      "style": "mono",
+      "importPath": "./Monochrome/Features.Monochrome.V10",
+      "exportName": "FeaturesMonochromeV10"
+    },
+    {
+      "idx": 80,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V01",
+      "exportName": "FeaturesEditorialV01"
+    },
+    {
+      "idx": 81,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V02",
+      "exportName": "FeaturesEditorialV02"
+    },
+    {
+      "idx": 82,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V03",
+      "exportName": "FeaturesEditorialV03"
+    },
+    {
+      "idx": 83,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V04",
+      "exportName": "FeaturesEditorialV04"
+    },
+    {
+      "idx": 84,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V05",
+      "exportName": "FeaturesEditorialV05"
+    },
+    {
+      "idx": 85,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V06",
+      "exportName": "FeaturesEditorialV06"
+    },
+    {
+      "idx": 86,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V07",
+      "exportName": "FeaturesEditorialV07"
+    },
+    {
+      "idx": 87,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V08",
+      "exportName": "FeaturesEditorialV08"
+    },
+    {
+      "idx": 88,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V09",
+      "exportName": "FeaturesEditorialV09"
+    },
+    {
+      "idx": 89,
+      "style": "editorial",
+      "importPath": "./Editorial/Features.Editorial.V10",
+      "exportName": "FeaturesEditorialV10"
+    },
+    {
+      "idx": 90,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V01",
+      "exportName": "FeaturesNeumorphicV01"
+    },
+    {
+      "idx": 91,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V02",
+      "exportName": "FeaturesNeumorphicV02"
+    },
+    {
+      "idx": 92,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V03",
+      "exportName": "FeaturesNeumorphicV03"
+    },
+    {
+      "idx": 93,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V04",
+      "exportName": "FeaturesNeumorphicV04"
+    },
+    {
+      "idx": 94,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V05",
+      "exportName": "FeaturesNeumorphicV05"
+    },
+    {
+      "idx": 95,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V06",
+      "exportName": "FeaturesNeumorphicV06"
+    },
+    {
+      "idx": 96,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V07",
+      "exportName": "FeaturesNeumorphicV07"
+    },
+    {
+      "idx": 97,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V08",
+      "exportName": "FeaturesNeumorphicV08"
+    },
+    {
+      "idx": 98,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V09",
+      "exportName": "FeaturesNeumorphicV09"
+    },
+    {
+      "idx": 99,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Features.Neumorphic.V10",
+      "exportName": "FeaturesNeumorphicV10"
+    }
+  ]
+}

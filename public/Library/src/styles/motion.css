@@ -1,0 +1,145 @@
+@layer utilities {
+  /* Motion utilities with reduced motion support */
+  .motion-safe {
+    transition-duration: var(--fast);
+    transition-timing-function: var(--ease);
+  }
+
+  .motion-reduce {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  /* Entrance animations */
+  .animate-fade-in {
+    animation: fadeIn var(--normal) var(--ease);
+  }
+
+  .animate-slide-up {
+    animation: slideUp var(--normal) var(--ease);
+  }
+
+  .animate-slide-down {
+    animation: slideDown var(--normal) var(--ease);
+  }
+
+  .animate-scale-in {
+    animation: scaleIn var(--fast) var(--ease);
+  }
+
+  /* Interactive animations */
+  .animate-hover-lift {
+    transition: transform var(--fast) var(--ease);
+  }
+
+  .animate-hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  .animate-hover-scale {
+    transition: transform var(--fast) var(--ease);
+  }
+
+  .animate-hover-scale:hover {
+    transform: scale(1.03);
+  }
+
+  .animate-tap-scale {
+    transition: transform var(--fast) var(--ease);
+  }
+
+  .animate-tap-scale:active {
+    transform: scale(0.98);
+  }
+
+  /* Button animations */
+  .btn-animate {
+    transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+  }
+
+  .btn-animate:hover {
+    transform: scale(1.03);
+  }
+
+  .btn-animate:active {
+    transform: scale(0.98);
+  }
+
+  /* Card animations */
+  .card-animate {
+    transition: transform var(--normal) var(--ease), box-shadow var(--normal) var(--ease);
+  }
+
+  .card-animate:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--e2);
+  }
+
+  /* Keyframes */
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+    }
+    to { 
+      opacity: 1; 
+    }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes slideDown {
+    from { 
+      opacity: 0; 
+      transform: translateY(-20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes scaleIn {
+    from { 
+      opacity: 0; 
+      transform: scale(0.95); 
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+  }
+
+  /* Reduced motion overrides */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-slide-down,
+    .animate-scale-in,
+    .animate-hover-lift,
+    .animate-hover-scale,
+    .animate-tap-scale,
+    .btn-animate,
+    .card-animate {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .animate-hover-lift:hover,
+    .animate-hover-scale:hover,
+    .animate-tap-scale:active,
+    .btn-animate:hover,
+    .btn-animate:active,
+    .card-animate:hover {
+      transform: none !important;
+    }
+  }
+}

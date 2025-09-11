@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+@import './styles/ultra-modern.css';
+/* ============================
+   Base Theme Variables
+============================ */
+:root {
+  --color-primary: #000000;
+  --color-secondary: #111111;
+  --color-accent: #ffdd00;
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================
+   Global Resets
+============================ */
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none; /* Webkit */
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: inherit;
+  overflow-x: hidden;
+
+  
+    --primary: #c5a47f;
+    --primaryHover: #b08f6a;
+    --backgroundLight: #f9f9f9;
+    --textLight: #2a2a2a;
+    --borderLight: #e5e7eb;
+    --cardLight: #ffffff;
+    --primaryDark: #d4af37;
+    --primaryHoverDark: #c5a347;
+    --backgroundDark: #0a0a0a;
+    --textDark: #f5f5f5;
+    --borderDark: #333333;
+    --cardDark: #1a1a1a;
+  }
+  
+  .font-playfair { font-family: 'Playfair Display', serif; }
+  .font-cormorant { font-family: 'Cormorant Garamond', serif; }
+
+/* ============================
+   Typography
+============================ */
+h1 {
+  font-size: 2.2rem;
+  line-height: 1.2;
+}
+
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 3.2rem;
+  }
+}
+
+/* ============================
+   Interactive Elements
+============================ */
+a,
+button,
+input[type="submit"],
+input[type="button"],
+label[for],
+[role="button"],
+.selectable,
+.clickable {
+  cursor: pointer;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: border-color 0.25s, transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.03);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* ============================
+   Theme Overrides for Light Mode
+============================ */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Light mode overrides (kept commented out for now) */
+    /* color: #213547;
+       background-color: #ffffff; */
+  }
+
+  a:hover {
+    /* color: #747bff; */
+  }
+
+  button {
+    /* background-color: #f9f9f9; */
+  }
+}
+
+/* ============================
+   Animations
+============================ */
+@keyframes slide-up {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out;
+}
+
+/* Animation delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+@keyframes river-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-river {
+  animation: river-flow 20s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgb(218, 139, 49);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(204, 202, 79, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 231, 63, 0);
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s infinite;
+}
+
+/* ============================
+   Glimmer Effects
+============================ */
+@keyframes glimmer {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-5px);
+  }
+  75% {
+    transform: translateY(-15px) translateX(3px);
+  }
+}
+
+@keyframes shimmer-glow {
+  0% {
+    background-position: -200% 0;
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 200% 0;
+    opacity: 0.5;
+  }
+}
+
+.animate-glimmer {
+  animation: glimmer 3s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer-glow {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer-glow 3s ease-in-out infinite;
+}
+
+/* ============================
+   Preview Enhancements
+============================ */
+/* Grid pattern for preview */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Smooth transitions for preview */
+.preview-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom scrollbar for preview */
+.preview-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.preview-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.preview-scroll::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.preview-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

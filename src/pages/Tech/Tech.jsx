@@ -22,19 +22,19 @@ const techProjects = [
   },
   {
     id: 3,
+    title: "Components Library",
+    description: "Modern React components library with design system and generator tools.",
+    image: "/Library/dist/webDev.webp",
+    type: "iframe",
+    url: "/Library/dist/index.html",
+  },
+  {
+    id: 4,
     title: "Legacy Project 1",
     description: "Preview one of my previous tech projects.",
     image: S3_BASE + "Tech.webp",
     type: "iframe",
     url: "https://example.com/project1", // Replace with actual URL later
-  },
-  {
-    id: 4,
-    title: "Legacy Project 2",
-    description: "Preview another previous tech project.",
-    image: S3_BASE + "Tech.webp",
-    type: "iframe",
-    url: "https://example.com/project2", // Replace with actual URL later
   },
 ];
 
@@ -81,7 +81,7 @@ const Tech = () => {
       <section className="tech-cards">
         {techProjects.map((project) => (
           <div key={project.id} className="tech-card">
-            {project.id === 2 ? (
+            {project.id === 2 || project.id === 3 ? (
               <div style={{ position: "relative" }}>
                 <iframe
                   src={project.url}

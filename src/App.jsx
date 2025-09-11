@@ -34,6 +34,9 @@ const ResetPasswordPage = lazy(
 );
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
+const FitnessAdmin = lazy(() => import("./admin/FitnessAdmin"));
+const FitnessAnalytics = lazy(() => import("./admin/FitnessAnalytics"));
+const CreateAProductPage = lazy(() => import("./admin/CreateAProductPage"));
 const Tech = lazy(() => import("./pages/Tech/Tech"));
 const MaterialsPage = lazy(() => import("./pages/MaterialsPage/MaterialsPage"));
 const InspirationPage = lazy(
@@ -90,6 +93,11 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/fitness" element={<FitnessAdmin />} />
+              <Route path="/admin/analytics" element={<FitnessAnalytics />} />
+              <Route path="/admin/create-product" element={<CreateAProductPage />} />
+              <Route path="/admin/fitness-analytics" element={<FitnessAnalytics />} />
               <Route path="/tech" element={<Tech />} />
               <Route path="/materials" element={<MaterialsPage />} />
               <Route path="/inspiration" element={<InspirationPage />} />

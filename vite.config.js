@@ -10,6 +10,7 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
+  publicDir: "public",
   build: {
     // Enable source maps for debugging
     sourcemap: false,
@@ -96,4 +97,7 @@ export default defineConfig({
   define: {
     __DEV__: JSON.stringify(process.env.NODE_ENV === "development"),
   },
+
+  // Environment variables
+  envPrefix: 'VITE_',
 });

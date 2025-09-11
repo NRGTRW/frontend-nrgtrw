@@ -1,0 +1,83 @@
+@layer utilities {
+  .ambient-root { 
+    position: absolute; 
+    inset: 0; 
+    pointer-events: none; 
+  }
+  
+  .ambient-grid {
+    background-image: radial-gradient(hsl(0 0% 100% / 0.06) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
+  
+  .ambient-beams {
+    background:
+      radial-gradient(800px 400px at 15% -10%, hsl(262 83% 60% / .20), transparent 60%),
+      radial-gradient(700px 350px at 85% 0%, hsl(200 93% 60% / .12), transparent 60%),
+      radial-gradient(900px 450px at 50% 120%, hsl(330 83% 60% / .10), transparent 65%);
+    filter: blur(30px);
+    opacity: .9;
+  }
+  
+  .ambient-animate {
+    animation: ambientFloat 18s linear infinite;
+  }
+  
+  @keyframes ambientFloat {
+    0%   { transform: translate3d(0,0,0) }
+    50%  { transform: translate3d(12px, -8px, 0) }
+    100% { transform: translate3d(0,0,0) }
+  }
+
+  /* Input shell (glass card) */
+  .input-shell {
+    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  }
+  
+  .input-shell-hover { 
+    transition: border-color 0.2s ease;
+  }
+  
+  .input-shell-hover:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  
+  .input-shell-focus {
+    box-shadow:
+      0 0 0 1px hsl(0 0% 100% / 0.15),
+      0 0 0 6px hsl(262 83% 60% / 0.25);
+    border-color: hsl(0 0% 100% / 0.25);
+    transition: box-shadow 160ms cubic-bezier(.22,.61,.36,1);
+  }
+  
+  .textarea-base {
+    width: 100%;
+    resize: none;
+    background: transparent;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  
+  .textarea-base::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  @media (min-width: 768px) {
+    .textarea-base {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-animate { 
+    animation: none; 
+  }
+}

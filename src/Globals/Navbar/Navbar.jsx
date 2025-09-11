@@ -310,9 +310,7 @@ const Navbar = () => {
                         fontSize: "1rem",
                       }}
                       onClick={() => {
-                        navigate("/admin/dashboard", {
-                          state: { dashboardTab: "analytics" },
-                        });
+                        navigate("/admin/analytics");
                         setDashboardDropdownOpen(false);
                       }}
                     >
@@ -333,9 +331,28 @@ const Navbar = () => {
                         fontSize: "1rem",
                       }}
                       onClick={() => {
-                        navigate("/admin/dashboard", {
-                          state: { dashboardTab: "products" },
-                        });
+                        navigate("/admin/fitness");
+                        setDashboardDropdownOpen(false);
+                      }}
+                    >
+                      💪 Fitness Programs
+                    </button>
+                    <button
+                      className={`dashboard-nav-dropdown-item`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "10px 18px",
+                        width: "100%",
+                        background: "none",
+                        border: "none",
+                        color: "var(--navbar-text)",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        fontSize: "1rem",
+                      }}
+                      onClick={() => {
+                        navigate("/admin/products/create");
                         setDashboardDropdownOpen(false);
                       }}
                     >
@@ -472,9 +489,7 @@ const Navbar = () => {
               <button
                 className="dashboard-nav-btn"
                 onClick={() =>
-                  navigate("/admin/dashboard", {
-                    state: { dashboardTab: "analytics" },
-                  })
+                  navigate("/admin/analytics")
                 }
               >
                 📊 Analytics
@@ -482,9 +497,15 @@ const Navbar = () => {
               <button
                 className="dashboard-nav-btn"
                 onClick={() =>
-                  navigate("/admin/dashboard", {
-                    state: { dashboardTab: "products" },
-                  })
+                  navigate("/admin/fitness")
+                }
+              >
+                💪 Fitness Programs
+              </button>
+              <button
+                className="dashboard-nav-btn"
+                onClick={() =>
+                  navigate("/admin/products/create")
                 }
               >
                 🛍️ Product Management

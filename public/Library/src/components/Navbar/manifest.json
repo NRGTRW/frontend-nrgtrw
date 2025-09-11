@@ -1,0 +1,618 @@
+{
+  "styleGroups": [
+    "minimal",
+    "luxury",
+    "playful",
+    "corporate",
+    "brutalist",
+    "glass",
+    "gradient",
+    "mono",
+    "editorial",
+    "neumorphic"
+  ],
+  "perStyleCount": 10,
+  "totalVariants": 100,
+  "meta": [
+    {
+      "idx": 0,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V01",
+      "exportName": "NavbarMinimalV01"
+    },
+    {
+      "idx": 1,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V02",
+      "exportName": "NavbarMinimalV02"
+    },
+    {
+      "idx": 2,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V03",
+      "exportName": "NavbarMinimalV03"
+    },
+    {
+      "idx": 3,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V04",
+      "exportName": "NavbarMinimalV04"
+    },
+    {
+      "idx": 4,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V05",
+      "exportName": "NavbarMinimalV05"
+    },
+    {
+      "idx": 5,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V06",
+      "exportName": "NavbarMinimalV06"
+    },
+    {
+      "idx": 6,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V07",
+      "exportName": "NavbarMinimalV07"
+    },
+    {
+      "idx": 7,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V08",
+      "exportName": "NavbarMinimalV08"
+    },
+    {
+      "idx": 8,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V09",
+      "exportName": "NavbarMinimalV09"
+    },
+    {
+      "idx": 9,
+      "style": "minimal",
+      "importPath": "./Minimal/Navbar.Minimal.V10",
+      "exportName": "NavbarMinimalV10"
+    },
+    {
+      "idx": 10,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V01",
+      "exportName": "NavbarLuxuryV01"
+    },
+    {
+      "idx": 11,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V02",
+      "exportName": "NavbarLuxuryV02"
+    },
+    {
+      "idx": 12,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V03",
+      "exportName": "NavbarLuxuryV03"
+    },
+    {
+      "idx": 13,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V04",
+      "exportName": "NavbarLuxuryV04"
+    },
+    {
+      "idx": 14,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V05",
+      "exportName": "NavbarLuxuryV05"
+    },
+    {
+      "idx": 15,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V06",
+      "exportName": "NavbarLuxuryV06"
+    },
+    {
+      "idx": 16,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V07",
+      "exportName": "NavbarLuxuryV07"
+    },
+    {
+      "idx": 17,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V08",
+      "exportName": "NavbarLuxuryV08"
+    },
+    {
+      "idx": 18,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V09",
+      "exportName": "NavbarLuxuryV09"
+    },
+    {
+      "idx": 19,
+      "style": "luxury",
+      "importPath": "./Luxury/Navbar.Luxury.V10",
+      "exportName": "NavbarLuxuryV10"
+    },
+    {
+      "idx": 20,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V01",
+      "exportName": "NavbarPlayfulV01"
+    },
+    {
+      "idx": 21,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V02",
+      "exportName": "NavbarPlayfulV02"
+    },
+    {
+      "idx": 22,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V03",
+      "exportName": "NavbarPlayfulV03"
+    },
+    {
+      "idx": 23,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V04",
+      "exportName": "NavbarPlayfulV04"
+    },
+    {
+      "idx": 24,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V05",
+      "exportName": "NavbarPlayfulV05"
+    },
+    {
+      "idx": 25,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V06",
+      "exportName": "NavbarPlayfulV06"
+    },
+    {
+      "idx": 26,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V07",
+      "exportName": "NavbarPlayfulV07"
+    },
+    {
+      "idx": 27,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V08",
+      "exportName": "NavbarPlayfulV08"
+    },
+    {
+      "idx": 28,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V09",
+      "exportName": "NavbarPlayfulV09"
+    },
+    {
+      "idx": 29,
+      "style": "playful",
+      "importPath": "./Playful/Navbar.Playful.V10",
+      "exportName": "NavbarPlayfulV10"
+    },
+    {
+      "idx": 30,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V01",
+      "exportName": "NavbarCorporateV01"
+    },
+    {
+      "idx": 31,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V02",
+      "exportName": "NavbarCorporateV02"
+    },
+    {
+      "idx": 32,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V03",
+      "exportName": "NavbarCorporateV03"
+    },
+    {
+      "idx": 33,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V04",
+      "exportName": "NavbarCorporateV04"
+    },
+    {
+      "idx": 34,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V05",
+      "exportName": "NavbarCorporateV05"
+    },
+    {
+      "idx": 35,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V06",
+      "exportName": "NavbarCorporateV06"
+    },
+    {
+      "idx": 36,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V07",
+      "exportName": "NavbarCorporateV07"
+    },
+    {
+      "idx": 37,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V08",
+      "exportName": "NavbarCorporateV08"
+    },
+    {
+      "idx": 38,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V09",
+      "exportName": "NavbarCorporateV09"
+    },
+    {
+      "idx": 39,
+      "style": "corporate",
+      "importPath": "./Corporate/Navbar.Corporate.V10",
+      "exportName": "NavbarCorporateV10"
+    },
+    {
+      "idx": 40,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V01",
+      "exportName": "NavbarBrutalistV01"
+    },
+    {
+      "idx": 41,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V02",
+      "exportName": "NavbarBrutalistV02"
+    },
+    {
+      "idx": 42,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V03",
+      "exportName": "NavbarBrutalistV03"
+    },
+    {
+      "idx": 43,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V04",
+      "exportName": "NavbarBrutalistV04"
+    },
+    {
+      "idx": 44,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V05",
+      "exportName": "NavbarBrutalistV05"
+    },
+    {
+      "idx": 45,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V06",
+      "exportName": "NavbarBrutalistV06"
+    },
+    {
+      "idx": 46,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V07",
+      "exportName": "NavbarBrutalistV07"
+    },
+    {
+      "idx": 47,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V08",
+      "exportName": "NavbarBrutalistV08"
+    },
+    {
+      "idx": 48,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V09",
+      "exportName": "NavbarBrutalistV09"
+    },
+    {
+      "idx": 49,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Navbar.Brutalist.V10",
+      "exportName": "NavbarBrutalistV10"
+    },
+    {
+      "idx": 50,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V01",
+      "exportName": "NavbarGlassV01"
+    },
+    {
+      "idx": 51,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V02",
+      "exportName": "NavbarGlassV02"
+    },
+    {
+      "idx": 52,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V03",
+      "exportName": "NavbarGlassV03"
+    },
+    {
+      "idx": 53,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V04",
+      "exportName": "NavbarGlassV04"
+    },
+    {
+      "idx": 54,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V05",
+      "exportName": "NavbarGlassV05"
+    },
+    {
+      "idx": 55,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V06",
+      "exportName": "NavbarGlassV06"
+    },
+    {
+      "idx": 56,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V07",
+      "exportName": "NavbarGlassV07"
+    },
+    {
+      "idx": 57,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V08",
+      "exportName": "NavbarGlassV08"
+    },
+    {
+      "idx": 58,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V09",
+      "exportName": "NavbarGlassV09"
+    },
+    {
+      "idx": 59,
+      "style": "glass",
+      "importPath": "./Glass/Navbar.Glass.V10",
+      "exportName": "NavbarGlassV10"
+    },
+    {
+      "idx": 60,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V01",
+      "exportName": "NavbarGradientV01"
+    },
+    {
+      "idx": 61,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V02",
+      "exportName": "NavbarGradientV02"
+    },
+    {
+      "idx": 62,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V03",
+      "exportName": "NavbarGradientV03"
+    },
+    {
+      "idx": 63,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V04",
+      "exportName": "NavbarGradientV04"
+    },
+    {
+      "idx": 64,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V05",
+      "exportName": "NavbarGradientV05"
+    },
+    {
+      "idx": 65,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V06",
+      "exportName": "NavbarGradientV06"
+    },
+    {
+      "idx": 66,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V07",
+      "exportName": "NavbarGradientV07"
+    },
+    {
+      "idx": 67,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V08",
+      "exportName": "NavbarGradientV08"
+    },
+    {
+      "idx": 68,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V09",
+      "exportName": "NavbarGradientV09"
+    },
+    {
+      "idx": 69,
+      "style": "gradient",
+      "importPath": "./Gradient/Navbar.Gradient.V10",
+      "exportName": "NavbarGradientV10"
+    },
+    {
+      "idx": 70,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V01",
+      "exportName": "NavbarMonochromeV01"
+    },
+    {
+      "idx": 71,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V02",
+      "exportName": "NavbarMonochromeV02"
+    },
+    {
+      "idx": 72,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V03",
+      "exportName": "NavbarMonochromeV03"
+    },
+    {
+      "idx": 73,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V04",
+      "exportName": "NavbarMonochromeV04"
+    },
+    {
+      "idx": 74,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V05",
+      "exportName": "NavbarMonochromeV05"
+    },
+    {
+      "idx": 75,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V06",
+      "exportName": "NavbarMonochromeV06"
+    },
+    {
+      "idx": 76,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V07",
+      "exportName": "NavbarMonochromeV07"
+    },
+    {
+      "idx": 77,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V08",
+      "exportName": "NavbarMonochromeV08"
+    },
+    {
+      "idx": 78,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V09",
+      "exportName": "NavbarMonochromeV09"
+    },
+    {
+      "idx": 79,
+      "style": "mono",
+      "importPath": "./Monochrome/Navbar.Monochrome.V10",
+      "exportName": "NavbarMonochromeV10"
+    },
+    {
+      "idx": 80,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V01",
+      "exportName": "NavbarEditorialV01"
+    },
+    {
+      "idx": 81,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V02",
+      "exportName": "NavbarEditorialV02"
+    },
+    {
+      "idx": 82,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V03",
+      "exportName": "NavbarEditorialV03"
+    },
+    {
+      "idx": 83,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V04",
+      "exportName": "NavbarEditorialV04"
+    },
+    {
+      "idx": 84,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V05",
+      "exportName": "NavbarEditorialV05"
+    },
+    {
+      "idx": 85,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V06",
+      "exportName": "NavbarEditorialV06"
+    },
+    {
+      "idx": 86,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V07",
+      "exportName": "NavbarEditorialV07"
+    },
+    {
+      "idx": 87,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V08",
+      "exportName": "NavbarEditorialV08"
+    },
+    {
+      "idx": 88,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V09",
+      "exportName": "NavbarEditorialV09"
+    },
+    {
+      "idx": 89,
+      "style": "editorial",
+      "importPath": "./Editorial/Navbar.Editorial.V10",
+      "exportName": "NavbarEditorialV10"
+    },
+    {
+      "idx": 90,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V01",
+      "exportName": "NavbarNeumorphicV01"
+    },
+    {
+      "idx": 91,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V02",
+      "exportName": "NavbarNeumorphicV02"
+    },
+    {
+      "idx": 92,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V03",
+      "exportName": "NavbarNeumorphicV03"
+    },
+    {
+      "idx": 93,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V04",
+      "exportName": "NavbarNeumorphicV04"
+    },
+    {
+      "idx": 94,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V05",
+      "exportName": "NavbarNeumorphicV05"
+    },
+    {
+      "idx": 95,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V06",
+      "exportName": "NavbarNeumorphicV06"
+    },
+    {
+      "idx": 96,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V07",
+      "exportName": "NavbarNeumorphicV07"
+    },
+    {
+      "idx": 97,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V08",
+      "exportName": "NavbarNeumorphicV08"
+    },
+    {
+      "idx": 98,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V09",
+      "exportName": "NavbarNeumorphicV09"
+    },
+    {
+      "idx": 99,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Navbar.Neumorphic.V10",
+      "exportName": "NavbarNeumorphicV10"
+    }
+  ]
+}

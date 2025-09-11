@@ -1,0 +1,618 @@
+{
+  "styleGroups": [
+    "minimal",
+    "luxury",
+    "playful",
+    "corporate",
+    "brutalist",
+    "glass",
+    "gradient",
+    "mono",
+    "editorial",
+    "neumorphic"
+  ],
+  "perStyleCount": 10,
+  "totalVariants": 100,
+  "meta": [
+    {
+      "idx": 0,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V01",
+      "exportName": "HeroMinimalV01"
+    },
+    {
+      "idx": 1,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V02",
+      "exportName": "HeroMinimalV02"
+    },
+    {
+      "idx": 2,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V03",
+      "exportName": "HeroMinimalV03"
+    },
+    {
+      "idx": 3,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V04",
+      "exportName": "HeroMinimalV04"
+    },
+    {
+      "idx": 4,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V05",
+      "exportName": "HeroMinimalV05"
+    },
+    {
+      "idx": 5,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V06",
+      "exportName": "HeroMinimalV06"
+    },
+    {
+      "idx": 6,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V07",
+      "exportName": "HeroMinimalV07"
+    },
+    {
+      "idx": 7,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V08",
+      "exportName": "HeroMinimalV08"
+    },
+    {
+      "idx": 8,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V09",
+      "exportName": "HeroMinimalV09"
+    },
+    {
+      "idx": 9,
+      "style": "minimal",
+      "importPath": "./Minimal/Hero.Minimal.V10",
+      "exportName": "HeroMinimalV10"
+    },
+    {
+      "idx": 10,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V01",
+      "exportName": "HeroLuxuryV01"
+    },
+    {
+      "idx": 11,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V02",
+      "exportName": "HeroLuxuryV02"
+    },
+    {
+      "idx": 12,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V03",
+      "exportName": "HeroLuxuryV03"
+    },
+    {
+      "idx": 13,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V04",
+      "exportName": "HeroLuxuryV04"
+    },
+    {
+      "idx": 14,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V05",
+      "exportName": "HeroLuxuryV05"
+    },
+    {
+      "idx": 15,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V06",
+      "exportName": "HeroLuxuryV06"
+    },
+    {
+      "idx": 16,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V07",
+      "exportName": "HeroLuxuryV07"
+    },
+    {
+      "idx": 17,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V08",
+      "exportName": "HeroLuxuryV08"
+    },
+    {
+      "idx": 18,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V09",
+      "exportName": "HeroLuxuryV09"
+    },
+    {
+      "idx": 19,
+      "style": "luxury",
+      "importPath": "./Luxury/Hero.Luxury.V10",
+      "exportName": "HeroLuxuryV10"
+    },
+    {
+      "idx": 20,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V01",
+      "exportName": "HeroPlayfulV01"
+    },
+    {
+      "idx": 21,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V02",
+      "exportName": "HeroPlayfulV02"
+    },
+    {
+      "idx": 22,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V03",
+      "exportName": "HeroPlayfulV03"
+    },
+    {
+      "idx": 23,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V04",
+      "exportName": "HeroPlayfulV04"
+    },
+    {
+      "idx": 24,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V05",
+      "exportName": "HeroPlayfulV05"
+    },
+    {
+      "idx": 25,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V06",
+      "exportName": "HeroPlayfulV06"
+    },
+    {
+      "idx": 26,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V07",
+      "exportName": "HeroPlayfulV07"
+    },
+    {
+      "idx": 27,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V08",
+      "exportName": "HeroPlayfulV08"
+    },
+    {
+      "idx": 28,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V09",
+      "exportName": "HeroPlayfulV09"
+    },
+    {
+      "idx": 29,
+      "style": "playful",
+      "importPath": "./Playful/Hero.Playful.V10",
+      "exportName": "HeroPlayfulV10"
+    },
+    {
+      "idx": 30,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V01",
+      "exportName": "HeroCorporateV01"
+    },
+    {
+      "idx": 31,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V02",
+      "exportName": "HeroCorporateV02"
+    },
+    {
+      "idx": 32,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V03",
+      "exportName": "HeroCorporateV03"
+    },
+    {
+      "idx": 33,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V04",
+      "exportName": "HeroCorporateV04"
+    },
+    {
+      "idx": 34,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V05",
+      "exportName": "HeroCorporateV05"
+    },
+    {
+      "idx": 35,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V06",
+      "exportName": "HeroCorporateV06"
+    },
+    {
+      "idx": 36,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V07",
+      "exportName": "HeroCorporateV07"
+    },
+    {
+      "idx": 37,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V08",
+      "exportName": "HeroCorporateV08"
+    },
+    {
+      "idx": 38,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V09",
+      "exportName": "HeroCorporateV09"
+    },
+    {
+      "idx": 39,
+      "style": "corporate",
+      "importPath": "./Corporate/Hero.Corporate.V10",
+      "exportName": "HeroCorporateV10"
+    },
+    {
+      "idx": 40,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V01",
+      "exportName": "HeroBrutalistV01"
+    },
+    {
+      "idx": 41,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V02",
+      "exportName": "HeroBrutalistV02"
+    },
+    {
+      "idx": 42,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V03",
+      "exportName": "HeroBrutalistV03"
+    },
+    {
+      "idx": 43,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V04",
+      "exportName": "HeroBrutalistV04"
+    },
+    {
+      "idx": 44,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V05",
+      "exportName": "HeroBrutalistV05"
+    },
+    {
+      "idx": 45,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V06",
+      "exportName": "HeroBrutalistV06"
+    },
+    {
+      "idx": 46,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V07",
+      "exportName": "HeroBrutalistV07"
+    },
+    {
+      "idx": 47,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V08",
+      "exportName": "HeroBrutalistV08"
+    },
+    {
+      "idx": 48,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V09",
+      "exportName": "HeroBrutalistV09"
+    },
+    {
+      "idx": 49,
+      "style": "brutalist",
+      "importPath": "./Brutalist/Hero.Brutalist.V10",
+      "exportName": "HeroBrutalistV10"
+    },
+    {
+      "idx": 50,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V01",
+      "exportName": "HeroGlassV01"
+    },
+    {
+      "idx": 51,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V02",
+      "exportName": "HeroGlassV02"
+    },
+    {
+      "idx": 52,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V03",
+      "exportName": "HeroGlassV03"
+    },
+    {
+      "idx": 53,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V04",
+      "exportName": "HeroGlassV04"
+    },
+    {
+      "idx": 54,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V05",
+      "exportName": "HeroGlassV05"
+    },
+    {
+      "idx": 55,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V06",
+      "exportName": "HeroGlassV06"
+    },
+    {
+      "idx": 56,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V07",
+      "exportName": "HeroGlassV07"
+    },
+    {
+      "idx": 57,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V08",
+      "exportName": "HeroGlassV08"
+    },
+    {
+      "idx": 58,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V09",
+      "exportName": "HeroGlassV09"
+    },
+    {
+      "idx": 59,
+      "style": "glass",
+      "importPath": "./Glass/Hero.Glass.V10",
+      "exportName": "HeroGlassV10"
+    },
+    {
+      "idx": 60,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V01",
+      "exportName": "HeroGradientV01"
+    },
+    {
+      "idx": 61,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V02",
+      "exportName": "HeroGradientV02"
+    },
+    {
+      "idx": 62,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V03",
+      "exportName": "HeroGradientV03"
+    },
+    {
+      "idx": 63,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V04",
+      "exportName": "HeroGradientV04"
+    },
+    {
+      "idx": 64,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V05",
+      "exportName": "HeroGradientV05"
+    },
+    {
+      "idx": 65,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V06",
+      "exportName": "HeroGradientV06"
+    },
+    {
+      "idx": 66,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V07",
+      "exportName": "HeroGradientV07"
+    },
+    {
+      "idx": 67,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V08",
+      "exportName": "HeroGradientV08"
+    },
+    {
+      "idx": 68,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V09",
+      "exportName": "HeroGradientV09"
+    },
+    {
+      "idx": 69,
+      "style": "gradient",
+      "importPath": "./Gradient/Hero.Gradient.V10",
+      "exportName": "HeroGradientV10"
+    },
+    {
+      "idx": 70,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V01",
+      "exportName": "HeroMonochromeV01"
+    },
+    {
+      "idx": 71,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V02",
+      "exportName": "HeroMonochromeV02"
+    },
+    {
+      "idx": 72,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V03",
+      "exportName": "HeroMonochromeV03"
+    },
+    {
+      "idx": 73,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V04",
+      "exportName": "HeroMonochromeV04"
+    },
+    {
+      "idx": 74,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V05",
+      "exportName": "HeroMonochromeV05"
+    },
+    {
+      "idx": 75,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V06",
+      "exportName": "HeroMonochromeV06"
+    },
+    {
+      "idx": 76,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V07",
+      "exportName": "HeroMonochromeV07"
+    },
+    {
+      "idx": 77,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V08",
+      "exportName": "HeroMonochromeV08"
+    },
+    {
+      "idx": 78,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V09",
+      "exportName": "HeroMonochromeV09"
+    },
+    {
+      "idx": 79,
+      "style": "mono",
+      "importPath": "./Monochrome/Hero.Monochrome.V10",
+      "exportName": "HeroMonochromeV10"
+    },
+    {
+      "idx": 80,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V01",
+      "exportName": "HeroEditorialV01"
+    },
+    {
+      "idx": 81,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V02",
+      "exportName": "HeroEditorialV02"
+    },
+    {
+      "idx": 82,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V03",
+      "exportName": "HeroEditorialV03"
+    },
+    {
+      "idx": 83,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V04",
+      "exportName": "HeroEditorialV04"
+    },
+    {
+      "idx": 84,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V05",
+      "exportName": "HeroEditorialV05"
+    },
+    {
+      "idx": 85,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V06",
+      "exportName": "HeroEditorialV06"
+    },
+    {
+      "idx": 86,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V07",
+      "exportName": "HeroEditorialV07"
+    },
+    {
+      "idx": 87,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V08",
+      "exportName": "HeroEditorialV08"
+    },
+    {
+      "idx": 88,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V09",
+      "exportName": "HeroEditorialV09"
+    },
+    {
+      "idx": 89,
+      "style": "editorial",
+      "importPath": "./Editorial/Hero.Editorial.V10",
+      "exportName": "HeroEditorialV10"
+    },
+    {
+      "idx": 90,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V01",
+      "exportName": "HeroNeumorphicV01"
+    },
+    {
+      "idx": 91,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V02",
+      "exportName": "HeroNeumorphicV02"
+    },
+    {
+      "idx": 92,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V03",
+      "exportName": "HeroNeumorphicV03"
+    },
+    {
+      "idx": 93,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V04",
+      "exportName": "HeroNeumorphicV04"
+    },
+    {
+      "idx": 94,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V05",
+      "exportName": "HeroNeumorphicV05"
+    },
+    {
+      "idx": 95,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V06",
+      "exportName": "HeroNeumorphicV06"
+    },
+    {
+      "idx": 96,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V07",
+      "exportName": "HeroNeumorphicV07"
+    },
+    {
+      "idx": 97,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V08",
+      "exportName": "HeroNeumorphicV08"
+    },
+    {
+      "idx": 98,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V09",
+      "exportName": "HeroNeumorphicV09"
+    },
+    {
+      "idx": 99,
+      "style": "neumorphic",
+      "importPath": "./Neumorphic/Hero.Neumorphic.V10",
+      "exportName": "HeroNeumorphicV10"
+    }
+  ]
+}
