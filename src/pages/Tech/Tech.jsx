@@ -96,7 +96,7 @@ const Tech = () => {
                     transform: "scale(1.1)",
                     transformOrigin: "center center"
                   }}
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+                  sandbox="allow-scripts allow-forms allow-popups allow-modals"
                 />
                 <div 
                   style={{
@@ -143,7 +143,7 @@ const Tech = () => {
                 background: "#111",
                 minHeight: windowSize.width < 480 ? "300px" : windowSize.width < 768 ? "400px" : "600px",
               }}
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+              sandbox="allow-scripts allow-forms allow-popups allow-modals"
               allowFullScreen
               onLoad={handleIframeLoad}
             />
