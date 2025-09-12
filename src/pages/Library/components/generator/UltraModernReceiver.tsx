@@ -49,7 +49,7 @@ export default function UltraModernReceiver({ minChars = 40, onSubmit, examples 
           <h1 className="text-display mb-6 relative z-50 pb-4">
             Create Your Perfect Landing Page
           </h1>
-          <p className="text-subheading max-w-2xl mx-auto text-gray-600 relative z-40">
+          <p className="text-subheading max-w-2xl mx-auto text-white-600 relative z-40">
             Describe your vision and watch as AI crafts a professional, conversion-optimized landing page tailored to your business
           </p>
         </div>
