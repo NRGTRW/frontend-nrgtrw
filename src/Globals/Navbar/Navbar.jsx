@@ -938,12 +938,12 @@ const Navbar = () => {
           >
             Tech
           </li>
-          <li
+          {/* <li
             onClick={() => handleNavigation(ROUTES.library)}
             className="service-link"
           >
             Library
-          </li>
+          </li> */}
           <li
             onClick={() => handleNavigation("/clothing")}
             className="service-link"
