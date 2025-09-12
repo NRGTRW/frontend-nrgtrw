@@ -26,7 +26,7 @@ export default defineConfig({
           vendor: ["react", "react-dom"],
           router: ["react-router-dom"],
           ui: ["react-toastify", "styled-components"],
-          utils: ["axios", "swr"],
+          utils: ["axios", "swr", "zod"],
         },
 
         // Optimize asset names
@@ -86,6 +86,7 @@ export default defineConfig({
       "axios",
       "swr",
       "styled-components",
+      "zod",
     ],
   },
 
