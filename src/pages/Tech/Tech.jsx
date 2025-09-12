@@ -33,8 +33,8 @@ const techProjects = [
     title: "Legacy Project 1",
     description: "Preview one of my previous tech projects.",
     image: S3_BASE + "Tech.webp",
-    type: "iframe",
-    url: "https://example.com/project1", // Replace with actual URL later
+    type: "redirect",
+    url: "/tech", // Redirect back to tech page for now
   },
 ];
 

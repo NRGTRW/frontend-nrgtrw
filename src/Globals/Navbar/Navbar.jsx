@@ -938,6 +938,24 @@ const Navbar = () => {
             Tech
           </li>
           <li
+            onClick={() => handleNavigation("/library")}
+            className="service-link"
+          >
+            Library
+          </li>
+          <li
+            onClick={() => handleNavigation("/library/gallery")}
+            className="service-link"
+          >
+            Gallery
+          </li>
+          <li
+            onClick={() => handleNavigation("/library/generator")}
+            className="service-link"
+          >
+            Generator
+          </li>
+          <li
             onClick={() => handleNavigation("/clothing")}
             className="service-link"
           >
