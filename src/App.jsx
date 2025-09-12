@@ -38,6 +38,7 @@ const FitnessAdmin = lazy(() => import("./admin/FitnessAdmin"));
 const FitnessAnalytics = lazy(() => import("./admin/FitnessAnalytics"));
 const CreateAProductPage = lazy(() => import("./admin/CreateAProductPage"));
 const Tech = lazy(() => import("./pages/Tech/Tech"));
+const LibraryPage = lazy(() => import("./pages/Library/LibraryPage"));
 const MaterialsPage = lazy(() => import("./pages/MaterialsPage/MaterialsPage"));
 const InspirationPage = lazy(
   () => import("./pages/InspirationPage/InspirationPage"),
@@ -99,6 +100,7 @@ function App() {
               <Route path="/admin/create-product" element={<CreateAProductPage />} />
               <Route path="/admin/fitness-analytics" element={<FitnessAnalytics />} />
               <Route path="/tech" element={<Tech />} />
+              <Route path="/library/*" element={<LibraryPage />} />
               <Route path="/materials" element={<MaterialsPage />} />
               <Route path="/inspiration" element={<InspirationPage />} />
               <Route path="/vision" element={<VisionPage />} />
