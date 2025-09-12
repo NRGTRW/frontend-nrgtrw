@@ -30,7 +30,8 @@ function getS3Url(path) {
 }
 
 const ProductPage = () => {
-  const { productId } = useParams();
+  const params = useParams();
+  const { id: productId } = params;
   const location = useLocation();
   const navigate = useNavigate();
   const { addToCart, cart } = useCart();
@@ -39,13 +40,20 @@ const ProductPage = () => {
   const { t, i18n } = useTranslation();
 
   // Fetch product & categories using SWR.
+  const swrKey = productId ? `product-${productId}` : null;
+  console.log("SWR Key:", swrKey);
+  console.log("ProductId:", productId);
+  
   const {
     data: product,
     error,
     mutate,
   } = useSWR(
-    productId ? `${import.meta.env.VITE_API_URL}/products/${productId}` : null,
-    () => fetchProductById(productId),
+    swrKey,
+    () => {
+      console.log("SWR fetcher called with productId:", productId);
+      return fetchProductById(productId);
+    },
   );
   const { data: categories } = useSWR(
     `${import.meta.env.VITE_API_URL}/categories`,
@@ -56,7 +64,14 @@ const ProductPage = () => {
   // Debug: log the fetched product.
   useEffect(() => {
     console.log("Fetched product:", product);
-  }, [product]);
+    console.log("Product ID from params:", productId);
+    console.log("SWR error:", error);
+    console.log("SWR data:", product);
+    console.log("API URL:", import.meta.env.VITE_API_URL);
+    console.log("Current location:", location);
+    console.log("Current pathname:", location.pathname);
+    console.log("All params:", params);
+  }, [product, productId, error, location, params]);
 
   // --- Translation helper for viewing mode ---
   let translation = {};
