@@ -14,6 +14,7 @@ import HamburgerIcon from "../../components/HamburgerIcon/HamburgerIcon";
 import UserRow from "./UserRow";
 import NRGLandingPage from "../../pages/NRGLandingPage/NRGLandingPage";
 import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
+import { ROUTES } from "../../routes/links";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -932,28 +933,16 @@ const Navbar = () => {
             Programs
           </li>
           <li
-            onClick={() => handleNavigation("/tech")}
+            onClick={() => handleNavigation(ROUTES.tech)}
             className="service-link"
           >
             Tech
           </li>
           <li
-            onClick={() => handleNavigation("/library")}
+            onClick={() => handleNavigation(ROUTES.library)}
             className="service-link"
           >
             Library
-          </li>
-          <li
-            onClick={() => handleNavigation("/library/gallery")}
-            className="service-link"
-          >
-            Gallery
-          </li>
-          <li
-            onClick={() => handleNavigation("/library/generator")}
-            className="service-link"
-          >
-            Generator
           </li>
           <li
             onClick={() => handleNavigation("/clothing")}

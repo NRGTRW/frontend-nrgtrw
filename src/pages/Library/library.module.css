@@ -1,0 +1,243 @@
+/* Library-specific styles - scoped to prevent interference with main app */
+
+/* CSS Variables for Library - prefixed with --lib- */
+[data-scope="library"] {
+  --lib-nav-height: 80px;
+  --lib-secondary-bg: #f8fafc;
+  --lib-secondary-fg: #1e293b;
+  --lib-secondary-bg-hover: #e2e8f0;
+  --lib-secondary-ring: #3b82f6;
+  --lib-border-color: #e2e8f0;
+  --lib-text-primary: #1e293b;
+  --lib-text-secondary: #64748b;
+  --lib-bg-primary: #ffffff;
+  --lib-bg-secondary: #f8fafc;
+}
+
+/* Dark mode variables */
+[data-scope="library"][data-theme="dark"] {
+  --lib-secondary-bg: #1e293b;
+  --lib-secondary-fg: #f1f5f9;
+  --lib-secondary-bg-hover: #334155;
+  --lib-secondary-ring: #60a5fa;
+  --lib-border-color: #334155;
+  --lib-text-primary: #f1f5f9;
+  --lib-text-secondary: #94a3b8;
+  --lib-bg-primary: #0f172a;
+  --lib-bg-secondary: #1e293b;
+}
+
+/* Library Layout */
+.library-layout {
+  min-height: 100vh;
+  background: var(--lib-bg-primary);
+}
+
+.library-navbar-spacer {
+  /* Spacer for global navbar */
+}
+
+.library-main {
+  padding: 0;
+  background: var(--lib-bg-primary);
+  color: var(--lib-text-primary);
+}
+
+/* Library Navigation */
+.library-nav {
+  background: var(--lib-bg-secondary);
+  border-bottom: 1px solid var(--lib-border-color);
+  padding: 1rem 0;
+  position: sticky;
+  top: var(--lib-nav-height);
+  z-index: 40;
+}
+
+.library-nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.library-nav-brand {
+  flex-shrink: 0;
+}
+
+.library-nav-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--lib-text-primary);
+  margin: 0;
+}
+
+.library-nav-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.library-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: var(--lib-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  min-height: 40px; /* Accessibility: minimum hit area */
+}
+
+.library-nav-link:hover {
+  background: var(--lib-secondary-bg);
+  color: var(--lib-text-primary);
+  border-color: var(--lib-border-color);
+}
+
+.library-nav-link:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--lib-secondary-ring);
+  ring-offset: 2px;
+}
+
+.library-nav-link.active {
+  background: var(--lib-secondary-bg);
+  color: var(--lib-text-primary);
+  border-color: var(--lib-secondary-ring);
+}
+
+.library-nav-icon {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.library-nav-text {
+  font-size: 0.875rem;
+}
+
+/* Library Button Components */
+.library-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 40px; /* Accessibility: minimum hit area */
+  font-size: 0.875rem;
+}
+
+.library-button:focus {
+  outline: none;
+  ring: 2px;
+  ring-offset: 2px;
+}
+
+.library-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Primary button variant */
+.library-button-primary {
+  background: var(--lib-secondary-bg);
+  color: var(--lib-secondary-fg);
+  border-color: var(--lib-border-color);
+}
+
+.library-button-primary:hover:not(:disabled) {
+  background: var(--lib-secondary-bg-hover);
+}
+
+.library-button-primary:focus {
+  ring-color: var(--lib-secondary-ring);
+}
+
+/* Secondary button variant */
+.library-button-secondary {
+  background: var(--lib-secondary-bg);
+  color: var(--lib-secondary-fg);
+  border-color: var(--lib-border-color);
+}
+
+.library-button-secondary:hover:not(:disabled) {
+  background: var(--lib-secondary-bg-hover);
+}
+
+.library-button-secondary:focus {
+  ring-color: var(--lib-secondary-ring);
+}
+
+/* Ghost button variant (for special cases) */
+.library-button-ghost {
+  background: transparent;
+  color: var(--lib-text-secondary);
+  border-color: var(--lib-border-color);
+}
+
+.library-button-ghost:hover:not(:disabled) {
+  background: var(--lib-secondary-bg);
+  color: var(--lib-text-primary);
+}
+
+.library-button-ghost:focus {
+  ring-color: var(--lib-secondary-ring);
+}
+
+/* Library Card Components */
+.library-card {
+  background: var(--lib-bg-primary);
+  border: 1px solid var(--lib-border-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.library-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .library-nav-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .library-nav-links {
+    justify-content: center;
+  }
+  
+  .library-nav-link {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+  
+  .library-nav-text {
+    display: none;
+  }
+  
+  .library-nav-icon {
+    font-size: 1.25rem;
+  }
+}
+
+/* Scroll margin for section anchors */
+[data-scope="library"] section[id] {
+  scroll-margin-top: calc(var(--lib-nav-height) + 80px);
+}

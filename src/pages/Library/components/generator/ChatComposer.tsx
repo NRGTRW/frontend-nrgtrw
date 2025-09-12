@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import LibButton from '../LibButton';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 interface ChatComposerProps {
@@ -98,27 +99,25 @@ export const ChatComposer: React.FC<ChatComposerProps> = ({
           {/* Buttons */}
           <div className="flex items-center space-x-2">
             {isGenerating && onStop && (
-              <button
+              <LibButton
                 onClick={onStop}
-                className="px-4 py-2 bg-[hsl(var(--destructive))] text-[hsl(var(--destructive-foreground))] rounded-lg hover:bg-[hsl(var(--destructive))]/90 transition-colors text-sm font-medium"
+                variant="secondary"
+                size="sm"
+                aria-label="Stop generation"
               >
                 Stop
-              </button>
+              </LibButton>
             )}
             
-            <button
+            <LibButton
               onClick={handleSubmit}
               disabled={!canSend}
-              className={`
-                px-6 py-2 rounded-lg font-medium text-sm transition-all duration-200
-                ${canSend
-                  ? 'bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))] hover:bg-[hsl(var(--accent))]/90 shadow-[var(--e1)] hover:shadow-[var(--e2)]'
-                  : 'bg-[hsl(var(--secondary))] text-[hsl(var(--muted))] cursor-not-allowed'
-                }
-              `}
+              variant="primary"
+              size="sm"
+              aria-label="Send message"
             >
               Send
-            </button>
+            </LibButton>
           </div>
         </div>
 

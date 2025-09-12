@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { LIBRARY_ROUTES } from '../../../routes/links';
+import LibButton from './LibButton';
 
 export const SimpleHomePage: React.FC = () => {
   return (
@@ -45,18 +47,22 @@ export const SimpleHomePage: React.FC = () => {
             No design skills required.
           </p>
           <div className="flex-center space-x-4 relative z-40">
-            <Link
-              to="/generator"
-              className="ultra-button ultra-button-primary text-lg px-8 py-4"
+            <LibButton
+              to={LIBRARY_ROUTES.generator}
+              variant="primary"
+              size="lg"
+              aria-label="Start creating a landing page"
             >
               Start Creating
-            </Link>
-            <Link
-              to="/gallery"
-              className="ultra-button ultra-button-secondary text-lg px-8 py-4"
+            </LibButton>
+            <LibButton
+              to={LIBRARY_ROUTES.gallery}
+              variant="secondary"
+              size="lg"
+              aria-label="Browse component gallery"
             >
               Browse Components
-            </Link>
+            </LibButton>
             {/* <Link
               to="/preview"
               className="ultra-button ultra-button-ghost text-lg px-8 py-4"
@@ -193,12 +199,14 @@ export const SimpleHomePage: React.FC = () => {
           <p className="text-body text-gray-600 dark:text-gray-300 mb-8">
             Join thousands of businesses who have created professional landing pages with our AI.
           </p>
-          <Link
-            to="/generator"
-            className="ultra-button ultra-button-primary px-8 py-4 text-lg"
+          <LibButton
+            to={LIBRARY_ROUTES.generator}
+            variant="primary"
+            size="lg"
+            aria-label="Get started creating your landing page"
           >
             Get Started Now
-          </Link>
+          </LibButton>
         </div>
       </div>
       

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageList, Message } from './MessageList';
 import { ChatComposer } from './ChatComposer';
+import LibButton from '../LibButton';
 
 interface GeneratorChatLayoutProps {
   messages: Message[];
@@ -33,12 +34,14 @@ export const GeneratorChatLayout: React.FC<GeneratorChatLayoutProps> = ({
           </div>
           
           {/* Floating "Explain my page" button */}
-          <button
+          <LibButton
             onClick={() => onSelectSection?.('explain')}
-            className="px-4 py-2 bg-[hsl(var(--secondary))] text-[hsl(var(--fg))] rounded-lg hover:bg-[hsl(var(--secondary))]/80 transition-colors text-sm font-medium"
+            variant="secondary"
+            size="sm"
+            aria-label="Explain my generated page"
           >
             Explain my page
-          </button>
+          </LibButton>
         </div>
       </div>
 

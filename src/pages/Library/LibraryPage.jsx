@@ -6,6 +6,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import { SimpleHomePage } from "./components/SimpleHomePage";
 import { ComponentGallery } from "./components/ComponentGallery";
 import GlobalBackground from "./components/GlobalBackground";
+import LibraryLayout from "./LibraryLayout";
 
 // Import preview system
 import ModernPreviewPage from "./preview/ModernPreviewPage";
@@ -115,7 +116,7 @@ const LibraryPage = () => {
   }
 
   return (
-    <div className="library-page" style={{ marginTop: '80px', minHeight: 'calc(100vh - 80px)' }}>
+    <LibraryLayout>
       <GlobalBackground />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
@@ -137,7 +138,7 @@ const LibraryPage = () => {
           <Route path="/preview-layout" element={<PreviewLayout />} />
         </Routes>
       </Suspense>
-    </div>
+    </LibraryLayout>
   );
 };
 
