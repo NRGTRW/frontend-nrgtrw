@@ -158,7 +158,7 @@ export const ComponentGallery: React.FC = () => {
         ))}
       </div>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -190,7 +190,7 @@ export const ComponentGallery: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - Category Selection */}
           <div className="lg:col-span-1">
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-200 ease-in-out p-6 sticky top-8">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm dark:shadow-lg transition-all duration-200 ease-in-out p-6 sticky top-8">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Categories</h3>
               <div className="space-y-2">
                 {categories.map((category) => (
@@ -199,8 +199,8 @@ export const ComponentGallery: React.FC = () => {
                     onClick={() => setSelectedCategory(category.key)}
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       selectedCategory === category.key
-                        ? 'bg-blue-50 border border-blue-200 text-blue-600'
-                        : 'hover:bg-gray-50 text-gray-900 dark:text-gray-100'
+                        ? 'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 text-blue-600 dark:text-blue-400'
+                        : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -210,7 +210,7 @@ export const ComponentGallery: React.FC = () => {
                           <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                         </svg>
                       ) : (
-                        <svg className="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-300 dark:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM8 15v-3a2 2 0 114 0v3H8z" />
                         </svg>
                       )}
@@ -221,7 +221,7 @@ export const ComponentGallery: React.FC = () => {
               </div>
 
               {/* Component Controls */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-3">Controls</h4>
                 <div className="space-y-2">
                   <button
@@ -231,7 +231,7 @@ export const ComponentGallery: React.FC = () => {
                       const nextIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
                       setCurrentVariants(prev => ({ ...prev, [selectedCategory]: nextIndex }));
                     }}
-                    className="w-full px-3 py-2 text-sm bg-gray-100 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={locked[selectedCategory] !== undefined}
                   >
                     Next Variant
@@ -258,7 +258,7 @@ export const ComponentGallery: React.FC = () => {
                         const currentIndex = currentVariants[selectedCategory] ?? 0;
                         lockLayout(selectedCategory, currentIndex);
                       }}
-                      className="w-full px-3 py-2 text-sm bg-gray-100 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2"
+                      className="w-full px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center space-x-2"
                     >
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
@@ -270,7 +270,7 @@ export const ComponentGallery: React.FC = () => {
               </div>
 
               {/* Info */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   <div className="font-medium mb-2 text-gray-900 dark:text-gray-100">Current Selection:</div>
                   <div className="space-y-1">
@@ -306,7 +306,7 @@ export const ComponentGallery: React.FC = () => {
           <div className="lg:col-span-3">
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-200 ease-in-out overflow-hidden">
               {/* Preview Header */}
-              <div className="border-b border-gray-200 p-4 bg-gray-50">
+              <div className="border-b border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-700">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
@@ -318,7 +318,7 @@ export const ComponentGallery: React.FC = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm text-gray-600 dark:text-gray-300">Variant</span>
-                    <span className="px-2 py-1 bg-blue-50 text-blue-600 text-sm rounded">
+                    <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm rounded">
                       {currentVariants[selectedCategory] ?? 0}
                     </span>
                     {locked[selectedCategory] !== undefined ? (
@@ -330,10 +330,10 @@ export const ComponentGallery: React.FC = () => {
                       </div>
                     ) : (
                       <div className="flex items-center space-x-1">
-                        <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM8 15v-3a2 2 0 114 0v3H8z" />
                         </svg>
-                        <span className="text-xs text-gray-400 font-medium">Unlocked</span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">Unlocked</span>
                       </div>
                     )}
                   </div>
@@ -355,7 +355,7 @@ export const ComponentGallery: React.FC = () => {
                     <CurrentComponent />
                   )
                 ) : (
-                  <div className="flex items-center justify-center h-96 text-[hsl(var(--muted))]">
+                  <div className="flex items-center justify-center h-96 text-gray-500 dark:text-gray-400">
                     <div className="text-center">
                       <div className="text-4xl mb-4">🔧</div>
                       <div>Component not available</div>

@@ -123,10 +123,10 @@ export const ChatComposer: React.FC<ChatComposerProps> = ({
 
         {/* Helper text */}
         <div className="mt-2 text-center">
-          <p className="text-xs text-[hsl(var(--muted))]">
-            Press <kbd className="px-1 py-0.5 bg-[hsl(var(--secondary))] rounded text-xs">Enter</kbd> to send, 
-            <kbd className="px-1 py-0.5 bg-[hsl(var(--secondary))] rounded text-xs ml-1">Shift+Enter</kbd> for new line, 
-            <kbd className="px-1 py-0.5 bg-[hsl(var(--secondary))] rounded text-xs ml-1">Esc</kbd> to blur
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Press <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs">Enter</kbd> to send, 
+            <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs ml-1">Shift+Enter</kbd> for new line, 
+            <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs ml-1">Esc</kbd> to blur
           </p>
         </div>
       </div>

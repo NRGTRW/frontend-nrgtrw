@@ -163,14 +163,14 @@ export default function UltraModernReceiver({ minChars = 40, onSubmit, examples 
                   key={index}
                   type="button"
                   onClick={() => handleExampleClick(ex)}
-                  className="p-6 text-left ultra-card hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  className="p-6 text-left ultra-card hover:shadow-xl transition-all duration-300 group cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex-center text-white text-sm font-semibold flex-shrink-0">
                       {index + 1}
                     </div>
-                    <div className="text-body text-gray-600 group-hover:text-gray-900 transition-colors">
+                    <div className="text-body text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
                       {ex}
                     </div>
                   </div>
