@@ -81,7 +81,7 @@ const Tech = () => {
       <section className="tech-cards">
         {techProjects.map((project) => (
           <div key={project.id} className="tech-card">
-            {project.id === 2 || project.id === 3 ? (
+            {project.type === "iframe" ? (
               <div style={{ position: "relative" }}>
                 <iframe
                   src={project.url}
