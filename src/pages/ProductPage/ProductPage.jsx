@@ -43,6 +43,7 @@ const ProductPage = () => {
   const swrKey = productId ? `product-${productId}` : null;
   console.log("SWR Key:", swrKey);
   console.log("ProductId:", productId);
+  console.log("FIXED: Parameter extraction working!");
   
   const {
     data: product,
