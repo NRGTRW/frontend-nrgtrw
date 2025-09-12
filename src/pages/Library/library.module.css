@@ -154,48 +154,81 @@
 
 /* Primary button variant */
 .library-button-primary {
-  background: var(--lib-secondary-bg);
-  color: var(--lib-secondary-fg);
-  border-color: var(--lib-border-color);
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #e2e8f0;
 }
 
 .library-button-primary:hover:not(:disabled) {
-  background: var(--lib-secondary-bg-hover);
+  background: #e2e8f0;
 }
 
 .library-button-primary:focus {
-  ring-color: var(--lib-secondary-ring);
+  ring-color: #3b82f6;
+}
+
+/* Dark mode primary */
+[data-scope="library"][data-theme="dark"] .library-button-primary {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+[data-scope="library"][data-theme="dark"] .library-button-primary:hover:not(:disabled) {
+  background: #334155;
 }
 
 /* Secondary button variant */
 .library-button-secondary {
-  background: var(--lib-secondary-bg);
-  color: var(--lib-secondary-fg);
-  border-color: var(--lib-border-color);
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #e2e8f0;
 }
 
 .library-button-secondary:hover:not(:disabled) {
-  background: var(--lib-secondary-bg-hover);
+  background: #e2e8f0;
 }
 
 .library-button-secondary:focus {
-  ring-color: var(--lib-secondary-ring);
+  ring-color: #3b82f6;
+}
+
+/* Dark mode secondary */
+[data-scope="library"][data-theme="dark"] .library-button-secondary {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+[data-scope="library"][data-theme="dark"] .library-button-secondary:hover:not(:disabled) {
+  background: #334155;
 }
 
 /* Ghost button variant (for special cases) */
 .library-button-ghost {
   background: transparent;
-  color: var(--lib-text-secondary);
-  border-color: var(--lib-border-color);
+  color: #64748b;
+  border-color: #e2e8f0;
 }
 
 .library-button-ghost:hover:not(:disabled) {
-  background: var(--lib-secondary-bg);
-  color: var(--lib-text-primary);
+  background: #f8fafc;
+  color: #1e293b;
 }
 
 .library-button-ghost:focus {
-  ring-color: var(--lib-secondary-ring);
+  ring-color: #3b82f6;
+}
+
+/* Dark mode ghost */
+[data-scope="library"][data-theme="dark"] .library-button-ghost {
+  color: #94a3b8;
+  border-color: #334155;
+}
+
+[data-scope="library"][data-theme="dark"] .library-button-ghost:hover:not(:disabled) {
+  background: #1e293b;
+  color: #f1f5f9;
 }
 
 /* Library Card Components */
