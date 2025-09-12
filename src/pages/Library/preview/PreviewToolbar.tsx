@@ -69,7 +69,6 @@ const Icon = ({ name, className = "w-5 h-5" }: { name: string; className?: strin
     add: "➕",
     remove: "➖",
     close: "❌",
-    check: "✅",
     arrow: "➡️",
     up: "⬆️",
     down: "⬇️",

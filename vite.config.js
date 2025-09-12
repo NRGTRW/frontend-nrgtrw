@@ -25,7 +25,7 @@ export default defineConfig({
           // Vendor chunks
           vendor: ["react", "react-dom"],
           router: ["react-router-dom"],
-          ui: ["react-toastify"],
+          ui: ["react-toastify", "styled-components"],
           utils: ["axios", "swr"],
         },
 
@@ -85,6 +85,7 @@ export default defineConfig({
       "react-toastify",
       "axios",
       "swr",
+      "styled-components",
     ],
   },
 

@@ -38,6 +38,7 @@
     "react-scroll": "^1.9.0",
     "react-toastify": "^11.0.3",
     "socket.io-client": "^4.8.1",
+    "styled-components": "^6.1.19",
     "swr": "^2.3.0",
     "vite-plugin-node-polyfills": "^0.22.0",
     "zustand": "^5.0.8"
