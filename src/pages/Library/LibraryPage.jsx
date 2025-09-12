@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import "./index.css";
 import { useMemo, useState, useEffect, Suspense } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
-import { UltraModernNavigation } from "./components/UltraModernNavigation";
 import { SimpleHomePage } from "./components/SimpleHomePage";
 import { ComponentGallery } from "./components/ComponentGallery";
 import GlobalBackground from "./components/GlobalBackground";

@@ -40,7 +40,7 @@ export const SimpleHomePage: React.FC = () => {
           <h1 className="text-display mb-6 relative z-50 pb-4">
             Create Landing Pages with AI
           </h1>
-          <p className="text-subheading mb-8 max-w-3xl mx-auto text-gray-600 relative z-40">
+          <p className="text-subheading mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300 relative z-40">
             Describe your business in plain English and get a complete, professional landing page in minutes. 
             No design skills required.
           </p>
@@ -71,7 +71,7 @@ export const SimpleHomePage: React.FC = () => {
       <div className="ultra-container py-16 relative z-20">
         <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="text-heading mb-4">How It Works</h2>
-          <p className="text-body text-gray-600">Three simple steps to your landing page</p>
+          <p className="text-body text-gray-600 dark:text-gray-300">Three simple steps to your landing page</p>
         </div>
 
         <div className="grid-3 gap-8">
@@ -80,7 +80,7 @@ export const SimpleHomePage: React.FC = () => {
               💬
             </div>
             <h3 className="text-subheading mb-2">1. Describe Your Business</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Tell our AI about your business, target audience, and what you want to achieve. 
               Be as specific or general as you like.
             </p>
@@ -91,7 +91,7 @@ export const SimpleHomePage: React.FC = () => {
               🤖
             </div>
             <h3 className="text-subheading mb-2">2. AI Creates Your Page</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Our AI analyzes your description and creates a complete landing page with 
               all the sections you need: hero, features, testimonials, pricing, and more.
             </p>
@@ -102,7 +102,7 @@ export const SimpleHomePage: React.FC = () => {
               ✨
             </div>
             <h3 className="text-subheading mb-2">3. Customize & Export</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Preview your page, make adjustments, and export it as code or use it directly. 
               Perfect for any business or project.
             </p>
@@ -117,7 +117,7 @@ export const SimpleHomePage: React.FC = () => {
       <div className="ultra-container py-20 relative z-20">
         <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="text-heading mb-4">What You Can Create</h2>
-          <p className="text-body text-gray-600">Examples of landing pages you can build</p>
+          <p className="text-body text-gray-600 dark:text-gray-300">Examples of landing pages you can build</p>
         </div>
 
         <div className="grid-auto gap-6">
@@ -126,7 +126,7 @@ export const SimpleHomePage: React.FC = () => {
               💻
             </div>
             <h3 className="text-subheading mb-2">SaaS Products</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Perfect for software companies, apps, and digital products with pricing tiers and feature comparisons.
             </p>
           </div>
@@ -136,7 +136,7 @@ export const SimpleHomePage: React.FC = () => {
               🛒
             </div>
             <h3 className="text-subheading mb-2">E-commerce</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Great for online stores, product launches, and retail businesses with product showcases and testimonials.
             </p>
           </div>
@@ -146,7 +146,7 @@ export const SimpleHomePage: React.FC = () => {
               🏢
             </div>
             <h3 className="text-subheading mb-2">Services</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Ideal for consultants, agencies, freelancers, and service providers with case studies and contact forms.
             </p>
           </div>
@@ -156,7 +156,7 @@ export const SimpleHomePage: React.FC = () => {
               🎓
             </div>
             <h3 className="text-subheading mb-2">Education</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Perfect for courses, training programs, and educational content with curriculum previews and student testimonials.
             </p>
           </div>
@@ -166,7 +166,7 @@ export const SimpleHomePage: React.FC = () => {
               🏥
             </div>
             <h3 className="text-subheading mb-2">Healthcare</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Great for medical practices, wellness services, and health products with trust signals and patient stories.
             </p>
           </div>
@@ -176,7 +176,7 @@ export const SimpleHomePage: React.FC = () => {
               🚀
             </div>
             <h3 className="text-subheading mb-2">Startups</h3>
-            <p className="text-body text-gray-600">
+            <p className="text-body text-gray-600 dark:text-gray-300">
               Perfect for new businesses, product launches, and fundraising with investor-focused content and metrics.
             </p>
           </div>
@@ -190,7 +190,7 @@ export const SimpleHomePage: React.FC = () => {
       <div className="ultra-container py-24 relative z-20">
         <div className="ultra-card p-12 text-center animate-fade-in-up">
           <h2 className="text-heading mb-4">Ready to Create Your Landing Page?</h2>
-          <p className="text-body text-gray-600 mb-8">
+          <p className="text-body text-gray-600 dark:text-gray-300 mb-8">
             Join thousands of businesses who have created professional landing pages with our AI.
           </p>
           <Link

@@ -162,8 +162,8 @@ export const ComponentGallery: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Component Gallery</h1>
-              <p className="text-gray-600 mt-1">Browse and test different layout components</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Component Gallery</h1>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">Browse and test different layout components</p>
             </div>
             <div className="flex items-center space-x-3">
               <button
@@ -191,7 +191,7 @@ export const ComponentGallery: React.FC = () => {
           {/* Left Sidebar - Category Selection */}
           <div className="lg:col-span-1">
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-200 ease-in-out p-6 sticky top-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Categories</h3>
               <div className="space-y-2">
                 {categories.map((category) => (
                   <button
@@ -200,7 +200,7 @@ export const ComponentGallery: React.FC = () => {
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       selectedCategory === category.key
                         ? 'bg-blue-50 border border-blue-200 text-blue-600'
-                        : 'hover:bg-gray-50 text-gray-900'
+                        : 'hover:bg-gray-50 text-gray-900 dark:text-gray-100'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -215,14 +215,14 @@ export const ComponentGallery: React.FC = () => {
                         </svg>
                       )}
                     </div>
-                    <div className="text-sm text-gray-600">{category.description}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">{category.description}</div>
                   </button>
                 ))}
               </div>
 
               {/* Component Controls */}
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <h4 className="font-medium text-gray-900 mb-3">Controls</h4>
+                <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-3">Controls</h4>
                 <div className="space-y-2">
                   <button
                     onClick={() => {
@@ -231,7 +231,7 @@ export const ComponentGallery: React.FC = () => {
                       const nextIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
                       setCurrentVariants(prev => ({ ...prev, [selectedCategory]: nextIndex }));
                     }}
-                    className="w-full px-3 py-2 text-sm bg-gray-100 text-gray-900 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 text-sm bg-gray-100 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={locked[selectedCategory] !== undefined}
                   >
                     Next Variant
@@ -258,7 +258,7 @@ export const ComponentGallery: React.FC = () => {
                         const currentIndex = currentVariants[selectedCategory] ?? 0;
                         lockLayout(selectedCategory, currentIndex);
                       }}
-                      className="w-full px-3 py-2 text-sm bg-gray-100 text-gray-900 rounded hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2"
+                      className="w-full px-3 py-2 text-sm bg-gray-100 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2"
                     >
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
@@ -271,8 +271,8 @@ export const ComponentGallery: React.FC = () => {
 
               {/* Info */}
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="text-sm text-gray-600">
-                  <div className="font-medium mb-2 text-gray-900">Current Selection:</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  <div className="font-medium mb-2 text-gray-900 dark:text-gray-100">Current Selection:</div>
                   <div className="space-y-1">
                     <div>Category: {categories.find(c => c.key === selectedCategory)?.name}</div>
                     <div>Variant: {currentVariants[selectedCategory] ?? 0}</div>
@@ -309,15 +309,15 @@ export const ComponentGallery: React.FC = () => {
               <div className="border-b border-gray-200 p-4 bg-gray-50">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                       {categories.find(c => c.key === selectedCategory)?.name} Preview
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
                       {categories.find(c => c.key === selectedCategory)?.description}
                     </p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm text-gray-600">Variant</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">Variant</span>
                     <span className="px-2 py-1 bg-blue-50 text-blue-600 text-sm rounded">
                       {currentVariants[selectedCategory] ?? 0}
                     </span>
