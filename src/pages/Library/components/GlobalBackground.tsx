@@ -28,7 +28,7 @@ export default function GlobalBackground() {
       
       {/* Enhanced floating particles with glimmer effects */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="absolute w-2 h-2 bg-blue-400/40 dark:bg-blue-300/30 rounded-full animate-pulse"
@@ -36,7 +36,7 @@ export default function GlobalBackground() {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 4}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
+              animationDuration: `${3 + Math.random() * 2}s`
             }}
           />
         ))}
@@ -44,7 +44,7 @@ export default function GlobalBackground() {
       
       {/* Glimmer sparkles */}
       <div className="absolute inset-0">
-        {[...Array(12)].map((_, i) => (
+        {[...Array(4)].map((_, i) => (
           <div
             key={`sparkle-${i}`}
             className="absolute w-3 h-3 bg-white/50 dark:bg-white/40 rounded-full animate-sparkle"

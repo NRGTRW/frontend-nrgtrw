@@ -17,8 +17,8 @@ const CosmicBackground = ({ palette = defaultPalette }) => {
   // Build gradient string from palette
   const gradient = `linear-gradient(135deg, ${palette.gradient.join(", ")})`;
 
-  // Generate a very dense, natural star field across the full width
-  const starCount = 777;
+  // Generate a much lighter star field for better performance
+  const starCount = 50; // Reduced from 777 to 50 (15x reduction!)
   const stars = Array.from({ length: starCount }).map((_, i) => {
     const top = Math.random() * 100;
     const left = Math.random() * 100;
@@ -47,12 +47,12 @@ const CosmicBackground = ({ palette = defaultPalette }) => {
     );
   });
 
-  // More shooting stars
-  const shootingStars = Array.from({ length: 8 }).map((_, i) => (
+  // Fewer shooting stars for better performance
+  const shootingStars = Array.from({ length: 3 }).map((_, i) => (
     <div
       key={i}
       className="cosmic-shooting-star"
-      style={{ top: `${10 + i * 10}%`, left: 0, animationDelay: `${i * 1.5}s` }}
+      style={{ top: `${20 + i * 25}%`, left: 0, animationDelay: `${i * 3}s` }}
     ></div>
   ));
 

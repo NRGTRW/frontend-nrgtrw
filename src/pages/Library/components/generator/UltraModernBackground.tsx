@@ -25,9 +25,9 @@ export default function UltraModernBackground() {
         }}
       />
       
-      {/* Subtle floating particles */}
+      {/* Fewer floating particles for better performance */}
       <div className="absolute inset-0">
-        {[...Array(15)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-blue-400/15 rounded-full animate-pulse"
@@ -35,7 +35,7 @@ export default function UltraModernBackground() {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 2}s`
+              animationDuration: `${4 + Math.random() * 2}s`
             }}
           />
         ))}

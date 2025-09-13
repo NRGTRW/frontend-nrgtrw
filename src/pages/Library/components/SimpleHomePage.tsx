@@ -7,8 +7,8 @@ export const SimpleHomePage: React.FC = () => {
     <div className="min-h-screen relative">
       {/* Additional glimmer effects for home page */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Floating sparkles */}
-        {[...Array(8)].map((_, i) => (
+        {/* Fewer floating sparkles for better performance */}
+        {[...Array(3)].map((_, i) => (
           <div
             key={`home-sparkle-${i}`}
             className="absolute w-1 h-1 bg-white/40 dark:bg-white/30 rounded-full animate-sparkle"
@@ -16,13 +16,13 @@ export const SimpleHomePage: React.FC = () => {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 4}s`,
-              animationDuration: `${2 + Math.random() * 1}s`
+              animationDuration: `${3 + Math.random() * 1}s`
             }}
           />
         ))}
         
-        {/* Gentle light rays */}
-        {[...Array(4)].map((_, i) => (
+        {/* Fewer gentle light rays for better performance */}
+        {[...Array(2)].map((_, i) => (
           <div
             key={`ray-${i}`}
             className="absolute w-px h-32 bg-gradient-to-b from-transparent via-white/20 to-transparent dark:via-white/10"
