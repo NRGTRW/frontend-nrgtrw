@@ -5,7 +5,8 @@ import { useAuth } from "../../context/AuthContext";
 import "./ClothingVoteModal.css";
 
 const ClothingVoteModal = ({ isOpen, onClose, category = null }) => {
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
   const [formData, setFormData] = useState({
     name: "",
     email: "",

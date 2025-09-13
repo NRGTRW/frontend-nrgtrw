@@ -9,7 +9,8 @@ const TestimonialsSection = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ content: "", rating: 5 });
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
 
   useEffect(() => {
     fetchTestimonials();

@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 // Lazy load components for better performance
-const Navbar = lazy(() => import("./Globals/Navbar/Navbar"));
+import Navbar from "./Globals/Navbar/Navbar";
 const Footer = lazy(() => import("./Globals/Footer/Footer"));
 const ErrorBoundary = lazy(() => import("./Globals/ErrorBoundary"));
 const CosmicBackground = lazy(
@@ -75,9 +75,7 @@ function App() {
       </Suspense>
 
       <div className="App">
-        <Suspense fallback={<LoadingSpinner />}>
-          <Navbar />
-        </Suspense>
+        <Navbar />
 
         <main className="main-content">
           <Suspense fallback={<LoadingSpinner />}>

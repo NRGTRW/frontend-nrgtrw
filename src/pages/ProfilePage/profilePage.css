@@ -25,13 +25,14 @@
 .profile-container {
   max-width: 800px;
   width: 95%;
-  background: var(--card-bg);
+  background: #fff;
   border-radius: 12px;
   padding: 48px;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.03);
   border: 1px solid #eeeeee;
   position: relative;
   overflow: hidden;
+  color: #1a1a1a !important;
 }
 
 .profile-container::before {
@@ -47,7 +48,7 @@
 .profile-header {
   font-family: "Cormorant Garamond", serif;
   font-size: 2.8rem;
-  color: var(--text-primary);
+  color: #1a1a1a !important;
   margin-bottom: 1.5rem;
   font-weight: 500;
   letter-spacing: -0.5px;
@@ -83,7 +84,7 @@
 .profile-field label {
   display: block;
   font-size: 0.9rem;
-  color: #666;
+  color: #333 !important;
   margin-bottom: 8px;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -96,6 +97,7 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   background: #fff;
+  color: #1a1a1a !important;
   transition: all 0.3s ease;
   font-family: "Inter", sans-serif;
 }
@@ -138,7 +140,7 @@
 
 .logout-button {
   background: #fff;
-  color: var(--text-primary);
+  color: #1a1a1a !important;
   border: 1px solid #ddd;
 }
 

@@ -48,9 +48,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { getTotalQuantity } = useCart();
-  const { wishlist } = useWishlist();
+  const cartContext = useCart();
+  const getTotalQuantity = cartContext?.getTotalQuantity || (() => 0);
+  const wishlistContext = useWishlist();
+  const wishlist = wishlistContext?.wishlist || [];
   const wishlistCount = wishlist.length;
+
 
   const { data: profile } = useSWR(
     getAuthToken() ? "/profile" : null,
@@ -876,7 +879,7 @@ const Navbar = () => {
               )}
               {showCartPreview && <CartPreview />}
             </div>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <UserRow
               user={profile}
               profilePicture={profilePicture}

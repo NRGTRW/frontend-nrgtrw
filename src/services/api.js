@@ -10,7 +10,6 @@ if (!import.meta.env.VITE_API_URL) {
   );
 }
 
-console.log("🔍 API Base URL:", baseURL);
 
 const api = axios.create({
   baseURL: baseURL,

@@ -30,8 +30,12 @@ const Products = ({
   categoryName,
 }) => {
   const navigate = useNavigate();
-  const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
-  const { user } = useAuth();
+  const wishlistContext = useWishlist();
+  const addToWishlist = wishlistContext?.addToWishlist;
+  const removeFromWishlist = wishlistContext?.removeFromWishlist;
+  const wishlist = wishlistContext?.wishlist || [];
+  const authContext = useAuth();
+  const user = authContext?.user;
   const { mutate } = useSWR("/wishlist");
   const [selectedColors, setSelectedColors] = useState({});
   const [showModal, setShowModal] = useState(false);

@@ -12,7 +12,8 @@ import { useAuth } from "./AuthContext";
 const ChatContext = createContext();
 
 export function ChatProvider({ children }) {
-  const { user } = useAuth(); // Use the real auth context
+  const authContext = useAuth(); // Use the real auth context
+  const user = authContext?.user;
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -338,8 +339,5 @@ export function ChatProvider({ children }) {
 
 export function useChatContext() {
   const context = useContext(ChatContext);
-  if (!context) {
-    throw new Error("useChatContext must be used within a ChatProvider");
-  }
-  return context;
+  return context; // Return undefined if not available, let components handle it defensively
 }

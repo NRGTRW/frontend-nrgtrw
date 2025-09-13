@@ -4,8 +4,11 @@ import { useNavigate } from "react-router-dom";
 import "./cartPreview.css";
 
 const CartPreview = () => {
-  const { cart, getTotalQuantity } = useCart();
+  const cartContext = useCart();
+  const cart = cartContext?.cart || [];
+  const getTotalQuantity = cartContext?.getTotalQuantity || (() => 0);
   const navigate = useNavigate();
+
 
   const hasItems = cart && cart.length > 0;
 
@@ -35,7 +38,14 @@ const CartPreview = () => {
           </ul>
         </>
       ) : (
-        <p>Your cart is empty.</p>
+        <div style={{ textAlign: 'center', padding: '20px 0' }}>
+          <p style={{ color: 'var(--text-secondary, #666)', margin: '0 0 16px' }}>
+            Your cart is empty.
+          </p>
+          <p style={{ fontSize: '14px', color: 'var(--text-secondary, #888)' }}>
+            Add some items to get started!
+          </p>
+        </div>
       )}
       <button className="view-cart-button" onClick={() => navigate("/cart")}>
         View Cart

@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useChatContext } from "../../context/ChatContext";
 
 export default function NotificationBell() {
-  const {
-    notifications,
-    notificationsLoading,
-    markNotificationRead,
-    isAuthenticated,
-  } = useChatContext();
+  const chatContext = useChatContext();
+  const notifications = chatContext?.notifications || [];
+  const notificationsLoading = chatContext?.notificationsLoading || false;
+  const markNotificationRead = chatContext?.markNotificationRead;
+  const isAuthenticated = chatContext?.isAuthenticated || false;
   const [open, setOpen] = useState(false);
   const unreadCount = notifications.filter((n) => !n.read).length;
 

@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 120px); /* Account for navbar + footer */
+  background-color: transparent;
+  color: var(--text-primary, #000);
 }
 
 .spacer-bar {
@@ -16,7 +18,7 @@ h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 2rem;
-  color: #333;
+  color: var(--text-primary, #333);
 }
 
 .cart-page.empty {
@@ -41,9 +43,9 @@ h2 {
   align-items: center;
   gap: 20px;
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color, #ddd);
   border-radius: 8px;
-  background-color: var(--card-bg);
+  background-color: var(--card-bg, #fff);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -62,13 +64,13 @@ h2 {
 .cart-item-details h3 {
   margin: 0 0 10px;
   font-size: 1.2rem;
-  color: #333;
+  color: var(--text-primary, #333);
 }
 
 .cart-item-details p {
   margin: 5px 0;
   font-size: 1rem;
-  color: #555;
+  color: var(--text-secondary, #555);
 }
 
 .cart-item-actions {
@@ -91,11 +93,11 @@ h2 {
     color 0.3s ease;
   display: block;
   margin: 5px auto;
-  color: #aaa; /* Default color */
+  color: var(--text-secondary, #aaa); /* Default color using theme variable */
 }
 
 .wishlist-icon.wishlisted {
-  color: #ff0000; /* Red when wishlisted */
+  color: #ff0000; /* Red when wishlisted - always visible */
   animation: heartPulse 0.5s ease-in-out;
 }
 
@@ -105,17 +107,21 @@ h2 {
 
 /* Remove Button */
 .remove-item-button {
-  background-color: #555; /* Neutral monolithic color */
-  border: none;
-  color: white;
+  background-color: var(--text-secondary, #555); /* Use theme variable */
+  border: 1px solid var(--text-secondary, #555);
+  color: #ffffff;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .remove-item-button:hover {
-  background-color: #333;
+  background-color: var(--text-primary, #333);
+  color: #ffffff; /* Ensure white text remains visible */
+  border-color: var(--text-primary, #333);
 }
 
 /* Cart Summary */
@@ -127,7 +133,7 @@ h2 {
 .cart-summary h3 {
   margin-bottom: 15px;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--text-primary, #333);
 }
 
 .button-group {
@@ -138,38 +144,43 @@ h2 {
 
 /* Continue Shopping Button */
 .continue-shopping-button {
-  background-color: #d1d1d1; /* Soft, neutral gray for a calming effect */
-  color: #111; /* Dark gray for contrast */
-  border: none;
+  background-color: var(--bg-secondary, #d1d1d1); /* Use theme variable for better compatibility */
+  color: var(--text-primary, #111); /* Use theme variable for text color */
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
   transition:
     background-color 0.3s ease,
+    color 0.3s ease,
     transform 0.2s ease;
 }
 
 .continue-shopping-button:hover {
-  background-color: #bdbdbd; /* Slightly darker gray for depth */
+  background-color: var(--border-color, #bdbdbd); /* Slightly darker for depth */
+  color: var(--text-primary, #000); /* Ensure text remains visible */
 }
 
 /* Checkout Button */
 .checkout-button {
-  background-color: #111; /* Deep black for authority and trust */
-  color: white;
-  border: none;
+  background-color: var(--accent-primary, #111); /* Use theme accent color */
+  color: #ffffff;
+  border: 1px solid var(--accent-primary, #111);
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
   transition:
     background-color 0.3s ease,
+    color 0.3s ease,
     transform 0.2s ease;
 }
 
 .checkout-button:hover {
-  background-color: #333; /* Slightly lighter black for subtle effect */
+  background-color: var(--accent-secondary, #333); /* Use theme secondary accent */
+  color: #ffffff; /* Ensure white text remains visible */
+  border-color: var(--accent-secondary, #333);
 }
 
 /* Smooth removal animation */

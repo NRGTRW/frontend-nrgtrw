@@ -47,6 +47,7 @@ button {
 }
 button:hover {
   border-color: #646cff;
+  color: var(--text-primary, #fff); /* Ensure text color is maintained on hover */
 }
 button:focus,
 button:focus-visible {
@@ -76,6 +77,10 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #213547; /* Ensure dark text on light background */
+  }
+  button:hover {
+    color: #213547; /* Maintain dark text on hover */
   }
 }
 
@@ -83,5 +88,12 @@ button:focus-visible {
   :root:not([data-theme]) {
     color: #ffffff;
     background-color: #181818;
+  }
+  button {
+    background-color: #1a1a1a;
+    color: #ffffff; /* Ensure white text on dark background */
+  }
+  button:hover {
+    color: #ffffff; /* Maintain white text on hover */
   }
 }

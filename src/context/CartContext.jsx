@@ -4,9 +4,26 @@ import axios from "axios";
 import useSWR from "swr";
 import { getToken } from "./tokenUtils";
 
-const CartContext = createContext();
+// Create a singleton context using global variable to prevent multiple instances
+if (!window.__CART_CONTEXT__) {
+  const contextId = Math.random().toString(36).substr(2, 9);
+  window.__CART_CONTEXT__ = createContext({
+    cart: [],
+    addToCart: () => {},
+    removeFromCart: () => {},
+    getTotalQuantity: () => 0,
+    mutate: () => {},
+    _isDefault: true, // Add identifier to distinguish default from provider value
+    _contextId: contextId, // Add unique identifier
+  });
+}
 
-export const useCart = () => useContext(CartContext);
+const CartContext = window.__CART_CONTEXT__;
+
+export const useCart = () => {
+  const context = useContext(CartContext);
+  return context;
+};
 
 export const CartProvider = ({ children }) => {
   const [token, setToken] = useState(getToken());
@@ -26,22 +43,24 @@ export const CartProvider = ({ children }) => {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return response.data.map((item) => ({
+      const mappedData = response.data.map((item) => ({
         ...item,
         imageUrl: item.selectedColor || item.imageUrl || "/default-image.png",
       }));
+      return mappedData;
     } catch (error) {
-      console.error(
-        "Failed to load cart:",
-        error.response?.data || error.message,
-      );
       return [];
     }
   };
 
   const { data: cart = [], mutate } = useSWR(
-    token ? `/cart?token=${token}` : null,
+    token ? `cart-${token}` : null,
     fetchCart,
+    {
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      refreshInterval: 0, // Disable auto-refresh
+    }
   );
 
   const addToCart = async (product) => {
@@ -51,7 +70,7 @@ export const CartProvider = ({ children }) => {
     }
     try {
       // Always use product.id as productId
-      const productId = product.id;
+      const productId = product.id || product.productId;
       const requestData = {
         productId: Number(productId),
         name: product.name,
@@ -62,24 +81,17 @@ export const CartProvider = ({ children }) => {
         imageUrl: product.imageUrl,
       };
 
-      console.log("Sending cart data:", requestData);
-
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/cart`,
         requestData,
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      mutate();
+      mutate(); // Refresh cart data
       return response.data;
     } catch (error) {
-      console.error("Cart Error:", {
-        status: error.response?.status,
-        data: error.response?.data,
-        config: error.config,
-      });
       const errorMessage =
         error.response?.data?.message ||
-        "Failed to update cart. Please check your input.";
+        "Failed to add item to cart. Please try again.";
       toast.error(errorMessage);
       throw error;
     }
@@ -97,18 +109,19 @@ export const CartProvider = ({ children }) => {
       });
       mutate();
     } catch (error) {
-      console.error("Delete error:", error.response?.data || error.message);
       mutate();
     }
   };
 
-  const getTotalQuantity = () =>
-    cart.reduce((total, item) => total + item.quantity, 0);
+  const getTotalQuantity = () => {
+    const total = cart.reduce((total, item) => total + item.quantity, 0);
+    return total;
+  };
+
+  const contextValue = { cart, addToCart, removeFromCart, getTotalQuantity, mutate, _isDefault: false, _contextId: CartContext._currentValue?._contextId || 'provider' };
 
   return (
-    <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, getTotalQuantity, mutate }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );

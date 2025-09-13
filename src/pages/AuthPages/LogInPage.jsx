@@ -18,8 +18,10 @@ const LogInPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-  const { loadWishlist } = useWishlist();
+  const authContext = useAuth();
+  const login = authContext?.login;
+  const wishlistContext = useWishlist();
+  const loadWishlist = wishlistContext?.loadWishlist;
 
   useEffect(() => {
     // Handle OAuth redirect
@@ -33,6 +35,7 @@ const LogInPage = () => {
     }
   }, [navigate]);
 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -43,8 +46,19 @@ const LogInPage = () => {
     setIsLoading(true);
 
     try {
-      await login(formData);
-      await loadWishlist();
+      if (login && typeof login === 'function') {
+        await login(formData);
+      } else {
+        // Fallback: Direct API call
+        const response = await api.post("/auth/login", formData);
+        const { token: newToken } = response.data;
+        localStorage.setItem("authToken", newToken);
+      }
+      
+      if (loadWishlist && typeof loadWishlist === 'function') {
+        await loadWishlist();
+      }
+      
       navigate("/profile", { replace: true });
     } catch (error) {
       console.error("Login failed:", error);
@@ -98,6 +112,7 @@ const LogInPage = () => {
   const handleSocialLogin = (provider) => {
     window.location.href = `${import.meta.env.VITE_API_URL}/auth/${provider}`;
   };
+
 
   return (
     <div className="auth-page">

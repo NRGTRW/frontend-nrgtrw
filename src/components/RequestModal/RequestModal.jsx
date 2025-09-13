@@ -7,8 +7,10 @@ import { createRequest } from "../../services/chatService";
 import { useChatContext } from "../../context/ChatContext";
 
 const RequestModal = ({ isOpen, onClose, onOpenChat }) => {
-  const { user } = useAuth();
-  const { fetchRequests } = useChatContext();
+  const authContext = useAuth();
+  const user = authContext?.user;
+  const chatContext = useChatContext();
+  const fetchRequests = chatContext?.fetchRequests;
   const [formData, setFormData] = useState({
     name: "",
     email: "",

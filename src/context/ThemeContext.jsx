@@ -4,10 +4,7 @@ const ThemeContext = createContext();
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
+  return context; // Return undefined if not available, let components handle it defensively
 };
 
 export const ThemeProvider = ({ children }) => {

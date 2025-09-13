@@ -25,20 +25,20 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <ThemeProvider>
           <ScrollRestorationProvider>
-            <ProfileProvider>
-              <AuthProvider>
-                <WishlistProvider>
-                  <CartProvider>
-                    <SWRProvider>
+            <SWRProvider>
+              <ProfileProvider>
+                <AuthProvider>
+                  <WishlistProvider>
+                    <CartProvider>
                       <ChatProvider>
                         <TermsAndConditions />
                         <App />
                       </ChatProvider>
-                    </SWRProvider>
-                  </CartProvider>
-                </WishlistProvider>
-              </AuthProvider>
-            </ProfileProvider>
+                    </CartProvider>
+                  </WishlistProvider>
+                </AuthProvider>
+              </ProfileProvider>
+            </SWRProvider>
           </ScrollRestorationProvider>
         </ThemeProvider>
       </BrowserRouter>

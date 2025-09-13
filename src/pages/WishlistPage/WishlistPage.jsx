@@ -35,7 +35,8 @@ const getProductName = (translations, currentLanguage, t) => {
 
 const WishlistPage = () => {
   const { t, i18n } = useTranslation();
-  const { removeFromWishlist } = useWishlist();
+  const wishlistContext = useWishlist();
+  const removeFromWishlist = wishlistContext?.removeFromWishlist;
   const navigate = useNavigate();
 
   const { data: wishlist = [], mutate } = useSWR("/wishlist", fetchWishlist, {

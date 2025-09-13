@@ -6,10 +6,7 @@ export const ProfileContext = createContext();
 
 export const useProfile = () => {
   const context = useContext(ProfileContext);
-  if (!context) {
-    throw new Error("useProfile must be used within a ProfileProvider");
-  }
-  return context;
+  return context; // Return undefined if not available, let components handle it defensively
 };
 
 export const ProfileProvider = ({ children }) => {

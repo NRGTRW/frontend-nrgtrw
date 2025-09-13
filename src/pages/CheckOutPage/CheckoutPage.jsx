@@ -10,8 +10,10 @@ import { updateProfile } from "../../services/profileService";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutPage = () => {
-  const { cart } = useCart();
-  const { user } = useAuth();
+  const cartContext = useCart();
+  const cart = cartContext?.cart || [];
+  const authContext = useAuth();
+  const user = authContext?.user;
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState(user?.address || "");
   const [phone, setPhone] = useState(user?.phone || "");

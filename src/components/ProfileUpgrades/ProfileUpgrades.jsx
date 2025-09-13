@@ -4,7 +4,8 @@ import { getUserAccess } from "../../utils/accessControl";
 import { useProfile } from "../../context/ProfileContext";
 
 const ProfileUpgrades = ({ isOpen, onClose, user }) => {
-  const { saveProfile, reloadProfile } = useProfile();
+  const profileContext = useProfile();
+  const { saveProfile, reloadProfile } = profileContext || {};
   const access = getUserAccess(user);
   const [selectedAvatar, setSelectedAvatar] = useState(user?.avatar || "");
   const [selectedTheme, setSelectedTheme] = useState(user?.theme || "");

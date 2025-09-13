@@ -9,7 +9,8 @@ import "./ProgramsPage.css";
 const ProgramsPage = () => {
   const { programId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
   const [program, setProgram] = useState(null);
   const [userAccess, setUserAccess] = useState({});
   const [loading, setLoading] = useState(true);

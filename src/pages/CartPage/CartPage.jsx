@@ -10,8 +10,11 @@ import "./cartPage.css";
 
 const CartPage = () => {
   const { t } = useTranslation();
-  const { cart, removeFromCart } = useCart();
-  const { addToWishlist } = useWishlist();
+  const cartContext = useCart();
+  const cart = cartContext?.cart || [];
+  const removeFromCart = cartContext?.removeFromCart;
+  const wishlistContext = useWishlist();
+  const addToWishlist = wishlistContext?.addToWishlist;
   const navigate = useNavigate();
 
   const [animatingItems, setAnimatingItems] = useState([]);

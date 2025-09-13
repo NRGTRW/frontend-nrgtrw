@@ -6,7 +6,8 @@ export default function CreateRequestModal({ onClose }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const { fetchRequests } = useChatContext();
+  const chatContext = useChatContext();
+  const fetchRequests = chatContext?.fetchRequests;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

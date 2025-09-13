@@ -4,31 +4,22 @@ import { fetchAllTemuProducts } from "./temuProductService";
 
 export const fetchAllProducts = async () => {
   try {
-    console.log("Fetching products from:", `${API_URL}/products`);
     const response = await axios.get(`${API_URL}/products`);
-    console.log("Products response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching all products:", error.message);
-    console.error("Error response:", error.response?.data);
     throw new Error("Failed to fetch products.");
   }
 };
 
 export const fetchProductById = async (id) => {
-  console.log("fetchProductById called with ID:", id);
   if (id && typeof id === "string" && id.startsWith("temu-")) {
     const temuProducts = await fetchAllTemuProducts();
     return temuProducts.find((p) => p.id === id);
   }
   try {
-    console.log("Fetching product from:", `${API_URL}/products/${id}`);
     const response = await axios.get(`${API_URL}/products/${id}`);
-    console.log("Product response:", response.data);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching product by ID (${id}):`, error.message);
-    console.error("Error response:", error.response?.data);
     throw new Error("Failed to fetch product.");
   }
 };

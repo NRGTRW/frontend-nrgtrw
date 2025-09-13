@@ -7,7 +7,9 @@ import "./MobileMenu.css";
 const MobileMenu = ({ isOpen, onClose }) => {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const navigate = useNavigate();
-  const { user, logOut } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
+  const logOut = authContext?.logOut;
 
   useEffect(() => {
     if (isOpen) {

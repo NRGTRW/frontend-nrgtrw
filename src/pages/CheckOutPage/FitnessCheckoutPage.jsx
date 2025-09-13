@@ -11,7 +11,8 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const FitnessCheckoutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
   const [loading, setLoading] = useState(false);
   const [checkoutData, setCheckoutData] = useState(null);
 

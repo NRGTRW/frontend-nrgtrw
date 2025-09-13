@@ -9,7 +9,8 @@ const WishlistContext = createContext();
 export const useWishlist = () => useContext(WishlistContext);
 
 export const WishlistProvider = ({ children }) => {
-  const { authToken } = useAuth();
+  const authContext = useAuth();
+  const authToken = authContext?.authToken;
 
   async function fetchWishlist(token) {
     if (!token) {

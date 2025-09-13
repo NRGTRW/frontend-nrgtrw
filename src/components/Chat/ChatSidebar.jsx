@@ -10,15 +10,15 @@ export default function ChatSidebar({
   mobileOpen = true,
   onClose,
 }) {
-  const {
-    requests,
-    selectedRequest,
-    selectRequest,
-    loading,
-    fetchRequests,
-    isAuthenticated,
-  } = useChatContext();
-  const { user } = useAuth();
+  const chatContext = useChatContext();
+  const requests = chatContext?.requests || [];
+  const selectedRequest = chatContext?.selectedRequest;
+  const selectRequest = chatContext?.selectRequest;
+  const loading = chatContext?.loading || false;
+  const fetchRequests = chatContext?.fetchRequests;
+  const isAuthenticated = chatContext?.isAuthenticated || false;
+  const authContext = useAuth();
+  const user = authContext?.user;
 
   // Don't render if user is not authenticated
   if (!isAuthenticated) {

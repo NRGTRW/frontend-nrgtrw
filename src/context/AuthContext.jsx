@@ -3,24 +3,27 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { useProfile } from "./ProfileContext";
 
 export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 const fetchUser = async (token) => {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const userData = response.data;
-  userData.role = userData.role?.trim() || "USER";
-  return userData;
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const userData = response.data;
+    userData.role = userData.role?.trim() || "USER";
+    return userData;
+  } catch (error) {
+    console.error("Profile fetch failed:", error.response?.status, error.response?.data);
+    throw error;
+  }
 };
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const { logoutProfile } = useProfile();
   const token = localStorage.getItem("authToken");
 
   const {
@@ -30,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   } = useSWR(token ? ["user", token] : null, () => fetchUser(token), {
     revalidateOnFocus: false,
   });
+
 
   const login = useCallback(
     async (credentials) => {
@@ -41,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         const { token: newToken, user: initialUserData } = response.data;
         localStorage.setItem("authToken", newToken);
         mutateUser();
-        toast.success("🎉 Welcome back! You’re now logged in.");
+        toast.success("🎉 Welcome back! You're now logged in.");
         return initialUserData;
       } catch (error) {
         toast.error("🚫 Login unsuccessful! Please check your credentials.");
@@ -51,25 +55,26 @@ export const AuthProvider = ({ children }) => {
     [mutateUser],
   );
 
+
   const logOut = useCallback(() => {
     localStorage.removeItem("authToken");
     mutateUser(null, false);
-    logoutProfile();
+    // Profile will be cleared when the user is logged out
     toast.info("👋 You have been logged out. See you again soon!");
     navigate("/login", { replace: true });
-  }, [navigate, logoutProfile, mutateUser]);
+  }, [navigate, mutateUser]);
 
+  const contextValue = {
+    authToken: token,
+    user,
+    loading: isValidating,
+    login,
+    logOut,
+    mutateUser,
+  };
+  
   return (
-    <AuthContext.Provider
-      value={{
-        authToken: token,
-        user,
-        loading: isValidating,
-        login,
-        logOut,
-        mutateUser,
-      }}
-    >
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

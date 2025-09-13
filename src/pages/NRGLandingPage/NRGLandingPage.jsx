@@ -43,7 +43,8 @@ const NRGLandingPage = () => {
   const [typedText, setTypedText] = useState("");
   const [isDoneTyping, setIsDoneTyping] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
   const navigate = useNavigate();
 
   useEffect(() => {

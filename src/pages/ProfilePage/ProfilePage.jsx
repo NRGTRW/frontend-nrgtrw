@@ -13,14 +13,18 @@ import ProfileUpgrades from "../../components/ProfileUpgrades/ProfileUpgrades";
 const ProfilePage = () => {
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
+  const profileContext = useProfile();
   const {
     profile,
     loadProfile,
     saveProfile,
     changeProfilePicture,
     reloadProfile,
-  } = useProfile();
-  const { authToken, logOut, loadUser } = useAuth();
+  } = profileContext || {};
+  const authContext = useAuth();
+  const authToken = authContext?.authToken;
+  const logOut = authContext?.logOut;
+  const loadUser = authContext?.loadUser;
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -49,28 +53,30 @@ const ProfilePage = () => {
       params.delete("token");
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-    const initializeProfile = async () => {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        navigate("/login", { replace: true });
-        return;
-      }
-      try {
-        setShowLoader(true);
-        if (location.state?.fromLogin) {
-          await Promise.all([loadUser(), loadProfile(token)]);
-          window.location.reload();
-        } else {
-          await loadProfile(token);
-        }
-      } catch (error) {
-        toast.error(t("profile.errorLoading"));
-        navigate("/login", { replace: true });
-      } finally {
-        setIsLoading(false);
-        setShowLoader(false);
-      }
-    };
+        const initializeProfile = async () => {
+          const token = localStorage.getItem("authToken");
+          
+          if (!token) {
+            navigate("/login", { replace: true });
+            return;
+          }
+          try {
+            setShowLoader(true);
+            if (location.state?.fromLogin) {
+              await Promise.all([loadUser(), loadProfile(token)]);
+              window.location.reload();
+            } else {
+              await loadProfile(token);
+            }
+          } catch (error) {
+            console.error("Error in initializeProfile:", error);
+            toast.error(t("profile.errorLoading"));
+            navigate("/login", { replace: true });
+          } finally {
+            setIsLoading(false);
+            setShowLoader(false);
+          }
+        };
     initializeProfile();
   }, [navigate, location.state, loadUser, loadProfile, t]);
 

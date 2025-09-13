@@ -68,6 +68,12 @@ export default defineConfig({
     port: 5173,
     host: true,
     open: true,
+    // Force cache busting
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    }
   },
 
   // Preview server options

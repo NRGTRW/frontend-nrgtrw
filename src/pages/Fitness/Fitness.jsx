@@ -32,7 +32,8 @@ const Fitness = () => {
     useState(null);
   const [isOnGlobalWaitlist, setIsOnGlobalWaitlist] = useState(false);
   const [showConsultationModal, setShowConsultationModal] = useState(false);
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
 
   const fetchData = async () => {
     try {

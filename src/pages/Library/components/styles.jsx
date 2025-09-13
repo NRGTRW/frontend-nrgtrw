@@ -47,8 +47,8 @@ export const CTAButton = ({ variant = "primary", className = "", children, ...pr
   const baseClasses = "inline-flex items-center justify-center px-4 sm:px-6 py-3 sm:py-3 rounded-lg font-semibold transition-all duration-300 cursor-pointer border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 min-h-[44px] sm:min-h-[48px] focus:ring-[var(--primary)]/50 focus:ring-offset-2";
   
   const variantClasses = {
-    primary: "bg-[#c5a47f] text-white border-[#c5a47f] hover:bg-[#b8946a] hover:border-[#b8946a] hover:shadow-lg hover:backdrop-blur-sm focus:ring-[#c5a47f]/50",
-    secondary: "bg-transparent text-[#c5a47f] border-[#c5a47f] hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-md focus:ring-[#c5a47f]/50"
+    primary: "bg-[#c5a47f] text-white border-[#c5a47f] hover:bg-[#b8946a] hover:border-[#b8946a] hover:text-white hover:shadow-lg hover:backdrop-blur-sm focus:ring-[#c5a47f]/50",
+    secondary: "bg-transparent text-[#c5a47f] border-[#c5a47f] hover:bg-white/20 hover:text-[#c5a47f] hover:backdrop-blur-sm hover:shadow-md focus:ring-[#c5a47f]/50"
   };
   
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;

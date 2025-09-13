@@ -10,7 +10,8 @@ import "./ClothingVoteSection.css";
 
 const ClothingVoteSection = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const authContext = useAuth();
+  const user = authContext?.user;
   const [voteStats, setVoteStats] = useState({});
   const [userVotes, setUserVotes] = useState({});
   const [showVoteModal, setShowVoteModal] = useState(false);

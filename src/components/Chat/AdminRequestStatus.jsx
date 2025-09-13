@@ -5,7 +5,9 @@ import { adminUpdateRequestStatus } from "../../services/chatService";
 const STATUS_OPTIONS = ["pending", "approved", "rejected", "closed"];
 
 export default function AdminRequestStatus({ userRole }) {
-  const { selectedRequest, fetchRequests } = useChatContext();
+  const chatContext = useChatContext();
+  const selectedRequest = chatContext?.selectedRequest;
+  const fetchRequests = chatContext?.fetchRequests;
   const [loading, setLoading] = useState(false);
 
   if (!selectedRequest || (userRole !== "admin" && userRole !== "ADMIN"))

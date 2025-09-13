@@ -3,16 +3,15 @@ import { useChatContext } from "../../context/ChatContext";
 import styles from "./ChatWindow.module.css";
 
 export default function ChatWindow() {
-  const {
-    selectedRequest,
-    messages,
-    sendMessage,
-    messagesLoading,
-    typingUsers,
-    messageStatus,
-    startTyping,
-    stopTyping,
-  } = useChatContext();
+  const chatContext = useChatContext();
+  const selectedRequest = chatContext?.selectedRequest;
+  const messages = chatContext?.messages || [];
+  const sendMessage = chatContext?.sendMessage;
+  const messagesLoading = chatContext?.messagesLoading || false;
+  const typingUsers = chatContext?.typingUsers || [];
+  const messageStatus = chatContext?.messageStatus;
+  const startTyping = chatContext?.startTyping;
+  const stopTyping = chatContext?.stopTyping;
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
   const [detailsOpen, setDetailsOpen] = useState(true);

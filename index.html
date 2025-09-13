@@ -18,6 +18,16 @@
     <script>
       (function () {
         try {
+          // Clear any existing service worker registrations
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+              for(let registration of registrations) {
+                registration.unregister();
+                console.log('Service worker unregistered');
+              }
+            });
+          }
+
           // Get saved theme or system preference
           const savedTheme = localStorage.getItem("theme");
           const systemPrefersDark = window.matchMedia(
@@ -55,6 +65,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./src/main.jsx"></script>
+    <script type="module" src="./src/main.jsx?v=5"></script>
   </body>
 </html>

@@ -17,9 +17,9 @@ const Button = ({
   };
 
   const variantClasses = {
-    primary: "bg-[#c5a47f] text-white border-[#c5a47f] hover:bg-[#b8946a] hover:border-[#b8946a] hover:shadow-lg hover:backdrop-blur-sm",
-    secondary: "bg-transparent text-[#c5a47f] border-[#c5a47f] hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-md",
-    ghost: "bg-transparent text-[var(--text-light)] dark:text-[var(--text-dark)] border-transparent hover:bg-[var(--primary)]/10 hover:border-[var(--primary)]/20"
+    primary: "bg-[#c5a47f] text-white border-[#c5a47f] hover:bg-[#b8946a] hover:border-[#b8946a] hover:text-white hover:shadow-lg hover:backdrop-blur-sm",
+    secondary: "bg-transparent text-[#c5a47f] border-[#c5a47f] hover:bg-white/20 hover:text-[#c5a47f] hover:backdrop-blur-sm hover:shadow-md",
+    ghost: "bg-transparent text-[var(--text-light)] dark:text-[var(--text-dark)] border-transparent hover:bg-[var(--primary)]/10 hover:border-[var(--primary)]/20 hover:text-[var(--text-light)] dark:hover:text-[var(--text-dark)]"
   };
   
   const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
