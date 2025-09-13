@@ -15,7 +15,7 @@ const AdvancedSearch = ({ onSearch, onFilterChange, products = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
 
-  // Debounced search function
+  // Debounced search function - memoize to prevent recreation
   const debouncedSearch = useCallback(
     debounce((term, filterOptions) => {
       const results = performSearch(term, filterOptions, products);

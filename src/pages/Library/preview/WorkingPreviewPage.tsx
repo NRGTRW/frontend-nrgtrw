@@ -21,7 +21,7 @@ const WorkingPreviewPage: React.FC = () => {
   const [error, setError] = useState(getError());
   const [showExport, setShowExport] = useState(false);
   
-  // Update state when it changes - use a more reasonable interval
+  // Update state when it changes - use event-based updates instead of polling
   useEffect(() => {
     const updateState = () => {
       setConfig(getConfig());
@@ -34,8 +34,9 @@ const WorkingPreviewPage: React.FC = () => {
     // Update immediately
     updateState();
     
-    // Then update every 2 seconds instead of every 100ms
-    const interval = setInterval(updateState, 2000);
+    // Use a much longer interval or remove polling entirely
+    // Only update every 10 seconds to reduce CPU usage
+    const interval = setInterval(updateState, 10000);
     
     return () => clearInterval(interval);
   }, []);

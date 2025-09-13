@@ -221,7 +221,7 @@ export function ChatProvider({ children }) {
         console.error("Failed to update request status:", error);
       }
     },
-    [isAuthenticated, fetchNotifications],
+    [isAuthenticated],
   );
 
   // Socket.IO connection
@@ -277,7 +277,7 @@ export function ChatProvider({ children }) {
     return () => {
       newSocket.disconnect();
     };
-  }, [isAuthenticated, user?.id, selectedRequest?.id, fetchNotifications]);
+  }, [isAuthenticated, user?.id, selectedRequest?.id]);
 
   // Initial data fetch
   useEffect(() => {
@@ -291,7 +291,7 @@ export function ChatProvider({ children }) {
       setSelectedRequest(null);
       setMessages([]);
     }
-  }, [isAuthenticated, fetchRequests, fetchNotifications]);
+  }, [isAuthenticated]);
 
   // Clear typing indicators when changing requests
   useEffect(() => {
@@ -308,7 +308,7 @@ export function ChatProvider({ children }) {
     }, 60000); // Refresh every 60 seconds instead of 30
 
     return () => clearInterval(interval);
-  }, [isAuthenticated, fetchRequests, fetchNotifications]);
+  }, [isAuthenticated]);
 
   const value = {
     // State

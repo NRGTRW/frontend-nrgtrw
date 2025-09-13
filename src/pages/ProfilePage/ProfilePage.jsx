@@ -78,7 +78,7 @@ const ProfilePage = () => {
           }
         };
     initializeProfile();
-  }, [navigate, location.state, loadUser, loadProfile, t]);
+  }, [navigate, location.state, t]);
 
   useEffect(() => {
     if (profile) {
