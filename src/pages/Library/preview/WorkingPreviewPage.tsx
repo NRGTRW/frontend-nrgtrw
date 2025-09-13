@@ -21,15 +21,21 @@ const WorkingPreviewPage: React.FC = () => {
   const [error, setError] = useState(getError());
   const [showExport, setShowExport] = useState(false);
   
-  // Update state when it changes
+  // Update state when it changes - use a more reasonable interval
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateState = () => {
       setConfig(getConfig());
       setBrand(getBrand());
       setSections(getSections());
       setIsGenerating(getIsGenerating());
       setError(getError());
-    }, 100);
+    };
+    
+    // Update immediately
+    updateState();
+    
+    // Then update every 2 seconds instead of every 100ms
+    const interval = setInterval(updateState, 2000);
     
     return () => clearInterval(interval);
   }, []);

@@ -12,7 +12,7 @@ const SWRProvider = ({ children }) => {
     <SWRConfig
       value={{
         fetcher,
-        refreshInterval: 5000,
+        refreshInterval: 0, // Disable automatic refresh to reduce CPU usage
         // revalidateOnFocus: true,
         revalidateOnReconnect: true,
         dedupingInterval: 2000,

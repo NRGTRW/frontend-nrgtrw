@@ -298,14 +298,14 @@ export function ChatProvider({ children }) {
     setTypingUsers(new Set());
   }, [selectedRequest]);
 
-  // Refresh data periodically when authenticated
+  // Refresh data periodically when authenticated - reduce frequency
   useEffect(() => {
     if (!isAuthenticated) return;
 
     const interval = setInterval(() => {
       fetchRequests();
       fetchNotifications();
-    }, 30000); // Refresh every 30 seconds
+    }, 60000); // Refresh every 60 seconds instead of 30
 
     return () => clearInterval(interval);
   }, [isAuthenticated, fetchRequests, fetchNotifications]);

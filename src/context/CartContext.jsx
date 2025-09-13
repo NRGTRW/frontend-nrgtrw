@@ -29,12 +29,19 @@ export const CartProvider = ({ children }) => {
   const [token, setToken] = useState(getToken());
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Only check token changes when needed, not every second
+    const checkToken = () => {
       const newToken = getToken();
       if (newToken !== token) {
         setToken(newToken);
       }
-    }, 1000);
+    };
+    
+    // Check immediately
+    checkToken();
+    
+    // Then check every 30 seconds instead of every second
+    const interval = setInterval(checkToken, 30000);
     return () => clearInterval(interval);
   }, [token]);
 
