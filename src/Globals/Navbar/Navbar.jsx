@@ -929,12 +929,12 @@ const Navbar = () => {
           >
             Fitness
           </li>
-          <li
+          {/* <li
             onClick={() => handleNavigation("/programs")}
             className="service-link"
           >
             Programs
-          </li>
+          </li> */}
           <li
             onClick={() => handleNavigation(ROUTES.tech)}
             className="service-link"
