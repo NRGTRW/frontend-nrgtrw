@@ -7,3 +7,4 @@ export const formatPrice = (price) => {
     currency: 'USD',
   }).format(price);
 };
+

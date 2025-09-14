@@ -63,10 +63,21 @@ const ProfilePage = () => {
           try {
             setShowLoader(true);
             if (location.state?.fromLogin) {
-              await Promise.all([loadUser(), loadProfile(token)]);
-              window.location.reload();
+              if (loadUser && loadProfile) {
+                await Promise.all([loadUser(), loadProfile()]);
+                window.location.reload();
+              } else {
+                console.error("loadUser or loadProfile function not available");
+                toast.error(t("profile.errorLoading"));
+              }
             } else {
-              await loadProfile(token);
+              if (loadProfile && typeof loadProfile === 'function') {
+                await loadProfile();
+              } else {
+                console.error("loadProfile function not available");
+                console.log("ProfileContext state:", profileContext);
+                toast.error(t("profile.errorLoading"));
+              }
             }
           } catch (error) {
             console.error("Error in initializeProfile:", error);

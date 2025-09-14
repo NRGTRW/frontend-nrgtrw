@@ -1,9 +1,13 @@
 // src/App.jsx
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import { ProfileProvider } from "./context/ProfileContext";
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
+import { WishlistProvider } from "./context/WishlistContext";
 
 // Lazy load components for better performance
 import Navbar from "./Globals/Navbar/Navbar";
@@ -79,7 +83,11 @@ function App() {
 
         <main className="main-content">
           <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
+            <AuthProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <ProfileProvider>
+                    <Routes>
               <Route path="/" element={<NRGLandingPage />} />
               <Route path="/fitness" element={<Fitness />} />
               <Route path="/clothing" element={<ClothingPage />} />
@@ -108,13 +116,18 @@ function App() {
                 element={<ClothingDetailsPage />}
               />
               <Route path="/programs" element={<ProgramsPage />} />
+              <Route path="/programs/:id" element={<ProgramsPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/terms" element={<TermsAndConditions />} />
               <Route path="/about" element={<AboutUsPage />} />
               <Route path="/contact" element={<ContactUsPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+                    </Routes>
+                  </ProfileProvider>
+                </WishlistProvider>
+              </CartProvider>
+            </AuthProvider>
           </Suspense>
         </main>
 

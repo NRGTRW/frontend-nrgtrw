@@ -2,11 +2,41 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import axios from "axios";
 import { getToken } from "./tokenUtils";
 
-export const ProfileContext = createContext();
+export const ProfileContext = createContext(null);
 
 export const useProfile = () => {
   const context = useContext(ProfileContext);
-  return context; // Return undefined if not available, let components handle it defensively
+  
+  // Always return a working context object
+  if (context === null || context === undefined) {
+    console.warn("⚠️ ProfileContext is null/undefined, using fallback");
+    return {
+      profile: null,
+      setProfile: () => {},
+      isLoading: false,
+      loadProfile: async () => {
+        console.log("Fallback loadProfile called - no real functionality");
+        return Promise.resolve();
+      },
+      saveProfile: async () => {
+        console.log("Fallback saveProfile called - no real functionality");
+        return Promise.resolve();
+      },
+      changeProfilePicture: async () => {
+        console.log("Fallback changeProfilePicture called - no real functionality");
+        return Promise.resolve();
+      },
+      reloadProfile: async () => {
+        console.log("Fallback reloadProfile called - no real functionality");
+        return Promise.resolve();
+      },
+      logoutProfile: () => {
+        console.log("Fallback logoutProfile called - no real functionality");
+      },
+    };
+  }
+  
+  return context;
 };
 
 export const ProfileProvider = ({ children }) => {
@@ -16,10 +46,17 @@ export const ProfileProvider = ({ children }) => {
   const loadProfile = useCallback(async () => {
     setIsLoading(true);
     try {
+      const token = getToken();
+      if (!token) {
+        console.warn("No auth token available for profile loading");
+        setProfile(null);
+        return;
+      }
+      
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/profile`,
         {
-          headers: { Authorization: `Bearer ${getToken()}` },
+          headers: { Authorization: `Bearer ${token}` },
         },
       );
       setProfile(response.data);
@@ -95,19 +132,19 @@ export const ProfileProvider = ({ children }) => {
     setProfile(null);
   }, []);
 
+  const contextValue = {
+    profile,
+    setProfile,
+    isLoading,
+    loadProfile,
+    saveProfile,
+    changeProfilePicture,
+    reloadProfile,
+    logoutProfile,
+  };
+  
   return (
-    <ProfileContext.Provider
-      value={{
-        profile,
-        setProfile,
-        isLoading,
-        loadProfile,
-        saveProfile,
-        changeProfilePicture,
-        reloadProfile,
-        logoutProfile,
-      }}
-    >
+    <ProfileContext.Provider value={contextValue}>
       {children}
     </ProfileContext.Provider>
   );

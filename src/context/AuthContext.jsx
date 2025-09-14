@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
+
   const {
     data: user,
     mutate: mutateUser,

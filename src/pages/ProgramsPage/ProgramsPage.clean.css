@@ -1,0 +1,665 @@
+/* ProgramsPage.css - Clean Version */
+:root {
+  --fitness-bg: #fff;
+  --fitness-text: #000;
+  --fitness-card-bg: #f7f7f7;
+  --fitness-card-border: #ddd;
+  --fitness-btn: #f5c518;
+  --fitness-btn-hover-bg: #fffbe6;
+  --fitness-btn-hover-text: #7a5c15;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fitness-bg: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+    --fitness-text: #fff;
+    --fitness-card-bg: #1c1c1c;
+    --fitness-card-border: #333;
+    --fitness-btn: #ffe067;
+    --fitness-btn-hover-bg: #23211a;
+    --fitness-btn-hover-text: #ffe067;
+  }
+}
+
+.programs-page {
+  min-height: 100vh;
+  background: var(--fitness-bg);
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  color: var(--fitness-text);
+  position: relative; /* Ensure proper overlay positioning */
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--fitness-btn);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Program Header */
+.program-header {
+  background: var(--fitness-card-bg);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  color: var(--fitness-text);
+}
+
+.program-header-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+.program-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--fitness-text);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.program-description {
+  font-size: 1.1rem;
+  color: var(--fitness-text);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.program-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.meta-item {
+  background: var(--fitness-bg);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--fitness-card-border);
+  font-size: 0.9rem;
+  color: var(--fitness-text);
+}
+
+.program-header-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Admin Access Indicator */
+.admin-access-indicator {
+  margin-bottom: 20px;
+}
+
+.admin-badge {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+/* Access Success Indicator */
+.access-success {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.success-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  animation: successPulse 2s infinite;
+}
+
+@keyframes successPulse {
+  0% { box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+  50% { box-shadow: 0 4px 25px rgba(39, 174, 96, 0.5); }
+  100% { box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(245, 197, 24, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0); }
+}
+
+/* Purchase Buttons Section */
+.purchase-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.purchase-button,
+.subscribe-button,
+.waitlist-button {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-button {
+  background: linear-gradient(135deg, var(--fitness-btn) 0%, #e6b800 100%);
+  color: #000;
+}
+
+.purchase-button:hover {
+  background: linear-gradient(135deg, #e6b800 0%, var(--fitness-btn) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.subscribe-button {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+}
+
+.subscribe-button:hover {
+  background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+}
+
+.waitlist-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.waitlist-button:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Program Content */
+.program-content {
+  background: var(--fitness-card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  color: var(--fitness-text);
+  position: relative;
+}
+
+/* Navigation Tabs */
+.program-tabs {
+  display: flex;
+  background: var(--fitness-bg);
+  border-bottom: 1px solid var(--fitness-card-border);
+  overflow-x: auto;
+}
+
+.tab-button {
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--fitness-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  opacity: 0.7;
+}
+
+.tab-button:hover {
+  color: var(--fitness-text);
+  background: var(--fitness-card-bg);
+  opacity: 1;
+}
+
+.tab-button.active {
+  color: var(--fitness-btn);
+  background: var(--fitness-card-bg);
+  border-bottom-color: var(--fitness-btn);
+  opacity: 1;
+}
+
+/* Locked Content Overlay */
+.locked-content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.98);
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 0 0 16px 16px;
+}
+
+.locked-overlay-content {
+  text-align: center;
+  padding: 40px;
+  max-width: 500px;
+  background: var(--fitness-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--fitness-card-border);
+}
+
+.lock-icon-large {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: lockPulse 2s infinite;
+}
+
+@keyframes lockPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.locked-overlay-content h3 {
+  font-size: 2rem;
+  color: var(--fitness-text);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.locked-overlay-content p {
+  font-size: 1.1rem;
+  color: var(--fitness-text);
+  opacity: 0.8;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.unlock-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.unlock-button-primary,
+.unlock-button-secondary {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 280px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.unlock-button-primary {
+  background: linear-gradient(135deg, var(--fitness-btn) 0%, #e6b800 100%);
+  color: #000;
+}
+
+.unlock-button-primary:hover {
+  background: linear-gradient(135deg, #e6b800 0%, var(--fitness-btn) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.unlock-button-secondary {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+}
+
+.unlock-button-secondary:hover {
+  background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+}
+
+/* Tab Content */
+.tab-content {
+  padding: 40px;
+  position: relative;
+  min-height: 400px; /* Minimal height for overlay to fit properly */
+}
+
+.tab-content h3 {
+  font-size: 1.8rem;
+  color: var(--fitness-text);
+  margin-bottom: 24px;
+}
+
+/* Overview Tab */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.overview-card {
+  background: var(--fitness-bg);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--fitness-card-border);
+}
+
+.overview-card h4 {
+  font-size: 1.2rem;
+  color: var(--fitness-text);
+  margin-bottom: 16px;
+}
+
+.overview-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.overview-card li {
+  padding: 8px 0;
+  color: var(--fitness-text);
+  opacity: 0.8;
+}
+
+.overview-card li:before {
+  content: "• ";
+  color: var(--fitness-btn);
+  font-weight: bold;
+}
+
+/* Back Button */
+.back-section {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.back-button {
+  background: linear-gradient(135deg, var(--fitness-btn) 0%, #e6b800 100%);
+  color: #000;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+  background: linear-gradient(135deg, #e6b800 0%, var(--fitness-btn) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* PDF Tab Specific Styles */
+.pdf-content-wrapper {
+  min-height: 600px;
+  padding: 40px;
+}
+
+.pdf-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pdf-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.pdf-header h4 {
+  font-size: 2rem;
+  color: var(--fitness-text);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.pdf-header p {
+  font-size: 1.1rem;
+  color: var(--fitness-text);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.pdf-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.pdf-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  background: var(--fitness-bg);
+  border-radius: 12px;
+  border: 1px solid var(--fitness-card-border);
+  transition: transform 0.3s ease;
+}
+
+.pdf-feature:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.feature-text h5 {
+  font-size: 1.2rem;
+  color: var(--fitness-text);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.feature-text p {
+  font-size: 0.95rem;
+  color: var(--fitness-text);
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+.pdf-download-section {
+  text-align: center;
+  margin: 40px 0;
+  padding: 30px;
+  background: var(--fitness-card-bg);
+  border-radius: 16px;
+  border: 2px solid var(--fitness-card-border);
+}
+
+.download-pdf-button {
+  background: linear-gradient(135deg, var(--fitness-btn) 0%, #e6b800 100%);
+  color: #000;
+  padding: 18px 36px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.download-pdf-button:hover {
+  background: linear-gradient(135deg, #e6b800 0%, var(--fitness-btn) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pdf-note {
+  background: var(--fitness-bg);
+  padding: 24px;
+  border-radius: 12px;
+  border-left: 4px solid var(--fitness-btn);
+  margin-top: 30px;
+}
+
+.pdf-note p {
+  margin-bottom: 12px;
+  color: var(--fitness-text);
+  line-height: 1.6;
+}
+
+.pdf-note p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .programs-page {
+    padding: 15px;
+  }
+
+  .program-header-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .program-header-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .purchase-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .purchase-button,
+  .subscribe-button,
+  .waitlist-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .program-tabs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tab-button {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .program-header {
+    padding: 30px 20px;
+  }
+
+  .tab-content {
+    padding: 20px;
+    min-height: 300px; /* Reduced minimal height for mobile */
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .program-title {
+    font-size: 1.8rem;
+  }
+
+  .tab-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .program-header-image {
+    height: 200px;
+  }
+
+  .locked-overlay-content {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+
+  .lock-icon-large {
+    font-size: 3rem;
+  }
+
+  .locked-overlay-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .unlock-button-primary,
+  .unlock-button-secondary {
+    min-width: 100%;
+    padding: 14px 24px;
+  }
+
+  .pdf-content-wrapper {
+    min-height: 500px;
+    padding: 20px;
+  }
+
+  .pdf-features {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .pdf-feature {
+    padding: 20px;
+  }
+
+  .pdf-header h4 {
+    font-size: 1.5rem;
+  }
+
+  .download-pdf-button {
+    padding: 16px 24px;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,129 @@
+/* Locked Content Overlay Styles - Optimized for minimal sizing */
+.locked-content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  min-height: 300px; /* Minimal height requirement */
+}
+
+.locked-overlay-content {
+  background: var(--fitness-card-bg);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  max-width: 400px; /* Minimal width requirement */
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--fitness-card-border);
+}
+
+.lock-icon-large {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.locked-overlay-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--fitness-text);
+  margin-bottom: 12px;
+}
+
+.locked-overlay-content p {
+  font-size: 0.95rem;
+  color: var(--fitness-text);
+  opacity: 0.8;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.unlock-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.unlock-button-primary,
+.unlock-button-secondary {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px; /* Minimal button width */
+  text-align: center;
+}
+
+.unlock-button-primary {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+}
+
+.unlock-button-primary:hover {
+  background: var(--fitness-btn-hover-bg);
+  color: var(--fitness-btn-hover-text);
+  transform: translateY(-2px);
+}
+
+.unlock-button-secondary {
+  background: transparent;
+  color: var(--fitness-text);
+  border: 2px solid var(--fitness-btn);
+}
+
+.unlock-button-secondary:hover {
+  background: var(--fitness-btn);
+  color: var(--fitness-text);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments for minimal sizing */
+@media (max-width: 768px) {
+  .locked-overlay-content {
+    padding: 20px;
+    max-width: 350px;
+    margin: 0 10px;
+  }
+  
+  .unlock-button-primary,
+  .unlock-button-secondary {
+    min-width: 180px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+  
+  .locked-content-overlay {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .locked-overlay-content {
+    padding: 16px;
+    max-width: 300px;
+    margin: 0 10px;
+  }
+  
+  .unlock-button-primary,
+  .unlock-button-secondary {
+    min-width: 160px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .locked-content-overlay {
+    min-height: 200px;
+  }
+}

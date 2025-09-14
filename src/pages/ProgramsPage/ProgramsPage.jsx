@@ -4,13 +4,15 @@ import { fetchFitnessPrograms, checkUserAccess } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import WaitlistModal from "../../components/WaitlistModal/WaitlistModal";
-import "./ProgramsPage.css";
+import "./ProgramsPage.clean.css";
+import "./ProgramsPage.overlay.css";
 
 const ProgramsPage = () => {
-  const { programId } = useParams();
+  const { id: programId } = useParams();
   const navigate = useNavigate();
   const authContext = useAuth();
   const user = authContext?.user;
+  
   const [program, setProgram] = useState(null);
   const [userAccess, setUserAccess] = useState({});
   const [loading, setLoading] = useState(true);
@@ -24,6 +26,13 @@ const ProgramsPage = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        
+        // Check if programId is provided
+        if (!programId) {
+          navigate("/fitness");
+          return;
+        }
+
         const [programsData, accessData] = await Promise.all([
           fetchFitnessPrograms(),
           user ? checkUserAccess() : { accessMap: {}, hasSubscription: false },
@@ -53,6 +62,11 @@ const ProgramsPage = () => {
   }, [programId, user, navigate]);
 
   const userHasAccess = () => {
+    // Check if user data is still loading
+    if (!user) {
+      return false;
+    }
+    
     // Admin users have access to everything
     if (
       user?.role &&
@@ -60,9 +74,9 @@ const ProgramsPage = () => {
     ) {
       return true;
     }
-    return (
-      userAccess.accessMap?.[parseInt(programId)] || userAccess.hasSubscription
-    );
+    
+    const hasAccess = userAccess.accessMap?.[parseInt(programId)] || userAccess.hasSubscription;
+    return hasAccess;
   };
 
   const parseJsonField = (field) => {
@@ -196,7 +210,7 @@ const ProgramsPage = () => {
         subscription: {
           name: "All Access Fitness Subscription",
           description: "Access to all fitness programs and future content",
-          price: 100, // Monthly subscription price
+          price: 300, // Monthly subscription price
           interval: "month",
         },
       });
@@ -294,26 +308,13 @@ const ProgramsPage = () => {
             </div>
           </div>
         )}
-      {/* Purchase and Subscribe Buttons */}
-      {!userHasAccess() && !waitlistMode && (
-        <div className="purchase-buttons">
-          <button className="purchase-button" onClick={handlePurchase}>
-            Unlock This Program
-          </button>
-          <button className="subscribe-button" onClick={handleSubscribe}>
-            Subscribe for All Access
-          </button>
-        </div>
-      )}
 
-      {!userHasAccess() && waitlistMode && (
-        <div className="purchase-buttons">
-          <button className="waitlist-button" onClick={handleJoinWaitlist}>
-            📋 Join Waitlist
-          </button>
-          <button className="subscribe-button" onClick={handleSubscribe}>
-            Subscribe for All Access
-          </button>
+      {/* Success Message for Users with Access */}
+      {userHasAccess() && (
+        <div className="access-success">
+          <div className="success-badge">
+            ✅ You have access to this program!
+          </div>
         </div>
       )}
 
@@ -357,6 +358,30 @@ const ProgramsPage = () => {
 
         {/* Tab Content */}
         <div className="tab-content">
+          {/* Locked Content Overlay - Shows when user doesn't have access and not on overview tab */}
+          {!userHasAccess() && activeTab !== "overview" && (
+            <div className="locked-content-overlay">
+              <div className="locked-overlay-content">
+                <div className="lock-icon-large">🔒</div>
+                <h3>Content Locked</h3>
+                <p>This content is only available to users who have purchased this program or have an active subscription.</p>
+                <div className="unlock-options">
+                  <button className="unlock-button-primary" onClick={handlePurchase}>
+                    🔓 Unlock This Program - ${program.price.toFixed(2)}
+                  </button>
+                  <button className="unlock-button-secondary" onClick={handleSubscribe}>
+                    💎 Subscribe for All Access - $300/month
+                  </button>
+                  {/* Waitlist button commented out as requested */}
+                  {/* {waitlistMode && (
+                    <button className="unlock-button-secondary" onClick={handleJoinWaitlist}>
+                      📋 Join Waitlist for Early Access
+                    </button>
+                  )} */}
+                </div>
+              </div>
+            </div>
+          )}
           {activeTab === "overview" && (
             <div className="overview-tab">
               <h3>Program Overview</h3>
@@ -555,28 +580,72 @@ const ProgramsPage = () => {
             <div className="pdf-tab">
               <h3>📄 Program PDF</h3>
               <div
-                className="content-wrapper"
+                className="content-wrapper pdf-content-wrapper"
                 ref={(el) => (contentRefs.current.pdf = el)}
               >
                 <div className="pdf-container">
-                  <p>Download the complete program guide:</p>
-                  <button
-                    onClick={() => {
-                      if (userHasAccess()) {
-                        window.open(program.pdfUrl, "_blank");
-                      } else {
-                        setShowAccessModal(true);
-                      }
-                    }}
-                    className="download-pdf-button"
-                  >
-                    📥 Download PDF
-                  </button>
+                  <div className="pdf-header">
+                    <h4>Complete Program Guide</h4>
+                    <p>Download the comprehensive PDF guide that includes all program details, instructions, and resources.</p>
+                  </div>
+                  
+                  <div className="pdf-features">
+                    <div className="pdf-feature">
+                      <span className="feature-icon">📋</span>
+                      <div className="feature-text">
+                        <h5>Complete Instructions</h5>
+                        <p>Step-by-step guidance for every exercise and routine</p>
+                      </div>
+                    </div>
+                    <div className="pdf-feature">
+                      <span className="feature-icon">📊</span>
+                      <div className="feature-text">
+                        <h5>Progress Tracking</h5>
+                        <p>Built-in tracking sheets to monitor your progress</p>
+                      </div>
+                    </div>
+                    <div className="pdf-feature">
+                      <span className="feature-icon">🎯</span>
+                      <div className="feature-text">
+                        <h5>Goal Setting</h5>
+                        <p>Clear objectives and milestones for your fitness journey</p>
+                      </div>
+                    </div>
+                    <div className="pdf-feature">
+                      <span className="feature-icon">💡</span>
+                      <div className="feature-text">
+                        <h5>Expert Tips</h5>
+                        <p>Professional advice and modifications for all levels</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pdf-download-section">
+                    <button
+                      onClick={() => {
+                        if (userHasAccess()) {
+                          window.open(program.pdfUrl, "_blank");
+                        } else {
+                          setShowAccessModal(true);
+                        }
+                      }}
+                      className="download-pdf-button"
+                    >
+                      📥 Download Complete PDF Guide
+                    </button>
+                  </div>
+
                   <div className="pdf-note">
                     <p>
-                      <strong>Note:</strong> We recommend downloading your PDF
-                      now. Once the program is updated, your original version
-                      may no longer be available!
+                      <strong>Important Note:</strong> We recommend downloading your PDF
+                      immediately after purchase. Once the program is updated with new content,
+                      your original version may no longer be available for download!
+                    </p>
+                    <p>
+                      <strong>File Size:</strong> Approximately 15-25 MB
+                    </p>
+                    <p>
+                      <strong>Format:</strong> High-quality PDF optimized for both screen and print
                     </p>
                   </div>
                 </div>
@@ -671,7 +740,7 @@ const ProgramsPage = () => {
       {/* Back Button */}
       <div className="back-section">
         <button onClick={() => navigate("/fitness")} className="back-button">
-          ← Back to Programs
+          ← Back to All Programs
         </button>
       </div>
     </div>

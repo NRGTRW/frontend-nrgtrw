@@ -6,7 +6,6 @@ import App from "./App";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { WishlistProvider } from "./context/WishlistContext";
-import { ProfileProvider } from "./context/ProfileContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import SWRProvider from "./context/SWRContext";
 import ScrollRestorationProvider from "./context/ScrollRestorationContext";
@@ -26,18 +25,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <ThemeProvider>
           <ScrollRestorationProvider>
             <SWRProvider>
-              <ProfileProvider>
-                <AuthProvider>
-                  <WishlistProvider>
-                    <CartProvider>
-                      <ChatProvider>
-                        <TermsAndConditions />
-                        <App />
-                      </ChatProvider>
-                    </CartProvider>
-                  </WishlistProvider>
-                </AuthProvider>
-              </ProfileProvider>
+              <AuthProvider>
+                <WishlistProvider>
+                  <CartProvider>
+                    <ChatProvider>
+                      <TermsAndConditions />
+                      <App />
+                    </ChatProvider>
+                  </CartProvider>
+                </WishlistProvider>
+              </AuthProvider>
             </SWRProvider>
           </ScrollRestorationProvider>
         </ThemeProvider>

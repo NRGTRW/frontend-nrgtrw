@@ -476,6 +476,66 @@
   background: #2980b9;
 }
 
+/* Purchase Buttons Section */
+.purchase-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.purchase-button,
+.subscribe-button,
+.waitlist-button {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-button {
+  background: linear-gradient(135deg, var(--fitness-btn) 0%, #e6b800 100%);
+  color: #000;
+}
+
+.purchase-button:hover {
+  background: linear-gradient(135deg, #e6b800 0%, var(--fitness-btn) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.subscribe-button {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+}
+
+.subscribe-button:hover {
+  background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+}
+
+.waitlist-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.waitlist-button:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
 /* Content Protection Styles */
 .content-wrapper {
   user-select: none;
@@ -650,6 +710,36 @@
   animation: pulse 2s infinite;
 }
 
+/* Access Success Indicator */
+.access-success {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.success-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  animation: successPulse 2s infinite;
+}
+
+@keyframes successPulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(39, 174, 96, 0.5);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  }
+}
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.7);
@@ -663,33 +753,70 @@
 }
 
 .back-section {
-  margin-bottom: 30px;
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px 0;
 }
 
 .back-button {
-  background: var(--fitness-btn);
-  color: var(--fitness-text);
-  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--fitness-btn) 0%, #e6b800 100%);
+  color: #000;
+  padding: 14px 28px;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
   display: inline-block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .back-button:hover {
-  background: var(--fitness-btn-hover-bg);
-  color: var(--fitness-btn-hover-text);
+  background: linear-gradient(135deg, #e6b800 0%, var(--fitness-btn) 100%);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .programs-page {
     padding: 15px;
   }
+
+  .program-header-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .program-header-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .purchase-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .purchase-button,
+  .subscribe-button,
+  .waitlist-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .program-tabs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tab-button {
+    flex: 1;
+    min-width: 120px;
+  }
+}
 
   .program-header {
     padding: 30px 20px;
@@ -851,4 +978,3 @@
   .overview-card li:before {
     color: var(--fitness-btn);
   }
-}
