@@ -49,12 +49,70 @@ export const SimpleHomePage: React.FC = () => {
             <Link
               to={LIBRARY_ROUTES.generator}
               className="ultra-button ultra-button-primary text-lg px-8 py-4"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '1rem 2rem',
+                borderRadius: '1rem',
+                fontWeight: '600',
+                fontSize: '1.125rem',
+                background: 'linear-gradient(135deg, #0284c7 0%, #9333ea 100%)',
+                color: '#ffffff',
+                textDecoration: 'none',
+                border: 'none',
+                minHeight: '48px',
+                minWidth: '140px',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.25s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-1px) scale(1.02)';
+                e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0) scale(1)';
+                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
+              }}
             >
               Start Creating
             </Link>
             <Link
               to={LIBRARY_ROUTES.gallery}
               className="ultra-button ultra-button-secondary text-lg px-8 py-4"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '1rem 2rem',
+                borderRadius: '1rem',
+                fontWeight: '600',
+                fontSize: '1.125rem',
+                background: '#ffffff',
+                color: '#374151',
+                textDecoration: 'none',
+                border: '1px solid #d1d5db',
+                minHeight: '48px',
+                minWidth: '140px',
+                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.25s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = '#f9fafb';
+                e.target.style.borderColor = '#9ca3af';
+                e.target.style.transform = 'translateY(-1px)';
+                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = '#ffffff';
+                e.target.style.borderColor = '#d1d5db';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)';
+              }}
             >
               Browse Components
             </Link>
@@ -189,17 +247,139 @@ export const SimpleHomePage: React.FC = () => {
 
       {/* CTA Section */}
       <div className="ultra-container py-24 relative z-20">
-        <div className="ultra-card p-12 text-center animate-fade-in-up">
-          <h2 className="text-heading mb-4">Ready to Create Your Landing Page?</h2>
-          <p className="text-body text-gray-600 dark:text-gray-300 mb-8">
-            Join thousands of businesses who have created professional landing pages with our AI.
-          </p>
-          <Link
-            to={LIBRARY_ROUTES.generator}
-            className="ultra-button ultra-button-primary px-8 py-4 text-lg"
+        <div 
+          className="cta-section animate-fade-in-up"
+          style={{
+            background: 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)',
+            borderRadius: '2rem',
+            padding: '4rem',
+            margin: '3rem 0',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
+          <div 
+            className="ultra-card text-center"
+            style={{
+              background: '#ffffff',
+              border: '2px solid #e5e7eb',
+              borderRadius: '1.5rem',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              padding: '3rem',
+              position: 'relative',
+              zIndex: 1
+            }}
           >
-            Get Started Now
-          </Link>
+            <h2 
+              className="text-heading mb-6"
+              style={{
+                background: 'linear-gradient(135deg, #0284c7 0%, #9333ea 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                fontSize: '2.5rem',
+                fontWeight: '700',
+                marginBottom: '1.5rem'
+              }}
+            >
+              Ready to Create Your Landing Page?
+            </h2>
+            <p 
+              className="text-body mb-10 max-w-2xl mx-auto"
+              style={{
+                color: '#6b7280',
+                fontSize: '1.125rem',
+                lineHeight: '1.7',
+                marginBottom: '2.5rem',
+                maxWidth: '42rem',
+                marginLeft: 'auto',
+                marginRight: 'auto'
+              }}
+            >
+              Join thousands of businesses who have created professional landing pages with our AI. 
+              Start building your perfect landing page in minutes, not hours.
+            </p>
+            <div 
+              className="flex-center space-x-4"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1rem'
+              }}
+            >
+              <Link
+                to={LIBRARY_ROUTES.generator}
+                className="ultra-button ultra-button-primary"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '1.25rem 2.5rem',
+                  borderRadius: '1rem',
+                  fontWeight: '600',
+                  fontSize: '1.125rem',
+                  background: 'linear-gradient(135deg, #0284c7 0%, #9333ea 100%)',
+                  color: '#ffffff',
+                  textDecoration: 'none',
+                  border: 'none',
+                  minHeight: '56px',
+                  minWidth: '180px',
+                  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.25s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0) scale(1)';
+                  e.target.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
+                }}
+              >
+                Get Started Now
+              </Link>
+              <Link
+                to={LIBRARY_ROUTES.gallery}
+                className="ultra-button ultra-button-secondary"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '1.25rem 2.5rem',
+                  borderRadius: '1rem',
+                  fontWeight: '600',
+                  fontSize: '1.125rem',
+                  background: '#ffffff',
+                  color: '#374151',
+                  textDecoration: 'none',
+                  border: '1px solid #d1d5db',
+                  minHeight: '56px',
+                  minWidth: '180px',
+                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.25s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = '#f9fafb';
+                  e.target.style.borderColor = '#9ca3af';
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = '#ffffff';
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)';
+                }}
+              >
+                View Examples
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       

@@ -34,14 +34,43 @@ export const GeneratorChatLayout: React.FC<GeneratorChatLayoutProps> = ({
           </div>
           
           {/* Floating "Explain my page" button */}
-          <LibButton
+          <button
             onClick={() => onSelectSection?.('explain')}
-            variant="secondary"
-            size="sm"
             aria-label="Explain my generated page"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '0.75rem',
+              fontWeight: '600',
+              fontSize: '0.875rem',
+              background: '#ffffff',
+              color: '#374151',
+              textDecoration: 'none',
+              border: '1px solid #d1d5db',
+              minHeight: '40px',
+              minWidth: '120px',
+              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
+              transition: 'all 0.25s ease',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = '#f9fafb';
+              e.target.style.borderColor = '#9ca3af';
+              e.target.style.transform = 'translateY(-1px)';
+              e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = '#ffffff';
+              e.target.style.borderColor = '#d1d5db';
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)';
+            }}
           >
             Explain my page
-          </LibButton>
+          </button>
         </div>
       </div>
 

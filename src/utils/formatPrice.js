@@ -8,3 +8,4 @@ export const formatPrice = (price) => {
   }).format(price);
 };
 
+

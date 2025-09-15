@@ -102,7 +102,8 @@ a {
   text-decoration: inherit;
 }
 
-button {
+/* Only apply these styles to buttons that don't have ultra-button classes */
+button:not(.ultra-button):not([class*="ultra-button"]) {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -112,7 +113,7 @@ button {
   transition: border-color 0.25s, transform 0.2s ease;
 }
 
-button:hover {
+button:not(.ultra-button):not([class*="ultra-button"]):hover {
   transform: scale(1.03);
 }
 
@@ -331,4 +332,122 @@ button:focus-visible {
 
 .preview-scroll::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* Library Layout Structure Fixes */
+.library-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.library-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure proper spacing and sizing for library components */
+.ultra-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .ultra-container {
+    padding: 0 1rem;
+  }
+}
+
+/* Fix button sizing issues */
+.ultra-button {
+  min-height: 44px; /* Ensure proper touch target size */
+  white-space: nowrap;
+}
+
+/* Ensure cards have proper spacing */
+.ultra-card {
+  margin-bottom: 1.5rem;
+}
+
+/* Fix grid layouts */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Improved section spacing */
+.ultra-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.ultra-container:first-child {
+  padding-top: 4rem;
+}
+
+.ultra-container:last-child {
+  padding-bottom: 4rem;
+}
+
+/* Better card proportions */
+.ultra-card {
+  padding: 2rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ultra-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.ultra-card p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Icon container sizing */
+.ultra-card .w-16 {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.ultra-card .w-12 {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .grid-3,
+  .grid-auto {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .ultra-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .ultra-card {
+    padding: 1.5rem;
+    min-height: 180px;
+  }
 }

@@ -8,3 +8,4 @@ export const getImageUrl = (path) => {
     : S3_BASE + (path.startsWith("/") ? path.slice(1) : path);
 };
 
+

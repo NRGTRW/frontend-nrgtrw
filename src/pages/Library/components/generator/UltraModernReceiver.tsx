@@ -55,7 +55,19 @@ export default function UltraModernReceiver({ minChars = 40, onSubmit, examples 
         </div>
 
         {/* Ultra-Modern Main Card */}
-        <div className="ultra-card p-10 mb-12 animate-fade-in-scale relative z-30">
+        <div 
+          className="animate-fade-in-scale relative z-30"
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e5e7eb',
+            borderRadius: '2rem',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            padding: '2.5rem',
+            marginBottom: '3rem',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
           
           {/* Advanced Progress Indicator */}
           <div className="mb-8">
@@ -93,7 +105,21 @@ export default function UltraModernReceiver({ minChars = 40, onSubmit, examples 
                 onKeyPress={handleKeyPress}
                 rows={8}
                 placeholder="We're a cutting-edge SaaS platform revolutionizing how teams collaborate. We need a modern, sleek landing page that showcases our AI-powered features, includes social proof from Fortune 500 companies, offers flexible pricing tiers, and drives sign-ups with compelling CTAs..."
-                className="ultra-input resize-none text-body min-h-[200px]"
+                className="resize-none"
+                style={{
+                  width: '100%',
+                  padding: '1.25rem',
+                  border: isFocused ? '2px solid #0284c7' : '2px solid #e5e7eb',
+                  borderRadius: '1rem',
+                  background: '#ffffff',
+                  color: '#111827',
+                  fontSize: '1rem',
+                  lineHeight: '1.7',
+                  minHeight: '200px',
+                  outline: 'none',
+                  transition: 'all 0.25s ease',
+                  boxShadow: isFocused ? '0 0 0 4px rgba(2, 132, 199, 0.1)' : '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+                }}
                 aria-describedby="input-help"
               />
               
@@ -129,9 +155,40 @@ export default function UltraModernReceiver({ minChars = 40, onSubmit, examples 
               type="button"
               onClick={() => isReady && onSubmit(text)}
               disabled={!isReady}
-              className={`ultra-button ultra-button-primary px-12 py-4 text-body relative overflow-hidden ${
+              className={`relative overflow-hidden ${
                 !isReady ? 'opacity-50 cursor-not-allowed' : ''
               } ${isReady ? 'animate-fade-in-scale' : ''}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '1.25rem 3rem',
+                borderRadius: '1rem',
+                fontWeight: '600',
+                fontSize: '1.125rem',
+                background: isReady ? 'linear-gradient(135deg, #0284c7 0%, #9333ea 100%)' : 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)',
+                color: '#ffffff',
+                textDecoration: 'none',
+                border: 'none',
+                minHeight: '56px',
+                minWidth: '200px',
+                boxShadow: isReady ? '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' : '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.25s ease',
+                cursor: isReady ? 'pointer' : 'not-allowed'
+              }}
+              onMouseEnter={(e) => {
+                if (isReady) {
+                  e.target.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (isReady) {
+                  e.target.style.transform = 'translateY(0) scale(1)';
+                  e.target.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
+                }
+              }}
               aria-disabled={!isReady}
             >
               {!isReady ? (
@@ -163,14 +220,43 @@ export default function UltraModernReceiver({ minChars = 40, onSubmit, examples 
                   key={index}
                   type="button"
                   onClick={() => handleExampleClick(ex)}
-                  className="p-6 text-left ultra-card hover:shadow-xl transition-all duration-300 group cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className="p-6 text-left group cursor-pointer transition-all duration-300"
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    background: '#ffffff',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '1.5rem',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
+                    transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)';
+                    e.target.style.borderColor = '#e5e7eb';
+                    e.target.style.transform = 'translateY(0)';
+                  }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex-center text-white text-sm font-semibold flex-shrink-0">
+                    <div 
+                      className="w-8 h-8 rounded-lg flex-center text-white text-sm font-semibold flex-shrink-0"
+                      style={{
+                        background: 'linear-gradient(135deg, #0284c7 0%, #9333ea 100%)'
+                      }}
+                    >
                       {index + 1}
                     </div>
-                    <div className="text-body text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
+                    <div 
+                      className="text-body transition-colors"
+                      style={{
+                        color: '#6b7280',
+                        fontSize: '1rem',
+                        lineHeight: '1.7'
+                      }}
+                    >
                       {ex}
                     </div>
                   </div>

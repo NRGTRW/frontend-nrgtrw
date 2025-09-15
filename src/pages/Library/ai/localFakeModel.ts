@@ -2,25 +2,33 @@ import { AIPlan, BrandInfo } from '../types/landing';
 import { Mulberry32, hashString } from '../generator/prng';
 import { registry } from '../generator/registry';
 
-// Content templates organized by tone and industry
+// Enhanced content templates with more sophisticated options
 const CONTENT_TEMPLATES = {
   luxury: {
     hero: {
       headlines: [
         "Exclusive Premium Solutions",
         "Luxury Redefined",
-        "Elite Performance, Unmatched Quality"
+        "Elite Performance, Unmatched Quality",
+        "Where Excellence Meets Innovation",
+        "Premium Solutions for Discerning Clients",
+        "Unparalleled Luxury & Performance"
       ],
       subheads: [
         "Experience unparalleled excellence with our premium offerings",
         "Where sophistication meets innovation",
-        "Elevate your standards with our exclusive services"
+        "Elevate your standards with our exclusive services",
+        "Discover the pinnacle of luxury and performance",
+        "Indulge in the finest solutions crafted for excellence",
+        "Transform your experience with our premium offerings"
       ]
     },
     features: [
-      { title: "Premium Quality", body: "Uncompromising standards of excellence" },
-      { title: "Exclusive Access", body: "Limited availability for discerning clients" },
-      { title: "White-Glove Service", body: "Personalized attention to every detail" }
+      { title: "Premium Quality", body: "Uncompromising standards of excellence in every detail" },
+      { title: "Exclusive Access", body: "Limited availability for discerning clients who demand the best" },
+      { title: "White-Glove Service", body: "Personalized attention and dedicated support for every client" },
+      { title: "Luxury Experience", body: "Immersive, sophisticated solutions that exceed expectations" },
+      { title: "Elite Performance", body: "Superior results that set new industry standards" }
     ]
   },
   playful: {
@@ -28,18 +36,26 @@ const CONTENT_TEMPLATES = {
       headlines: [
         "Fun Solutions for Creative Minds",
         "Where Innovation Meets Playfulness",
-        "Making Work Feel Like Play"
+        "Making Work Feel Like Play",
+        "Creative Tools That Spark Joy",
+        "Turn Ideas Into Adventures",
+        "Where Fun Meets Functionality"
       ],
       subheads: [
         "Discover tools that spark joy and creativity",
         "Turn challenges into adventures",
-        "Work smarter, play harder"
+        "Work smarter, play harder",
+        "Unleash your creativity with our playful approach",
+        "Make every project an exciting journey",
+        "Experience the joy of creation with our innovative tools"
       ]
     },
     features: [
-      { title: "Creative Tools", body: "Spark your imagination with innovative features" },
-      { title: "Easy & Fun", body: "Intuitive design that makes work enjoyable" },
-      { title: "Community Driven", body: "Connect with like-minded creators" }
+      { title: "Creative Tools", body: "Spark your imagination with innovative features designed for creativity" },
+      { title: "Easy & Fun", body: "Intuitive design that makes work enjoyable and engaging" },
+      { title: "Community Driven", body: "Connect with like-minded creators and share your journey" },
+      { title: "Playful Interface", body: "Beautiful, engaging design that makes every interaction delightful" },
+      { title: "Innovation Hub", body: "Cutting-edge features that inspire and empower your creativity" }
     ]
   },
   minimal: {
@@ -47,18 +63,26 @@ const CONTENT_TEMPLATES = {
       headlines: [
         "Simple. Clean. Effective.",
         "Minimalist Solutions for Modern Life",
-        "Less is More"
+        "Less is More",
+        "Essential Tools, Beautiful Design",
+        "Clarity Through Simplicity",
+        "Focused. Powerful. Simple."
       ],
       subheads: [
         "Streamlined tools for focused productivity",
         "Clean design, powerful results",
-        "Essential features, nothing more"
+        "Essential features, nothing more",
+        "Experience the power of simplicity",
+        "Beautiful design that gets out of your way",
+        "Everything you need, nothing you don't"
       ]
     },
     features: [
-      { title: "Clean Interface", body: "Distraction-free design for better focus" },
-      { title: "Essential Features", body: "Only what you need, nothing you don't" },
-      { title: "Fast Performance", body: "Lightweight and optimized for speed" }
+      { title: "Clean Interface", body: "Distraction-free design that enhances your focus and productivity" },
+      { title: "Essential Features", body: "Carefully curated tools that deliver maximum value with minimal complexity" },
+      { title: "Fast Performance", body: "Lightweight, optimized solutions that work seamlessly" },
+      { title: "Intuitive Design", body: "Thoughtfully crafted interface that feels natural and effortless" },
+      { title: "Focused Experience", body: "Streamlined workflow that eliminates distractions and boosts efficiency" }
     ]
   },
   corporate: {
@@ -66,18 +90,26 @@ const CONTENT_TEMPLATES = {
       headlines: [
         "Enterprise-Grade Solutions",
         "Professional Tools for Business Growth",
-        "Reliable Solutions for Modern Enterprises"
+        "Reliable Solutions for Modern Enterprises",
+        "Trusted by Industry Leaders",
+        "Professional Excellence Delivered",
+        "Enterprise Solutions That Scale"
       ],
       subheads: [
         "Scalable solutions for growing businesses",
         "Trusted by industry leaders worldwide",
-        "Professional-grade tools for serious results"
+        "Professional-grade tools for serious results",
+        "Comprehensive solutions for enterprise challenges",
+        "Reliable, secure, and built for scale",
+        "Professional tools that drive business success"
       ]
     },
     features: [
-      { title: "Enterprise Security", body: "Bank-grade security and compliance" },
-      { title: "Scalable Architecture", body: "Grows with your business needs" },
-      { title: "24/7 Support", body: "Round-the-clock professional assistance" }
+      { title: "Enterprise Security", body: "Bank-grade security and compliance standards that protect your business" },
+      { title: "Scalable Architecture", body: "Robust infrastructure that grows seamlessly with your business needs" },
+      { title: "24/7 Support", body: "Round-the-clock professional assistance from our expert team" },
+      { title: "Advanced Analytics", body: "Comprehensive insights and reporting for data-driven decisions" },
+      { title: "Integration Ready", body: "Seamless connectivity with your existing enterprise systems" }
     ]
   },
   bold: {
@@ -85,77 +117,105 @@ const CONTENT_TEMPLATES = {
       headlines: [
         "Revolutionary Solutions",
         "Break Through Barriers",
-        "Bold Innovation for Bold Results"
+        "Bold Innovation for Bold Results",
+        "Disrupt the Status Quo",
+        "Innovation That Changes Everything",
+        "Bold Vision, Bold Results"
       ],
       subheads: [
         "Challenge the status quo with cutting-edge technology",
         "Push boundaries and achieve the impossible",
-        "Bold moves for bold outcomes"
+        "Bold moves for bold outcomes",
+        "Transform industries with revolutionary thinking",
+        "Breakthrough technology that redefines possibilities",
+        "Bold solutions for bold challenges"
       ]
     },
     features: [
-      { title: "Cutting-Edge Tech", body: "Latest innovations for maximum impact" },
-      { title: "Bold Results", body: "Dramatic improvements in performance" },
-      { title: "Game Changer", body: "Transform your industry with breakthrough solutions" }
+      { title: "Cutting-Edge Tech", body: "Latest innovations and breakthrough technology for maximum impact" },
+      { title: "Bold Results", body: "Dramatic improvements and transformative outcomes that exceed expectations" },
+      { title: "Game Changer", body: "Revolutionary solutions that transform your industry and redefine standards" },
+      { title: "Innovation Leader", body: "Pioneering technology that sets new benchmarks for excellence" },
+      { title: "Breakthrough Performance", body: "Unprecedented results that revolutionize how you work and succeed" }
     ]
   }
 };
 
-// Industry-specific content
+// Enhanced industry-specific content with more sophisticated options
 const INDUSTRY_CONTENT = {
   technology: {
     testimonials: [
-      { quote: "This platform transformed our development workflow.", name: "Sarah Chen", role: "CTO, TechCorp" },
-      { quote: "The best investment we've made in our tech stack.", name: "Mike Rodriguez", role: "Lead Developer, InnovateLab" }
+      { quote: "This platform transformed our development workflow and increased our team's productivity by 300%.", name: "Sarah Chen", role: "CTO, TechCorp" },
+      { quote: "The best investment we've made in our tech stack. It's revolutionized how we build and deploy applications.", name: "Mike Rodriguez", role: "Lead Developer, InnovateLab" },
+      { quote: "Game-changing technology that has streamlined our entire development process.", name: "Alex Kim", role: "Engineering Director, StartupXYZ" },
+      { quote: "Finally, a solution that scales with our growth and adapts to our needs.", name: "Emma Thompson", role: "VP of Engineering, CloudTech" }
     ],
     metrics: [
       { label: "99.9% Uptime", value: "99.9%" },
-      { label: "10x Faster", value: "10x" },
-      { label: "50% Less Code", value: "50%" }
+      { label: "10x Faster Development", value: "10x" },
+      { label: "50% Less Code", value: "50%" },
+      { label: "300% Productivity Boost", value: "300%" },
+      { label: "Zero Downtime", value: "0s" }
     ]
   },
   healthcare: {
     testimonials: [
-      { quote: "Improved patient outcomes significantly.", name: "Dr. Emily Watson", role: "Chief Medical Officer" },
-      { quote: "Streamlined our entire practice management.", name: "Dr. James Park", role: "Practice Director" }
+      { quote: "This solution has improved patient outcomes significantly while reducing administrative burden by 60%.", name: "Dr. Emily Watson", role: "Chief Medical Officer, MedCenter" },
+      { quote: "Streamlined our entire practice management and enhanced patient care quality across all departments.", name: "Dr. James Park", role: "Practice Director, HealthFirst Clinic" },
+      { quote: "Revolutionary technology that has transformed how we deliver healthcare services to our community.", name: "Dr. Maria Santos", role: "Medical Director, Community Health" },
+      { quote: "The integration was seamless and the results have exceeded our expectations in every way.", name: "Dr. Robert Chen", role: "Chief of Staff, Regional Hospital" }
     ],
     metrics: [
       { label: "HIPAA Compliant", value: "100%" },
       { label: "Patient Satisfaction", value: "98%" },
-      { label: "Time Saved", value: "40%" }
+      { label: "Time Saved", value: "40%" },
+      { label: "Error Reduction", value: "85%" },
+      { label: "Care Quality Improvement", value: "75%" }
     ]
   },
   finance: {
     testimonials: [
-      { quote: "Enhanced our compliance and security measures.", name: "Lisa Thompson", role: "CFO, FinanceCorp" },
-      { quote: "Reduced processing time by 60%.", name: "David Kim", role: "Operations Director" }
+      { quote: "Enhanced our compliance and security measures while reducing operational costs by 45%.", name: "Lisa Thompson", role: "CFO, FinanceCorp" },
+      { quote: "Reduced processing time by 60% and improved accuracy across all financial operations.", name: "David Kim", role: "Operations Director, CapitalBank" },
+      { quote: "Game-changing solution that has revolutionized our financial workflows and risk management.", name: "Jennifer Martinez", role: "VP of Finance, InvestCorp" },
+      { quote: "The security and compliance features give us complete confidence in our financial operations.", name: "Michael Johnson", role: "Chief Risk Officer, SecureFinance" }
     ],
     metrics: [
       { label: "SOC 2 Compliant", value: "100%" },
       { label: "Processing Speed", value: "3x Faster" },
-      { label: "Error Reduction", value: "95%" }
+      { label: "Error Reduction", value: "95%" },
+      { label: "Cost Savings", value: "45%" },
+      { label: "Security Score", value: "A+" }
     ]
   },
   education: {
     testimonials: [
-      { quote: "Transformed how our students learn.", name: "Prof. Maria Garcia", role: "Dean of Education" },
-      { quote: "Increased engagement by 80%.", name: "Dr. Robert Lee", role: "Academic Director" }
+      { quote: "Transformed how our students learn and increased academic performance across all grade levels.", name: "Prof. Maria Garcia", role: "Dean of Education, University of Excellence" },
+      { quote: "Increased student engagement by 80% and created a more interactive learning environment.", name: "Dr. Robert Lee", role: "Academic Director, TechAcademy" },
+      { quote: "Revolutionary platform that has made education more accessible and effective for all students.", name: "Dr. Sarah Williams", role: "Principal, Innovation High School" },
+      { quote: "The best educational technology investment we've ever made. Results speak for themselves.", name: "Prof. James Anderson", role: "Department Head, State University" }
     ],
     metrics: [
       { label: "Student Engagement", value: "85%" },
       { label: "Learning Outcomes", value: "40% Better" },
-      { label: "Teacher Satisfaction", value: "92%" }
+      { label: "Teacher Satisfaction", value: "92%" },
+      { label: "Academic Performance", value: "65% Improvement" },
+      { label: "Accessibility Score", value: "98%" }
     ]
   },
   ecommerce: {
     testimonials: [
-      { quote: "Boosted our conversion rates dramatically.", name: "Alex Johnson", role: "E-commerce Manager" },
-      { quote: "Streamlined our entire sales process.", name: "Rachel Green", role: "Sales Director" }
+      { quote: "Boosted our conversion rates dramatically and increased revenue by 150% in just six months.", name: "Alex Johnson", role: "E-commerce Manager, ShopSmart" },
+      { quote: "Streamlined our entire sales process and improved customer experience across all touchpoints.", name: "Rachel Green", role: "Sales Director, RetailPro" },
+      { quote: "Game-changing solution that has transformed our online business and customer engagement.", name: "Mark Thompson", role: "CEO, DigitalStore" },
+      { quote: "The best e-commerce platform we've used. It's revolutionized how we sell online.", name: "Lisa Chen", role: "VP of Sales, OnlineMart" }
     ],
     metrics: [
       { label: "Conversion Rate", value: "25% Higher" },
       { label: "Cart Abandonment", value: "30% Lower" },
-      { label: "Customer Satisfaction", value: "96%" }
+      { label: "Customer Satisfaction", value: "96%" },
+      { label: "Revenue Growth", value: "150%" },
+      { label: "Page Load Speed", value: "2x Faster" }
     ]
   }
 };
@@ -178,39 +238,59 @@ export function generateFakePlan(brandDescription: string): AIPlan {
   };
 }
 
-// Extract brand information from description
+// Enhanced brand information extraction with more sophisticated logic
 function extractBrandInfo(description: string, rng: Mulberry32): BrandInfo {
   const words = description.toLowerCase().split(/\s+/);
+  const fullText = description.toLowerCase();
   
-  // Determine industry from keywords (check finance first to avoid platform conflict)
+  // Enhanced industry detection with more keywords and context
   let industry = 'business';
-  if (words.some(w => ['finance', 'bank', 'money', 'investment', 'financial'].includes(w))) {
-    industry = 'finance';
-  } else if (words.some(w => ['health', 'medical', 'patient', 'doctor', 'clinic', 'healthcare'].includes(w))) {
-    industry = 'healthcare';
-  } else if (words.some(w => ['education', 'school', 'student', 'learn', 'teach', 'learning', 'online'].includes(w))) {
-    industry = 'education';
-  } else if (words.some(w => ['shop', 'store', 'sell', 'commerce', 'retail', 'ecommerce'].includes(w))) {
-    industry = 'ecommerce';
-  } else if (words.some(w => ['tech', 'software', 'app', 'digital', 'ai', 'data', 'platform', 'developers', 'startup'].includes(w))) {
-    industry = 'technology';
+  const industryKeywords = {
+    finance: ['finance', 'bank', 'money', 'investment', 'financial', 'banking', 'credit', 'loan', 'trading', 'wealth', 'capital', 'funding'],
+    healthcare: ['health', 'medical', 'patient', 'doctor', 'clinic', 'healthcare', 'hospital', 'medicine', 'therapy', 'wellness', 'treatment', 'care'],
+    education: ['education', 'school', 'student', 'learn', 'teach', 'learning', 'online', 'university', 'college', 'academy', 'training', 'course'],
+    ecommerce: ['shop', 'store', 'sell', 'commerce', 'retail', 'ecommerce', 'marketplace', 'shopping', 'buy', 'product', 'inventory', 'sales'],
+    technology: ['tech', 'software', 'app', 'digital', 'ai', 'data', 'platform', 'developers', 'startup', 'coding', 'programming', 'innovation', 'saas']
+  };
+  
+  // Find industry with highest keyword match
+  let maxMatches = 0;
+  for (const [ind, keywords] of Object.entries(industryKeywords)) {
+    const matches = keywords.filter(keyword => 
+      words.includes(keyword) || fullText.includes(keyword)
+    ).length;
+    if (matches > maxMatches) {
+      maxMatches = matches;
+      industry = ind;
+    }
   }
   
-  // Determine tone from keywords
+  // Enhanced tone detection with more nuanced keywords
   let tone: BrandInfo['tone'] = 'corporate';
-  if (words.some(w => ['luxury', 'premium', 'exclusive', 'elite'].includes(w))) {
-    tone = 'luxury';
-  } else if (words.some(w => ['fun', 'creative', 'playful', 'colorful'].includes(w))) {
-    tone = 'playful';
-  } else if (words.some(w => ['simple', 'clean', 'minimal', 'essential'].includes(w))) {
-    tone = 'minimal';
-  } else if (words.some(w => ['bold', 'revolutionary', 'breakthrough', 'innovative'].includes(w))) {
-    tone = 'bold';
+  const toneKeywords = {
+    luxury: ['luxury', 'premium', 'exclusive', 'elite', 'high-end', 'sophisticated', 'refined', 'upscale', 'boutique'],
+    playful: ['fun', 'creative', 'playful', 'colorful', 'vibrant', 'energetic', 'dynamic', 'exciting', 'engaging', 'interactive'],
+    minimal: ['simple', 'clean', 'minimal', 'essential', 'streamlined', 'focused', 'elegant', 'uncluttered', 'pure'],
+    bold: ['bold', 'revolutionary', 'breakthrough', 'innovative', 'cutting-edge', 'disruptive', 'game-changing', 'transformative', 'pioneering']
+  };
+  
+  // Find tone with highest keyword match
+  let maxToneMatches = 0;
+  for (const [toneKey, keywords] of Object.entries(toneKeywords)) {
+    const matches = keywords.filter(keyword => 
+      words.includes(keyword) || fullText.includes(keyword)
+    ).length;
+    if (matches > maxToneMatches) {
+      maxToneMatches = matches;
+      tone = toneKey as BrandInfo['tone'];
+    }
   }
   
-  // Extract company name (first few words)
-  const nameWords = description.split(/\s+/).slice(0, 3);
-  const name = nameWords.join(' ').replace(/[^\w\s]/g, '');
+  // Enhanced company name extraction
+  const sentences = description.split(/[.!?]+/);
+  const firstSentence = sentences[0] || description;
+  const nameWords = firstSentence.split(/\s+/).slice(0, 4);
+  const name = nameWords.join(' ').replace(/[^\w\s]/g, '').trim();
   
   // Generate tagline
   const tagline = generateTagline(industry, tone, rng);
