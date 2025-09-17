@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import "./Tech.css";
 import styles from "./Tech.module.css";
-
-const S3_BASE = "https://nrgtrw-images.s3.eu-central-1.amazonaws.com/";
+import { getImageUrl } from "../../utils/getImageUrl";
 const techProjects = [
   {
     id: 1,
     title: "Main Site",
     description: "Return to the main NRG site.",
-    image: S3_BASE + "Tech.webp",
+    image: getImageUrl("Tech.webp"),
     type: "redirect",
     url: "/clothing-details",
   },
@@ -16,7 +15,7 @@ const techProjects = [
     id: 2,
     title: "KING-S Project",
     description: "Interactive portfolio website with animations and modern UI.",
-    image: "/kings-crown.png",
+    image: getImageUrl("kings-crown.png"),
     type: "iframe",
     url: "/kings-project/HTML/home_page.html",
   },
@@ -24,7 +23,7 @@ const techProjects = [
     id: 3,
     title: "Components Library",
     description: "Modern React components library with design system and generator tools.",
-    image: "/Library/dist/webDev.webp",
+    image: getImageUrl("webDev.webp"),
     type: "redirect",
     url: "/library",
   },
@@ -32,7 +31,7 @@ const techProjects = [
     id: 4,
     title: "Legacy Project 1",
     description: "Preview one of my previous tech projects.",
-    image: S3_BASE + "Tech.webp",
+    image: getImageUrl("Tech.webp"),
     type: "redirect",
     url: "/tech", // Redirect back to tech page for now
   },
@@ -44,6 +43,7 @@ const Tech = () => {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [imageErrors, setImageErrors] = useState(new Set());
 
   // Update window size on resize
   React.useEffect(() => {
@@ -69,6 +69,10 @@ const Tech = () => {
   const handleIframeLoad = (event) => {
     // Handle iframe load events if needed
     console.log("Iframe loaded:", event.target.src);
+  };
+
+  const handleImageError = (projectId) => {
+    setImageErrors(prev => new Set([...prev, projectId]));
   };
 
   return (
@@ -114,7 +118,49 @@ const Tech = () => {
                 />
               </div>
             ) : (
-              <img src={project.image} alt={project.title} />
+              imageErrors.has(project.id) ? (
+                project.id === 3 ? (
+                  // Special case for Components Library - show custom preview
+                  <div className="library-preview">
+                    <div className="library-preview-content">
+                      <div className="library-preview-header">
+                        <h4>NRG Components Library</h4>
+                        <p>AI-Powered Landing Page Generator</p>
+                      </div>
+                      <div className="library-preview-features">
+                        <div className="feature-item">
+                          <span className="feature-icon">🤖</span>
+                          <span>AI Generator</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">🎨</span>
+                          <span>Component Gallery</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">👁️</span>
+                          <span>Live Preview</span>
+                        </div>
+                      </div>
+                      <div className="library-preview-cta">
+                        <span>Click to explore →</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="image-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-icon">🖼️</span>
+                      <span className="placeholder-text">Image not available</span>
+                    </div>
+                  </div>
+                )
+              ) : (
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  onError={() => handleImageError(project.id)}
+                />
+              )
             )}
             <div className="tech-info">
               <h3>{project.title}</h3>

@@ -1,112 +1,134 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from "react-router-dom";
 import "./index.css";
-import { useMemo, useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
-import { SimpleHomePage } from "./components/SimpleHomePage";
-import { ComponentGallery } from "./components/ComponentGallery";
-import GlobalBackground from "./components/GlobalBackground";
 import LibraryLayout from "./LibraryLayout";
 
-// Import preview system
-import ModernPreviewPage from "./preview/ModernPreviewPage";
+// Lazy load components for better performance
+const SimpleHomePage = lazy(() => import("./components/SimpleHomePage").then(module => ({ default: module.SimpleHomePage })));
+const ComponentGallery = lazy(() => import("./components/ComponentGallery").then(module => ({ default: module.ComponentGallery })));
+const GlobalBackground = lazy(() => import("./components/GlobalBackground"));
+const ModernPreviewPage = lazy(() => import("./preview/ModernPreviewPage"));
+const SimpleGeneratorPage = lazy(() => import("./app/generator/SimpleGeneratorPage"));
 
-// Import new generator page
-import SimpleGeneratorPage from "./app/generator/SimpleGeneratorPage";
-
-// Centralized layout imports
-import {
-  HomeLayouts,
-  PricingLayouts,
-  GenerateLayouts,
-  CustomLayouts,
-  DashboardLayouts,
-  HeaderLayouts,
-  FooterLayouts,
-} from "./layouts";
-
-// Layout wrapper components
-const HomeLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {HomeLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+// Lazy load layout wrappers
+const HomeLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { HomeLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {HomeLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-const PricingLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {PricingLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+const PricingLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { PricingLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {PricingLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-const GenerateLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {GenerateLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+const GenerateLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { GenerateLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {GenerateLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-const CustomLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {CustomLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+const CustomLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { CustomLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {CustomLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-const DashboardLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {DashboardLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+const DashboardLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { DashboardLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {DashboardLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-const HeaderLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {HeaderLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+const HeaderLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { HeaderLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {HeaderLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-const FooterLayoutsWrapper = () => (
-  <div className="layouts-container">
-    {FooterLayouts.map((Layout, index) => (
-      <div key={index} className="layout-item">
-        <Layout />
+const FooterLayoutsWrapper = lazy(() => import("./layouts").then(module => {
+  const { FooterLayouts } = module;
+  return {
+    default: () => (
+      <div className="layouts-container">
+        {FooterLayouts.map((Layout, index) => (
+          <div key={index} className="layout-item">
+            <Layout />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    )
+  };
+}));
 
-// Import preview layout
-import PreviewLayout from "./layouts/PreviewLayout";
+const PreviewLayout = lazy(() => import("./layouts/PreviewLayout"));
+
 
 const LibraryPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time
+    // Reduced loading time for better UX
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);

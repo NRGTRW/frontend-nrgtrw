@@ -5,32 +5,18 @@ import { LIBRARY_ROUTES } from '../../../routes/links';
 export const SimpleHomePage: React.FC = () => {
   return (
     <div className="min-h-screen relative">
-      {/* Additional glimmer effects for home page */}
+      {/* Optimized background effects - reduced for better performance */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Fewer floating sparkles for better performance */}
-        {[...Array(3)].map((_, i) => (
+        {/* Minimal sparkles for better performance */}
+        {[...Array(1)].map((_, i) => (
           <div
             key={`home-sparkle-${i}`}
-            className="absolute w-1 h-1 bg-white/40 dark:bg-white/30 rounded-full animate-sparkle"
+            className="absolute w-1 h-1 bg-white/20 dark:bg-white/15 rounded-full animate-sparkle"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 4}s`,
               animationDuration: `${3 + Math.random() * 1}s`
-            }}
-          />
-        ))}
-        
-        {/* Fewer gentle light rays for better performance */}
-        {[...Array(2)].map((_, i) => (
-          <div
-            key={`ray-${i}`}
-            className="absolute w-px h-32 bg-gradient-to-b from-transparent via-white/20 to-transparent dark:via-white/10"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
-              animationDelay: `${Math.random() * 3}s`
             }}
           />
         ))}

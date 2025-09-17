@@ -66,6 +66,9 @@
 .loading-spinner {
   text-align: center;
   color: var(--text-primary);
+  /* Ensure the container itself doesn't rotate */
+  transform: none;
+  animation: none;
 }
 
 .loading-spinner .spinner {
@@ -76,12 +79,17 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 16px;
+  /* Ensure only the spinner rotates */
+  transform-origin: center;
 }
 
 .loading-spinner p {
   margin: 0;
   font-size: 1rem;
   color: var(--text-secondary);
+  /* Ensure text doesn't rotate */
+  transform: none;
+  animation: none;
 }
 
 @keyframes spin {
@@ -100,9 +108,20 @@
 
 [data-theme="dark"] .loading-spinner {
   color: var(--text-primary);
+  /* Ensure dark theme container doesn't rotate */
+  transform: none;
+  animation: none;
 }
 
 [data-theme="dark"] .loading-spinner .spinner {
   border-color: rgba(245, 197, 24, 0.2);
   border-top-color: #f5c518;
+  /* Ensure only the spinner rotates in dark theme */
+  transform-origin: center;
+}
+
+[data-theme="dark"] .loading-spinner p {
+  /* Ensure text doesn't rotate in dark theme */
+  transform: none;
+  animation: none;
 }
